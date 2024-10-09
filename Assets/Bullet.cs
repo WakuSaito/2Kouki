@@ -28,4 +28,12 @@ public class Bullet : MonoBehaviour
 
         Destroy(this.gameObject, 3.0f);
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "zonbi")
+        {
+            Destroy(gameObject);
+        }
+    }
 }
