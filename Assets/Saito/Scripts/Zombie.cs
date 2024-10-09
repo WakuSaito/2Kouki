@@ -15,19 +15,25 @@ public class Zombie : MonoBehaviour
     float run_speed = 6.0f;
     [SerializeField]//歩く速度
     float walk_speed = 1.0f;
+    [SerializeField]//攻撃のディレイ
+    double attack_delay_sec = 3.0;
 
     float random_walk_time = 0.0f;//ランダムウォークの目標時間用
     float random_walk_count = 0.0f;//ランダムウォークの時間計測用
+
+    Rigidbody rb;
 
     GameObject PlayerObj;//プレイヤー
 
     bool on_move_stop = false;//移動不可フラグ
 
-    private readonly CancellationTokenSource _cancellationTokenSource =
+    //async用トークン（遅延実行のキャンセル用）
+    private CancellationTokenSource _cancellationTokenSource =
             new CancellationTokenSource();
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody>();
         //プレイヤーの位置取得
         PlayerObj = GameObject.FindGameObjectWithTag("Player");
 
@@ -37,6 +43,10 @@ public class Zombie : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.N)) DamageBody();
+        if (Input.GetKeyDown(KeyCode.B)) DamageHead();
+
+
         if (on_move_stop) return;//移動不可なら処理しない
 
         //座標取得
@@ -82,50 +92,70 @@ public class Zombie : MonoBehaviour
     {
         on_move_stop = true;//移動停止
 
-
         // CancellationTokenを生成
+        _cancellationTokenSource = new CancellationTokenSource();
         var token = _cancellationTokenSource.Token;
-
 
         //数秒後
         //この間にダメージを受けるなどでキャンセル
-        DelayRunAsync(token, 3.0,
-            () => BitePlayer() //噛みつく             
+        DelayRunAsync(token, attack_delay_sec,
+            () => BitePlayer() //噛みつく
             );    
     }
     //プレイヤーに噛みつく
     private void BitePlayer()
     {
         //プレイヤーをゲームオーバーにする
-        on_move_stop = false;
+        Debug.Log("Attack");
+
+        on_move_stop = false;//移動再開（動作テスト用）
     }
 
     //体にダメージを受けた
-    private void DamageBody()
+    public void DamageBody()
     {
+        Debug.Log("Body");
         //スタン
+        Stan();
     }
     //頭にダメージを受けた
-    private void DamageHead()
+    public void DamageHead()
     {
+        Debug.Log("Head");
         Dead();//死亡
     }
     //スタン
     private void Stan()
     {
+        on_move_stop = true;
         //のけぞるor一定時間停止
-        _cancellationTokenSource.Dispose();
+        _cancellationTokenSource.Cancel();//遅延実行中のasync停止
+
+        //のけぞり
+        rb.AddForce(transform.forward * -1.0f * 20.0f, ForceMode.Impulse);
+
+        DelayRunAsync(1.5,
+        () => on_move_stop = false//移動再開
+        );
     }
     //死亡処理
     private void Dead()
     {
+        _cancellationTokenSource.Cancel();//遅延実行中のasync停止
 
+        //Destroy(gameObject);
     }
-
+    //遅らせて実行する
     private async ValueTask DelayRunAsync(CancellationToken token, double wait_sec, Action action)
     {
         // ディレイ処理
-        await Task.Delay(TimeSpan.FromSeconds(3), token);
+        await Task.Delay(TimeSpan.FromSeconds(wait_sec), token);
+        action();
+    }
+    private async ValueTask DelayRunAsync(double wait_sec, Action action)
+    {
+        // ディレイ処理
+        await Task.Delay(TimeSpan.FromSeconds(wait_sec));
         action();
     }
 }
