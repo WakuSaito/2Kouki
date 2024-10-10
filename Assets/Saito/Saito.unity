@@ -873,7 +873,7 @@ GameObject:
   - component: {fileID: 971385214}
   - component: {fileID: 971385213}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
