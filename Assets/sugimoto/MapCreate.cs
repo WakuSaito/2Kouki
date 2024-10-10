@@ -18,6 +18,7 @@ public class MapCreate : MonoBehaviour
     const int STARAT_Y = 2;
 
     player Player;
+    Vector3 player_pos;
 
     int move_disX = 0;//移動量
     int move_disY = 0;//移動量
@@ -71,6 +72,7 @@ public class MapCreate : MonoBehaviour
     void Start()
     {
         Player = player_obj.GetComponent<player>();
+        player_pos = player_obj.transform.position;
 
         //初期マップ生成
         for (int y = 0; y < MAPTIP_Y; y++)
@@ -86,21 +88,24 @@ public class MapCreate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //プレイヤーの周囲２マップは表示させる
+
         ////プレイヤーの位置から現在のステージチップのインデックスを計算
-        //int player_index_X = ((int)player_obj.transform.position.x / MapTipSize);
+        int player_index_X = ((int)player_obj.transform.position.x / MapTipSize);
         //int player_index_Y = ((int)player_obj.transform.position.y / MapTipSize);
 
-        ////左
-        //if ((int)Player.moving_distance_X < MapTipSize)
-        //{
-
-        //}
+        if (Mathf.Abs((int)Player.moving_distance_X) == MapTipSize)
+        {
+            
+        }
 
         ////次のステージチップに入ったらステージの更新処理を行います。
         //if (charaPositionIndex + preInstantiate > currentTipIndex)
         //{
         //    UpdateStage(charaPositionIndex + (PLAYER_STARAT_X));
         //}
+
+        player_pos = player_obj.transform.position;
     }
 
     //指定のインデックスまでのステージチップを生成して、管理下におく
