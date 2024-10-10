@@ -9,6 +9,9 @@ public class player : CharacterBase
     const float Run_Speed = 10.0f;
     const float Max_Y_angle = 60.0f;
     const float Max_X_angle = 60.0f;
+    const int MAX_AMMO = 60;
+    const int GET_AMMO_NUM = 10;
+
     Vector3 Pistol_angle { get { return new Vector3(0, -15, 0); } }
 
     //移動
@@ -25,9 +28,20 @@ public class player : CharacterBase
     Vector3 mouse_start;
 
     //アイテムを拾う
-    [SerializeField] GameObject hand;
+    [SerializeField] GameObject hand_parent;
     [SerializeField] GameObject hand_item;
-    GameObject item;
+    GameObject ranged_weapon = null;//遠距離武器
+    HAND_INVENTORY hand = HAND_INVENTORY.NON;
+
+    enum HAND_INVENTORY
+    {
+        NON,
+        LONG_WEAPON,
+        SHORT_WEAPON,
+    }
+
+    //アイテム
+    int pistol_ammo = 10;
 
     //ダメージ判定
     public bool attacked_zonbi_flag = false;
@@ -125,21 +139,16 @@ public class player : CharacterBase
                 //}
 
                 //横方向
-
-                float rot_character = mouse_pos.x;
-                rot_character += 2.0f * Time.deltaTime;
-
-
-                dir_obj.transform.localRotation = Quaternion.Euler(0.0f, rot_character, 0.0f);
+                float character_rot = mouse_pos.x;
+                character_rot += 2.0f * Time.deltaTime;
+                dir_obj.transform.localRotation = Quaternion.Euler(0.0f, character_rot, 0.0f);
 
                 //縦方向制御
-                float rot=mouse_start.y-mouse_pos.y;
-                if (Mathf.Abs(rot) <= Max_X_angle)
+                float camera_rot=mouse_start.y-mouse_pos.y;
+                if (Mathf.Abs(camera_rot) <= Max_X_angle)
                 {
-                    rot += 2.0f * Time.deltaTime;
-                    Quaternion rotation = Quaternion.Euler(rot, 0.0f, 0.0f);
-
-                    Debug.Log(-mouse_pos);
+                    camera_rot += 2.0f * Time.deltaTime;
+                    Quaternion rotation = Quaternion.Euler(camera_rot, 0.0f, 0.0f);
                     camera_obj.transform.localRotation = rotation;
                 }
                 //camera_obj.transform.localRotation = rotation;
@@ -169,22 +178,46 @@ public class player : CharacterBase
                         //距離近ければ拾う
                         if (distance <= 5.0f)
                         {
-                            item = hit.collider.gameObject;
+                            //例で見つけたゲームオブジェクトを保存
+                            GameObject get_item = hit.collider.gameObject;
 
-                            switch (item.tag)
+                            switch (get_item.tag)
                             {
                                 case "pistol":
-                                    if (hand_item == null)
+                                    //遠距離武器に入っていなかった場合入手
+                                    if (ranged_weapon == null)
                                     {
-                                        hand_item = item;
-                                        ParentChildren(hand, hand_item);                                //手の子にする
-                                        hand_item.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
-                                        hand_item.transform.localEulerAngles = Pistol_angle;            //ピストル用のアングルへ変更
+                                        ranged_weapon = get_item;
+
+                                        //入手し、手に何もなければ自動的に持つ
+                                        if (hand_item == null)
+                                        {
+                                            hand = HAND_INVENTORY.LONG_WEAPON;
+                                            hand_item = ranged_weapon;
+                                            ParentChildren(hand_parent, hand_item);                         //手の子にする
+                                            hand_item.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
+                                            hand_item.transform.localEulerAngles = Pistol_angle;            //ピストル用のアングルへ変更
+                                        }
+                                    }
+                                    else//すでに所持していた場合
+                                    {
+                                        Destroy(get_item);
+
+                                        //弾薬を獲得
+                                        for (int i = 0; i < GET_AMMO_NUM; i++)
+                                        {
+                                            //上限に達していなければ入手
+                                            if (pistol_ammo <= MAX_AMMO)
+                                            {
+                                                pistol_ammo++;
+                                            }
+                                        }                                        
                                     }
                                     break;
                             }
 
-                            Debug.Log(item);
+                            Debug.Log(get_item);
+                            Debug.Log(pistol_ammo);
                         }
                     }
                 }
@@ -197,12 +230,15 @@ public class player : CharacterBase
                     switch (hand_item.tag)
                     {
                         case "pistol":
-                            //位置
-                            Vector3 pos = transform.position;
-                            //向き
-                            Quaternion rot = rot_obj.transform.rotation;
-                            //弾丸生成
-                            Instantiate(bullet, hand_item.transform.position, rot);
+
+                            if (pistol_ammo > 0)
+                            {
+                                //向き
+                                Quaternion rot = rot_obj.transform.rotation;
+                                //弾丸生成
+                                Instantiate(bullet, hand_item.transform.position, rot);
+                                pistol_ammo--;
+                            }
                             break;
                     }
                 }
