@@ -8,31 +8,36 @@ public class player : CharacterBase
     const float Walk_Speed = 5.0f;
     const float Run_Speed = 10.0f;
     const float Max_Y_angle = 60.0f;
-    const float Max_X_angle = 90.0f;
+    const float Max_X_angle = 60.0f;
     Vector3 Pistol_angle { get { return new Vector3(0, -15, 0); } }
 
     //移動
     bool run_flag = false;  //走っているかどうかフラグ
     int key_push_cnt = 0;   //キー入力された回数
     float push_timer = 0.0f;//ダブル入力カウント用
+
+    //マップ移動
+    public float moving_distance_X = 0.0f;//移動距離保存
+    public float moving_distance_Z = 0.0f;//移動距離保存
+
     //視点移動
     Vector3 mouse_pos;                      //マウスの位置
     Vector3 angle = new Vector3(0, 0, 0);　 //角度
     [SerializeField] GameObject rot_obj;　  //弾丸生成位置用
     [SerializeField] GameObject dir_obj;    //向きを制御したいObject
-    [SerializeField] GameObject[] angle_change_obj;
+    [SerializeField] GameObject camera_obj;
+
+    Vector3 mouse_start;
 
     //アイテムを拾う
     [SerializeField] GameObject hand;
     [SerializeField] GameObject hand_item;
-    [SerializeField] GameObject camera_obj;
     GameObject item;
 
     //ダメージ判定
     public bool attacked_zonbi_flag = false;
     public bool bitten_zonbi_flag = false;
-    bool targe_get_flag = false;
-    Vector3 targe;
+    [SerializeField] GameObject gameover_ui;
 
     //攻撃
     //Pistol
@@ -44,7 +49,8 @@ public class player : CharacterBase
     void Start()
     {
         mouse_pos = Input.mousePosition;
-        angle = this.transform.localEulerAngles;
+        mouse_start = Input.mousePosition;
+        //angle = this.transform.localEulerAngles;
     }
 
     // Update is called once per frame
@@ -111,51 +117,41 @@ public class player : CharacterBase
             //視点移動
             {
                 //Y軸制御
-                angle.y += (Input.mousePosition.x - mouse_pos.x) * 0.2f;
-                dir_obj.transform.localEulerAngles = new Vector3(dir_obj.transform.localEulerAngles.x, angle.y);
-                //if (angle.y <= Max_Y_angle && angle.y >= -Max_Y_angle)
-                //{
-                //    angle.y += (Input.mousePosition.x - mouse_pos.x) * 0.2f;
-                //}
-                //else
-                //{
-                //    if (angle.y > Max_Y_angle) 
-                //    {
-                //        //angle.y = Max_Y_angle;
-                //        angle.y += (Input.mousePosition.x - mouse_pos.x) * 0.2f;
-                //        dir_obj.transform.localEulerAngles = new Vector3(dir_obj.transform.localEulerAngles.x, angle.y);
-                //    }
-                //    else if(angle.y<-Max_Y_angle)
-                //    {
-                //        //angle.y = -Max_Y_angle;
-                //        angle.y += (Input.mousePosition.x - mouse_pos.x) * 0.2f;
-                //        dir_obj.transform.localEulerAngles = new Vector3(dir_obj.transform.localEulerAngles.x, angle.y);
+                //angle.y += (Input.mousePosition.x - mouse_pos.x) * 0.2f;
+                //dir_obj.transform.localEulerAngles = new Vector3(dir_obj.transform.localEulerAngles.x, angle.y);
 
-                //    }
+                //if (mouse_pos.y <= Max_X_angle)
+                //{
+                //    mouse_pos.y = Max_X_angle;
+                //}
+                //else if (mouse_pos.y >= -Max_X_angle)
+                //{
+                //    //mouse_pos.y = -Max_X_angle;
                 //}
 
-                //X軸制御
-                if (angle.x <= Max_X_angle && angle.x >= -Max_X_angle)
-                {
-                    angle.x -= (Input.mousePosition.y - mouse_pos.y) * 0.2f;
-                }
-                else
-                {
-                    if (angle.x > Max_X_angle)
-                    {
-                        angle.x = Max_X_angle;
-                    }
-                    else if (angle.x < -Max_X_angle)
-                    {
-                        angle.x = -Max_X_angle;
-                    }
-                }
+                //横方向
 
+                float rot_character = mouse_pos.x;
+                rot_character += 2.0f * Time.deltaTime;
+
+
+                dir_obj.transform.localRotation = Quaternion.Euler(0.0f, rot_character, 0.0f);
+
+                //縦方向制御
+                float rot = mouse_start.y - mouse_pos.y;
+                if (Mathf.Abs(rot) <= Max_X_angle)
+                {
+                    rot += 2.0f * Time.deltaTime;
+                    Quaternion rotation = Quaternion.Euler(rot, 0.0f, 0.0f);
+
+                    camera_obj.transform.localRotation = rotation;
+                }
+                //camera_obj.transform.localRotation = rotation;
                 //アングル制御したいObjectに代入
-                for (int i = 0; i < angle_change_obj.Length; i++)
-                {
-                    angle_change_obj[i].transform.localEulerAngles = angle;
-                }
+                //for (int i = 0; i < angle_change_obj.Length; i++)
+                //{
+                //    angle_change_obj[i].transform.localEulerAngles = angle;
+                //}
 
 
                 mouse_pos = Input.mousePosition;
@@ -219,31 +215,17 @@ public class player : CharacterBase
         }
         else//ゲームオーバー
         {
-            float speed = 2.0f;
-
             //ゾンビの向いている向きによって倒れる方向を変える（ゾンビの向いている方向の逆方向へ倒れる（後ろ））
+            //か、画面フェードアウト
 
-            //if(transform.localEulerAngles>=90)
-            //angle.x += (-transform.forward.y - mouse_pos.y) * 0.2f;
-            //angle.y = 0;
-            //transform.localEulerAngles = angle;
-
-            //if(!targe_get_flag)
-            //{
-            //    targe = new Vector3(0, 90, 0);
-            //    targe_get_flag = true;
-            //}
-
-            //// 正面に目標を捉えてから90度回転させた回転を表すQuaternion
-            //Quaternion targetQ = Quaternion.LookRotation(targe, Vector3.up) * Quaternion.AngleAxis(0, Vector3.right);
-
-            //// 徐々に回転
-            //transform.rotation = Quaternion.RotateTowards(transform.rotation, targetQ, speed);
+            gameover_ui.SetActive(true);
         }
     }
 
     private void Move(float _speed)
     {
+        Vector3 moving_distance = transform.position;
+
         // Wキー（前方移動）
         if (Input.GetKey(KeyCode.W))
         {
@@ -268,9 +250,11 @@ public class player : CharacterBase
             transform.position -= _speed * transform.right * Time.deltaTime;
         }
 
+        moving_distance_X += transform.position.x - moving_distance.x;
+        moving_distance_Z += transform.position.z - moving_distance.z;
     }
 
-    void ParentChildren(GameObject _parent,GameObject _child)
+    void ParentChildren(GameObject _parent, GameObject _child)
     {
         _child.transform.parent = _parent.transform;
         _child.transform.position = _parent.transform.position;
