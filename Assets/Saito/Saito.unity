@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -958,13 +958,17 @@ MonoBehaviour:
   vec_x: 0
   vec_y: 0
   vec_z: 0
-  bullet: {fileID: 3390852007210028227, guid: e155a2f4f5b9e534087fd0bef3b5954b, type: 3}
-  pistol: {fileID: 1915272975}
+  rot_obj: {fileID: 1790863998}
+  dir_obj: {fileID: 949293827}
   angle_change_obj:
   - {fileID: 1790863998}
   - {fileID: 1813711322}
-  rot_obj: {fileID: 1790863998}
-  dir_obj: {fileID: 949293827}
+  hand: {fileID: 0}
+  hand_item: {fileID: 0}
+  camera_obj: {fileID: 0}
+  attacked_zonbi_flag: 0
+  bitten_zonbi_flag: 0
+  bullet: {fileID: 3390852007210028227, guid: e155a2f4f5b9e534087fd0bef3b5954b, type: 3}
 --- !u!4 &949293829
 Transform:
   m_ObjectHideFlags: 0
@@ -973,7 +977,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 949293827}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -7.46, y: 3, z: -2.38}
+  m_LocalPosition: {x: 5.11, y: 3, z: 10.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1287,11 +1291,15 @@ MonoBehaviour:
   vec_x: 0
   vec_y: 0
   vec_z: 0
-  bullet: {fileID: 3390852007210028227, guid: e155a2f4f5b9e534087fd0bef3b5954b, type: 3}
-  pistol: {fileID: 1063168950}
-  angle_change_obj: []
   rot_obj: {fileID: 1111362717}
   dir_obj: {fileID: 1369476139}
+  angle_change_obj: []
+  hand: {fileID: 0}
+  hand_item: {fileID: 0}
+  camera_obj: {fileID: 0}
+  attacked_zonbi_flag: 0
+  bitten_zonbi_flag: 0
+  bullet: {fileID: 3390852007210028227, guid: e155a2f4f5b9e534087fd0bef3b5954b, type: 3}
 --- !u!1 &1437403671
 GameObject:
   m_ObjectHideFlags: 0
@@ -1862,7 +1870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detection_range: 12
-  grap_range: 1
+  grap_range: 3
   run_speed: 6
   walk_speed: 1
   attack_delay_sec: 3
@@ -1897,5 +1905,5 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0

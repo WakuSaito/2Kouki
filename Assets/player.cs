@@ -11,26 +11,23 @@ public class player : CharacterBase
     const float Max_X_angle = 60.0f;
     const int MAX_AMMO = 60;
     const int GET_AMMO_NUM = 10;
-
     Vector3 Pistol_angle { get { return new Vector3(0, -15, 0); } }
 
-    //ˆÚ“®
-    bool run_flag = false;  //‘–‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©ƒtƒ‰ƒO
-    int key_push_cnt = 0;   //ƒL[“ü—Í‚³‚ê‚½‰ñ”
-    float push_timer = 0.0f;//ƒ_ƒuƒ‹“ü—ÍƒJƒEƒ“ƒg—p
-    //‹“_ˆÚ“®
-    Vector3 mouse_pos;                      //ƒ}ƒEƒX‚ÌˆÊ’u
-    Vector3 angle = new Vector3(0, 0, 0);@ //Šp“x
-    [SerializeField] GameObject rot_obj;@  //’eŠÛ¶¬ˆÊ’u—p
-    [SerializeField] GameObject dir_obj;    //Œü‚«‚ğ§Œä‚µ‚½‚¢Object
-    [SerializeField] GameObject camera_obj;
+    //ç§»å‹•
+    bool run_flag = false;  //èµ°ã£ã¦ã„ã‚‹ã‹ã©ã†ã‹ãƒ•ãƒ©ã‚°
+    int key_push_cnt = 0;   //ã‚­ãƒ¼å…¥åŠ›ã•ã‚ŒãŸå›æ•°
+    float push_timer = 0.0f;//ãƒ€ãƒ–ãƒ«å…¥åŠ›ã‚«ã‚¦ãƒ³ãƒˆç”¨
+    //è¦–ç‚¹ç§»å‹•
+    Vector3 mouse_pos;                      //ãƒã‚¦ã‚¹ã®ä½ç½®
+    Vector3 angle = new Vector3(0, 0, 0);ã€€ //è§’åº¦
+    [SerializeField] GameObject rot_obj;ã€€  //å¼¾ä¸¸ç”Ÿæˆä½ç½®ç”¨
+    [SerializeField] GameObject dir_obj;    //å‘ãã‚’åˆ¶å¾¡ã—ãŸã„Object
+    [SerializeField] GameObject[] angle_change_obj;
 
-    Vector3 mouse_start;
-
-    //ƒAƒCƒeƒ€‚ğE‚¤
+    //ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‹¾ã†
     [SerializeField] GameObject hand_parent;
     [SerializeField] GameObject hand_item;
-    GameObject ranged_weapon = null;//‰“‹——£•Ší
+    GameObject ranged_weapon = null;//é è·é›¢æ­¦å™¨
     HAND_INVENTORY hand = HAND_INVENTORY.NON;
 
     enum HAND_INVENTORY
@@ -40,15 +37,16 @@ public class player : CharacterBase
         SHORT_WEAPON,
     }
 
-    //ƒAƒCƒeƒ€
+    //ã‚¢ã‚¤ãƒ†ãƒ 
     int pistol_ammo = 10;
 
-    //ƒ_ƒ[ƒW”»’è
+    //ãƒ€ãƒ¡ãƒ¼ã‚¸åˆ¤å®š
     public bool attacked_zonbi_flag = false;
     public bool bitten_zonbi_flag = false;
-    [SerializeField] GameObject gameover_ui;
+    bool targe_get_flag = false;
+    Vector3 targe;
 
-    //UŒ‚
+    //æ”»æ’ƒ
     //Pistol
     [SerializeField] GameObject bullet;
 
@@ -58,8 +56,7 @@ public class player : CharacterBase
     void Start()
     {
         mouse_pos = Input.mousePosition;
-        mouse_start = Input.mousePosition;
-        //angle = this.transform.localEulerAngles;
+        angle = this.transform.localEulerAngles;
     }
 
     // Update is called once per frame
@@ -67,13 +64,13 @@ public class player : CharacterBase
     {
         if (!bitten_zonbi_flag)
         {
-            //ˆÚ“®ˆ—
+            //ç§»å‹•å‡¦ç†
             {
-                //ƒ_ƒbƒVƒ…”»’èˆ—
+                //ãƒ€ãƒƒã‚·ãƒ¥åˆ¤å®šå‡¦ç†
                 if (!attacked_zonbi_flag)
                 {
                     {
-                        //ˆÚ“®ƒL[‚ª“ü—Í‚³‚ê‚Ä‚¢‚È‚¢‚©‚Âƒ_ƒbƒVƒ…ƒRƒ}ƒ“ƒh“ü—Í‚P‰ñ–Ú‚¶‚á‚È‚¯‚ê‚ÎˆÚ“®‰Šú‰»
+                        //ç§»å‹•ã‚­ãƒ¼ãŒå…¥åŠ›ã•ã‚Œã¦ã„ãªã„ã‹ã¤ãƒ€ãƒƒã‚·ãƒ¥ã‚³ãƒãƒ³ãƒ‰å…¥åŠ›ï¼‘å›ç›®ã˜ã‚ƒãªã‘ã‚Œã°ç§»å‹•åˆæœŸåŒ–
                         if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D) && key_push_cnt != 1)
                         {
                             key_push_cnt = 0;
@@ -81,37 +78,37 @@ public class player : CharacterBase
                             run_flag = false;
                         }
 
-                        //WƒL[‚ª‚Q‰ñ“ü—Í‚³‚ê‚½‚çƒ_ƒbƒVƒ…
+                        //Wã‚­ãƒ¼ãŒï¼’å›å…¥åŠ›ã•ã‚ŒãŸã‚‰ãƒ€ãƒƒã‚·ãƒ¥
                         if (Input.GetKeyDown(KeyCode.W))
                         {
                             key_push_cnt++;
                         }
 
-                        //ƒ_ƒbƒVƒ…ƒRƒ}ƒ“ƒh‚P‰ñ–Ú‚Ìê‡
+                        //ãƒ€ãƒƒã‚·ãƒ¥ã‚³ãƒãƒ³ãƒ‰ï¼‘å›ç›®ã®å ´åˆ
                         if (key_push_cnt == 1)
                         {
                             run_flag = false;
 
-                            //ƒ_ƒuƒ‹“ü—Í‚³‚ê‚È‚¯‚ê‚Î•à‚«i’Z‚¢ŠÔˆÈ“à‚É‚Q‰ñ“ü—Íj
+                            //ãƒ€ãƒ–ãƒ«å…¥åŠ›ã•ã‚Œãªã‘ã‚Œã°æ­©ãï¼ˆçŸ­ã„æ™‚é–“ä»¥å†…ã«ï¼’å›å…¥åŠ›ï¼‰
                             push_timer += Time.deltaTime;
                             if (push_timer >= 1)
                             {
                                 key_push_cnt = 0;
                             }
                         }
-                        //ƒ_ƒuƒ‹“ü—Í‚³‚ê‚ê‚Îƒ_ƒbƒVƒ…
+                        //ãƒ€ãƒ–ãƒ«å…¥åŠ›ã•ã‚Œã‚Œã°ãƒ€ãƒƒã‚·ãƒ¥
                         else if (key_push_cnt >= 2)
                         {
                             run_flag = true;
                         }
                     }
 
-                    //‘–‚èˆÚ“®
+                    //èµ°ã‚Šç§»å‹•
                     if (run_flag)
                     {
                         Move(Run_Speed);
                     }
-                    //•à‚«ˆÚ“®
+                    //æ­©ãç§»å‹•
                     else
                     {
                         Move(Walk_Speed);
@@ -123,27 +120,38 @@ public class player : CharacterBase
                 }
             }
 
-            //‹“_ˆÚ“®
+            //è¦–ç‚¹ç§»å‹•
             {
-                //Y²§Œä
-                //angle.y += (Input.mousePosition.x - mouse_pos.x) * 0.2f;
-                //dir_obj.transform.localEulerAngles = new Vector3(dir_obj.transform.localEulerAngles.x, angle.y);
-
-                //if (mouse_pos.y <= Max_X_angle)
+                //Yè»¸åˆ¶å¾¡
+                angle.y += (Input.mousePosition.x - mouse_pos.x) * 0.2f;
+                dir_obj.transform.localEulerAngles = new Vector3(dir_obj.transform.localEulerAngles.x, angle.y);
+                //if (angle.y <= Max_Y_angle && angle.y >= -Max_Y_angle)
                 //{
-                //    mouse_pos.y = Max_X_angle;
+                //    angle.y += (Input.mousePosition.x - mouse_pos.x) * 0.2f;
                 //}
-                //else if (mouse_pos.y >= -Max_X_angle)
+                //else
                 //{
-                //    //mouse_pos.y = -Max_X_angle;
+                //    if (angle.y > Max_Y_angle) 
+                //    {
+                //        //angle.y = Max_Y_angle;
+                //        angle.y += (Input.mousePosition.x - mouse_pos.x) * 0.2f;
+                //        dir_obj.transform.localEulerAngles = new Vector3(dir_obj.transform.localEulerAngles.x, angle.y);
+                //    }
+                //    else if(angle.y<-Max_Y_angle)
+                //    {
+                //        //angle.y = -Max_Y_angle;
+                //        angle.y += (Input.mousePosition.x - mouse_pos.x) * 0.2f;
+                //        dir_obj.transform.localEulerAngles = new Vector3(dir_obj.transform.localEulerAngles.x, angle.y);
+
+                //    }
                 //}
 
-                //‰¡•ûŒü
+                //æ¨ªæ–¹å‘
                 float character_rot = mouse_pos.x;
                 character_rot += 2.0f * Time.deltaTime;
                 dir_obj.transform.localRotation = Quaternion.Euler(0.0f, character_rot, 0.0f);
 
-                //c•ûŒü§Œä
+                //ç¸¦æ–¹å‘åˆ¶å¾¡
                 float camera_rot=mouse_start.y-mouse_pos.y;
                 if (Mathf.Abs(camera_rot) <= Max_X_angle)
                 {
@@ -151,62 +159,73 @@ public class player : CharacterBase
                     Quaternion rotation = Quaternion.Euler(camera_rot, 0.0f, 0.0f);
                     camera_obj.transform.localRotation = rotation;
                 }
-                //camera_obj.transform.localRotation = rotation;
-                //ƒAƒ“ƒOƒ‹§Œä‚µ‚½‚¢Object‚É‘ã“ü
-                //for (int i = 0; i < angle_change_obj.Length; i++)
-                //{
-                //    angle_change_obj[i].transform.localEulerAngles = angle;
-                //}
+                else
+                {
+                    if (angle.x > Max_X_angle)
+                    {
+                        angle.x = Max_X_angle;
+                    }
+                    else if (angle.x < -Max_X_angle)
+                    {
+                        angle.x = -Max_X_angle;
+                    }
+                }
+
+                //ã‚¢ãƒ³ã‚°ãƒ«åˆ¶å¾¡ã—ãŸã„Objectã«ä»£å…¥
+                for (int i = 0; i < angle_change_obj.Length; i++)
+                {
+                    angle_change_obj[i].transform.localEulerAngles = angle;
+                }
 
 
                 mouse_pos = Input.mousePosition;
             }
 
-            //ƒAƒCƒeƒ€‚ğE‚¤
+            //ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ‹¾ã†
             {
                 if (Input.GetMouseButtonDown(1))
                 {
-                    //ƒrƒ…[ƒ|[ƒgÀ•W‚ÌƒŒƒC‚ğ”ò‚Î‚·
+                    //ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆåº§æ¨™ã®ãƒ¬ã‚¤ã‚’é£›ã°ã™
                     Ray ray = Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f));
                     RaycastHit hit = new RaycastHit();
 
                     if (Physics.Raycast(ray, out hit))
                     {
-                        //ƒAƒCƒeƒ€‚Ü‚Å‚Ì‹——£‚ğ’²‚×‚é
+                        //ã‚¢ã‚¤ãƒ†ãƒ ã¾ã§ã®è·é›¢ã‚’èª¿ã¹ã‚‹
                         float distance = Vector3.Distance(hit.transform.position, transform.position);
 
-                        //‹——£‹ß‚¯‚ê‚ÎE‚¤
+                        //è·é›¢è¿‘ã‘ã‚Œã°æ‹¾ã†
                         if (distance <= 5.0f)
                         {
-                            //—á‚ÅŒ©‚Â‚¯‚½ƒQ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶
+                            //ä¾‹ã§è¦‹ã¤ã‘ãŸã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä¿å­˜
                             GameObject get_item = hit.collider.gameObject;
 
                             switch (get_item.tag)
                             {
                                 case "pistol":
-                                    //‰“‹——£•Ší‚É“ü‚Á‚Ä‚¢‚È‚©‚Á‚½ê‡“üè
+                                    //é è·é›¢æ­¦å™¨ã«å…¥ã£ã¦ã„ãªã‹ã£ãŸå ´åˆå…¥æ‰‹
                                     if (ranged_weapon == null)
                                     {
                                         ranged_weapon = get_item;
 
-                                        //“üè‚µAè‚É‰½‚à‚È‚¯‚ê‚Î©“®“I‚É‚Â
+                                        //å…¥æ‰‹ã—ã€æ‰‹ã«ä½•ã‚‚ãªã‘ã‚Œã°è‡ªå‹•çš„ã«æŒã¤
                                         if (hand_item == null)
                                         {
                                             hand = HAND_INVENTORY.LONG_WEAPON;
                                             hand_item = ranged_weapon;
-                                            ParentChildren(hand_parent, hand_item);                         //è‚Ìq‚É‚·‚é
-                                            hand_item.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //ƒXƒP[ƒ‹•ÏX
-                                            hand_item.transform.localEulerAngles = Pistol_angle;            //ƒsƒXƒgƒ‹—p‚ÌƒAƒ“ƒOƒ‹‚Ö•ÏX
+                                            ParentChildren(hand_parent, hand_item);                         //æ‰‹ã®å­ã«ã™ã‚‹
+                                            hand_item.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //ã‚¹ã‚±ãƒ¼ãƒ«å¤‰æ›´
+                                            hand_item.transform.localEulerAngles = Pistol_angle;            //ãƒ”ã‚¹ãƒˆãƒ«ç”¨ã®ã‚¢ãƒ³ã‚°ãƒ«ã¸å¤‰æ›´
                                         }
                                     }
-                                    else//‚·‚Å‚ÉŠ‚µ‚Ä‚¢‚½ê‡
+                                    else//ã™ã§ã«æ‰€æŒã—ã¦ã„ãŸå ´åˆ
                                     {
                                         Destroy(get_item);
 
-                                        //’e–ò‚ğŠl“¾
+                                        //å¼¾è–¬ã‚’ç²å¾—
                                         for (int i = 0; i < GET_AMMO_NUM; i++)
                                         {
-                                            //ãŒÀ‚É’B‚µ‚Ä‚¢‚È‚¯‚ê‚Î“üè
+                                            //ä¸Šé™ã«é”ã—ã¦ã„ãªã‘ã‚Œã°å…¥æ‰‹
                                             if (pistol_ammo <= MAX_AMMO)
                                             {
                                                 pistol_ammo++;
@@ -223,7 +242,7 @@ public class player : CharacterBase
                 }
             }
 
-            //UŒ‚
+            //æ”»æ’ƒ
             {
                 if (Input.GetMouseButtonDown(0) && hand_item != null)
                 {
@@ -233,9 +252,9 @@ public class player : CharacterBase
 
                             if (pistol_ammo > 0)
                             {
-                                //Œü‚«
+                                //å‘ã
                                 Quaternion rot = rot_obj.transform.rotation;
-                                //’eŠÛ¶¬
+                                //å¼¾ä¸¸ç”Ÿæˆ
                                 Instantiate(bullet, hand_item.transform.position, rot);
                                 pistol_ammo--;
                             }
@@ -245,36 +264,52 @@ public class player : CharacterBase
             }
 
         }
-        else//ƒQ[ƒ€ƒI[ƒo[
+        else//ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼
         {
-            //ƒ]ƒ“ƒr‚ÌŒü‚¢‚Ä‚¢‚éŒü‚«‚É‚æ‚Á‚Ä“|‚ê‚é•ûŒü‚ğ•Ï‚¦‚éiƒ]ƒ“ƒr‚ÌŒü‚¢‚Ä‚¢‚é•ûŒü‚Ì‹t•ûŒü‚Ö“|‚ê‚éiŒã‚ëjj
-            //‚©A‰æ–ÊƒtƒF[ƒhƒAƒEƒg
+            float speed = 2.0f;
 
-            gameover_ui.SetActive(true);
+            //ã‚¾ãƒ³ãƒ“ã®å‘ã„ã¦ã„ã‚‹å‘ãã«ã‚ˆã£ã¦å€’ã‚Œã‚‹æ–¹å‘ã‚’å¤‰ãˆã‚‹ï¼ˆã‚¾ãƒ³ãƒ“ã®å‘ã„ã¦ã„ã‚‹æ–¹å‘ã®é€†æ–¹å‘ã¸å€’ã‚Œã‚‹ï¼ˆå¾Œã‚ï¼‰ï¼‰
+
+            //if(transform.localEulerAngles>=90)
+            //angle.x += (-transform.forward.y - mouse_pos.y) * 0.2f;
+            //angle.y = 0;
+            //transform.localEulerAngles = angle;
+
+            //if(!targe_get_flag)
+            //{
+            //    targe = new Vector3(0, 90, 0);
+            //    targe_get_flag = true;
+            //}
+
+            //// æ­£é¢ã«ç›®æ¨™ã‚’æ‰ãˆã¦ã‹ã‚‰90åº¦å›è»¢ã•ã›ãŸå›è»¢ã‚’è¡¨ã™Quaternion
+            //Quaternion targetQ = Quaternion.LookRotation(targe, Vector3.up) * Quaternion.AngleAxis(0, Vector3.right);
+
+            //// å¾ã€…ã«å›è»¢
+            //transform.rotation = Quaternion.RotateTowards(transform.rotation, targetQ, speed);
         }
     }
 
     private void Move(float _speed)
     {
-        // WƒL[i‘O•ûˆÚ“®j
+        // Wã‚­ãƒ¼ï¼ˆå‰æ–¹ç§»å‹•ï¼‰
         if (Input.GetKey(KeyCode.W))
         {
             transform.position += _speed * transform.forward * Time.deltaTime;
         }
 
-        // SƒL[iŒã•ûˆÚ“®j
+        // Sã‚­ãƒ¼ï¼ˆå¾Œæ–¹ç§»å‹•ï¼‰
         if (Input.GetKey(KeyCode.S))
         {
             transform.position -= _speed * transform.forward * Time.deltaTime;
         }
 
-        // DƒL[i‰EˆÚ“®j
+        // Dã‚­ãƒ¼ï¼ˆå³ç§»å‹•ï¼‰
         if (Input.GetKey(KeyCode.D))
         {
             transform.position += _speed * transform.right * Time.deltaTime;
         }
 
-        // AƒL[i¶ˆÚ“®j
+        // Aã‚­ãƒ¼ï¼ˆå·¦ç§»å‹•ï¼‰
         if (Input.GetKey(KeyCode.A))
         {
             transform.position -= _speed * transform.right * Time.deltaTime;

@@ -6,7 +6,8 @@ public class ZombieBodyHit : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Hit");
+        if (other.tag != "Attack") return;
+
         transform.root.gameObject.GetComponent<Zombie>().DamageBody();
     }
 }

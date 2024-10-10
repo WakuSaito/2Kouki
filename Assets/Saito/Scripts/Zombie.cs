@@ -46,8 +46,11 @@ public class Zombie : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.N)) DamageBody();
         if (Input.GetKeyDown(KeyCode.B)) DamageHead();
 
-
-        if (on_move_stop) return;//移動不可なら処理しない
+        //移動不可なら処理しない
+        if (on_move_stop) {
+            rb.velocity = Vector3.zero;
+            return;
+        }
 
         //座標取得
         Vector3 pos = transform.position;
@@ -55,17 +58,25 @@ public class Zombie : MonoBehaviour
         //プレイヤーとの距離計算
         float player_distance = Vector3.Distance(pos, player_pos);
 
-        
+        float current_speed;
+
+
         if (player_distance <= detection_range)//プレイヤーとの距離が一定以下
         {
             //プレイヤーの方を向く
-            transform.LookAt(PlayerObj.transform, transform.up);
-            //向いている方向に移動
-            transform.Translate(Vector3.forward * run_speed * Time.deltaTime);
-        }        
+            var direction = player_pos - pos;
+            direction.y = 0;
+
+            var lookRotation = Quaternion.LookRotation(direction, Vector3.up);
+            transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, 0.1f);
+
+            //transform.LookAt(PlayerObj.transform, transform.up);
+
+            current_speed = run_speed;//速度変更
+        }
         else//通常の動作
         {
-            if(random_walk_count>=random_walk_time)
+            if (random_walk_count >= random_walk_time)
             {
                 random_walk_count = 0.0f;//リセット
                 random_walk_time = UnityEngine.Random.Range(4.0f, 8.0f);//次に向きを変えるまでの時間
@@ -78,9 +89,19 @@ public class Zombie : MonoBehaviour
                 //時間カウント
                 random_walk_count += Time.deltaTime;
             }
-            //向いている方向に移動
-            transform.Translate(Vector3.forward * walk_speed * Time.deltaTime);
+
+            current_speed = walk_speed;//速度変更
         }
+
+        //y軸を無視する
+        Vector3 vec = transform.forward;
+        vec.y = 0.0f;
+        Vector3.Normalize(vec);
+
+        rb.velocity = vec * current_speed;
+
+        //向いている方向に移動
+        //transform.Translate(Vector3.forward * walk_speed * Time.deltaTime);
 
         if (player_distance <= grap_range)//掴みかかる距離
         {
@@ -90,7 +111,11 @@ public class Zombie : MonoBehaviour
     //プレイヤーをつかむ
     private void GrapPlayer()
     {
+        Debug.Log("Grap");
         on_move_stop = true;//移動停止
+
+        //ここでプレイヤー側のつかまれる関数を呼び出したい
+        //その際このGameObjectの情報を渡したい
 
         // CancellationTokenを生成
         _cancellationTokenSource = new CancellationTokenSource();
