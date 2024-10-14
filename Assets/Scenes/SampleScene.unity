@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -416,7 +416,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 854049370}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f89bda4c7cbc5af408c4d9cc5efe81b2, type: 3}
   m_Name: 
@@ -424,8 +424,8 @@ MonoBehaviour:
   vec_x: 0
   vec_y: 0
   vec_z: 0
-  moving_distance_X: 0
-  moving_distance_Z: 0
+  moving_distance_X: 50
+  moving_distance_Z: 50
   rot_obj: {fileID: 1442545492}
   dir_obj: {fileID: 854049370}
   camera_obj: {fileID: 1442545492}
@@ -593,10 +593,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8967285ef833e0e4ba8ce729433e128c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Array_X: 0
+  Array_Y: 0
   player_obj: {fileID: 854049370}
   map_tips:
   - {fileID: 4264693488785228751, guid: 479390aa780062f43be8e95f2d54439d, type: 3}
   - {fileID: 7842274975494812622, guid: 3183fe87b93abdf4c8948c8351bac3cc, type: 3}
+  - {fileID: 7842274975494812622, guid: 3a674467d267d434eae1d4a3dc531fa3, type: 3}
+  - {fileID: 7842274975494812622, guid: 21bc005ba48442b4d8b7400ceeadd6ea, type: 3}
+  - {fileID: 7842274975494812622, guid: c103dd8630e91684dac50d55d9355f23, type: 3}
+  - {fileID: 7842274975494812622, guid: 500b27c9bb6f15d43969ed7274ee8eb7, type: 3}
+  - {fileID: 7842274975494812622, guid: 5b41b538c0ff2244e9eddfce988a7b37, type: 3}
+  - {fileID: 7842274975494812622, guid: 3a3801d1d5311874f9497f2a53578ce6, type: 3}
+  - {fileID: 7842274975494812622, guid: d080c9c0b44999544ad901751c673222, type: 3}
   start_index: 0
   create_tip_num: 0
 --- !u!4 &1267555009
