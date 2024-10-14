@@ -6,7 +6,7 @@ public class player : CharacterBase
 {
     const float Attacked_Speed = 1.5f;
     const float Walk_Speed = 5.0f;
-    const float Run_Speed = 10.0f;
+    const float Run_Speed = 20.0f;
     const float Max_Y_angle = 60.0f;
     const float Max_X_angle = 60.0f;
     Vector3 Pistol_angle { get { return new Vector3(0, -15, 0); } }
@@ -17,7 +17,7 @@ public class player : CharacterBase
     float push_timer = 0.0f;//ダブル入力カウント用
 
     //マップ移動
-    public float moving_distance_X = 0.0f;//移動距離保存
+    public float moving_distance_X = 50.0f;//移動距離保存
     public float moving_distance_Z = 0.0f;//移動距離保存
 
     //視点移動
