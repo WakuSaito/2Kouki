@@ -322,3 +322,4 @@ MonoBehaviour:
   run_speed: 6
   walk_speed: 1
   attack_delay_sec: 3
+  on_move_stop: 0
