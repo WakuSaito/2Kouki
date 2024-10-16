@@ -25,6 +25,7 @@ public class Zombie : MonoBehaviour
 
     GameObject PlayerObj;//プレイヤー
 
+    [SerializeField]
     bool on_move_stop = false;//移動不可フラグ
 
     //async用トークン（遅延実行のキャンセル用）
@@ -37,7 +38,7 @@ public class Zombie : MonoBehaviour
         //プレイヤーの位置取得
         PlayerObj = GameObject.FindGameObjectWithTag("Player");
 
-        on_move_stop = false;
+        //on_move_stop = false;
     }
 
     // Update is called once per frame
