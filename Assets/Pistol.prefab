@@ -124,7 +124,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3013843455411131510}
   - component: {fileID: 2419650818468006276}
-  - component: {fileID: -7385907611631405795}
+  - component: {fileID: 3313765365788849699}
+  - component: {fileID: 8656839953575412234}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: pistol
@@ -163,7 +164,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 1, z: 1}
   m_Center: {x: 0, y: -0.25, z: 0}
---- !u!114 &-7385907611631405795
+--- !u!114 &3313765365788849699
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -175,7 +176,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e06337e2e507a547872fe2c2b898ddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player_obj: {fileID: 1683030245286604462, guid: 2164da775065c1e4f8839af90a856d35, type: 3}
   bullet_num: 10
+--- !u!114 &8656839953575412234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5962637929669721271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dd34dade1988c94dbcb119f395ae6f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  get_num: 0000000005000000
 --- !u!1 &6055169985821773645
 GameObject:
   m_ObjectHideFlags: 0

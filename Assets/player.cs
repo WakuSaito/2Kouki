@@ -5,6 +5,8 @@ using UnityEngine;
 public class player : CharacterBase
 {
     MapCreate MapCreate;
+    [SerializeField]Inventory Inventory;
+
 
     const float Attacked_Speed = 1.5f;
     const float Walk_Speed = 5.0f;
@@ -60,6 +62,7 @@ public class player : CharacterBase
     void Start()
     {
         MapCreate = map_obj.GetComponent<MapCreate>();
+        Inventory = GetComponent<Inventory>();
 
         mouse_pos = Input.mousePosition;
         mouse_start = Input.mousePosition;
@@ -212,15 +215,13 @@ public class player : CharacterBase
                                     else
                                     {
                                         //弾丸(アイテム)を取得(Inventoryに弾丸があって最大数じゃないまたはInventoryに弾丸はないが空いていれば)
-
+                                        Inventory.ItemGet(item);
 
                                         Destroy(item);
                                     }
 
                                     break;
                             }
-
-                            Debug.Log(item);
                         }
                     }
                 }
