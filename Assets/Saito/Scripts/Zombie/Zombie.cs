@@ -169,7 +169,7 @@ public class Zombie : MonoBehaviour
     {
         _cancellationTokenSource.Cancel();//íxâÑé¿çsíÜÇÃasyncí‚é~
 
-        //Destroy(gameObject);
+        Destroy(gameObject);
     }
     //íxÇÁÇπÇƒé¿çsÇ∑ÇÈ
     private async ValueTask DelayRunAsync(CancellationToken token, double wait_sec, Action action)
