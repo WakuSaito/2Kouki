@@ -11,6 +11,7 @@ public class Pistol : MonoBehaviour
 
 
     [SerializeField] GameObject player_obj;
+    [SerializeField] GameObject bullet_obj;
 
     //もともとの弾数
     public int bullet_num = 10;
@@ -24,32 +25,60 @@ public class Pistol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player_obj.GetComponent<player>().hand_item == player.HAND.LONG_WEAPON)
+
+    }
+
+    public void Reload()
+    {
+        if (bullet_num <= BULLET_MAX)
         {
-            if (Input.GetKeyDown(KeyCode.R) && bullet_num <= BULLET_MAX)
+            for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
             {
-                for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
+                //インベントリに弾丸があるか
+                if (Inventory.item_type_id[i] == (int)Item.ITEM_ID.BULLET)
                 {
-                    if (Inventory.item_type_id[i] == (int)Item.ITEM_ID.BULLET)
+                    //ピストルに入る弾丸数を調べる
+                    int reload_num = BULLET_MAX - bullet_num;
+                    Debug.Log(reload_num);
+
+                    int max_reload = reload_num;
+
+                    for (int cnt = 0; cnt < max_reload; cnt++)
                     {
-                        int reload_num = BULLET_MAX - bullet_num;
-                        Debug.Log(reload_num);
-
-                        //for分で回さないと一気に減らすとバグる
-
-                        Inventory.item_num[i] -= reload_num;
-
-                        if(Inventory.item_num[i]==0)
+                        if (Inventory.item_num[i] == 0)
                         {
-                            Inventory.item_type_id[i] = -1;
+                            break;
                         }
-
-                        bullet_num += reload_num;
-                        break;
+                        else
+                        {
+                            Inventory.item_num[i]--;
+                            bullet_num++;
+                            reload_num--;
+                        }
                     }
+
+                    //インベントリにあった弾丸の残りが0になったらidも初期化する
+                    if (Inventory.item_num[i] == 0)
+                    {
+                        Inventory.item_type_id[i] = -1;
+                    }
+                    break;
                 }
             }
         }
+    }
 
+    public void Attack(GameObject _rot_obj,GameObject _hand_obj)
+    {
+        if (bullet_num > 0)
+        {
+            //向き発射される向き
+            Quaternion rot = _rot_obj.transform.rotation;
+            //弾丸生成
+            Instantiate(bullet_obj, _hand_obj.transform.position, rot);
+
+            //Pistol内の弾丸を減らす
+            bullet_num--;
+        }
     }
 }

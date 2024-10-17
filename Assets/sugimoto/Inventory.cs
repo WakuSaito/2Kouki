@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    Item Item;
-
     public const int INVENTORY_MAX = 10;
+    public const int WEAPON_INVENTORY_MAX = 4;
     const int ITEM_MAX = 30;
     
     //アイテムの数保存
     public int[] item_num = new int[INVENTORY_MAX] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     //アイテムの種類保存
-    public int[] item_type_id = new int[INVENTORY_MAX] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }; 
+    public int[] item_type_id = new int[INVENTORY_MAX] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+
+    public enum WEAPON_ID
+    {
+        HAND,
+        KNIFE,
+        PISTOL,
+        DOG,
+    }
+
+    //武器のインベントリ
+    public GameObject[] weapon_hand_obj = new GameObject[WEAPON_INVENTORY_MAX] { null, null, null, null };
+    public int weapon_cnt = 0;
+
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +36,72 @@ public class Inventory : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void HandWeapon()
+    {
+        weapon_hand_obj[weapon_cnt].SetActive(false);
+
+        //回転の取得
+        float mouse_wheel = Input.GetAxis("Mouse ScrollWheel");
+
+        //マウスホイール上回し
+        if (mouse_wheel > 0)
+        {
+            //次のweaponインベントリへ
+            weapon_cnt++;
+            //武器インベントリの領域を超えたら最初に戻す
+            if (weapon_cnt >= WEAPON_INVENTORY_MAX)
+            {
+                weapon_cnt = 0;
+            }
+
+            //インベントリの中身が何もなければ中身のあるインベントリへ
+            while (weapon_hand_obj[weapon_cnt] == null)
+            { 
+                if (weapon_hand_obj[weapon_cnt] == null)
+                {
+                    weapon_cnt++;
+
+                    if (weapon_cnt >= WEAPON_INVENTORY_MAX)
+                    {
+                        weapon_cnt = 0;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        if (mouse_wheel < 0)
+        {
+            //次のweaponインベントリへ
+            weapon_cnt--;
+            if (weapon_cnt < 0)
+            {
+                weapon_cnt = WEAPON_INVENTORY_MAX-1;
+            }
+
+            //インベントリの中身が何もなければ中身のあるインベントリへ
+            while (weapon_hand_obj[weapon_cnt] == null)
+            {
+                if (weapon_hand_obj[weapon_cnt] == null)
+                {
+                    weapon_cnt--;
+                    if (weapon_cnt < 0)
+                    {
+                        weapon_cnt = WEAPON_INVENTORY_MAX-1;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        weapon_hand_obj[weapon_cnt].SetActive(true);
     }
 
     public void ItemGet(GameObject _item)

@@ -216,23 +216,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f89bda4c7cbc5af408c4d9cc5efe81b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vec_x: 0
-  vec_y: 0
-  vec_z: 0
   Inventory: {fileID: 0}
   rot_obj: {fileID: 1683030244346717435}
   dir_obj: {fileID: 1683030245286604462}
   camera_obj: {fileID: 1683030244346717435}
   hand: {fileID: 1683030245430897407}
-  hand_obj: {fileID: 0}
-  long_weapon: {fileID: 0}
-  short_weapon: {fileID: 0}
-  hand_item: 0
+  hand_weapon: {fileID: 0}
+  hp: 0
   attacked_zonbi_flag: 0
   bitten_zonbi_flag: 0
-  gameover_ui: {fileID: 0}
-  bullet: {fileID: 3390852007210028227, guid: e155a2f4f5b9e534087fd0bef3b5954b, type: 3}
-  map_obj: {fileID: 0}
 --- !u!114 &1683030245286604457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,6 +237,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fa7e286aa26bfd4c9e7050268f13d47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item_num: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  item_type_id: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  weapon_hand_obj:
+  - {fileID: 6454339785291286576, guid: 8a28bb5ba59d1004bb8f50e88cc6819e, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  weapon_cnt: 0
 --- !u!1 &1683030245430897407
 GameObject:
   m_ObjectHideFlags: 0

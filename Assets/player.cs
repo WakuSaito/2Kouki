@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class player : CharacterBase
+public class player : MonoBehaviour
 {
     MapCreate MapCreate;
     [SerializeField]Inventory Inventory;
@@ -11,7 +11,6 @@ public class player : CharacterBase
     const float Attacked_Speed = 1.5f;
     const float Walk_Speed = 5.0f;
     const float Run_Speed = 20.0f;
-    const float Max_Y_angle = 60.0f;
     const float Max_X_angle = 60.0f;
     Vector3 Pistol_angle { get { return new Vector3(0, -15, 0); } }
 
@@ -22,46 +21,25 @@ public class player : CharacterBase
 
     //視点移動
     Vector3 mouse_pos;                      //マウスの位置
-    Vector3 angle = new Vector3(0, 0, 0);　 //角度
     [SerializeField] GameObject rot_obj;　  //弾丸生成位置用
     [SerializeField] GameObject dir_obj;    //向きを制御したいObject
-    [SerializeField] GameObject camera_obj;
+    [SerializeField] GameObject camera_obj; 
 
     Vector3 mouse_start;
 
     //アイテムを拾う
-    [SerializeField] GameObject hand;
-    [SerializeField] GameObject hand_obj;
+    [SerializeField] GameObject hand;//設置場所
+    GameObject hand_weapon;//手にある武器
 
-    //インベントリ
-    public enum HAND
-    {
-        NON,
-        LONG_WEAPON,
-        SHORT_WEAPON,
-    }
-
-    [SerializeField] GameObject long_weapon;
-    [SerializeField] GameObject short_weapon;
-
-    public HAND hand_item = HAND.NON;
 
     //ダメージ判定
+    public int hp;
     public bool attacked_zonbi_flag = false;
     public bool bitten_zonbi_flag = false;
-    [SerializeField] GameObject gameover_ui;
-
-    //攻撃
-    //Pistol
-    [SerializeField] GameObject bullet;
-
-    //マップ
-    [SerializeField] GameObject map_obj;
 
     // Start is called before the first frame update
     void Start()
     {
-        MapCreate = map_obj.GetComponent<MapCreate>();
         Inventory = GetComponent<Inventory>();
 
         mouse_pos = Input.mousePosition;
@@ -72,6 +50,12 @@ public class player : CharacterBase
     // Update is called once per frame
     void Update()
     {
+        if(attacked_zonbi_flag)
+        {
+            GetComponent<HpGage>().HpDamageGage(1);
+            attacked_zonbi_flag = false;
+        }
+
         if (!bitten_zonbi_flag)
         {
             //移動処理
@@ -195,20 +179,22 @@ public class player : CharacterBase
                             {
                                 case "pistol":
                                     //遠距離武器を持っていない場合取得
-                                    if (long_weapon == null)
+                                    if (GetComponent<Inventory>().weapon_hand_obj[(int)Inventory.WEAPON_ID.PISTOL] == null)
                                     {
-                                        long_weapon = item;
+                                        //武器インベントリに入れる
+                                        GetComponent<Inventory>().weapon_hand_obj[(int)Inventory.WEAPON_ID.PISTOL] = item;
 
                                         //手に何も持っていなければ自動的に持つ
-                                        if (hand_obj == null)
+                                        if (hand_weapon == null)
                                         {
-                                            hand_obj = long_weapon;
-                                            hand_item = HAND.LONG_WEAPON;
+                                            //手にある武器をピストルへ変更
+                                            GetComponent<Inventory>().weapon_cnt = (int)Inventory.WEAPON_ID.PISTOL;
+                                            hand_weapon = GetComponent<Inventory>().weapon_hand_obj[(int)Inventory.WEAPON_ID.PISTOL];
 
                                             //transform設定
-                                            ParentChildren(hand, hand_obj);                                //手の子にする
-                                            hand_obj.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
-                                            hand_obj.transform.localEulerAngles = Pistol_angle;            //ピストル用のアングルへ変更
+                                            ParentChildren(hand, hand_weapon);                                //手の子にする
+                                            hand_weapon.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
+                                            hand_weapon.transform.localEulerAngles = Pistol_angle;            //ピストル用のアングルへ変更
                                         }
                                     }
                                     //持っていない場合は弾丸を取得
@@ -229,33 +215,25 @@ public class player : CharacterBase
 
             //武器
             {
-                if (Input.GetMouseButtonDown(0) && hand_obj != null)
+                //武器の入れ替え
+                GetComponent<Inventory>().HandWeapon();
+
+                switch(GetComponent<Inventory>().weapon_cnt)
                 {
-                    switch (hand_item)
-                    {
-                        case HAND.LONG_WEAPON:
+                    //手にある武器がピストル
+                    case (int)Inventory.WEAPON_ID.PISTOL:
 
-                            //攻撃
-                            if (long_weapon.GetComponent<Pistol>().bullet_num > 0)
-                            {
-                                //弾丸発射Pistolスクリプトでやる
-                                
-                                //向き発射される向き
-                                Quaternion rot = rot_obj.transform.rotation;
-                                //弾丸生成
-                                Instantiate(bullet, hand_obj.transform.position, rot);
-
-                                //Pistol内の弾丸を減らす
-                                long_weapon.GetComponent<Pistol>().bullet_num--;
-                            }
-
-                            //リロード処理
-
-
-
-
-                            break;
-                    }
+                        //リロード処理
+                        if (Input.GetKeyDown(KeyCode.R))
+                        {
+                            hand_weapon.GetComponent<Pistol>().Reload();
+                        }
+                        //攻撃
+                        if(Input.GetMouseButtonDown(0))
+                        {
+                            hand_weapon.GetComponent<Pistol>().Attack(rot_obj, hand_weapon);
+                        }
+                        break;
                 }
             }
 
@@ -269,22 +247,11 @@ public class player : CharacterBase
         {
             //ゾンビの向いている向きによって倒れる方向を変える（ゾンビの向いている方向の逆方向へ倒れる（後ろ））
             //か、画面フェードアウト
-
-            gameover_ui.SetActive(true);
         }
     }
 
     private void Move(float _speed)
     {
-        Vector3 moving_distance = transform.position;
-
-        int min_X = -MapCreate.MapTipSize * MapCreate.MAP_CENTER_X - 50;
-        int max_X = MapCreate.MapTipSize * MapCreate.MAP_CENTER_X + 50;
-        int min_Y = -MapCreate.MapTipSize * MapCreate.MAP_CENTER_Y - 50;
-        int max_Y = MapCreate.MapTipSize * MapCreate.MAP_CENTER_Y + 50;
-
-
-
         {
             // Wキー（前方移動）
             if (Input.GetKey(KeyCode.W))
