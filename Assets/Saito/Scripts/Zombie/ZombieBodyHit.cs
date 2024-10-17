@@ -8,6 +8,6 @@ public class ZombieBodyHit : MonoBehaviour
     {
         if (other.tag != "pistol") return;
 
-        transform.root.gameObject.GetComponent<Zombie>().DamageBody();
+        transform.root.gameObject.GetComponent<ZombieManager>().DamageBody();
     }
 }

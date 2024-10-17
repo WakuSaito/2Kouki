@@ -26,4 +26,9 @@ public class ZombieAnimation : ZombieBase
     {
         animator.SetTrigger("Idle");
     }
+
+    public void Run()
+    {
+        animator.SetTrigger("Run");
+    }
 }
