@@ -2,41 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieAttack : MonoBehaviour
+/// <summary>
+/// ゾンビの攻撃クラス
+/// 攻撃判定にアタッチする
+/// </summary>
+public class ZombieAttack : ZombieBase
 {
-    /// <summary>
-    /// 当たり判定処理済みを記録
-    /// </summary>
+    // 当たり判定処理済みを記録  
     private Dictionary<int, bool> hitMasters { get; } = new Dictionary<int, bool>();
 
     [SerializeField]//当たり判定
     Collider col;
 
-    [SerializeField]//アニメーション用
-    Animator ani;
-
-    [SerializeField]
-    bool on_attack = false;//デバッグ用
-
-    private void Start()
+    /// <summary>
+    /// 初期設定
+    /// </summary>
+    public override void SetUpZombie()
     {
+        col = gameObject.GetComponent<Collider>();
         col.enabled = false;
     }
 
-    private void Update()
-    {
-        if(on_attack)
-        {
-            on_attack = false;
-            StartAttack();
-        }
-    }
 
-    //攻撃開始
+    /// <summary>
+    /// 攻撃開始
+    /// </summary>
     public void StartAttack()
     {
+        Debug.Log("ゾンビの攻撃");
         StartCoroutine(attack());//コルーチン開始
-        ani.SetTrigger("Attack");
     }
 
     IEnumerator attack()
@@ -60,7 +54,7 @@ public class ZombieAttack : MonoBehaviour
         hitMasters[masterId] = true;
 
         Debug.Log("Hit!");
-        // ダメージ計算とかこのへんで実装できますねぇ
+        // ダメージ計算とかこのへんで実装できます
         hitZone.Master.TakeDamage();
         // ヒット箇所を計算してエフェクトを表示する（前回から特に変更なし）
         //Vector3 hitPos = other.ClosestPointOnBounds(col.bounds.center);

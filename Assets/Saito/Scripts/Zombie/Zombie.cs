@@ -5,6 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
+//íœ—\’è‚ÌƒNƒ‰ƒX
 public class Zombie : MonoBehaviour
 {
     [SerializeField]//’T’m”ÍˆÍ
