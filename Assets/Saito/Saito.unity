@@ -3277,7 +3277,7 @@ GameObject:
   - component: {fileID: 2599694856112787542}
   m_Layer: 0
   m_Name: zombie (1)
-  m_TagString: Untagged
+  m_TagString: Zombie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3299,7 +3299,7 @@ MonoBehaviour:
   - {fileID: 1118315646}
   - {fileID: 2599694856112787541}
   - {fileID: 2599694856112787542}
-  detectionPlayerRange: 5
+  detectionPlayerRange: 10
   attackStartRange: 1
 --- !u!114 &2599694856112787540
 MonoBehaviour:
@@ -3519,7 +3519,7 @@ GameObject:
   - component: {fileID: 2599694857010109274}
   m_Layer: 0
   m_Name: HeadCollder
-  m_TagString: Untagged
+  m_TagString: Head
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
