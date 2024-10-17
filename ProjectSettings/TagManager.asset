@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - pistol
+  - bullet
+  - Zombie
+  - Bodie
+  - Head
   layers:
   - Default
   - TransparentFX
