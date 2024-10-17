@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class player : CharacterBase
 {
+    MapCreate MapCreate;
+
     const float Attacked_Speed = 1.5f;
     const float Walk_Speed = 5.0f;
     const float Run_Speed = 20.0f;
@@ -16,10 +18,6 @@ public class player : CharacterBase
     int key_push_cnt = 0;   //キー入力された回数
     float push_timer = 0.0f;//ダブル入力カウント用
 
-    //マップ移動
-    public float moving_distance_X = 50.0f;//移動距離保存
-    public float moving_distance_Z = 0.0f;//移動距離保存
-
     //視点移動
     Vector3 mouse_pos;                      //マウスの位置
     Vector3 angle = new Vector3(0, 0, 0);　 //角度
@@ -31,8 +29,20 @@ public class player : CharacterBase
 
     //アイテムを拾う
     [SerializeField] GameObject hand;
-    [SerializeField] GameObject hand_item;
-    GameObject item;
+    [SerializeField] GameObject hand_obj;
+
+    //インベントリ
+    public enum HAND
+    {
+        NON,
+        LONG_WEAPON,
+        SHORT_WEAPON,
+    }
+
+    [SerializeField] GameObject long_weapon;
+    [SerializeField] GameObject short_weapon;
+
+    public HAND hand_item = HAND.NON;
 
     //ダメージ判定
     public bool attacked_zonbi_flag = false;
@@ -43,11 +53,14 @@ public class player : CharacterBase
     //Pistol
     [SerializeField] GameObject bullet;
 
-
+    //マップ
+    [SerializeField] GameObject map_obj;
 
     // Start is called before the first frame update
     void Start()
     {
+        MapCreate = map_obj.GetComponent<MapCreate>();
+
         mouse_pos = Input.mousePosition;
         mouse_start = Input.mousePosition;
         //angle = this.transform.localEulerAngles;
@@ -173,18 +186,37 @@ public class player : CharacterBase
                         //距離近ければ拾う
                         if (distance <= 5.0f)
                         {
-                            item = hit.collider.gameObject;
+                            GameObject item = hit.collider.gameObject;
 
                             switch (item.tag)
                             {
                                 case "pistol":
-                                    if (hand_item == null)
+                                    //遠距離武器を持っていない場合取得
+                                    if (long_weapon == null)
                                     {
-                                        hand_item = item;
-                                        ParentChildren(hand, hand_item);                                //手の子にする
-                                        hand_item.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
-                                        hand_item.transform.localEulerAngles = Pistol_angle;            //ピストル用のアングルへ変更
+                                        long_weapon = item;
+
+                                        //手に何も持っていなければ自動的に持つ
+                                        if (hand_obj == null)
+                                        {
+                                            hand_obj = long_weapon;
+                                            hand_item = HAND.LONG_WEAPON;
+
+                                            //transform設定
+                                            ParentChildren(hand, hand_obj);                                //手の子にする
+                                            hand_obj.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
+                                            hand_obj.transform.localEulerAngles = Pistol_angle;            //ピストル用のアングルへ変更
+                                        }
                                     }
+                                    //持っていない場合は弾丸を取得
+                                    else
+                                    {
+                                        //弾丸(アイテム)を取得(Inventoryに弾丸があって最大数じゃないまたはInventoryに弾丸はないが空いていれば)
+
+
+                                        Destroy(item);
+                                    }
+
                                     break;
                             }
 
@@ -194,22 +226,41 @@ public class player : CharacterBase
                 }
             }
 
-            //攻撃
+            //武器
             {
-                if (Input.GetMouseButtonDown(0) && hand_item != null)
+                if (Input.GetMouseButtonDown(0) && hand_obj != null)
                 {
-                    switch (hand_item.tag)
+                    switch (hand_item)
                     {
-                        case "pistol":
-                            //位置
-                            Vector3 pos = transform.position;
-                            //向き
-                            Quaternion rot = rot_obj.transform.rotation;
-                            //弾丸生成
-                            Instantiate(bullet, hand_item.transform.position, rot);
+                        case HAND.LONG_WEAPON:
+
+                            //攻撃
+                            if (long_weapon.GetComponent<Pistol>().bullet_num > 0)
+                            {
+                                //弾丸発射Pistolスクリプトでやる
+                                
+                                //向き発射される向き
+                                Quaternion rot = rot_obj.transform.rotation;
+                                //弾丸生成
+                                Instantiate(bullet, hand_obj.transform.position, rot);
+
+                                //Pistol内の弾丸を減らす
+                                long_weapon.GetComponent<Pistol>().bullet_num--;
+                            }
+
+                            //リロード処理
+
+
+
+
                             break;
                     }
                 }
+            }
+
+            //ダメージ
+            {
+                //体力を減らす
             }
 
         }
@@ -226,32 +277,39 @@ public class player : CharacterBase
     {
         Vector3 moving_distance = transform.position;
 
-        // Wキー（前方移動）
-        if (Input.GetKey(KeyCode.W))
+        int min_X = -MapCreate.MapTipSize * MapCreate.MAP_CENTER_X - 50;
+        int max_X = MapCreate.MapTipSize * MapCreate.MAP_CENTER_X + 50;
+        int min_Y = -MapCreate.MapTipSize * MapCreate.MAP_CENTER_Y - 50;
+        int max_Y = MapCreate.MapTipSize * MapCreate.MAP_CENTER_Y + 50;
+
+
+
         {
-            transform.position += _speed * transform.forward * Time.deltaTime;
+            // Wキー（前方移動）
+            if (Input.GetKey(KeyCode.W))
+            {
+                transform.position += _speed * transform.forward * Time.deltaTime;
+            }
+
+            // Sキー（後方移動）
+            if (Input.GetKey(KeyCode.S))
+            {
+                transform.position -= _speed * transform.forward * Time.deltaTime;
+            }
+
+            // Dキー（右移動）
+            if (Input.GetKey(KeyCode.D))
+            {
+                transform.position += _speed * transform.right * Time.deltaTime;
+            }
+
+            // Aキー（左移動）
+            if (Input.GetKey(KeyCode.A))
+            {
+                transform.position -= _speed * transform.right * Time.deltaTime;
+            }
         }
 
-        // Sキー（後方移動）
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.position -= _speed * transform.forward * Time.deltaTime;
-        }
-
-        // Dキー（右移動）
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.position += _speed * transform.right * Time.deltaTime;
-        }
-
-        // Aキー（左移動）
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.position -= _speed * transform.right * Time.deltaTime;
-        }
-
-        moving_distance_X += transform.position.x - moving_distance.x;
-        moving_distance_Z += transform.position.z - moving_distance.z;
     }
 
     void ParentChildren(GameObject _parent, GameObject _child)
