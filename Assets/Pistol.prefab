@@ -177,6 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player_obj: {fileID: 1683030245286604462, guid: 2164da775065c1e4f8839af90a856d35, type: 3}
+  bullet_obj: {fileID: 3390852007210028227, guid: e155a2f4f5b9e534087fd0bef3b5954b, type: 3}
   bullet_num: 10
 --- !u!114 &8656839953575412234
 MonoBehaviour:
@@ -191,7 +192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  get_num: 0000000005000000
+  get_num: 000000000a000000
 --- !u!1 &6055169985821773645
 GameObject:
   m_ObjectHideFlags: 0
