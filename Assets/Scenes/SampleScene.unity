@@ -424,19 +424,17 @@ MonoBehaviour:
   vec_x: 0
   vec_y: 0
   vec_z: 0
+  moving_distance_X: 50
+  moving_distance_Z: 50
   rot_obj: {fileID: 1442545492}
   dir_obj: {fileID: 854049370}
   camera_obj: {fileID: 1442545492}
   hand: {fileID: 726238731}
-  hand_obj: {fileID: 0}
-  long_weapon: {fileID: 0}
-  short_weapon: {fileID: 0}
-  hand_item: 0
+  hand_item: {fileID: 0}
   attacked_zonbi_flag: 0
   bitten_zonbi_flag: 0
   gameover_ui: {fileID: 0}
   bullet: {fileID: 3390852007210028227, guid: e155a2f4f5b9e534087fd0bef3b5954b, type: 3}
-  map_obj: {fileID: 1267555007}
 --- !u!4 &854049372
 Transform:
   m_ObjectHideFlags: 0
@@ -595,9 +593,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8967285ef833e0e4ba8ce729433e128c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapTipSize: 100
-  MAP_CENTER_X: 4
-  MAP_CENTER_Y: 4
+  Array_X: 0
+  Array_Y: 0
   player_obj: {fileID: 854049370}
   map_tips:
   - {fileID: 4264693488785228751, guid: 479390aa780062f43be8e95f2d54439d, type: 3}
@@ -609,7 +606,8 @@ MonoBehaviour:
   - {fileID: 7842274975494812622, guid: 5b41b538c0ff2244e9eddfce988a7b37, type: 3}
   - {fileID: 7842274975494812622, guid: 3a3801d1d5311874f9497f2a53578ce6, type: 3}
   - {fileID: 7842274975494812622, guid: d080c9c0b44999544ad901751c673222, type: 3}
-  map_parent: {fileID: 1267555007}
+  start_index: 0
+  create_tip_num: 0
 --- !u!4 &1267555009
 Transform:
   m_ObjectHideFlags: 0
