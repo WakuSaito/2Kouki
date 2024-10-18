@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 [RequireComponent(typeof(ZombieAnimation))]
 [RequireComponent(typeof(ZombieAction))]
 
+//ゾンビ関連のクラスをnameofでまとめてもいいかも
+
 /// <summary>
 /// ゾンビの管理クラス
 /// ZombieBaseを継承したクラスを扱う
@@ -39,6 +41,8 @@ public class ZombieManager : MonoBehaviour
     private bool isAttackCoolDown = false;
     //ランダムに向きを変えるクールタイム中
     private bool isChangeDirCoolDown = false;
+    //移動不可フラグ
+    private bool isFreezePos = false;
 
     //目標とする向き
     Quaternion targetRotation;
@@ -80,7 +84,8 @@ public class ZombieManager : MonoBehaviour
 
         //移動
         {
-            if(playerDistance < 0.5f)
+            //停止
+            if (playerDistance < 0.5f|| isFreezePos)
             {
                 //とりあえず近づきすぎないようにした
                 zombieMove.StopMove();
@@ -93,7 +98,7 @@ public class ZombieManager : MonoBehaviour
                 Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
                 //角度を補間
                 //歩きと走りで同じようなスクリプトなので改善の余地あり 補間方法も一考の余地あり
-                var qua = Quaternion.RotateTowards(transform.rotation, targetRotation, 500*Time.deltaTime);
+                var qua = Quaternion.RotateTowards(transform.rotation, targetRotation, 500 * Time.deltaTime);
                 //向きを変更
                 zombieMove.ChangeDirection(qua);
 
@@ -110,7 +115,7 @@ public class ZombieManager : MonoBehaviour
                     DelayRunAsync(
                         UnityEngine.Random.Range(4.0f, 8.0f),//次に向きを変えるまでの時間を決める
                         () => isChangeDirCoolDown = false  //フラグオフ
-                        );          
+                        );
 
                     //ランダムに向きを設定
                     Vector3 direction = new Vector3(0, UnityEngine.Random.Range(-180, 180), 0);
@@ -118,7 +123,7 @@ public class ZombieManager : MonoBehaviour
                 }
 
                 //角度を補間
-                var qua = Quaternion.RotateTowards(transform.rotation, targetRotation, 100*Time.deltaTime);
+                var qua = Quaternion.RotateTowards(transform.rotation, targetRotation, 100 * Time.deltaTime);
                 //向きを変更
                 zombieMove.ChangeDirection(qua);
 
@@ -127,6 +132,7 @@ public class ZombieManager : MonoBehaviour
                 zombieAnimation.Walk();//移動モーション
             }
         }
+        
 
         //攻撃
         {
@@ -150,20 +156,49 @@ public class ZombieManager : MonoBehaviour
         }
     }
 
-    //体にダメージを受けた
+    /// <summary>
+    /// 体にダメージを受けた
+    /// </summary>
     public void DamageBody()
     {
         Debug.Log("Body");
-        //スタン
-        zombieAction.KnockBack();
+
+        Vector3 playerPos = playerObj.transform.position;
+        Vector3 pos = transform.position;
+        //プレイヤーとは逆方向のベクトルを求める
+        Vector3 vec = (playerPos - pos) * -1.0f;
+
+        //のけぞらせる
+        zombieAction.KnockBack(vec);
     }
-    //頭にダメージを受けた
+    /// <summary>
+    /// 頭にダメージを受けた
+    /// </summary>
     public void DamageHead()
     {
         Debug.Log("Head");
         zombieAction.Dead();//死亡
     }
 
+    /// <summary>
+    /// 移動不可状態にする
+    /// (停止する時間)
+    /// 犬側で呼び出してね
+    /// </summary>
+    public void FreezePosition(double _sec)
+    {
+        //移動停止フラグオン
+        isFreezePos = true;
+        //しばらくしたらオフにする
+        DelayRunAsync(
+                    _sec,
+                    () => isFreezePos = false
+                    );
+    }
+
+    /// <summary>
+    /// 遅らせてActionを実行するasync
+    /// </summary>
     private async ValueTask DelayRunAsync(double wait_sec, Action action)
     {
         // ディレイ処理

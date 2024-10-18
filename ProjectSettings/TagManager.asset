@@ -7,7 +7,7 @@ TagManager:
   - pistol
   - bullet
   - Zombie
-  - Bodie
+  - Body
   - Head
   layers:
   - Default
