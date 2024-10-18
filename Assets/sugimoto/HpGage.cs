@@ -10,7 +10,7 @@ public class HpGage : MonoBehaviour
     [SerializeField]  GameObject graceGauge;
 
     //最大体力
-    float hp;
+    int hp;
 
     // HP1あたりの幅
     float hp_memory;
@@ -21,7 +21,6 @@ public class HpGage : MonoBehaviour
     void Start()
     {
         hp = GetComponent<player>().hp;
-        Debug.Log(hp);
         // スプライトの幅を最大HPで割ってHP1あたりの幅を”_HP1”に入れておく
         hp_memory = gauge.GetComponent<RectTransform>().sizeDelta.x / hp;
     }
@@ -36,5 +35,13 @@ public class HpGage : MonoBehaviour
         nowsafes.x -= damage;
         // 体力ゲージに計算済みのVector2を設定する
         gauge.GetComponent<RectTransform>().sizeDelta = nowsafes;
+
+        hp--;
+        if (hp <= 0)
+        {
+            GetComponent<player>().bitten_zonbi_flag = true;
+        }
+
+        GetComponent<player>().hp = hp;
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1683030244408388895}
   - component: {fileID: 1683030244408388889}
   - component: {fileID: 1683030244408388888}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1683030245193875840}
   - component: {fileID: 1683030245193875847}
   - component: {fileID: 1683030245193875846}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -221,7 +221,6 @@ MonoBehaviour:
   dir_obj: {fileID: 1683030245286604462}
   camera_obj: {fileID: 1683030244346717435}
   hand: {fileID: 1683030245430897407}
-  hand_weapon: {fileID: 0}
   hp: 0
   attacked_zonbi_flag: 0
   bitten_zonbi_flag: 0
@@ -254,7 +253,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1683030245430897400}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -287,7 +286,7 @@ GameObject:
   - component: {fileID: 1683030246099339291}
   - component: {fileID: 1683030246099339269}
   - component: {fileID: 1683030246099339268}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -366,13 +365,37 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1683030245286604456}
     m_Modifications:
+    - target: {fileID: 94996330899362464, guid: 144a701f07437754db8e8fe966468b7e, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 630096694562691457, guid: 144a701f07437754db8e8fe966468b7e, type: 3}
       propertyPath: m_Name
       value: character_1
       objectReference: {fileID: 0}
     - target: {fileID: 630096694562691457, guid: 144a701f07437754db8e8fe966468b7e, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 630096694562691457, guid: 144a701f07437754db8e8fe966468b7e, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2336753527105778512, guid: 144a701f07437754db8e8fe966468b7e, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2730596372561231424, guid: 144a701f07437754db8e8fe966468b7e, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3577138282338854925, guid: 144a701f07437754db8e8fe966468b7e, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941187898706111557, guid: 144a701f07437754db8e8fe966468b7e, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4452973489738972935, guid: 144a701f07437754db8e8fe966468b7e, type: 3}
       propertyPath: m_RootOrder
@@ -421,6 +444,10 @@ PrefabInstance:
     - target: {fileID: 7241519264313271239, guid: 144a701f07437754db8e8fe966468b7e, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241519264313271259, guid: 144a701f07437754db8e8fe966468b7e, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7564463167520845345, guid: 144a701f07437754db8e8fe966468b7e, type: 3}
       propertyPath: m_LocalRotation.w
