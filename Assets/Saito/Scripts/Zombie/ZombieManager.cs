@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 [RequireComponent(typeof(ZombieAnimation))]
 [RequireComponent(typeof(ZombieAction))]
 
+//ゾンビ関連のクラスをnameofでまとめてもいいかも
+
 /// <summary>
 /// ゾンビの管理クラス
 /// ZombieBaseを継承したクラスを扱う
