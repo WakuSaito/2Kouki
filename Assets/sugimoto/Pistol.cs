@@ -72,13 +72,38 @@ public class Pistol : MonoBehaviour
     {
         if (bullet_num > 0)
         {
+            //ビューポート座標のレイを飛ばす
+            Ray ray = Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f));
+            RaycastHit hit = new RaycastHit();
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                //アイテムまでの距離を調べる
+                float distance = Vector3.Distance(hit.transform.position, transform.position);
+
+                //距離が範囲内なら
+                if (distance <= 30.0f)
+                {
+                    GameObject hit_obj = hit.collider.gameObject;
+                    Debug.Log(hit_obj);
+                    if (hit_obj.tag == "Bodie")
+                    {
+                        hit_obj.GetComponentInParent<ZombieManager>().DamageBody();
+                    }
+                    if (hit_obj.tag == "Head")
+                    {
+                        hit_obj.GetComponentInParent<ZombieManager>().DamageHead();
+                    }
+                }
+            }
             //向き発射される向き
-            Quaternion rot = _rot_obj.transform.rotation;
+            //Quaternion rot = _rot_obj.transform.rotation;
             //弾丸生成
-            Instantiate(bullet_obj, _hand_obj.transform.position, rot);
+            //Instantiate(bullet_obj, _hand_obj.transform.position, rot);
 
             //Pistol内の弾丸を減らす
             bullet_num--;
+            
         }
     }
 }

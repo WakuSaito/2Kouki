@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.InteropServices;
 
 public class player : MonoBehaviour
 {
     MapCreate MapCreate;
     [SerializeField]Inventory Inventory;
 
-
     const float Attacked_Speed = 1.5f;
     const float Walk_Speed = 5.0f;
     const float Run_Speed = 20.0f;
     const float Max_X_angle = 60.0f;
+    const int Damage_Num = 1;
+
     Vector3 Pistol_angle { get { return new Vector3(0, -15, 0); } }
 
     //移動
@@ -34,8 +36,9 @@ public class player : MonoBehaviour
 
     //ダメージ判定
     public int hp;
-    public bool attacked_zonbi_flag = false;
-    public bool bitten_zonbi_flag = false;
+    public bool attacked_zonbi_flag = false;//ダメージ判定
+    public bool bitten_zonbi_flag = false;//ゲームオーバー判定
+
 
     // Start is called before the first frame update
     void Start()
@@ -50,12 +53,6 @@ public class player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(attacked_zonbi_flag)
-        {
-            GetComponent<HpGage>().HpDamageGage(1);
-            attacked_zonbi_flag = false;
-        }
-
         if (!bitten_zonbi_flag)
         {
             //移動処理
@@ -95,6 +92,13 @@ public class player : MonoBehaviour
                         {
                             run_flag = true;
                         }
+
+
+                        if(Input.GetKey(KeyCode.W)&& Input.GetKey(KeyCode.LeftShift))
+                        {
+                            run_flag = true;
+                        }
+
                     }
 
                     //走り移動
@@ -232,16 +236,13 @@ public class player : MonoBehaviour
                         if(Input.GetMouseButtonDown(0))
                         {
                             hand_weapon.GetComponent<Pistol>().Attack(rot_obj, hand_weapon);
+
                         }
                         break;
                 }
             }
 
             //ダメージ
-            {
-                //体力を減らす
-            }
-
         }
         else//ゲームオーバー
         {
@@ -284,5 +285,10 @@ public class player : MonoBehaviour
     {
         _child.transform.parent = _parent.transform;
         _child.transform.position = _parent.transform.position;
+    }
+
+    public void DamagePlayer()
+    {
+        GetComponent<HpGage>().HpDamageGage(Damage_Num);
     }
 }
