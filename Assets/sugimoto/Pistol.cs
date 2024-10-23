@@ -19,6 +19,7 @@ public class Pistol : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //これまずいprefabのプレイヤーをとってきちゃうからインベントリの中身が入ってない
         Inventory = player_obj.GetComponent<Inventory>();
     }
 
@@ -30,13 +31,18 @@ public class Pistol : MonoBehaviour
 
     public void Reload()
     {
-        if (bullet_num <= BULLET_MAX)
+        if (bullet_num < BULLET_MAX)
         {
+
             for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
             {
+                Debug.Log(Inventory.item_type_id[i]);
+
+
                 //インベントリに弾丸があるか
                 if (Inventory.item_type_id[i] == (int)Item.ITEM_ID.BULLET)
                 {
+
                     //ピストルに入る弾丸数を調べる
                     int reload_num = BULLET_MAX - bullet_num;
                     Debug.Log(reload_num);
@@ -97,9 +103,9 @@ public class Pistol : MonoBehaviour
                 }
             }
             //向き発射される向き
-            //Quaternion rot = _rot_obj.transform.rotation;
+            Quaternion rot = _rot_obj.transform.rotation;
             //弾丸生成
-            //Instantiate(bullet_obj, _hand_obj.transform.position, rot);
+            Instantiate(bullet_obj, _hand_obj.transform.position, rot);
 
             //Pistol内の弾丸を減らす
             bullet_num--;
