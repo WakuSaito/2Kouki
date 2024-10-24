@@ -312,9 +312,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1147126351143212361}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.76, y: -0.28999996, z: 1.06}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalRotation: {x: 0.000000096857526, y: -0.00000008055938, z: 0.00000004476168, w: 1}
+  m_LocalPosition: {x: 0.8573944, y: -0.8119063, z: 0.73417854}
+  m_LocalScale: {x: 0.30000022, y: 0.30000007, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1147126352233499061}
@@ -1234,7 +1234,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f89bda4c7cbc5af408c4d9cc5efe81b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Inventory: {fileID: 0}
   rot_obj: {fileID: 4792076060439777384}
   dir_obj: {fileID: 3941641177276792831}
   camera_obj: {fileID: 4792076060439777384}
@@ -1242,6 +1241,7 @@ MonoBehaviour:
   hp: 10
   attacked_zonbi_flag: 0
   bitten_zonbi_flag: 0
+  anim_obj: {fileID: 0}
 --- !u!114 &1147126350485415512
 MonoBehaviour:
   m_ObjectHideFlags: 0

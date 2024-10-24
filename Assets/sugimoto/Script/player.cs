@@ -5,21 +5,22 @@ using System.Runtime.InteropServices;
 
 public class player : MonoBehaviour
 {
-    MapCreate MapCreate;
-    [SerializeField]Inventory Inventory;
+    Inventory Inventory;
+    Animator Animator;  // アニメーターコンポーネント取得用
 
     const float Attacked_Speed = 1.5f;
     const float Walk_Speed = 5.0f;
-    const float Run_Speed = 20.0f;
+    const float Run_Speed = 10.0f;
     const float Max_X_angle = 60.0f;
     const int Damage_Num = 1;
 
-    Vector3 Pistol_angle { get { return new Vector3(0, -15, 0); } }
+    Vector3 Pistol_angle { get { return new Vector3(0, 0, 0); } }
 
     //移動
     bool run_flag = false;  //走っているかどうかフラグ
     int key_push_cnt = 0;   //キー入力された回数
     float push_timer = 0.0f;//ダブル入力カウント用
+    Vector3 before_pos;
 
     //視点移動
     Vector3 mouse_pos;                      //マウスの位置
@@ -39,14 +40,20 @@ public class player : MonoBehaviour
     public bool attacked_zonbi_flag = false;//ダメージ判定
     public bool bitten_zonbi_flag = false;//ゲームオーバー判定
 
+    //アニメーション
+    [SerializeField] GameObject anim_obj;
+    bool idle_flag = false;
+    bool hand_pistol_flag = false;
 
     // Start is called before the first frame update
     void Start()
     {
         Inventory = GetComponent<Inventory>();
+        Animator = anim_obj.GetComponent<Animator>();
 
         mouse_pos = Input.mousePosition;
         mouse_start = Input.mousePosition;
+        before_pos = transform.position;
         //angle = this.transform.localEulerAngles;
     }
 
@@ -57,6 +64,16 @@ public class player : MonoBehaviour
         {
             //移動処理
             {
+                ////移動しているか1フレーム前と比べる
+                //if (before_pos - transform.position == new Vector3(0, 0, 0))
+                //{
+                //    idle_flag = true;
+                //}
+                //else
+                //{
+                //    idle_flag = false;
+                //}
+
                 //ダッシュ判定処理
                 if (!attacked_zonbi_flag)
                 {
@@ -116,6 +133,7 @@ public class player : MonoBehaviour
                 {
                     Move(Attacked_Speed);
                 }
+
             }
 
             //視点移動
@@ -222,15 +240,20 @@ public class player : MonoBehaviour
                 //武器の入れ替え
                 GetComponent<Inventory>().HandWeapon();
 
-                switch(GetComponent<Inventory>().weapon_cnt)
+                //フラグ初期化
+                hand_pistol_flag = false;
+
+                switch (GetComponent<Inventory>().weapon_cnt)
                 {
                     //手にある武器がピストル
                     case (int)Inventory.WEAPON_ID.PISTOL:
 
+                        hand_pistol_flag = true;
+
                         //リロード処理
                         if (Input.GetKeyDown(KeyCode.R))
                         {
-                            hand_weapon.GetComponent<Pistol>().Reload();
+                            hand_weapon.GetComponent<Pistol>().Reload(GetComponent<Inventory>());
                         }
                         //攻撃
                         if(Input.GetMouseButtonDown(0))
@@ -249,6 +272,16 @@ public class player : MonoBehaviour
             //ゾンビの向いている向きによって倒れる方向を変える（ゾンビの向いている方向の逆方向へ倒れる（後ろ））
             //か、画面フェードアウト
         }
+
+        //アニメーション
+        Animator.SetBool("Run", run_flag);  //走る
+        Animator.SetBool("Idle", idle_flag);  //idle
+        Animator.SetBool("HandPislol", hand_pistol_flag);  //pistol所持状態
+
+
+
+        //位置保存
+        before_pos = transform.position;
     }
 
     private void Move(float _speed)

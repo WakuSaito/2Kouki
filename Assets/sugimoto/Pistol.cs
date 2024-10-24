@@ -6,11 +6,6 @@ public class Pistol : MonoBehaviour
 {
     const int BULLET_MAX = 10;
 
-    Inventory Inventory;
-
-
-
-    [SerializeField] GameObject player_obj;
     [SerializeField] GameObject bullet_obj;
 
     //もともとの弾数
@@ -19,8 +14,7 @@ public class Pistol : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //これまずいprefabのプレイヤーをとってきちゃうからインベントリの中身が入ってない
-        Inventory = player_obj.GetComponent<Inventory>();
+    
     }
 
     // Update is called once per frame
@@ -29,18 +23,18 @@ public class Pistol : MonoBehaviour
 
     }
 
-    public void Reload()
+    public void Reload(Inventory inventory)
     {
         if (bullet_num < BULLET_MAX)
         {
 
             for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
             {
-                Debug.Log(Inventory.item_type_id[i]);
+                Debug.Log(inventory.item_type_id[i]);
 
 
                 //インベントリに弾丸があるか
-                if (Inventory.item_type_id[i] == (int)Item.ITEM_ID.BULLET)
+                if (inventory.item_type_id[i] == (int)Item.ITEM_ID.BULLET)
                 {
 
                     //ピストルに入る弾丸数を調べる
@@ -51,22 +45,22 @@ public class Pistol : MonoBehaviour
 
                     for (int cnt = 0; cnt < max_reload; cnt++)
                     {
-                        if (Inventory.item_num[i] == 0)
+                        if (inventory.item_num[i] == 0)
                         {
                             break;
                         }
                         else
                         {
-                            Inventory.item_num[i]--;
+                            inventory.item_num[i]--;
                             bullet_num++;
                             reload_num--;
                         }
                     }
 
                     //インベントリにあった弾丸の残りが0になったらidも初期化する
-                    if (Inventory.item_num[i] == 0)
+                    if (inventory.item_num[i] == 0)
                     {
-                        Inventory.item_type_id[i] = -1;
+                        inventory.item_type_id[i] = -1;
                     }
                     break;
                 }
