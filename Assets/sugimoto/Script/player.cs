@@ -53,7 +53,7 @@ public class player : MonoBehaviour
 
         mouse_pos = Input.mousePosition;
         mouse_start = Input.mousePosition;
-        before_pos = transform.position;
+        before_pos = gameObject.transform.position;
         //angle = this.transform.localEulerAngles;
     }
 
@@ -64,16 +64,6 @@ public class player : MonoBehaviour
         {
             //移動処理
             {
-                ////移動しているか1フレーム前と比べる
-                //if (before_pos - transform.position == new Vector3(0, 0, 0))
-                //{
-                //    idle_flag = true;
-                //}
-                //else
-                //{
-                //    idle_flag = false;
-                //}
-
                 //ダッシュ判定処理
                 if (!attacked_zonbi_flag)
                 {
@@ -286,28 +276,33 @@ public class player : MonoBehaviour
 
     private void Move(float _speed)
     {
+        idle_flag = true;
         {
             // Wキー（前方移動）
             if (Input.GetKey(KeyCode.W))
             {
+                idle_flag = false;
                 transform.position += _speed * transform.forward * Time.deltaTime;
             }
 
             // Sキー（後方移動）
             if (Input.GetKey(KeyCode.S))
             {
+                idle_flag = false;
                 transform.position -= _speed * transform.forward * Time.deltaTime;
             }
 
             // Dキー（右移動）
             if (Input.GetKey(KeyCode.D))
             {
+                idle_flag = false;
                 transform.position += _speed * transform.right * Time.deltaTime;
             }
 
             // Aキー（左移動）
             if (Input.GetKey(KeyCode.A))
             {
+                idle_flag = false;
                 transform.position -= _speed * transform.right * Time.deltaTime;
             }
         }
