@@ -14,7 +14,7 @@ public class player : MonoBehaviour
     const float Max_X_angle = 60.0f;
     const int Damage_Num = 1;
 
-    Vector3 Pistol_angle { get { return new Vector3(0, 0, 0); } }
+    Vector3 Pistol_angle { get { return new Vector3(315.0f, 14.999999f, 44.9999924f); } }
 
     //移動
     bool run_flag = false;  //走っているかどうかフラグ
@@ -35,10 +35,11 @@ public class player : MonoBehaviour
     GameObject hand_weapon;//手にある武器
 
 
-    //ダメージ判定
+    //判定
     public int hp;
     public bool attacked_zonbi_flag = false;//ダメージ判定
     public bool bitten_zonbi_flag = false;//ゲームオーバー判定
+    bool game_clear_flag = false;//ゲームクリア判定
 
     //アニメーション
     [SerializeField] GameObject anim_obj;
@@ -48,9 +49,11 @@ public class player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //コンポーネント取得
         Inventory = GetComponent<Inventory>();
         Animator = anim_obj.GetComponent<Animator>();
 
+        //マウスの位置情報保存
         mouse_pos = Input.mousePosition;
         mouse_start = Input.mousePosition;
         before_pos = gameObject.transform.position;
@@ -190,6 +193,9 @@ public class player : MonoBehaviour
                             switch (item.tag)
                             {
                                 case "pistol":
+                                    //当たり判定をOFFにする
+                                    item.GetComponent<BoxCollider>().enabled = false;
+
                                     //遠距離武器を持っていない場合取得
                                     if (GetComponent<Inventory>().weapon_hand_obj[(int)Inventory.WEAPON_ID.PISTOL] == null)
                                     {
@@ -206,7 +212,7 @@ public class player : MonoBehaviour
                                             //transform設定
                                             ParentChildren(hand, hand_weapon);                                //手の子にする
                                             hand_weapon.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
-                                            hand_weapon.transform.localEulerAngles = Pistol_angle;            //ピストル用のアングルへ変更
+                                            //hand_weapon.transform.localEulerAngles = Pistol_angle;            //ピストル用のアングルへ変更
                                         }
                                     }
                                     //持っていない場合は弾丸を取得
@@ -318,5 +324,12 @@ public class player : MonoBehaviour
     public void DamagePlayer()
     {
         GetComponent<HpGage>().HpDamageGage(Damage_Num);
+    }
+
+    public void GameClear()
+    {
+        //クリアフラグON
+        game_clear_flag = true;
+        Debug.Log("CLEAR");
     }
 }
