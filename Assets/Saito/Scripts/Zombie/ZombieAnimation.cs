@@ -19,7 +19,7 @@ public class ZombieAnimation : ZombieBase
     }
 
     //現在の移動アニメーション
-    MoveType correntMoveType;
+    MoveType currentMoveType;
 
 
     /// <summary>
@@ -27,7 +27,7 @@ public class ZombieAnimation : ZombieBase
     /// </summary>
     public override void SetUpZombie()
     {
-        correntMoveType = MoveType.WALK;
+        currentMoveType = MoveType.WALK;
     }
 
     public void Attack()
@@ -39,8 +39,8 @@ public class ZombieAnimation : ZombieBase
     public void Walk()
     {
         //同じアニメーションを複数呼び出ししないように
-        if (correntMoveType == MoveType.WALK) return;
-        correntMoveType = MoveType.WALK;
+        if (currentMoveType == MoveType.WALK) return;
+        currentMoveType = MoveType.WALK;
 
         Debug.Log("zombie:Walk");
         animator.SetTrigger("Walk");
@@ -49,8 +49,8 @@ public class ZombieAnimation : ZombieBase
     public void Idle()
     {
         //同じアニメーションを複数呼び出ししないように
-        if (correntMoveType == MoveType.IDLE) return;
-        correntMoveType = MoveType.IDLE;
+        if (currentMoveType == MoveType.IDLE) return;
+        currentMoveType = MoveType.IDLE;
 
         Debug.Log("zombie:Idle");
         animator.SetTrigger("Idle");
@@ -59,8 +59,8 @@ public class ZombieAnimation : ZombieBase
     public void Run()
     {
         //同じアニメーションを複数呼び出ししないように
-        if (correntMoveType == MoveType.RUN) return;
-        correntMoveType = MoveType.RUN;
+        if (currentMoveType == MoveType.RUN) return;
+        currentMoveType = MoveType.RUN;
 
         Debug.Log("zombie:Run");
         animator.SetTrigger("Run");

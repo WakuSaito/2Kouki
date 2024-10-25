@@ -134,6 +134,8 @@ public class DogManager : MonoBehaviour
     /// </summary>
     private float GetObjectDistance(GameObject _target)
     {
+        if (_target == null) return 0.0f;
+
         Vector3 pos = transform.position;
         Vector3 targetPos = _target.transform.position;
         pos.y = 0; targetPos.y = 0;//y方向を計算しない
@@ -183,3 +185,36 @@ public class DogManager : MonoBehaviour
         action();
     }
 }
+
+/*
+・待機時の通常行動
+プレイヤー周囲一定距離のランダムな待機エリア内位置を決める
+↓
+そこまで歩く
+↓
+ランダムな時間停止　→　上へ戻る
+
+・待機時にプレイヤーから離れたときの行動
+待機時の通常行動をキャンセル
+↓
+プレイヤー周囲一定距離のランダムな待機エリア内位置を決める
+↓
+そこまで走る
+↓
+ランダムな時間停止　→　通常行動へ戻る
+
+・攻撃時の行動
+攻撃指示を受ける
+↓
+対象に突進
+↓
+噛みつく
+↓
+暫くしたら離して、ちょっとスタン　→　離れた時の行動へ
+
+通常行動中のみ他の指示を受ける
+
+指示は一つの関数の引数で指定するのがいいのでは
+現在の行動を他から参照できるようにしたい
+
+ */
