@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// ゾンビのアニメーションを行うクラス
-/// </summary>
-public class ZombieAnimation : ZombieBase
+public class DogAnimation : DogBase
 {
     [SerializeField]//アニメーター
     private Animator animator;
-
     //移動アニメーションの種類
+    //Managerの方で管理してもいいかも
     enum MoveType
-    { 
+    {
         IDLE,
         WALK,
         RUN
@@ -25,14 +22,14 @@ public class ZombieAnimation : ZombieBase
     /// <summary>
     /// 初期設定
     /// </summary>
-    public override void SetUpZombie()
+    public override void SetUpDog()
     {
-        currentMoveType = MoveType.WALK;
+        currentMoveType = MoveType.IDLE;
     }
 
     public void Attack()
     {
-        Debug.Log("zombie:Attack");
+        Debug.Log("dog:Attack");
         animator.SetTrigger("Attack");
     }
 
@@ -42,7 +39,7 @@ public class ZombieAnimation : ZombieBase
         if (currentMoveType == MoveType.WALK) return;
         currentMoveType = MoveType.WALK;
 
-        Debug.Log("zombie:Walk");
+        Debug.Log("dog:Walk");
         animator.SetTrigger("Walk");
     }
 
@@ -52,7 +49,7 @@ public class ZombieAnimation : ZombieBase
         if (currentMoveType == MoveType.IDLE) return;
         currentMoveType = MoveType.IDLE;
 
-        Debug.Log("zombie:Idle");
+        Debug.Log("dog:Idle");
         animator.SetTrigger("Idle");
     }
 
@@ -62,7 +59,8 @@ public class ZombieAnimation : ZombieBase
         if (currentMoveType == MoveType.RUN) return;
         currentMoveType = MoveType.RUN;
 
-        Debug.Log("zombie:Run");
+        Debug.Log("dog:Run");
         animator.SetTrigger("Run");
     }
+
 }

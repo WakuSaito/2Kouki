@@ -17,6 +17,9 @@ public class SpawnItem : MonoBehaviour
     [SerializeField]//生成する範囲(半径)
     float spawn_area_radius = 5.0f;
 
+    [SerializeField]//生成するオブジェクトの親
+    Transform spawnParent;
+
     // アイテムのインスタンス
     List<GameObject> items = new List<GameObject>();
 
@@ -51,14 +54,29 @@ public class SpawnItem : MonoBehaviour
                 //第4引数で判定しないレイヤーを設定可
                 if (!Physics.CheckBox(spawn_pos, half_collider_size))
                 {
-                    //アイテムをインスタンス化
-                    items.Add(Instantiate(
-                        spawn_item_prefab,
-                        spawn_pos,
-                        Quaternion.identity
-                        ));
+                    if (spawnParent == null)
+                    {
+                        //アイテムをインスタンス化
+                        items.Add(Instantiate(
+                            spawn_item_prefab,
+                            spawn_pos,
+                            Quaternion.identity
+                            ));
 
-                    break;
+                        break;
+                    }
+                    else//親を指定
+                    {
+                        //アイテムをインスタンス化
+                        items.Add(Instantiate(
+                            spawn_item_prefab,
+                            spawn_pos,
+                            Quaternion.identity,
+                            spawnParent
+                            ));
+
+                        break;
+                    }
                 }
             }
         }
