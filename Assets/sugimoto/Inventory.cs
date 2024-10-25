@@ -29,13 +29,40 @@ public class Inventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    public int PistolBulletNum()
+    {
+        if (weapon_hand_obj[(int)WEAPON_ID.PISTOL] != null)
+        {
+            return weapon_hand_obj[(int)WEAPON_ID.PISTOL].GetComponent<Pistol>().bullet_num;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public int InventoryBulletNum()
+    {
+        int bullet_num = 0;
+
+        for (int i = 0; i < INVENTORY_MAX; i++)
+        {
+            if (item_type_id[i] == (int)Item.ITEM_ID.BULLET)
+            {
+                bullet_num += item_num[i];
+            }
+        }
+
+        return bullet_num;
     }
 
     public void HandWeapon()
