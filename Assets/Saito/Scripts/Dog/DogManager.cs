@@ -184,6 +184,44 @@ public class DogManager : MonoBehaviour
         await Task.Delay(TimeSpan.FromSeconds(wait_sec));
         action();
     }
+
+    //行動用の仮関数
+    private void NomalMove()
+    {
+        //if(攻撃中なら)return;
+
+        //プレイヤーの周囲のランダム位置を求める
+        Vector3 pPos = playerObj.transform.position;
+        //移動先位置をランダムに決める
+        Vector3 targetPos = UnityEngine.Random.insideUnitCircle * stayPlayerDistance;
+        targetPos.z = targetPos.y;//平面上に生成するため入れ替え
+        targetPos.y = 0.5f;//y方向は一律にする
+        //アタッチしたオブジェクトを基準にする
+        targetPos.x += pPos.x;
+        targetPos.z += pPos.z;
+
+        Vector3 pos = transform.position;
+        pos.y = 0.5f;
+
+        float distance = Vector3.Distance(pos, targetPos);
+
+        //移動先座標がプレイヤーから離れているなら決めなおす
+        float playerDistance = Vector3.Distance(pPos, targetPos);
+        //if(playerDistance > stayPlayerDistance) 
+
+        //if(停止フラグオン)return;
+
+        //ここで移動
+
+        //到着したら
+        if (distance < 0.1f)
+        {
+            //停止時間をランダムに決める
+            //変数は後でクラス変数にする
+            double freezeSec = (double)UnityEngine.Random.Range(1.0f, 3.0f);
+        }
+    }
+
 }
 
 /*
