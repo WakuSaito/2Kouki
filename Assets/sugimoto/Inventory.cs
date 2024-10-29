@@ -21,9 +21,11 @@ public class Inventory : MonoBehaviour
         DOG,
     }
 
+    public WEAPON_ID hand_weapon = WEAPON_ID.HAND;
+
     //武器のインベントリ
     public GameObject[] weapon_hand_obj = new GameObject[WEAPON_INVENTORY_MAX] { null, null, null, null };
-    public int weapon_cnt = 0;
+    int weapon_cnt = 0;
 
 
     // Start is called before the first frame update
@@ -35,7 +37,6 @@ public class Inventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
 
     public int PistolBulletNum()
@@ -128,6 +129,16 @@ public class Inventory : MonoBehaviour
             }
         }
 
+        //持っている武器を変更
+        hand_weapon = (WEAPON_ID)weapon_cnt;
+        weapon_hand_obj[weapon_cnt].SetActive(true);
+    }
+
+    public void HandWeapon(WEAPON_ID _weapon_id)
+    {
+        weapon_hand_obj[weapon_cnt].SetActive(false);
+        hand_weapon = _weapon_id;
+        weapon_cnt = (int)_weapon_id;
         weapon_hand_obj[weapon_cnt].SetActive(true);
     }
 

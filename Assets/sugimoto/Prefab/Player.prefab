@@ -1483,7 +1483,7 @@ Transform:
   m_GameObject: {fileID: 5740968270051376700}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3.27, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 626728442933460167}
@@ -1524,6 +1524,7 @@ MonoBehaviour:
   attacked_zonbi_flag: 0
   bitten_zonbi_flag: 0
   anim_obj: {fileID: 286337697228711549}
+  dog: {fileID: 0}
 --- !u!114 &8571731813301331867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1552,12 +1553,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item_num: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
   item_type_id: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  hand_weapon: 0
   weapon_hand_obj:
   - {fileID: 6454339785291286576, guid: 8a28bb5ba59d1004bb8f50e88cc6819e, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  weapon_cnt: 0
 --- !u!54 &5740968270051376674
 Rigidbody:
   m_ObjectHideFlags: 0

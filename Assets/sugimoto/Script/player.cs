@@ -13,6 +13,8 @@ public class player : MonoBehaviour
     const float Run_Speed = 10.0f;
     const float Max_X_angle = 60.0f;
     const int Damage_Num = 1;
+    const int Attack_Distance = 30;
+    const int Item_Distance = 5;
 
     Vector3 Pistol_angle { get { return new Vector3(315.0f, 14.999999f, 44.9999924f); } }
 
@@ -34,7 +36,6 @@ public class player : MonoBehaviour
     [SerializeField] GameObject hand;//設置場所
     GameObject hand_weapon;//手にある武器
 
-
     //判定
     public int hp;
     public bool attacked_zonbi_flag = false;//ダメージ判定
@@ -45,6 +46,9 @@ public class player : MonoBehaviour
     [SerializeField] GameObject anim_obj;
     bool idle_flag = false;
     bool hand_pistol_flag = false;
+
+    //犬
+    [SerializeField] GameObject dog;
 
     // Start is called before the first frame update
     void Start()
@@ -176,56 +180,44 @@ public class player : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(1))
                 {
-                    //ビューポート座標のレイを飛ばす
-                    Ray ray = Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f));
-                    RaycastHit hit = new RaycastHit();
+                    //アイテム取得
+                    GameObject item = Ray(Item_Distance);
 
-                    if (Physics.Raycast(ray, out hit))
+                    if (item != null)
                     {
-                        //アイテムまでの距離を調べる
-                        float distance = Vector3.Distance(hit.transform.position, transform.position);
-
-                        //距離近ければ拾う
-                        if (distance <= 5.0f)
+                        switch (item.tag)
                         {
-                            GameObject item = hit.collider.gameObject;
+                            case "pistol":
+                                //当たり判定をOFFにする
+                                item.GetComponent<BoxCollider>().enabled = false;
 
-                            switch (item.tag)
-                            {
-                                case "pistol":
-                                    //当たり判定をOFFにする
-                                    item.GetComponent<BoxCollider>().enabled = false;
+                                //遠距離武器を持っていない場合取得
+                                if (GetComponent<Inventory>().weapon_hand_obj[(int)Inventory.WEAPON_ID.PISTOL] == null)
+                                {
+                                    //武器インベントリに入れる
+                                    GetComponent<Inventory>().weapon_hand_obj[(int)Inventory.WEAPON_ID.PISTOL] = item;
 
-                                    //遠距離武器を持っていない場合取得
-                                    if (GetComponent<Inventory>().weapon_hand_obj[(int)Inventory.WEAPON_ID.PISTOL] == null)
+                                    //手に何も持っていなければ自動的に持つ
+                                    if (Inventory.hand_weapon == Inventory.WEAPON_ID.HAND)
                                     {
-                                        //武器インベントリに入れる
-                                        GetComponent<Inventory>().weapon_hand_obj[(int)Inventory.WEAPON_ID.PISTOL] = item;
+                                        //手にある武器をピストルへ変更
+                                        GetComponent<Inventory>().HandWeapon(Inventory.WEAPON_ID.PISTOL);
+                                        hand_weapon = GetComponent<Inventory>().weapon_hand_obj[(int)Inventory.WEAPON_ID.PISTOL];
 
-                                        //手に何も持っていなければ自動的に持つ
-                                        if (hand_weapon == null)
-                                        {
-                                            //手にある武器をピストルへ変更
-                                            GetComponent<Inventory>().weapon_cnt = (int)Inventory.WEAPON_ID.PISTOL;
-                                            hand_weapon = GetComponent<Inventory>().weapon_hand_obj[(int)Inventory.WEAPON_ID.PISTOL];
-
-                                            //transform設定
-                                            ParentChildren(hand, hand_weapon);                                //手の子にする
-                                            hand_weapon.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
-                                            //hand_weapon.transform.localEulerAngles = Pistol_angle;            //ピストル用のアングルへ変更
-                                        }
+                                        //transform設定
+                                        ParentChildren(hand, hand_weapon);                                //手の子にする
+                                        hand_weapon.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
+                                                                                                          //hand_weapon.transform.localEulerAngles = Pistol_angle;            //ピストル用のアングルへ変更
                                     }
-                                    //持っていない場合は弾丸を取得
-                                    else
-                                    {
-                                        //弾丸(アイテム)を取得(Inventoryに弾丸があって最大数じゃないまたはInventoryに弾丸はないが空いていれば)
-                                        Inventory.ItemGet(item);
-
-                                        Destroy(item);
-                                    }
-
-                                    break;
-                            }
+                                }
+                                //持っていない場合は弾丸を取得
+                                else
+                                {
+                                    //弾丸(アイテム)を取得(Inventoryに弾丸があって最大数じゃないまたはInventoryに弾丸はないが空いていれば)
+                                    Inventory.ItemGet(item);
+                                    Destroy(item);
+                                }
+                                break;
                         }
                     }
                 }
@@ -239,10 +231,10 @@ public class player : MonoBehaviour
                 //フラグ初期化
                 hand_pistol_flag = false;
 
-                switch (GetComponent<Inventory>().weapon_cnt)
+                switch (Inventory.hand_weapon)
                 {
-                    //手にある武器がピストル
-                    case (int)Inventory.WEAPON_ID.PISTOL:
+                    //ピストル
+                    case Inventory.WEAPON_ID.PISTOL:
 
                         hand_pistol_flag = true;
 
@@ -256,6 +248,24 @@ public class player : MonoBehaviour
                         {
                             hand_weapon.GetComponent<Pistol>().Attack(rot_obj, hand_weapon);
 
+                        }
+                        break;
+                    //犬
+                    case Inventory.WEAPON_ID.DOG:
+                        //攻撃
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            //攻撃するオブジェクト取得
+                            GameObject attack_obj = Ray(Attack_Distance);
+
+                            if (attack_obj != null)
+                            {
+                                if (attack_obj.tag == "Bodie" || attack_obj.tag == "Head")
+                                {
+                                    dog.GetComponent<DogManager>().OrderAttack(attack_obj);
+                                    Debug.Log(attack_obj+"a");
+                                }
+                            }
                         }
                         break;
                 }
@@ -274,10 +284,39 @@ public class player : MonoBehaviour
         Animator.SetBool("Idle", idle_flag);  //idle
         Animator.SetBool("HandPislol", hand_pistol_flag);  //pistol所持状態
 
-
-
         //位置保存
         before_pos = transform.position;
+    }
+
+    //レイの先にあるオブジェクト取得
+    public GameObject Ray(float _distance)
+    {
+        GameObject hit_obj;
+
+        //ビューポート座標のレイを飛ばす
+        Ray ray = Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f));
+        RaycastHit hit = new RaycastHit();
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            //アイテムまでの距離を調べる
+            float distance = Vector3.Distance(hit.transform.position, transform.position);
+            hit_obj = hit.collider.gameObject;
+
+            //距離が範囲内なら
+            if (distance <= _distance)
+            {
+                return hit_obj;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            return null;
+        }
     }
 
     private void Move(float _speed)
