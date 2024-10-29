@@ -72,7 +72,7 @@ public class DogManager : MonoBehaviour
     void Update()
     {
         if (isStopAction) {
-            dogMove.StopMove();
+            dogMove.StopMove();//ˆÚ“®’âŽ~
             return; 
         }
 

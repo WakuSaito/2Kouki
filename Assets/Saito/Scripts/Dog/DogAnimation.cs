@@ -29,6 +29,8 @@ public class DogAnimation : DogBase
 
     public void Attack()
     {
+        currentMoveType = MoveType.IDLE;
+
         Debug.Log("dog:Attack");
         animator.SetTrigger("Attack");
     }

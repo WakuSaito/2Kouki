@@ -65,4 +65,9 @@ public class ZombieAnimation : ZombieBase
         Debug.Log("zombie:Run");
         animator.SetTrigger("Run");
     }
+    public void Die()
+    {
+        Debug.Log("zombie:Die");
+        animator.SetTrigger("Die");
+    }
 }
