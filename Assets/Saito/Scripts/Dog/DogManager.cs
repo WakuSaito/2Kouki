@@ -42,10 +42,20 @@ public class DogManager : MonoBehaviour
     //プレイヤー
     private GameObject playerObj;
 
+    //移動目標座標
+    private Vector3 targetPos;
+
+    //移動停止フラグ
+    private bool onFreezeMove = false;
+
     //攻撃対象に突進中
     private bool isChargeTarget = false;
     //行動停止
     private bool isStopAction = false;
+
+    //移動方法を歩行にする
+    private bool isMoveTypeWalk = false;
+
 
     private void Awake()
     {
@@ -66,6 +76,8 @@ public class DogManager : MonoBehaviour
             if (dogMove == null) dog.TryGetComponent(out dogMove);
             if (dogAnimation == null) dog.TryGetComponent(out dogAnimation);
         }
+
+        RandomTargetPos();
     }
 
     // Update is called once per frame
@@ -92,7 +104,7 @@ public class DogManager : MonoBehaviour
             }
 
             //attackTargetObjの位置に向かって移動する
-            dogMove.LookAtObject(attackTargetObj);
+            dogMove.LookAtPosition(attackTargetObj.transform.position);
             dogMove.RunFront();//移動
 
             dogAnimation.Run();//アニメーション
@@ -106,26 +118,7 @@ public class DogManager : MonoBehaviour
         }
         else//通常時の移動
         {
-
-            //if(プレイヤーとの距離が離れている)
-            if (GetObjectDistance(playerObj) > stayPlayerDistance)
-            {
-                //プレイヤーの方に移動する
-                //障害物の判定に注意
-                dogMove.LookAtObject(playerObj);
-                dogMove.RunFront();
-
-                dogAnimation.Run();//アニメーション
-
-            }
-            else
-            {
-                dogAnimation.Idle();
-                dogMove.StopMove();
-            }
-            //else if(近くなら)
-            //とりあえずは何もしない
-            //プレイヤーの近くでウロウロさせたい　範囲内のランダム位置を目標として移動みたいな
+            NomalUpdate();
         }
     }
 
@@ -145,8 +138,10 @@ public class DogManager : MonoBehaviour
     /// <summary>
     /// 攻撃指示を受けたとき
     /// </summary>
-    public void OrderAttack(GameObject _obj)
+    public void OrderAttack(GameObject _obj)//zombieの子のパーツが渡されたとき動かない可能性アリ
     {
+        Debug.Log("攻撃指示を受け付けた");
+
         isChargeTarget = true;
 
         attackTargetObj = _obj;//攻撃対象を取得
@@ -157,6 +152,8 @@ public class DogManager : MonoBehaviour
     /// </summary>
     private void BiteZombie(GameObject _zombieObj)
     {
+        Debug.Log("ゾンビに噛みつき");
+
         ZombieManager zombieManager;
         //attackTargetObjからZombieManagerを取得し、FreezePositionを呼び出し
         attackTargetObj.TryGetComponent(out zombieManager);
@@ -185,42 +182,76 @@ public class DogManager : MonoBehaviour
         action();
     }
 
-    //行動用の仮関数
-    private void NomalMove()
+    //通常行動用の仮関数
+    private void NomalUpdate()
     {
-        //if(攻撃中なら)return;
+        //移動先座標がプレイヤーから離れているなら決めなおす
+        float playerTargetDistance = Vector3.Distance(playerObj.transform.position, targetPos);
+        if (playerTargetDistance > stayPlayerDistance) { 
+            RandomTargetPos();
+            onFreezeMove = false;//停止中でも解除
+            isMoveTypeWalk = false;//走るようにする
+        }
 
+        if (onFreezeMove) return;
+
+        //目標座標までの位置を求める
+        Vector3 pos = transform.position;
+        pos.y = 0.5f;
+        //プレイヤーと自身の距離
+        float playerDistance = Vector3.Distance(playerObj.transform.position, pos);
+
+        //ここで移動
+        dogMove.LookAtPosition(targetPos);//向き変更
+        //プレイヤーとの距離によって速度変更
+        if (isMoveTypeWalk)
+        {
+            dogMove.WalkFront();
+            dogAnimation.Walk();
+        }
+        else
+        {
+            dogMove.RunFront();
+            dogAnimation.Run();
+        }
+
+        float distance = Vector3.Distance(pos, targetPos);
+        //到着したら
+        if (distance < 0.1f)
+        {
+            //停止
+            dogMove.StopMove();
+            dogAnimation.Idle();
+
+            //停止時間をランダムに決める
+            //変数は後でクラス変数にする
+            double freezeSec = UnityEngine.Random.Range(2.0f, 5.0f);
+
+            onFreezeMove = true;
+            DelayRunAsync(
+                        freezeSec,
+                        () => { 
+                            onFreezeMove = false;
+                            RandomTargetPos();
+                            isMoveTypeWalk = true;}
+                        );
+        }
+    }
+
+    //プレイヤー一定範囲のランダム位置を目標座標に設定する
+    private void RandomTargetPos()
+    {
         //プレイヤーの周囲のランダム位置を求める
         Vector3 pPos = playerObj.transform.position;
         //移動先位置をランダムに決める
-        Vector3 targetPos = UnityEngine.Random.insideUnitCircle * stayPlayerDistance;
+        targetPos = UnityEngine.Random.insideUnitCircle * stayPlayerDistance;
         targetPos.z = targetPos.y;//平面上に生成するため入れ替え
         targetPos.y = 0.5f;//y方向は一律にする
         //アタッチしたオブジェクトを基準にする
         targetPos.x += pPos.x;
         targetPos.z += pPos.z;
-
-        Vector3 pos = transform.position;
-        pos.y = 0.5f;
-
-        float distance = Vector3.Distance(pos, targetPos);
-
-        //移動先座標がプレイヤーから離れているなら決めなおす
-        float playerDistance = Vector3.Distance(pPos, targetPos);
-        //if(playerDistance > stayPlayerDistance) 
-
-        //if(停止フラグオン)return;
-
-        //ここで移動
-
-        //到着したら
-        if (distance < 0.1f)
-        {
-            //停止時間をランダムに決める
-            //変数は後でクラス変数にする
-            double freezeSec = (double)UnityEngine.Random.Range(1.0f, 3.0f);
-        }
     }
+
 
 }
 

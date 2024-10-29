@@ -44,6 +44,8 @@ public class ZombieManager : MonoBehaviour
     private bool isChangeDirCoolDown = false;
     //移動不可フラグ
     private bool isFreezePos = false;
+    //死亡済フラグ
+    private bool isDead = false;
 
     //目標とする向き
     Quaternion targetRotation;
@@ -80,6 +82,9 @@ public class ZombieManager : MonoBehaviour
         {
             DamageHead();
         }
+
+        if (isDead) return;//死亡済なら動かさない
+
         //座標取得
         Vector3 pos = transform.position;
         Vector3 playerPos = playerObj.transform.position;
@@ -182,6 +187,10 @@ public class ZombieManager : MonoBehaviour
     public void DamageHead()
     {
         Debug.Log("Head");
+
+        if (isDead) return;
+
+        isDead = true;
 
         isFreezePos = true;//移動停止
 
