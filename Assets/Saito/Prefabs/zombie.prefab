@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 6455615089834882806}
   m_Layer: 0
   m_Name: LLegCollider
-  m_TagString: Bodie
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 6455615090472982827}
   m_Layer: 0
   m_Name: RHandCollider
-  m_TagString: Bodie
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 6455615090830981608}
   m_Layer: 0
   m_Name: RLegCollider
-  m_TagString: Bodie
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -196,7 +196,7 @@ GameObject:
   - component: {fileID: 6455615090981300735}
   m_Layer: 0
   m_Name: LHandCollider
-  m_TagString: Bodie
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -788,7 +788,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6455615091234463005}
-  - component: {fileID: 6455615091226751683}
   m_Layer: 0
   m_Name: lpFemale_zombie_A
   m_TagString: Untagged
@@ -803,7 +802,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6455615091234160963}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -813,26 +812,6 @@ Transform:
   m_Father: {fileID: 6455615091749529709}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &6455615091226751683
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6455615091234160963}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 5b090fdacac4b95469a046f187fdbc55, type: 3}
-  m_Controller: {fileID: 9100000, guid: fbd9269266e06504dbf368953113e76c, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &6455615091234160993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1451,7 +1430,7 @@ GameObject:
   - component: {fileID: 6455615091373982395}
   m_Layer: 0
   m_Name: ChestCollider
-  m_TagString: Bodie
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1499,6 +1478,7 @@ GameObject:
   - component: {fileID: 6455615091749529718}
   - component: {fileID: 6455615091749529719}
   - component: {fileID: 6455615091749529716}
+  - component: {fileID: 743377207}
   m_Layer: 0
   m_Name: zombie
   m_TagString: Zombie
@@ -1533,7 +1513,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 1
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -1555,7 +1535,7 @@ MonoBehaviour:
   - {fileID: 9044647564687367260}
   - {fileID: 6455615091749529719}
   - {fileID: 6455615091749529716}
-  detectionPlayerRange: 10
+  detectionPlayerRange: 5
   attackStartRange: 1
 --- !u!114 &6455615091749529718
 MonoBehaviour:
@@ -1583,7 +1563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd049b56fb533a648bf3dd4b269c66dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 6455615091226751683}
+  animator: {fileID: 743377207}
 --- !u!114 &6455615091749529716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1598,6 +1578,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockBackPower: 10
   dropItemPrefab: {fileID: 0}
+--- !u!95 &743377207
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6455615091749529712}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 5b090fdacac4b95469a046f187fdbc55, type: 3}
+  m_Controller: {fileID: 9100000, guid: fbd9269266e06504dbf368953113e76c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &9044647564687367262
 GameObject:
   m_ObjectHideFlags: 0
@@ -1612,7 +1612,7 @@ GameObject:
   - component: {fileID: 9044647564687367260}
   m_Layer: 0
   m_Name: RArmCollider
-  m_TagString: Bodie
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1687,7 +1687,7 @@ GameObject:
   - component: {fileID: 9044647564934501905}
   m_Layer: 0
   m_Name: RCalfCollider
-  m_TagString: Bodie
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1733,7 +1733,7 @@ GameObject:
   - component: {fileID: 9044647564941794227}
   m_Layer: 0
   m_Name: LForearmCollider
-  m_TagString: Bodie
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1779,7 +1779,7 @@ GameObject:
   - component: {fileID: 9044647565271933436}
   m_Layer: 0
   m_Name: RArmCollider
-  m_TagString: Bodie
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1825,7 +1825,7 @@ GameObject:
   - component: {fileID: 9044647565547152256}
   m_Layer: 0
   m_Name: BodyCollider
-  m_TagString: Bodie
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1871,7 +1871,7 @@ GameObject:
   - component: {fileID: 9044647565741001060}
   m_Layer: 0
   m_Name: RClavicleCollider
-  m_TagString: Bodie
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1917,7 +1917,7 @@ GameObject:
   - component: {fileID: 9044647565821764775}
   m_Layer: 0
   m_Name: LThighCollider
-  m_TagString: Bodie
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1963,7 +1963,7 @@ GameObject:
   - component: {fileID: 9044647565928857643}
   m_Layer: 0
   m_Name: LCalfCollider
-  m_TagString: Bodie
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2009,7 +2009,7 @@ GameObject:
   - component: {fileID: 9044647565945129071}
   m_Layer: 0
   m_Name: RThighCollider
-  m_TagString: Bodie
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2055,7 +2055,7 @@ GameObject:
   - component: {fileID: 9044647566030053354}
   m_Layer: 0
   m_Name: RForearmCollider
-  m_TagString: Bodie
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2101,7 +2101,7 @@ GameObject:
   - component: {fileID: 9044647566337196892}
   m_Layer: 0
   m_Name: RClavicleCollider
-  m_TagString: Bodie
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

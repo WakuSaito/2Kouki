@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 //ゾンビ関連のクラスをnameofでまとめてもいいかも
 
+
 /// <summary>
 /// ゾンビの管理クラス
 /// ZombieBaseを継承したクラスを扱う
@@ -43,6 +44,8 @@ public class ZombieManager : MonoBehaviour
     private bool isChangeDirCoolDown = false;
     //移動不可フラグ
     private bool isFreezePos = false;
+    //死亡済フラグ
+    private bool isDead = false;
 
     //目標とする向き
     Quaternion targetRotation;
@@ -75,6 +78,13 @@ public class ZombieManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.B))
+        {
+            DamageHead();
+        }
+
+        if (isDead) return;//死亡済なら動かさない
+
         //座標取得
         Vector3 pos = transform.position;
         Vector3 playerPos = playerObj.transform.position;
@@ -177,7 +187,20 @@ public class ZombieManager : MonoBehaviour
     public void DamageHead()
     {
         Debug.Log("Head");
-        zombieAction.Dead();//死亡
+
+        if (isDead) return;
+
+        isDead = true;
+
+        isFreezePos = true;//移動停止
+
+        zombieAnimation.Die();//アニメーション
+        
+        //アニメーションが終わるころにオブジェクトを消す
+        DelayRunAsync(
+                    3.5,//後で定数化したい
+                    () => zombieAction.Dead()//死亡
+                    );
     }
 
     /// <summary>

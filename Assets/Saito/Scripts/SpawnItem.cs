@@ -28,9 +28,12 @@ public class SpawnItem : MonoBehaviour
         StartSpawn();
     }
 
+    //何種類かをランダムで生成できるようにしたい
     //生成開始
     public void StartSpawn()
     {
+        if (spawn_item_prefab == null) return;
+
         items.Clear();//配列リセット
 
         //生成する数を決める

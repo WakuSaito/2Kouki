@@ -7,7 +7,10 @@ public class DogMove : DogBase
     [SerializeField]//走る速度
     float run_speed = 6.0f;
     [SerializeField]//歩く速度
-    float walk_speed = 1.0f;
+    float walk_speed = 3.0f;
+
+    //目標とする向き
+    Quaternion targetRotation;
 
     Rigidbody rb;
 
@@ -16,6 +19,19 @@ public class DogMove : DogBase
     {
         //rigidbodyの取得
         rb = GetComponent<Rigidbody>();
+        targetRotation = transform.rotation;
+    }
+
+    private void Update()
+    {
+        //あまりManager以外でUpdateを使いたくないが、補間するため実装
+        //向きを補間
+        var qua = Quaternion.RotateTowards(transform.rotation, targetRotation, 500 * Time.deltaTime);
+
+        //y軸以外を無視
+        qua.x = 0.0f; qua.z = 0.0f;
+        //向き変更
+        transform.rotation = qua;
     }
 
     /// <summary>
@@ -23,22 +39,17 @@ public class DogMove : DogBase
     /// </summary>
     public void ChangeDirection(Quaternion _qua)
     {
-        //y軸以外を無視
-        _qua.x = 0.0f; _qua.z = 0.0f;
-        //向き変更
-        transform.rotation = _qua;
+        targetRotation = _qua;//目標の向きを設定
     }
 
     /// <summary>
-    /// 指定したオブジェクトの方向に向きを変更
+    /// 指定した座標に向きを変更
     /// </summary>
-    public void LookAtObject(GameObject _targetObj)
+    public void LookAtPosition(Vector3 _targetPos)
     {
-        if (_targetObj == null) return;//nullチェック
-
         //座標の取得
         Vector3 pos = transform.position;
-        Vector3 target_pos = _targetObj.transform.position;
+        Vector3 target_pos = _targetPos;
         //ベクトルを計算
         Vector3 direction = target_pos - pos;
         direction.y = 0;//y軸を考慮しない
@@ -63,6 +74,20 @@ public class DogMove : DogBase
 
         //移動ベクトル更新
         rb.velocity = vec * run_speed;
+    }
+
+    /// <summary>
+    /// 前方に歩く
+    /// </summary>
+    public void WalkFront()
+    {
+        //移動方向を求める
+        Vector3 vec = transform.forward;
+        vec.y = 0.0f;//y軸を無視する
+        Vector3.Normalize(vec);
+
+        //移動ベクトル更新
+        rb.velocity = vec * walk_speed;
     }
 
     /// <summary>
