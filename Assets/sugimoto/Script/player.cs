@@ -263,7 +263,7 @@ public class player : MonoBehaviour
                                 if (attack_obj.tag == "Bodie" || attack_obj.tag == "Head")
                                 {
                                     dog.GetComponent<DogManager>().OrderAttack(attack_obj);
-                                    Debug.Log("a");
+                                    Debug.Log(attack_obj+"a");
                                 }
                             }
                         }
