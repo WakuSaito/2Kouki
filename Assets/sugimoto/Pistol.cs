@@ -86,7 +86,7 @@ public class Pistol : MonoBehaviour
                 {
                     GameObject hit_obj = hit.collider.gameObject;
                     Debug.Log(hit_obj);
-                    if (hit_obj.tag == "Bodie")
+                    if (hit_obj.tag == "Body")
                     {
                         hit_obj.GetComponentInParent<ZombieManager>().DamageBody();
                     }

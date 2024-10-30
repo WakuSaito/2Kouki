@@ -5,7 +5,7 @@ using UnityEngine;
 public class MapCreate : MonoBehaviour
 {
     //１タイルの大きさ
-    public int MapTipSize = 100;
+    public int MapTipSize = 50;
 
     //マップ全体のチップ数
     const int MAP_X = 9;
@@ -19,15 +19,15 @@ public class MapCreate : MonoBehaviour
     [SerializeField]
     int[,] map = new int[MAP_Y, MAP_X]
     {
-        {1,2,3,4,5,6,7,8,9},
-        {1,2,3,4,5,6,7,8,9},
-        {1,2,3,4,5,6,7,8,9},
-        {1,2,3,4,5,6,7,8,9},
-        {1,2,3,0,5,6,7,8,9},
-        {1,2,3,4,5,6,7,8,9},
-        {1,2,3,4,5,6,7,8,9},
-        {1,2,3,4,5,6,7,8,9},
-        {1,2,3,4,5,6,7,8,9},
+        {1,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,2,0,0,0},
+        {0,0,0,0,0,0,2,0,0},
+        {0,0,2,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,2,0},
+        {0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,2,0,0,2,0},
+        {0,2,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,2},
     };
 
 
@@ -52,7 +52,7 @@ public class MapCreate : MonoBehaviour
             for (int x = 0; x < MAP_X; x++)
             {
                 int MapChip_num = map[y, x];
-                map_obj[y, x] = Instantiate(map_tips[MapChip_num], new Vector3((x - MAP_CENTER_X) * MapTipSize, 0.0f, (y - MAP_CENTER_Y) * MapTipSize), Quaternion.Euler(90.0f, 0.0f, 0.0f), map_parent.transform);
+                map_obj[y, x] = Instantiate(map_tips[MapChip_num], new Vector3((x - MAP_CENTER_X) * MapTipSize, 0.0f, (y - MAP_CENTER_Y) * MapTipSize), Quaternion.Euler(0.0f, 0.0f, 0.0f), map_parent.transform);
             }
         }
     }

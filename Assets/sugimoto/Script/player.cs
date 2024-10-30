@@ -260,7 +260,7 @@ public class player : MonoBehaviour
 
                             if (attack_obj != null)
                             {
-                                if (attack_obj.tag == "Bodie" || attack_obj.tag == "Head")
+                                if (attack_obj.tag == "Body" || attack_obj.tag == "Head")
                                 {
                                     dog.GetComponent<DogManager>().OrderAttack(attack_obj);
                                     Debug.Log(attack_obj+"a");
