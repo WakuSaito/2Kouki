@@ -95,7 +95,7 @@ public class ZombieManager : MonoBehaviour
         //ˆÚ“®
         {
             //’â~
-            if (playerDistance < 0.5f|| isFreezePos)
+            if (playerDistance < attackStartRange - 0.5f|| isFreezePos)
             {
                 //‚Æ‚è‚ ‚¦‚¸‹ß‚Ã‚«‚·‚¬‚È‚¢‚æ‚¤‚É‚µ‚½
                 zombieMove.StopMove();
