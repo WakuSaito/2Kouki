@@ -38,6 +38,8 @@ public class ZombieManager : MonoBehaviour
     [SerializeField]//攻撃開始距離
     float attackStartRange = 1.0f;
 
+    //攻撃対象を発見している
+    private bool isFoundTarget = false;
     //攻撃のクールタイム中
     private bool isAttackCoolDown = false;
     //ランダムに向きを変えるクールタイム中
@@ -78,7 +80,7 @@ public class ZombieManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.B))
+        if(Input.GetKeyDown(KeyCode.B))//デバッグ用
         {
             DamageHead();
         }
@@ -92,78 +94,88 @@ public class ZombieManager : MonoBehaviour
         //プレイヤーとの距離計算
         float playerDistance = Vector3.Distance(pos, playerPos);
 
+        //攻撃対象を見つけているか
+        if(playerDistance < detectionPlayerRange)
+        {
+            isFoundTarget = true;//発見
+        }
+        else
+        {
+            isFoundTarget = false;
+        }
+
         //移動
         {
-            //停止
-            if (playerDistance < attackStartRange - 0.5f|| isFreezePos)
+            if (isFreezePos || isAttackCoolDown)//停止
             {
-                //とりあえず近づきすぎないようにした
+                //プレイヤーの方を向く
+                zombieMove.LookAtPosition(playerPos);
+
                 zombieMove.StopMove();
                 zombieAnimation.Idle();//停止モーション
             }
-            else if (playerDistance < detectionPlayerRange)
+            else if (isFoundTarget)
             {
-                //プレイヤーの方の向きを求める
-                Vector3 direction = playerPos - pos;
-                Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
-                //角度を補間
-                //歩きと走りで同じようなスクリプトなので改善の余地あり 補間方法も一考の余地あり
-                var qua = Quaternion.RotateTowards(transform.rotation, targetRotation, 500 * Time.deltaTime);
-                //向きを変更
-                zombieMove.ChangeDirection(qua);
+                //プレイヤーの方を向く
+                zombieMove.LookAtPosition(playerPos);
 
-                //走る
-                zombieMove.RunFront();
-                zombieAnimation.Run();//移動モーション
+                if (playerDistance < attackStartRange)
+                {
+                    //とりあえず近づきすぎないようにした
+                    zombieMove.StopMove();
+                    zombieAnimation.Idle();//停止モーション
+
+                    Attack();//攻撃
+                }
+                else
+                {
+                    //走る
+                    zombieMove.RunFront();
+                    zombieAnimation.Run();//移動モーション
+                }
+
             }
-            else
+            else//通常の行動
             {
                 //向き変更
                 if (!isChangeDirCoolDown)
                 {
                     isChangeDirCoolDown = true;//クールタイム中に
-                    DelayRunAsync(
+                    _ = DelayRunAsync(
                         UnityEngine.Random.Range(4.0f, 8.0f),//次に向きを変えるまでの時間を決める
                         () => isChangeDirCoolDown = false  //フラグオフ
                         );
 
                     //ランダムに向きを設定
                     Vector3 direction = new Vector3(0, UnityEngine.Random.Range(-180, 180), 0);
-                    targetRotation = Quaternion.Euler(direction);
+                    //向きを変更
+                    zombieMove.ChangeDirection(Quaternion.Euler(direction));
                 }
-
-                //角度を補間
-                var qua = Quaternion.RotateTowards(transform.rotation, targetRotation, 100 * Time.deltaTime);
-                //向きを変更
-                zombieMove.ChangeDirection(qua);
 
                 //歩く
                 zombieMove.WalkFront();
                 zombieAnimation.Walk();//移動モーション
             }
+
         }
-        
+    }
+    //攻撃
+    private void Attack()
+    {
+        if (isAttackCoolDown) return;//クールタイムチェック
 
-        //攻撃
-        {
-            if (isAttackCoolDown) return;//クールタイムチェック
+        //攻撃開始
+        zombieAttack.StartAttack();
+        //攻撃モーション再生
+        zombieAnimation.Attack();
 
-            if (playerDistance < attackStartRange) 
-            {
-                //攻撃開始
-                zombieAttack.StartAttack();
-                //攻撃モーション再生
-                zombieAnimation.Attack();
-
-                //攻撃のクールタイム中にする
-                isAttackCoolDown = true;
-                //数秒後クールタイム解除
-                DelayRunAsync(
-                    3.0,
-                    () => isAttackCoolDown = false
-                    );
-            }
-        }
+        //攻撃のクールタイム中にする
+        isAttackCoolDown = true;
+        //数秒後クールタイム解除
+        _ = DelayRunAsync(
+            3.0,
+            () => isAttackCoolDown = false
+            );
     }
 
     /// <summary>
@@ -195,9 +207,9 @@ public class ZombieManager : MonoBehaviour
         isFreezePos = true;//移動停止
 
         zombieAnimation.Die();//アニメーション
-        
+
         //アニメーションが終わるころにオブジェクトを消す
-        DelayRunAsync(
+        _ = DelayRunAsync(
                     3.5,//後で定数化したい
                     () => zombieAction.Dead()//死亡
                     );
@@ -213,7 +225,7 @@ public class ZombieManager : MonoBehaviour
         //移動停止フラグオン
         isFreezePos = true;
         //しばらくしたらオフにする
-        DelayRunAsync(
+        _ = DelayRunAsync(
                     _sec,
                     () => isFreezePos = false
                     );
@@ -230,3 +242,14 @@ public class ZombieManager : MonoBehaviour
     }
 
 }
+
+/*
+ゾンビの行動
+
+①プレイヤーを発見したとき
+②プレイヤーへ移動
+③至近距離まできたら攻撃
+④プレイヤーから少し離れているなら、②へ
+　プレイヤーからとても離れているなら、通常の行動に
+
+ */
