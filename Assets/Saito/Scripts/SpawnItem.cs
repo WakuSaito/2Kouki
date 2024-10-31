@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class SpawnItem : MonoBehaviour
 {
-    [SerializeField]//ゾンビのプレハブ
-    GameObject spawn_item_prefab;
+    [SerializeField]//生成させるプレハブ
+    GameObject[] spawnItemPrefab;
+    [SerializeField]//プレハブ生成される確率（重み）
+    int[] spawnItemProbability;
+
     [SerializeField]//当たり判定のサイズの半分(円にしてもいい)
     Vector3 half_collider_size = new Vector3(0.5f,0.5f,0.5f);
 
@@ -32,12 +35,21 @@ public class SpawnItem : MonoBehaviour
     //生成開始
     public void StartSpawn()
     {
-        if (spawn_item_prefab == null) return;
+        if (spawnItemPrefab == null) return;
+        //オブジェクトの数より確率の数が少ない
+        if (spawnItemPrefab.Length > spawnItemProbability.Length) return;
 
         items.Clear();//配列リセット
 
         //生成する数を決める
         int quantity = Random.Range(spawn_quantity_min, spawn_quantity_max+1);
+
+        //確率関連
+        int probMax = 0;
+        for(int i=0;i< spawnItemPrefab.Length;i++)
+        {
+            probMax += spawnItemProbability[i];
+        }
 
         //複数生成する
         for (int i = 0; i < quantity; i++) 
@@ -57,11 +69,26 @@ public class SpawnItem : MonoBehaviour
                 //第4引数で判定しないレイヤーを設定可
                 if (!Physics.CheckBox(spawn_pos, half_collider_size))
                 {
+                    //確率から生成するオブジェクト決め
+                    int randNum = Random.Range(0, probMax) + 1;
+                    int tmp = 0;
+                    int num = 0;
+                    for (int j = 0; j < spawnItemPrefab.Length; j++)
+                    {
+                        tmp += spawnItemProbability[j];
+                        if(randNum <= tmp)
+                        {
+                            num = j;
+                            break;
+                        }
+                    }
+
+
                     if (spawnParent == null)
                     {
                         //アイテムをインスタンス化
                         items.Add(Instantiate(
-                            spawn_item_prefab,
+                            spawnItemPrefab[num],
                             spawn_pos,
                             Quaternion.identity
                             ));
@@ -72,7 +99,7 @@ public class SpawnItem : MonoBehaviour
                     {
                         //アイテムをインスタンス化
                         items.Add(Instantiate(
-                            spawn_item_prefab,
+                            spawnItemPrefab[num],
                             spawn_pos,
                             Quaternion.identity,
                             spawnParent
