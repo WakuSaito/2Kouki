@@ -7,10 +7,11 @@ public class player : MonoBehaviour
 {
     Inventory Inventory;
     Animator Animator;  // アニメーターコンポーネント取得用
+    Rigidbody Rigidbody;
 
     const float Attacked_Speed = 1.5f;
-    const float Walk_Speed = 5.0f;
-    const float Run_Speed = 10.0f;
+    const float Walk_Speed = 15.0f;
+    const float Run_Speed = 30.0f;
     const float Max_X_angle = 60.0f;
     const int Damage_Num = 1;
     const int Attack_Distance = 30;
@@ -56,6 +57,7 @@ public class player : MonoBehaviour
         //コンポーネント取得
         Inventory = GetComponent<Inventory>();
         Animator = anim_obj.GetComponent<Animator>();
+        Rigidbody = GetComponent<Rigidbody>();
 
         //マウスの位置情報保存
         mouse_pos = Input.mousePosition;
@@ -319,37 +321,80 @@ public class player : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        Rigidbody.velocity = Vector3.zero;
+    }
+
     private void Move(float _speed)
     {
         idle_flag = true;
         {
+            //リジットボディーでの移動
+            Vector3 vec = Vector3.zero;
+
             // Wキー（前方移動）
             if (Input.GetKey(KeyCode.W))
             {
                 idle_flag = false;
-                transform.position += _speed * transform.forward * Time.deltaTime;
+                vec += transform.forward;
             }
-
+            
             // Sキー（後方移動）
             if (Input.GetKey(KeyCode.S))
             {
                 idle_flag = false;
-                transform.position -= _speed * transform.forward * Time.deltaTime;
+                vec += -transform.forward;
             }
 
             // Dキー（右移動）
             if (Input.GetKey(KeyCode.D))
             {
                 idle_flag = false;
-                transform.position += _speed * transform.right * Time.deltaTime;
+                vec += transform.right;
             }
 
             // Aキー（左移動）
             if (Input.GetKey(KeyCode.A))
             {
                 idle_flag = false;
-                transform.position -= _speed * transform.right * Time.deltaTime;
+                vec += -transform.right;
             }
+
+            //斜め移動の速度を一定にするため正規化
+            vec.Normalize();
+
+            //yはそのまま（代入すると重力に影響があるため）
+            Rigidbody.velocity = new Vector3(vec.x * _speed, Rigidbody.velocity.y, vec.z * _speed);
+
+            //transformでの移動
+            //// Wキー（前方移動）
+            //if (Input.GetKey(KeyCode.W))
+            //{
+            //    idle_flag = false;
+            //    transform.position += _speed * transform.forward * Time.deltaTime;
+            //}
+
+            //// Sキー（後方移動）
+            //if (Input.GetKey(KeyCode.S))
+            //{
+            //    idle_flag = false;
+            //    transform.position -= _speed * transform.forward * Time.deltaTime;
+            //}
+
+            //// Dキー（右移動）
+            //if (Input.GetKey(KeyCode.D))
+            //{
+            //    idle_flag = false;
+            //    transform.position += _speed * transform.right * Time.deltaTime;
+            //}
+
+            //// Aキー（左移動）
+            //if (Input.GetKey(KeyCode.A))
+            //{
+            //    idle_flag = false;
+            //    transform.position -= _speed * transform.right * Time.deltaTime;
+            //}
         }
 
     }
