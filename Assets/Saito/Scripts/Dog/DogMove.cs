@@ -5,9 +5,9 @@ using UnityEngine;
 public class DogMove : DogBase
 {
     [SerializeField]//走る速度
-    float run_speed = 6.0f;
+    float runSpeed = 6.0f;
     [SerializeField]//歩く速度
-    float walk_speed = 3.0f;
+    float walkSpeed = 3.0f;
 
     //目標とする向き
     Quaternion targetRotation;
@@ -73,7 +73,7 @@ public class DogMove : DogBase
         Vector3.Normalize(vec);
 
         //移動ベクトル更新
-        rb.velocity = vec * run_speed;
+        rb.velocity = new Vector3(vec.x * runSpeed, rb.velocity.y, vec.z * runSpeed);
     }
 
     /// <summary>
@@ -87,7 +87,7 @@ public class DogMove : DogBase
         Vector3.Normalize(vec);
 
         //移動ベクトル更新
-        rb.velocity = vec * walk_speed;
+        rb.velocity = new Vector3(vec.x * walkSpeed, rb.velocity.y, vec.z * walkSpeed);
     }
 
     /// <summary>
@@ -96,6 +96,6 @@ public class DogMove : DogBase
     public void StopMove()
     {
         //移動ベクトルを0にする
-        rb.velocity = Vector3.zero;
+        rb.velocity = new Vector3(0, rb.velocity.y, 0);
     }
 }

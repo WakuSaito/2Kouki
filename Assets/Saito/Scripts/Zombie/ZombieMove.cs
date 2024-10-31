@@ -53,7 +53,7 @@ public class ZombieMove : ZombieBase
         Vector3.Normalize(vec);
 
         //移動ベクトル更新
-        rb.velocity = vec * walkSpeed;
+        rb.velocity = new Vector3(vec.x * walkSpeed, rb.velocity.y, vec.z * walkSpeed);
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public class ZombieMove : ZombieBase
         Vector3.Normalize(vec);
 
         //移動ベクトル更新
-        rb.velocity = vec * runSpeed;
+        rb.velocity = new Vector3(vec.x * runSpeed, rb.velocity.y, vec.z * runSpeed);
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public class ZombieMove : ZombieBase
     public void StopMove()
     {
         //移動ベクトルを0にする
-        rb.velocity = Vector3.zero;
+        rb.velocity = new Vector3(0,rb.velocity.y,0);
     }
    
 }

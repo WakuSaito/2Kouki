@@ -85,6 +85,7 @@ public class ZombieManager : MonoBehaviour
             DamageHead();
         }
 
+        if (playerObj == null) return;
         if (isDead) return;//€–SÏ‚È‚ç“®‚©‚³‚È‚¢
 
         //À•Wæ“¾
