@@ -7,6 +7,9 @@ using UnityEngine;
 /// </summary>
 public class ZombieAnimation : ZombieBase
 {
+    //アニメーターをつけているオブジェクト
+    private GameObject animatorObj;
+
     [SerializeField]//アニメーター
     private Animator animator;
 
@@ -22,11 +25,25 @@ public class ZombieAnimation : ZombieBase
     MoveType currentMoveType;
 
 
+    //アニメーターオブジェクトのローカルTransformをリセットするコルーチン
+    //攻撃モーションが徐々に回転,移動してしまうため
+    //ただ明らかに違和感（ワープ）がある
+    IEnumerator ResetLocalTransform(float _sec = 0)
+    {
+        yield return new WaitForSeconds(_sec);
+
+        animatorObj.transform.localRotation = Quaternion.identity;
+        animatorObj.transform.localPosition = Vector3.zero;
+    }
+
     /// <summary>
     /// 初期設定
     /// </summary>
     public override void SetUpZombie()
     {
+        //アニメーターをアタッチしているオブジェクト取得
+        animatorObj = animator.gameObject;
+
         currentMoveType = MoveType.WALK;
     }
 
@@ -34,6 +51,9 @@ public class ZombieAnimation : ZombieBase
     {
         Debug.Log("zombie:Attack");
         animator.SetTrigger("Attack");
+
+        //アニメーション終了時にローカル回転のリセット
+        StartCoroutine(ResetLocalTransform(2.5f));
     }
 
     public void Walk()
