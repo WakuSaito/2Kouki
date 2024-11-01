@@ -36,7 +36,10 @@ public class ZombieManager : MonoBehaviour
     float detectionPlayerRange = 10.0f;
 
     [SerializeField]//攻撃開始距離
-    float attackStartRange = 1.0f;
+    float attackStartRange = 3.0f;
+
+    [SerializeField]//このオブジェクトを削除するプレイヤーとの距離
+    float despawnPlayerDistance = 120.0f;
 
     //攻撃対象を発見している
     private bool isFoundTarget = false;
@@ -95,6 +98,12 @@ public class ZombieManager : MonoBehaviour
         pos.y = 0; playerPos.y = 0;//仮でy座標を無視
         //プレイヤーとの距離計算
         float playerDistance = Vector3.Distance(pos, playerPos);
+
+        //プレイヤーから離れすぎたら削除する
+        //if(playerDistance > despawnPlayerDistance)
+        //{
+        //    Destroy(gameObject);
+        //}
 
         //攻撃対象を見つけているか
         if(playerDistance < detectionPlayerRange)
