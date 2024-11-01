@@ -1037,6 +1037,10 @@ PrefabInstance:
       propertyPath: field of view
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 1364996129564457522, guid: 816f4f936f4bffd4c9ef290cfbaf213e, type: 3}
+      propertyPath: far clip plane
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 2097017067333818707, guid: 816f4f936f4bffd4c9ef290cfbaf213e, type: 3}
       propertyPath: m_Camera
       value: 
