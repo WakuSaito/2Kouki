@@ -84,6 +84,8 @@ public class Pistol : MonoBehaviour
                 //‹——£‚ª”ÍˆÍ“à‚È‚ç
                 if (distance <= 30.0f)
                 {
+                    Debug.DrawRay(ray.origin, ray.direction * 10, Color.red, 5);
+
                     GameObject hit_obj = hit.collider.gameObject;
                     Debug.Log(hit_obj);
                     if (hit_obj.tag == "Body")
