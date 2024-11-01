@@ -9,6 +9,9 @@ public class SpawnItem : MonoBehaviour
     [SerializeField]//プレハブ生成される確率（重み）
     int[] spawnItemProbability;
 
+    [SerializeField]//生成するオブジェクトのy座標
+    float spawnPosY = 1.0f;
+
     [SerializeField]//当たり判定のサイズの半分(円にしてもいい)
     Vector3 half_collider_size = new Vector3(0.5f,0.5f,0.5f);
 
@@ -60,7 +63,7 @@ public class SpawnItem : MonoBehaviour
                 //生成位置をランダムに決める
                 Vector3 spawn_pos = Random.insideUnitCircle * spawn_area_radius;
                 spawn_pos.z = spawn_pos.y;//平面上に生成するため入れ替え
-                spawn_pos.y = 0.5f;//y方向は一律にする
+                spawn_pos.y = spawnPosY;//y方向は一律にする
                 //アタッチしたオブジェクトを基準にする
                 spawn_pos.x += transform.position.x;
                 spawn_pos.z += transform.position.z;

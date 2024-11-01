@@ -48,6 +48,11 @@ public class ZombieManager : MonoBehaviour
     private bool isFreezePos = false;
     //死亡済フラグ
     private bool isDead = false;
+    //スタンフラグ
+    private bool isStan = false;
+
+    //スタン処理キャンセル用トークン
+    private CancellationTokenSource stanCancellTokenSource = new CancellationTokenSource();
 
     //目標とする向き
     Quaternion targetRotation;
@@ -80,13 +85,9 @@ public class ZombieManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.B))//デバッグ用
-        {
-            DamageHead();
-        }
-
         if (playerObj == null) return;
         if (isDead) return;//死亡済なら動かさない
+        if (isStan) return;//スタン時は動かさない
 
         //座標取得
         Vector3 pos = transform.position;
@@ -179,6 +180,27 @@ public class ZombieManager : MonoBehaviour
             );
     }
 
+    //一定時間スタン
+    private void Stan(double _sec)
+    {
+        if(isStan)
+            stanCancellTokenSource.Cancel();//現在動いているスタン処理のキャンセル
+
+        stanCancellTokenSource = new CancellationTokenSource();
+
+        isStan = true;
+
+        //移動ベクトルをゼロにする
+        zombieMove.StopMove();
+        zombieAnimation.Idle();//停止モーション
+
+        _ = DelayRunAsync(
+            _sec,
+            stanCancellTokenSource.Token,
+            () => isStan = false
+            );
+    }
+
     /// <summary>
     /// 体にダメージを受けた
     /// </summary>
@@ -191,8 +213,11 @@ public class ZombieManager : MonoBehaviour
         //プレイヤーとは逆方向のベクトルを求める
         Vector3 vec = (playerPos - pos) * -1.0f;
 
+        Stan(2.0);//スタン
+
         //のけぞらせる
         zombieAction.KnockBack(vec);
+
     }
     /// <summary>
     /// 頭にダメージを受けた
@@ -235,11 +260,18 @@ public class ZombieManager : MonoBehaviour
     /// <summary>
     /// 遅らせてActionを実行するasync
     /// </summary>
-    private async ValueTask DelayRunAsync(double wait_sec, Action action)
+    private async ValueTask DelayRunAsync(double _wait_sec, Action _action)
     {
         // ディレイ処理
-        await Task.Delay(TimeSpan.FromSeconds(wait_sec));
-        action();
+        await Task.Delay(TimeSpan.FromSeconds(_wait_sec));
+        _action();
+    }
+    //キャンセル用
+    private async ValueTask DelayRunAsync(double _wait_sec, CancellationToken _token, Action _action)
+    {
+        // ディレイ処理
+        await Task.Delay(TimeSpan.FromSeconds(_wait_sec), _token);
+        _action();
     }
 
 }
