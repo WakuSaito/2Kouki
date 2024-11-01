@@ -9,6 +9,9 @@ public class DogMove : DogBase
     [SerializeField]//歩く速度
     float walkSpeed = 3.0f;
 
+    [SerializeField]//振り向き速度
+    float turnSpeed = 1000;
+
     //目標とする向き
     Quaternion targetRotation;
 
@@ -26,7 +29,7 @@ public class DogMove : DogBase
     {
         //あまりManager以外でUpdateを使いたくないが、補間するため実装
         //向きを補間
-        var qua = Quaternion.RotateTowards(transform.rotation, targetRotation, 500 * Time.deltaTime);
+        var qua = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
 
         //y軸以外を無視
         qua.x = 0.0f; qua.z = 0.0f;
