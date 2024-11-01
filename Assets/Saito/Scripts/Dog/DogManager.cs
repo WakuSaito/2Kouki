@@ -52,7 +52,6 @@ public class DogManager : MonoBehaviour
     private bool isChargeTarget = false;
     //行動停止
     private bool isStopAction = false;
-
     //移動方法を歩行にする
     private bool isMoveTypeWalk = false;
 
@@ -122,6 +121,64 @@ public class DogManager : MonoBehaviour
         }
     }
 
+    //通常行動用の仮関数
+    private void NomalUpdate()
+    {
+        //移動先座標がプレイヤーから離れているなら決めなおす
+        float playerTargetDistance = Vector3.Distance(playerObj.transform.position, targetPos);
+        if (playerTargetDistance > stayPlayerDistance)
+        {
+            RandomTargetPos();
+            onFreezeMove = false;//停止中でも解除
+            isMoveTypeWalk = false;//走るようにする
+        }
+
+        if (onFreezeMove) return;
+
+        //目標座標までの位置を求める
+        Vector3 pos = transform.position;
+        pos.y = 0.5f;
+        //プレイヤーと自身の距離
+        float playerDistance = Vector3.Distance(playerObj.transform.position, pos);
+
+        //ここで移動
+        dogMove.LookAtPosition(targetPos);//向き変更
+        //プレイヤーとの距離によって速度変更
+        if (isMoveTypeWalk)
+        {
+            dogMove.WalkFront();
+            dogAnimation.Walk();
+        }
+        else
+        {
+            dogMove.RunFront();
+            dogAnimation.Run();
+        }
+
+        float distance = Vector3.Distance(pos, targetPos);
+        //到着したら
+        if (distance < 0.1f)
+        {
+            //停止
+            dogMove.StopMove();
+            dogAnimation.Idle();
+
+            //停止時間をランダムに決める
+            //変数は後でクラス変数にする
+            double freezeSec = UnityEngine.Random.Range(2.0f, 5.0f);
+
+            onFreezeMove = true;
+            _ = DelayRunAsync(
+                        freezeSec,
+                        () => {
+                            onFreezeMove = false;
+                            RandomTargetPos();
+                            isMoveTypeWalk = true;
+                        }
+                        );
+        }
+    }
+
     /// <summary>
     /// 対象のオブジェクトとの距離を求める
     /// </summary>
@@ -165,7 +222,7 @@ public class DogManager : MonoBehaviour
         isStopAction = true;
         isChargeTarget = false;
 
-        DelayRunAsync(
+        _ = DelayRunAsync(
             biteStaySec,
             () => {
                 isStopAction = false; 
@@ -182,61 +239,7 @@ public class DogManager : MonoBehaviour
         action();
     }
 
-    //通常行動用の仮関数
-    private void NomalUpdate()
-    {
-        //移動先座標がプレイヤーから離れているなら決めなおす
-        float playerTargetDistance = Vector3.Distance(playerObj.transform.position, targetPos);
-        if (playerTargetDistance > stayPlayerDistance) { 
-            RandomTargetPos();
-            onFreezeMove = false;//停止中でも解除
-            isMoveTypeWalk = false;//走るようにする
-        }
 
-        if (onFreezeMove) return;
-
-        //目標座標までの位置を求める
-        Vector3 pos = transform.position;
-        pos.y = 0.5f;
-        //プレイヤーと自身の距離
-        float playerDistance = Vector3.Distance(playerObj.transform.position, pos);
-
-        //ここで移動
-        dogMove.LookAtPosition(targetPos);//向き変更
-        //プレイヤーとの距離によって速度変更
-        if (isMoveTypeWalk)
-        {
-            dogMove.WalkFront();
-            dogAnimation.Walk();
-        }
-        else
-        {
-            dogMove.RunFront();
-            dogAnimation.Run();
-        }
-
-        float distance = Vector3.Distance(pos, targetPos);
-        //到着したら
-        if (distance < 0.1f)
-        {
-            //停止
-            dogMove.StopMove();
-            dogAnimation.Idle();
-
-            //停止時間をランダムに決める
-            //変数は後でクラス変数にする
-            double freezeSec = UnityEngine.Random.Range(2.0f, 5.0f);
-
-            onFreezeMove = true;
-            DelayRunAsync(
-                        freezeSec,
-                        () => { 
-                            onFreezeMove = false;
-                            RandomTargetPos();
-                            isMoveTypeWalk = true;}
-                        );
-        }
-    }
 
     //プレイヤー一定範囲のランダム位置を目標座標に設定する
     private void RandomTargetPos()

@@ -52,7 +52,7 @@ public class ZombieAnimation : ZombieBase
         Debug.Log("zombie:Attack");
         animator.SetTrigger("Attack");
 
-        //アニメーション終了時にローカル回転のリセット
+        //アニメーション終了時にローカルトランスフォームのリセット
         StartCoroutine(ResetLocalTransform(2.5f));
     }
 
@@ -71,6 +71,9 @@ public class ZombieAnimation : ZombieBase
         //同じアニメーションを複数呼び出ししないように
         if (currentMoveType == MoveType.IDLE) return;
         currentMoveType = MoveType.IDLE;
+
+        //アニメーション終了時にローカルトランスフォームのリセット
+        StartCoroutine(ResetLocalTransform(0));
 
         Debug.Log("zombie:Idle");
         animator.SetTrigger("Idle");

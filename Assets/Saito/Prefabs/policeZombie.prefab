@@ -1961,8 +1961,8 @@ Transform:
   m_GameObject: {fileID: 3275300789103218470}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3275300788025516114}
   m_Father: {fileID: 0}
@@ -2002,7 +2002,8 @@ MonoBehaviour:
   - {fileID: 3275300789103218468}
   - {fileID: 3275300788453508088}
   detectionPlayerRange: 10
-  attackStartRange: 1
+  attackStartRange: 2
+  despawnPlayerDistance: 120
 --- !u!114 &3275300789103218466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2017,7 +2018,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runSpeed: 6
   walkSpeed: 1
-  turnSpeed: 1000
+  turnSpeed: 500
 --- !u!114 &3275300789103218469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2044,7 +2045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockBackPower: 1
-  dropItemPrefab: {fileID: 5962637929669721271, guid: bb5e9057f081ba4468cc44433c9d7332, type: 3}
+  dropItemPrefab: {fileID: 6677430234295823807, guid: 951a80cb2ecb8dc4eb971e2c37615f35, type: 3}
 --- !u!1 &3275300789440745298
 GameObject:
   m_ObjectHideFlags: 0
