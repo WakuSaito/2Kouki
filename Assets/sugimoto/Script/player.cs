@@ -10,8 +10,8 @@ public class player : MonoBehaviour
     Rigidbody Rigidbody;
 
     const float Attacked_Speed = 1.5f;
-    const float Walk_Speed = 15.0f;
-    const float Run_Speed = 30.0f;
+    const float Walk_Speed = 5.0f;
+    const float Run_Speed = 10.0f;
     const float Max_X_angle = 60.0f;
     const int Damage_Num = 1;
     const int Attack_Distance = 30;
@@ -205,11 +205,6 @@ public class player : MonoBehaviour
                                         //手にある武器をピストルへ変更
                                         GetComponent<Inventory>().HandWeapon(Inventory.WEAPON_ID.PISTOL);
                                         hand_weapon = GetComponent<Inventory>().weapon_hand_obj[(int)Inventory.WEAPON_ID.PISTOL];
-
-                                        //transform設定
-                                        ParentChildren(hand, hand_weapon);                                //手の子にする
-                                        hand_weapon.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
-                                                                                                          //hand_weapon.transform.localEulerAngles = Pistol_angle;            //ピストル用のアングルへ変更
                                     }
                                 }
                                 //持っていない場合は弾丸を取得
@@ -308,6 +303,7 @@ public class player : MonoBehaviour
             //距離が範囲内なら
             if (distance <= _distance)
             {
+                Debug.DrawRay(ray.origin, ray.direction * 10, Color.red, 5);
                 return hit_obj;
             }
             else

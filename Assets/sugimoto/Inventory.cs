@@ -13,6 +13,8 @@ public class Inventory : MonoBehaviour
     //アイテムの種類保存
     public int[] item_type_id = new int[INVENTORY_MAX] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
+    [SerializeField] Transform hand_pos;
+
     public enum WEAPON_ID
     {
         HAND,
@@ -132,6 +134,17 @@ public class Inventory : MonoBehaviour
         //持っている武器を変更
         hand_weapon = (WEAPON_ID)weapon_cnt;
         weapon_hand_obj[weapon_cnt].SetActive(true);
+
+        switch(hand_weapon)
+        {
+            case WEAPON_ID.PISTOL:
+                //transform設定
+                ParentChildren(hand_pos.gameObject, weapon_hand_obj[weapon_cnt]);
+                weapon_hand_obj[weapon_cnt].transform.position = hand_pos.position;
+                weapon_hand_obj[weapon_cnt].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
+                break;
+        }
+
     }
 
     public void HandWeapon(WEAPON_ID _weapon_id)
@@ -202,5 +215,9 @@ public class Inventory : MonoBehaviour
         //}
     }
 
-
+    void ParentChildren(GameObject _parent, GameObject _child)
+    {
+        _child.transform.parent = _parent.transform;
+        _child.transform.position = _parent.transform.position;
+    }
 }
