@@ -112,8 +112,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnItemPrefab:
   - {fileID: 6455615091749529712, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
-  spawnItemProbability: 0a000000
-  half_collider_size: {x: 0.5, y: 0.5, z: 0.5}
+  - {fileID: 3275300789103218470, guid: cdb1c48205cbf8d4d9d8f69b88954f08, type: 3}
+  spawnItemProbability: 0a00000005000000
+  half_collider_size: {x: 1, y: 1, z: 1}
   spawn_quantity_min: 3
   spawn_quantity_max: 5
   spawn_area_radius: 10
