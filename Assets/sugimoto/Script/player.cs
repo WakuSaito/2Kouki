@@ -14,7 +14,7 @@ public class player : MonoBehaviour
     const float Run_Speed = 10.0f;
     const float Max_X_angle = 60.0f;
     const int Damage_Num = 1;
-    const int Attack_Distance = 30;
+    const int Attack_Distance = 180;
     const int Item_Distance = 5;
 
     Vector3 Pistol_angle { get { return new Vector3(315.0f, 14.999999f, 44.9999924f); } }
@@ -26,6 +26,10 @@ public class player : MonoBehaviour
     Vector3 before_pos;
 
     //視点移動
+    [SerializeField] float cameraSensitivity = 90;
+    float rot_x = 0.0f;
+    float rot_y = 0.0f;
+
     Vector3 mouse_pos;                      //マウスの位置
     [SerializeField] GameObject rot_obj;　  //弾丸生成位置用
     [SerializeField] GameObject dir_obj;    //向きを制御したいObject
@@ -58,6 +62,8 @@ public class player : MonoBehaviour
         Inventory = GetComponent<Inventory>();
         Animator = anim_obj.GetComponent<Animator>();
         Rigidbody = GetComponent<Rigidbody>();
+
+        Screen.lockCursor = true;
 
         //マウスの位置情報保存
         mouse_pos = Input.mousePosition;
@@ -137,45 +143,24 @@ public class player : MonoBehaviour
 
             //視点移動
             {
-                //Y軸制御
-                //angle.y += (Input.mousePosition.x - mouse_pos.x) * 0.2f;
-                //dir_obj.transform.localEulerAngles = new Vector3(dir_obj.transform.localEulerAngles.x, angle.y);
+                rot_x += Input.GetAxis("Mouse X") * cameraSensitivity * Time.deltaTime;
+                rot_y += Input.GetAxis("Mouse Y") * cameraSensitivity * Time.deltaTime;
+                rot_y = Mathf.Clamp(rot_y, -90, 90);
 
-                //if (mouse_pos.y <= Max_X_angle)
-                //{
-                //    mouse_pos.y = Max_X_angle;
-                //}
-                //else if (mouse_pos.y >= -Max_X_angle)
-                //{
-                //    //mouse_pos.y = -Max_X_angle;
-                //}
+                dir_obj.transform.localRotation = Quaternion.AngleAxis(rot_x, Vector3.up);
+                camera_obj.transform.localRotation = Quaternion.AngleAxis(rot_y, Vector3.left);//*を外した
 
-                //横方向
-
-                float rot_character = mouse_pos.x;
-                rot_character += 2.0f * Time.deltaTime;
-
-
-                dir_obj.transform.localRotation = Quaternion.Euler(0.0f, rot_character, 0.0f);
-
-                //縦方向制御
-                float rot = mouse_start.y - mouse_pos.y;
-                if (Mathf.Abs(rot) <= Max_X_angle)
+                if (Input.GetKeyDown(KeyCode.End))
                 {
-                    rot += 2.0f * Time.deltaTime;
-                    Quaternion rotation = Quaternion.Euler(rot, 0.0f, 0.0f);
-
-                    camera_obj.transform.localRotation = rotation;
+                    if (Screen.lockCursor == false)
+                    {
+                        Screen.lockCursor = true;
+                    }
+                    else
+                    {
+                        Screen.lockCursor = false;
+                    }
                 }
-                //camera_obj.transform.localRotation = rotation;
-                //アングル制御したいObjectに代入
-                //for (int i = 0; i < angle_change_obj.Length; i++)
-                //{
-                //    angle_change_obj[i].transform.localEulerAngles = angle;
-                //}
-
-
-                mouse_pos = Input.mousePosition;
             }
 
             //アイテムを拾う
@@ -413,3 +398,36 @@ public class player : MonoBehaviour
         Debug.Log("CLEAR");
     }
 }
+
+
+////Y軸制御
+////angle.y += (Input.mousePosition.x - mouse_pos.x) * 0.2f;
+////dir_obj.transform.localEulerAngles = new Vector3(dir_obj.transform.localEulerAngles.x, angle.y);
+////if (mouse_pos.y <= Max_X_angle)
+////{
+////    mouse_pos.y = Max_X_angle;
+////}
+////else if (mouse_pos.y >= -Max_X_angle)
+////{
+////    //mouse_pos.y = -Max_X_angle;
+////}
+////横方向
+//float rot_character = mouse_pos.x;
+//rot_character += 2.0f * Time.deltaTime;
+//dir_obj.transform.localRotation = Quaternion.Euler(0.0f, rot_character, 0.0f);
+////縦方向制御
+//float rot = mouse_start.y - mouse_pos.y;
+//if (Mathf.Abs(rot) <= Max_X_angle)
+//{
+//    rot += 2.0f * Time.deltaTime;
+//    Quaternion rotation = Quaternion.Euler(rot, 0.0f, 0.0f);
+//    camera_obj.transform.localRotation = rotation;
+//}
+////camera_obj.transform.localRotation = rotation;
+////アングル制御したいObjectに代入
+////for (int i = 0; i < angle_change_obj.Length; i++)
+////{
+////    angle_change_obj[i].transform.localEulerAngles = angle;
+////}
+//mouse_pos = Input.mousePosition;
+
