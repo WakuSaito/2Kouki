@@ -12,6 +12,8 @@ public class TestPlayerMnager : MonoBehaviour
     [SerializeField] public float moveSpeed;  //移動速度
     [SerializeField] public float jumpPower;  //ジャンプ力
 
+    [SerializeField] private float cameraSpeed = 100;
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -20,10 +22,12 @@ public class TestPlayerMnager : MonoBehaviour
     void Update()
     {
         // マウスによる視点操作
-        float X_Rotation = Input.GetAxis("Mouse X");
-        float Y_Rotation = Input.GetAxis("Mouse Y");
-        horRot.transform.Rotate(new Vector3(0, X_Rotation * 2, 0));
-        verRot.transform.Rotate(-Y_Rotation * 2, 0, 0);
+        float X_Rotation = Input.GetAxis("Mouse X") * cameraSpeed * Time.deltaTime;
+        float Y_Rotation = Input.GetAxis("Mouse Y") * cameraSpeed * Time.deltaTime;
+        //horRot.transform.localRotation = Quaternion.AngleAxis(X_Rotation, Vector3.up);
+        //verRot.transform.localRotation = Quaternion.AngleAxis(Y_Rotation, Vector3.left);
+        horRot.transform.Rotate(new Vector3(0, X_Rotation * 2, 0), Space.Self);
+        verRot.transform.Rotate(-Y_Rotation * 2, 0, 0, Space.Self);
 
         //Wキーがおされたら
         if (Input.GetKey(KeyCode.W))
