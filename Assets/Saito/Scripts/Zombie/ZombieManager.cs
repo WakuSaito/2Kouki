@@ -33,7 +33,9 @@ public class ZombieManager : MonoBehaviour
     GameObject playerObj;
 
     [SerializeField]//プレイヤーの探知範囲
-    float detectionPlayerRange = 10.0f;
+    float detectionPlayerRangeMin = 10.0f;
+    [SerializeField]
+    float detectionPlayerRangeMax = 30.0f;
 
     [SerializeField]//攻撃開始距離
     float attackStartRange = 3.0f;
@@ -85,6 +87,7 @@ public class ZombieManager : MonoBehaviour
 
     }
 
+
     // Update is called once per frame
     void Update()
     {
@@ -106,7 +109,7 @@ public class ZombieManager : MonoBehaviour
         //}
 
         //攻撃対象を見つけているか
-        if(playerDistance < detectionPlayerRange)
+        if(playerDistance < detectionPlayerRangeMin)
         {
             isFoundTarget = true;//発見
         }
