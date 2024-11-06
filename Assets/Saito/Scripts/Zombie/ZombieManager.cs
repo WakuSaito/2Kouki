@@ -62,6 +62,9 @@ public class ZombieManager : MonoBehaviour
     //目標とする向き
     Quaternion targetRotation;
 
+    [SerializeField]//Meshがアタッチされたオブジェクト
+    GameObject meshObj;
+
     private void Awake()
     {
         //プレイヤーオブジェクト取得
@@ -280,6 +283,13 @@ public class ZombieManager : MonoBehaviour
                     _sec,
                     () => isFreezePos = false
                     );
+    }
+
+    //色のアルファ値変更
+    public void ChangeColorAlpha(float _alpha)
+    {
+        Color currentColor = meshObj.GetComponent<Renderer>().materials[1].color;
+        meshObj.GetComponent<Renderer>().materials[1].color = new Color(currentColor.r,currentColor.g,currentColor.b,_alpha);
     }
 
     /// <summary>

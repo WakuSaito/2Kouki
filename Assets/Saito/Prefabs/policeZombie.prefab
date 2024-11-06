@@ -617,6 +617,7 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: cab84fef9c72ce34989a72bb22d5a553, type: 2}
+  - {fileID: 2100000, guid: f1a55bac68c6d0f448e9db7588ff0aae, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2001,10 +2002,11 @@ MonoBehaviour:
   - {fileID: 3275300789103218469}
   - {fileID: 3275300789103218468}
   - {fileID: 3275300788453508088}
-  detectionPlayerRange: 10
+  detectionPlayerRangeMin: 10
+  detectionPlayerRangeMax: 30
   attackStartRange: 2
   despawnPlayerDistance: 120
-  rend: {fileID: 0}
+  meshObj: {fileID: 3275300788025883698}
 --- !u!114 &3275300789103218466
 MonoBehaviour:
   m_ObjectHideFlags: 0

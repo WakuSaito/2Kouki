@@ -671,6 +671,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 905b5f5eb8469c14fafcc1e4522e76aa, type: 3}
+--- !u!1 &1782173521 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4193280466009199003, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
+  m_PrefabInstance: {fileID: 7180837759173564005}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1881576729
 GameObject:
   m_ObjectHideFlags: 0
@@ -1716,7 +1721,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3275300789103218470, guid: cdb1c48205cbf8d4d9d8f69b88954f08, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3275300789103218470, guid: cdb1c48205cbf8d4d9d8f69b88954f08, type: 3}
       propertyPath: m_TagString
@@ -3121,6 +3126,10 @@ PrefabInstance:
       propertyPath: rend
       value: 
       objectReference: {fileID: 538074449}
+    - target: {fileID: 6455615091749529713, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
+      propertyPath: meshObj
+      value: 
+      objectReference: {fileID: 1782173521}
     - target: {fileID: 6455615091749529713, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
       propertyPath: renderer
       value: 
