@@ -36,6 +36,9 @@ public class DogManager : MonoBehaviour
     [SerializeField]//待機状態になるプレイヤーとの距離
     private float stayPlayerDistance = 5.0f;
 
+    [SerializeField]//探知距離
+    private float detectRange = 30.0f;
+
 
     //攻撃対象オブジェクト
     private GameObject attackTargetObj;
@@ -79,6 +82,21 @@ public class DogManager : MonoBehaviour
         RandomTargetPos();
     }
 
+    //デバッグ用
+    private void DebugUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            GameObject obj = GameObject.FindGameObjectWithTag("Zombie");
+            OrderAttack(obj);
+        }
+
+        if(Input.GetKeyDown(KeyCode.U))
+        {
+            OrderDetection();
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -87,11 +105,7 @@ public class DogManager : MonoBehaviour
             return; 
         }
 
-        if(Input.GetKeyDown(KeyCode.O))//デバッグ用
-        {
-            GameObject obj = GameObject.FindGameObjectWithTag("Zombie");
-            OrderAttack(obj);
-        }
+        DebugUpdate();//デバッグ用
 
         if (isChargeTarget)//突進
         {
@@ -202,6 +216,40 @@ public class DogManager : MonoBehaviour
         isChargeTarget = true;
 
         attackTargetObj = _obj;//攻撃対象を取得
+    }
+    /// <summary>
+    /// 指示：周囲の探知
+    /// </summary>
+    public void OrderDetection()
+    {
+        Debug.Log("探知開始");
+
+        //探知できたオブジェクト保存用
+        List<GameObject> targetObj = new List<GameObject>();
+
+        //ゾンビ全取得
+        GameObject[] zombieObjects = GameObject.FindGameObjectsWithTag("Zombie");
+        //距離が一定以下のゾンビを全て取得
+        foreach (var zombie in zombieObjects)
+        {
+            //距離を調べる
+            Vector3 zombiePos = zombie.transform.position;
+            if (Vector3.Distance(transform.position, zombiePos) > detectRange) continue;
+
+            targetObj.Add(zombie);//リストに追加
+        }
+
+        //ここでアイテムもリストに追加する
+
+
+        foreach(var obj in targetObj)
+        {
+            Vector3 markPos = obj.transform.position;
+            //Instantiate(マーク用オブジェクト,markPos)
+            //マーク用オブジェクトはビルボードがいいかも
+        }
+
+        Debug.Log("探知結果:" + targetObj.Count + "個");
     }
 
     /// <summary>

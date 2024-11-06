@@ -33,7 +33,9 @@ public class ZombieManager : MonoBehaviour
     GameObject playerObj;
 
     [SerializeField]//プレイヤーの探知範囲
-    float detectionPlayerRange = 10.0f;
+    float detectionPlayerRangeMin = 10.0f;
+    [SerializeField]
+    float detectionPlayerRangeMax = 30.0f;
 
     [SerializeField]//攻撃開始距離
     float attackStartRange = 3.0f;
@@ -60,6 +62,9 @@ public class ZombieManager : MonoBehaviour
     //目標とする向き
     Quaternion targetRotation;
 
+    [SerializeField]//Meshがアタッチされたオブジェクト
+    GameObject meshObj;
+
     private void Awake()
     {
         //プレイヤーオブジェクト取得
@@ -85,6 +90,7 @@ public class ZombieManager : MonoBehaviour
 
     }
 
+
     // Update is called once per frame
     void Update()
     {
@@ -106,7 +112,7 @@ public class ZombieManager : MonoBehaviour
         //}
 
         //攻撃対象を見つけているか
-        if(playerDistance < detectionPlayerRange)
+        if(playerDistance < detectionPlayerRangeMin)
         {
             isFoundTarget = true;//発見
         }
@@ -277,6 +283,13 @@ public class ZombieManager : MonoBehaviour
                     _sec,
                     () => isFreezePos = false
                     );
+    }
+
+    //色のアルファ値変更
+    public void ChangeColorAlpha(float _alpha)
+    {
+        Color currentColor = meshObj.GetComponent<Renderer>().materials[1].color;
+        meshObj.GetComponent<Renderer>().materials[1].color = new Color(currentColor.r,currentColor.g,currentColor.b,_alpha);
     }
 
     /// <summary>

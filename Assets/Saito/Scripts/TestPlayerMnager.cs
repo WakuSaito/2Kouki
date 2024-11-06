@@ -17,10 +17,10 @@ public class TestPlayerMnager : MonoBehaviour
 
     [SerializeField] private GameObject circle;
 
-    [SerializeField] private Transform muzzleTransform;
-    [SerializeField] private GameObject bulletLine;
+    [SerializeField] private Transform muzzleTransform;//銃口位置
+    [SerializeField] private GameObject bulletLine;//弾道
 
-    [SerializeField] private float bulletSpread = 0.03f;
+    [SerializeField] private float bulletSpread = 0.03f;//弾ブレ
 
     void Start()
     {
@@ -99,10 +99,12 @@ public class TestPlayerMnager : MonoBehaviour
         //距離が一定以下のゾンビを全て取得
         foreach (var zombie in zombieObjects)
         {
+            zombie.GetComponent<ZombieManager>().ChangeColorAlpha(0.0f);
+
             Debug.Log("ゾンビ発見");
             //距離を調べる
             Vector3 zombiePos = zombie.transform.position;
-            zombiePos.y += 2.0f;
+            //zombiePos.y += 2.0f;
             if (Vector3.Distance(playerPos, zombiePos) > activeDistance) continue;
 
             targetZombies.Add(zombie);//リストに追加
@@ -114,12 +116,16 @@ public class TestPlayerMnager : MonoBehaviour
             GameObject nearestEnemy =
                 targetZombies.OrderBy(p => Vector3.Angle((p.transform.position- playerPos).normalized, eyeDir)).First();
 
+            Debug.Log("角度:" + Vector3.Angle((nearestEnemy.transform.position - playerPos).normalized, eyeDir));
+
             //取得したオブジェクトまでと視点の角度が一定以下なら
             if(Vector3.Angle((nearestEnemy.transform.position - playerPos).normalized, eyeDir) <= activeAngle)
             {
                 //とりあえずマーク用のオブジェクトを移動させる
                 circle.SetActive(true);
                 circle.transform.position = nearestEnemy.transform.position;
+
+                nearestEnemy.GetComponent<ZombieManager>().ChangeColorAlpha(0.25f);
                 
                 return;
             }
@@ -127,6 +133,7 @@ public class TestPlayerMnager : MonoBehaviour
         }
 
         circle.SetActive(false);
+
         return;
     }
 
