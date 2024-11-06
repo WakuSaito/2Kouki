@@ -1947,7 +1947,7 @@ GameObject:
   - component: {fileID: 3275300789103218468}
   m_Layer: 0
   m_Name: policeZombie
-  m_TagString: Untagged
+  m_TagString: Zombie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2004,6 +2004,7 @@ MonoBehaviour:
   detectionPlayerRange: 10
   attackStartRange: 2
   despawnPlayerDistance: 120
+  rend: {fileID: 0}
 --- !u!114 &3275300789103218466
 MonoBehaviour:
   m_ObjectHideFlags: 0
