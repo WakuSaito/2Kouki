@@ -217,16 +217,29 @@ public class ZombieManager : MonoBehaviour
     {
         Debug.Log("Body");
 
-        Vector3 playerPos = playerObj.transform.position;
-        Vector3 pos = transform.position;
-        //プレイヤーとは逆方向のベクトルを求める
-        Vector3 vec = (playerPos - pos) * -1.0f;
+        Stan(2.0);//スタン
+    }
+    //被弾地点からアニメーションを変更させる用のオーバーロード
+    public void DamageBody(Vector3 _hitPos)
+    {
+        Debug.Log("Body");
+
+        Vector3 vec = _hitPos - transform.position;
+
+        Vector3 axis = Vector3.Cross(transform.forward, vec);
+
+        if (axis.y < 0)
+        {
+            Debug.Log("左側");
+            zombieAnimation.DamageHitLeft();
+        }
+        else
+        {
+            Debug.Log("右側");
+            zombieAnimation.DamageHitRight();
+        }
 
         Stan(2.0);//スタン
-
-        //のけぞらせる
-        zombieAction.KnockBack(vec);
-
     }
     /// <summary>
     /// 頭にダメージを受けた

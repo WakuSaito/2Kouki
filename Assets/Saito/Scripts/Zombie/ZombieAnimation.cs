@@ -88,6 +88,19 @@ public class ZombieAnimation : ZombieBase
         Debug.Log("zombie:Run");
         animator.SetTrigger("Run");
     }
+
+    //被ダメージモーション
+    //左右によって変更
+    public void DamageHitLeft()
+    {
+        animator.SetTrigger("DamageL");
+    }
+    public void DamageHitRight()
+    {
+        animator.SetTrigger("DamageR");
+    }
+
+
     public void Die()
     {
         Debug.Log("zombie:Die");
