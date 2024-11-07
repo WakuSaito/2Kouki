@@ -10,6 +10,7 @@ public class HpGage : MonoBehaviour
     [SerializeField]  GameObject graceGauge;
 
     //最大体力
+    int max_hp;
     int hp;
 
     // HP1あたりの幅
@@ -20,9 +21,10 @@ public class HpGage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hp = GetComponent<player>().hp;
+        max_hp = GetComponent<player>().MAX_HP;
+        hp = max_hp;
         // スプライトの幅を最大HPで割ってHP1あたりの幅を”_HP1”に入れておく
-        hp_memory = gauge.GetComponent<RectTransform>().sizeDelta.x / hp;
+        hp_memory = gauge.GetComponent<RectTransform>().sizeDelta.x / max_hp;
     }
 
     public void HpDamageGage(float _damege)
