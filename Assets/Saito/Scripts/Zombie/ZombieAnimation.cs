@@ -18,7 +18,8 @@ public class ZombieAnimation : ZombieBase
     { 
         IDLE,
         WALK,
-        RUN
+        RUN,
+        DIE
     }
 
     //現在の移動アニメーション
@@ -58,6 +59,8 @@ public class ZombieAnimation : ZombieBase
 
     public void Walk()
     {
+        //死亡後に起き上がらないように
+        if (currentMoveType == MoveType.DIE) return;
         //同じアニメーションを複数呼び出ししないように
         if (currentMoveType == MoveType.WALK) return;
         currentMoveType = MoveType.WALK;
@@ -68,6 +71,8 @@ public class ZombieAnimation : ZombieBase
 
     public void Idle()
     {
+        //死亡後に起き上がらないように
+        if (currentMoveType == MoveType.DIE) return;
         //同じアニメーションを複数呼び出ししないように
         if (currentMoveType == MoveType.IDLE) return;
         currentMoveType = MoveType.IDLE;
@@ -81,6 +86,8 @@ public class ZombieAnimation : ZombieBase
 
     public void Run()
     {
+        //死亡後に起き上がらないように
+        if (currentMoveType == MoveType.DIE) return;
         //同じアニメーションを複数呼び出ししないように
         if (currentMoveType == MoveType.RUN) return;
         currentMoveType = MoveType.RUN;
@@ -93,16 +100,28 @@ public class ZombieAnimation : ZombieBase
     //左右によって変更
     public void DamageHitLeft()
     {
+        //死亡後に起き上がらないように
+        if (currentMoveType == MoveType.DIE) return;
+        currentMoveType = MoveType.IDLE;
+
         animator.SetTrigger("DamageL");
     }
     public void DamageHitRight()
     {
+        //死亡後に起き上がらないように
+        if (currentMoveType == MoveType.DIE) return;
+        currentMoveType = MoveType.IDLE;
+
         animator.SetTrigger("DamageR");
     }
 
 
     public void Die()
     {
+        //同じアニメーションを複数呼び出ししないように
+        if (currentMoveType == MoveType.DIE) return;
+        currentMoveType = MoveType.DIE;
+
         Debug.Log("zombie:Die");
         animator.SetTrigger("Die");
     }
