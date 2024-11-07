@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 3013843455411131510}
   - component: {fileID: 2419650818468006276}
   - component: {fileID: 3313765365788849699}
-  - component: {fileID: 8656839953575412234}
+  - component: {fileID: -2213753444603074076}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: pistol
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet_obj: {fileID: 3390852007210028227, guid: e155a2f4f5b9e534087fd0bef3b5954b, type: 3}
   bullet_num: 10
---- !u!114 &8656839953575412234
+--- !u!114 &-2213753444603074076
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,11 +187,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5962637929669721271}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dd34dade1988c94dbcb119f395ae6f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 836fa88f12cfa1c46a8903b831356ad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  get_num: 000000000a000000
 --- !u!1 &6055169985821773645
 GameObject:
   m_ObjectHideFlags: 0

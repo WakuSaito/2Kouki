@@ -34,7 +34,7 @@ public class Pistol : MonoBehaviour
 
 
                 //インベントリに弾丸があるか
-                if (inventory.item_type_id[i] == (int)Item.ITEM_ID.BULLET)
+                if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
                 {
 
                     //ピストルに入る弾丸数を調べる

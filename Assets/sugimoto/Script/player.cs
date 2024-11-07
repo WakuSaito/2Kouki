@@ -64,6 +64,8 @@ public class player : MonoBehaviour
         Animator = anim_obj.GetComponent<Animator>();
         Rigidbody = GetComponent<Rigidbody>();
 
+        hp = MAX_HP;
+
         Screen.lockCursor = true;
 
         //マウスの位置情報保存
@@ -83,46 +85,44 @@ public class player : MonoBehaviour
                 //ダッシュ判定処理
                 if (!attacked_zonbi_flag)
                 {
+                    //移動キーが入力されていないかつダッシュコマンド入力１回目じゃなければ移動初期化
+                    if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D) && key_push_cnt != 1)
                     {
-                        //移動キーが入力されていないかつダッシュコマンド入力１回目じゃなければ移動初期化
-                        if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D) && key_push_cnt != 1)
+                        key_push_cnt = 0;
+                        push_timer = 0.0f;
+                        run_flag = false;
+                    }
+
+                    //Wキーが２回入力されたらダッシュ
+                    if (Input.GetKeyDown(KeyCode.W))
+                    {
+                        key_push_cnt++;
+                    }
+
+                    //ダッシュコマンド１回目の場合
+                    if (key_push_cnt == 1)
+                    {
+                        run_flag = false;
+
+                        //ダブル入力されなければ歩き（短い時間以内に２回入力）
+                        push_timer += Time.deltaTime;
+                        if (push_timer >= 1)
                         {
                             key_push_cnt = 0;
-                            push_timer = 0.0f;
-                            run_flag = false;
                         }
-
-                        //Wキーが２回入力されたらダッシュ
-                        if (Input.GetKeyDown(KeyCode.W))
-                        {
-                            key_push_cnt++;
-                        }
-
-                        //ダッシュコマンド１回目の場合
-                        if (key_push_cnt == 1)
-                        {
-                            run_flag = false;
-
-                            //ダブル入力されなければ歩き（短い時間以内に２回入力）
-                            push_timer += Time.deltaTime;
-                            if (push_timer >= 1)
-                            {
-                                key_push_cnt = 0;
-                            }
-                        }
-                        //ダブル入力されればダッシュ
-                        else if (key_push_cnt >= 2)
-                        {
-                            run_flag = true;
-                        }
-
-
-                        if(Input.GetKey(KeyCode.W)&& Input.GetKey(KeyCode.LeftShift))
-                        {
-                            run_flag = true;
-                        }
-
                     }
+                    //ダブル入力されればダッシュ
+                    else if (key_push_cnt >= 2)
+                    {
+                        run_flag = true;
+                    }
+
+
+                    if(Input.GetKey(KeyCode.W)&& Input.GetKey(KeyCode.LeftShift))
+                    {
+                        run_flag = true;
+                    }
+
 
                     //走り移動
                     if (run_flag)
@@ -163,6 +163,8 @@ public class player : MonoBehaviour
                     }
                 }
             }
+
+            GetComponent<Inventory>().ItemInventory();
 
             //アイテムを拾う
             {
