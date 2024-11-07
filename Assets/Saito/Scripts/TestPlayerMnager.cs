@@ -10,7 +10,8 @@ public class TestPlayerMnager : MonoBehaviour
     private Vector3 moveVelocity;  // キャラクターコントローラーを動かすためのVector3型の変数
     private Transform verRot;  //縦の視点移動の変数(カメラに合わせる)
     private Transform horRot;  //横の視点移動の変数(プレイヤーに合わせる)
-    [SerializeField] private float moveSpeed;  //移動速度
+    [SerializeField] private float walkSpeed = 3.0f;  //移動速度
+    [SerializeField] private float dashSpeed = 5.0f;  //移動速度
     [SerializeField] private float jumpPower;  //ジャンプ力
 
     [SerializeField] private float cameraSpeed = 100;
@@ -55,26 +56,41 @@ public class TestPlayerMnager : MonoBehaviour
             verRot.transform.Rotate(-Y_Rotation * 2, 0, 0, Space.Self);
         }
 
+        Vector3 vec = Vector3.zero;
+        float moveSpeed;
+
+        if(Input.GetKey(KeyCode.LeftShift))
+        {
+            moveSpeed = dashSpeed;
+        }
+        else
+        {
+            moveSpeed = walkSpeed;
+        }
+
         //Wキーがおされたら
         if (Input.GetKey(KeyCode.W))
         {
-            characterController.Move(this.gameObject.transform.forward * moveSpeed * Time.deltaTime);
+            vec += transform.forward;
         }
         //Sキーがおされたら
         if (Input.GetKey(KeyCode.S))
         {
-            characterController.Move(this.gameObject.transform.forward * -1f * moveSpeed * Time.deltaTime);
+            vec -= transform.forward;
         }
         //Aキーがおされたら
         if (Input.GetKey(KeyCode.A))
         {
-            characterController.Move(this.gameObject.transform.right * -1 * moveSpeed * Time.deltaTime);
+            vec -= transform.right;
         }
         //Dキーがおされたら
         if (Input.GetKey(KeyCode.D))
         {
-            characterController.Move(this.gameObject.transform.right * moveSpeed * Time.deltaTime);
-        }
+            vec += transform.right;
+        }      
+
+        characterController.Move(vec.normalized * moveSpeed * Time.deltaTime);
+
 
         // 接地しているとき
         if (characterController.isGrounded)
@@ -215,7 +231,7 @@ public class TestPlayerMnager : MonoBehaviour
 
 
         //デバッグのRay
-        Debug.DrawRay(verRot.position, gunVec * bulletDistance, Color.red, bulletDistance, true);
+        Debug.DrawRay(verRot.position, gunVec * bulletDistance, Color.red, 3.0f, true);
     }
 }
 
