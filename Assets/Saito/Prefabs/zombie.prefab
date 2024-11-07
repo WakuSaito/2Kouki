@@ -1653,7 +1653,7 @@ MonoBehaviour:
   detectionPlayerRangeMax: 30
   attackStartRange: 2
   despawnPlayerDistance: 120
-  meshObj: {fileID: 0}
+  meshObj: {fileID: 4193280466009199003}
 --- !u!114 &6455615091749529718
 MonoBehaviour:
   m_ObjectHideFlags: 0
