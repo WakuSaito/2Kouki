@@ -42,6 +42,7 @@ public class player : MonoBehaviour
     GameObject hand_weapon;//手にある武器
 
     //判定
+    public int MAX_HP;
     public int hp;
     public bool attacked_zonbi_flag = false;//ダメージ判定
     public bool bitten_zonbi_flag = false;//ゲームオーバー判定
