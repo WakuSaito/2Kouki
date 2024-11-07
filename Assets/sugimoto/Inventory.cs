@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : ID
 {
     public const int INVENTORY_MAX = 10;
     public const int WEAPON_INVENTORY_MAX = 4;
@@ -13,7 +13,18 @@ public class Inventory : MonoBehaviour
     //アイテムの種類保存
     public int[] item_type_id = new int[INVENTORY_MAX] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
+    //手の位置
     [SerializeField] Transform hand_pos;
+
+
+    //アイテム
+
+    //インベントリUI
+    [SerializeField] GameObject item_inventory;
+    //インベントリ開いてるか閉じてるか
+    bool item_inventory_flag = false;
+    //インベントリの枠
+    [SerializeField] Transform[] item_box = new Transform[INVENTORY_MAX];
 
     public enum WEAPON_ID
     {
@@ -41,6 +52,25 @@ public class Inventory : MonoBehaviour
     {
     }
 
+    public void ItemInventory()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (!item_inventory_flag)
+            {
+                Screen.lockCursor = false;
+                item_inventory_flag = true;
+                item_inventory.SetActive(true);
+            }
+            else
+            {
+                Screen.lockCursor = true;
+                item_inventory_flag = false;
+                item_inventory.SetActive(false);
+            }
+        }
+    }
+
     public int PistolBulletNum()
     {
         if (weapon_hand_obj[(int)WEAPON_ID.PISTOL] != null)
@@ -59,7 +89,7 @@ public class Inventory : MonoBehaviour
 
         for (int i = 0; i < INVENTORY_MAX; i++)
         {
-            if (item_type_id[i] == (int)Item.ITEM_ID.BULLET)
+            if (item_type_id[i] == (int)ITEM_ID.BULLET)
             {
                 bullet_num += item_num[i];
             }
@@ -157,21 +187,20 @@ public class Inventory : MonoBehaviour
 
     public void ItemGet(GameObject _item)
     {
-        //アイテムスクリプトからアイテムのID取得
-        int item_id = (int)_item.GetComponent<Item>().id;
+        //アイテムからID取得
+        int item_id = (int)_item.GetComponent<ItemSet_ID>().id;
 
         //アイテムがピストルだった場合のみ取得するアイテム変更
-        if (item_id == (int)Item.ITEM_ID.PISTOL)
+        if (item_id == (int)ITEM_ID.PISTOL)
         {
-            item_id = (int)Item.ITEM_ID.BULLET;
+            item_id = (int)ITEM_ID.BULLET;
         }
 
         //取得可能なアイテムの数
-        int get_num = _item.GetComponent<Item>().get_num[item_id];
+        int get_num = item_inventory.GetComponent<ItemInventory>().get_num[item_id];
 
         while (get_num != 0)
         {
-
             for (int i = 0; i < INVENTORY_MAX; i++)
             {
                 //インベントリのアイテム欄が空白(-1)または同じIDだったら
@@ -181,6 +210,8 @@ public class Inventory : MonoBehaviour
                     {
                         item_type_id[i] = item_id;
                     }
+
+                    Instantiate(item_inventory.GetComponent<ItemInventory>().item_obj[item_id], item_box[item_id]);
 
                     int get_max = get_num;
                     for (int cnt = 1; cnt <= get_max; cnt++)
