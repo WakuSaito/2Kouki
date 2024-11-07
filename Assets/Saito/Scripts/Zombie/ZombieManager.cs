@@ -59,16 +59,18 @@ public class ZombieManager : MonoBehaviour
     //スタン処理キャンセル用トークン
     private CancellationTokenSource stanCancellTokenSource = new CancellationTokenSource();
 
-    //目標とする向き
-    Quaternion targetRotation;
-
     [SerializeField]//Meshがアタッチされたオブジェクト
     GameObject meshObj;
+    //現在の色のアルファ値
+    private float currentAlpha;
 
     private void Awake()
     {
         //プレイヤーオブジェクト取得
         playerObj = GameObject.FindGameObjectWithTag("Player");
+
+        //カラーのアルファ値取得
+        currentAlpha = meshObj.GetComponent<Renderer>().materials[1].color.a;
     }
 
     // Start is called before the first frame update
@@ -288,6 +290,10 @@ public class ZombieManager : MonoBehaviour
     //色のアルファ値変更
     public void ChangeColorAlpha(float _alpha)
     {
+        //色が変わらない場合処理を行わないようにする
+        if (currentAlpha == _alpha) return;
+        currentAlpha = _alpha;
+
         Color currentColor = meshObj.GetComponent<Renderer>().materials[1].color;
         meshObj.GetComponent<Renderer>().materials[1].color = new Color(currentColor.r,currentColor.g,currentColor.b,_alpha);
     }
