@@ -7,8 +7,7 @@ public class Text_manager : MonoBehaviour
 {
     Inventory Inventory;
     [SerializeField] GameObject player_obj;
-    [SerializeField] Text pistol_bullet_text;
-    [SerializeField] Text inventory_bullet_text;
+    [SerializeField] Text bullet_text;
 
     // Start is called before the first frame update
     void Start()
@@ -19,13 +18,12 @@ public class Text_manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TextChange();
+        Debug.Log(Inventory.PistolBulletNum());
+        bullet_text.text = Inventory.PistolBulletNum() + "Å^" + Inventory.InventoryBulletNum();
     }
 
-    void TextChange()
-    {
-        pistol_bullet_text.text = Inventory.PistolBulletNum() + " / Pistol ";
-        //inventory_bullet_text.text = Inventory.InventoryBulletNum() + " / InventoryBullet ";
-    }
+    //void TextChange()
+    //{
+    //}
 
 }

@@ -11,8 +11,24 @@ public class Inventory : ID
     const int ITEM_MAX = 30;                    //スタックできる最大数
 
     //武器インベントリ
-    public GameObject[] weapon_hand_obj = new GameObject[WEAPON_INVENTORY_MAX] { null, null, null, null };
+    public GameObject[] weapon_hand_obj = new GameObject[WEAPON_INVENTORY_MAX] { null, null, null, null };  //武器配列
     int weapon_cnt = 0;
+    /*UI関連*/
+    [SerializeField] GameObject[] weapon_sprite_obj = new GameObject[WEAPON_INVENTORY_MAX]; //アイテムのスプライトを入れるオブジェ
+    [SerializeField] Sprite[] weapon_sprite;                                                //種類別武器スプライト
+    [SerializeField] Transform frame_pos;
+    [SerializeField] GameObject bullet_text_obj;
+    [SerializeField] Text bullet_text;
+
+    public enum WEAPON_ID
+    {
+        HAND,
+        KNIFE,
+        PISTOL,
+        DOG,
+    }
+
+    public WEAPON_ID hand_weapon = WEAPON_ID.HAND;
 
 
     //アイテムインベントリ 
@@ -26,15 +42,6 @@ public class Inventory : ID
     [SerializeField] Sprite[] item_sprite;                                              //種類別アイテムスプライト
     [SerializeField] Text[] item_num_text;                                              //アイテムの個数表示
 
-    public enum WEAPON_ID
-    {
-        HAND,
-        KNIFE,
-        PISTOL,
-        DOG,
-    }
-
-    public WEAPON_ID hand_weapon = WEAPON_ID.HAND;
 
     // Start is called before the first frame update
     void Start()
@@ -45,11 +52,11 @@ public class Inventory : ID
     // Update is called once per frame
     void Update()
     {
-
+        BulletText();
     }
 
 
-    
+
     public void ItemInventory()
     {
         //インベントリ開閉
@@ -68,7 +75,6 @@ public class Inventory : ID
                 item_inventory.SetActive(false);
             }
         }
-
     }
 
     public int PistolBulletNum()
@@ -76,7 +82,8 @@ public class Inventory : ID
         //ピストルに入っている弾数を取得
         if (weapon_hand_obj[(int)WEAPON_ID.PISTOL] != null)
         {
-            return weapon_hand_obj[(int)WEAPON_ID.PISTOL].GetComponent<Pistol>().pistol_bullet_num;
+            int num= weapon_hand_obj[(int)WEAPON_ID.PISTOL].GetComponent<Pistol>().pistol_bullet_num;
+            return num;
         }
         else
         {
@@ -87,9 +94,7 @@ public class Inventory : ID
     public int InventoryBulletNum()
     {
         //インベントリに入っているすべての弾数を取得
-
         int bullet_num = 0;
-
         for (int i = 0; i < INVENTORY_MAX; i++)
         {
             if (item_type_id[i] == (int)ITEM_ID.BULLET)
@@ -132,16 +137,13 @@ public class Inventory : ID
         //取得可能なアイテムの数
         int get_num = _item.GetComponent<ItemSet_ID>().get_num;
 
-        Debug.Log(get_num);
-
-
         //取得可能数が0になるまでループ
         while (get_num != 0)
         {
             bool input_flag = false;    //インベントリに入れるか調べる
             int input_pos = -1;         //入れる位置を保存
 
-            //インベントリに同じアイテムがあるか調べる
+            //最初にインベントリに同じアイテムがあるか調べる
             for (int i = 0; i < INVENTORY_MAX; i++)
             {
                 //インベントリのアイテムと同じIDだったら
@@ -154,7 +156,7 @@ public class Inventory : ID
                 }
             }
 
-            //同じアイテムがなかった場合
+            //次に同じアイテムがなかった場合
             if (!input_flag)
             {
                 for (int i = 0; i < INVENTORY_MAX; i++)
@@ -168,12 +170,12 @@ public class Inventory : ID
                         break;
                     }
                 }
-                //空白が見つからなければ終了
-                Debug.Log("アイテムがMAXです");
-                break;
             }
 
-            if(input_flag)
+            Debug.Log(input_pos);
+
+
+            if (input_flag)
             {
                 //取得可能最大数を保存
                 int get_max = get_num;
@@ -181,30 +183,25 @@ public class Inventory : ID
                 for (int cnt = 1; cnt <= get_max; cnt++)
                 {
                     //アイテム数がMaxじゃなければ
-                    if (item_num[input_pos] == ITEM_MAX)
-                    {
-
-                    }
-                    else
+                    if (item_num[input_pos] != ITEM_MAX)
                     {
                         item_num[input_pos]++;
                         get_num--;
                     }
                 }
 
-                //取得可能なアイテム数がなくなれば終了
-                if (get_num <= 0)
-                {
-                    //アイテムインベントリUI変更処理
-                    item_sprite_obj[input_pos].SetActive(true);
-                    item_sprite_obj[input_pos].GetComponent<Image>().sprite = item_sprite[input_pos];
-                    item_num_text[input_pos].text = item_num[input_pos] + "";
-                }
+                //アイテムインベントリUI変更処理
+                item_sprite_obj[input_pos].SetActive(true);
+                item_sprite_obj[input_pos].GetComponent<Image>().sprite = item_sprite[item_id];
+                item_num_text[input_pos].text = item_num[input_pos] + "";
+            }
+            else
+            {
+                //入れる場所が見つからなければ終了             
+                Debug.Log("アイテムがMAXです");
+                break;
             }
 
-            //インベントリを最後まで見たら獲得可能なアイテムを0にする
-            if(input_pos==INVENTORY_MAX)
-                get_num = 0;
         }
 
         
@@ -217,79 +214,143 @@ public class Inventory : ID
         //}
     }
 
-
-    public void HandWeapon()
+    public void WeaponGet(GameObject _item)
     {
-        //武器の切り替え
+        //アイテムからID取得
+        ITEM_ID item_id = _item.GetComponent<ItemSet_ID>().id;
 
-        weapon_hand_obj[weapon_cnt].SetActive(false);
-
-        //回転の取得
-        float mouse_wheel = Input.GetAxis("Mouse ScrollWheel");
-
-        //マウスホイール上回し
-        if (mouse_wheel > 0)
+        //IDごとに処理
+        switch(item_id)
         {
-            //次のweaponインベントリへ
-            weapon_cnt++;
-            //武器インベントリの領域を超えたら最初に戻す
-            if (weapon_cnt >= WEAPON_INVENTORY_MAX)
-            {
-                weapon_cnt = 0;
-            }
+            //ピストル
+            case ITEM_ID.PISTOL:
 
-            //インベントリの中身が何もなければ中身のあるインベントリへ
-            while (weapon_hand_obj[weapon_cnt] == null)
-            {
-                if (weapon_hand_obj[weapon_cnt] == null)
+                //当たり判定をOFFにする
+                _item.GetComponent<BoxCollider>().enabled = false;
+
+                //武器インベントリになかった場合
+                if (weapon_hand_obj[(int)WEAPON_ID.PISTOL] == null)
                 {
-                    weapon_cnt++;
+                    //武器インベントリに入れる
+                    weapon_hand_obj[(int)WEAPON_ID.PISTOL] = _item;
 
-                    if (weapon_cnt >= WEAPON_INVENTORY_MAX)
+                    //手に何も持っていなければ自動的に持つ
+                    if (hand_weapon == WEAPON_ID.HAND)
                     {
-                        weapon_cnt = 0;
+                        //武器入れ替え
+                        HandWeapon(WEAPON_ID.PISTOL);
+                        //プレイヤーの現在の武器をピストルに変更
+                        GetComponent<player>().hand_weapon = weapon_hand_obj[(int)WEAPON_ID.PISTOL];
                     }
                 }
                 else
                 {
-                    break;
+                    //弾丸(アイテム)を取得
+                    ItemGet(_item);
+                    Destroy(_item);
                 }
-            }
+                break;
         }
-        if (mouse_wheel < 0)
+    }
+
+    public void BulletText()
+    {
+        bullet_text.text = PistolBulletNum() + "／" + InventoryBulletNum();
+    }
+
+    public void ChangeWeapon()
+    {
+        //ホイール処理
         {
-            //次のweaponインベントリへ
-            weapon_cnt--;
-            if (weapon_cnt < 0)
+            //回転の取得
+            float mouse_wheel = Input.GetAxis("Mouse ScrollWheel");
+
+            //マウスホイールに動きがあったら変更
+            if (Mathf.Abs(mouse_wheel) != 0)
             {
-                weapon_cnt = WEAPON_INVENTORY_MAX - 1;
+                //現在の武器非表示
+                weapon_hand_obj[weapon_cnt].SetActive(false);
+                weapon_sprite_obj[weapon_cnt].GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
             }
 
-            //インベントリの中身が何もなければ中身のあるインベントリへ
-            while (weapon_hand_obj[weapon_cnt] == null)
+            //マウスホイール上回し
+            if (mouse_wheel > 0)
             {
-                if (weapon_hand_obj[weapon_cnt] == null)
+                //次の武器インベントリへ
+                weapon_cnt++;
+                //武器インベントリの領域を超えたら最初に戻す
+                if (weapon_cnt >= WEAPON_INVENTORY_MAX)
                 {
-                    weapon_cnt--;
-                    if (weapon_cnt < 0)
+                    weapon_cnt = 0;
+                }
+
+                //武器インベントリの中身が何もなければ中身のある武器へ
+                while (weapon_hand_obj[weapon_cnt] == null)
+                {
+                    if (weapon_hand_obj[weapon_cnt] == null)
                     {
-                        weapon_cnt = WEAPON_INVENTORY_MAX - 1;
+                        //次の武器インベントリへ
+                        weapon_cnt++;
+                        //武器インベントリの領域を超えたら最初に戻す
+                        if (weapon_cnt >= WEAPON_INVENTORY_MAX)
+                        {
+                            weapon_cnt = 0;
+                        }
+                    }
+                    else
+                    {
+                        break;
                     }
                 }
-                else
+            }
+            //下回し
+            if (mouse_wheel < 0)
+            {
+                //前の武器インベントリ
+                weapon_cnt--;
+                if (weapon_cnt < 0)
                 {
-                    break;
+                    //武器インベントリの領域を超えたら最後にする
+                    weapon_cnt = WEAPON_INVENTORY_MAX - 1;
+                }
+
+                //武器インベントリの中身が何もなければ中身のある武器へ
+                while (weapon_hand_obj[weapon_cnt] == null)
+                {
+                    if (weapon_hand_obj[weapon_cnt] == null)
+                    {
+                        //前の武器インベントリ
+                        weapon_cnt--;
+                        if (weapon_cnt < 0)
+                        {
+                            //武器インベントリの領域を超えたら最後にする
+                            weapon_cnt = WEAPON_INVENTORY_MAX - 1;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
+            //マウスホイールに動きがあったら変更
+            if (Mathf.Abs(mouse_wheel) != 0)
+            {
+                //持っている武器を変更
+                hand_weapon = (WEAPON_ID)weapon_cnt;
+                weapon_hand_obj[weapon_cnt].SetActive(true);
+                weapon_sprite_obj[weapon_cnt].GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                frame_pos.position = weapon_sprite_obj[weapon_cnt].transform.position;
+            }
+
         }
 
-        //持っている武器を変更
-        hand_weapon = (WEAPON_ID)weapon_cnt;
-        weapon_hand_obj[weapon_cnt].SetActive(true);
-
+        //配置、UI設定
+        bullet_text_obj.SetActive(false);
         switch (hand_weapon)
         {
             case WEAPON_ID.PISTOL:
+                bullet_text_obj.SetActive(true);
                 //transform設定
                 ParentChildren(hand_pos.gameObject, weapon_hand_obj[weapon_cnt]);
                 weapon_hand_obj[weapon_cnt].transform.position = hand_pos.position;
@@ -301,10 +362,15 @@ public class Inventory : ID
 
     public void HandWeapon(WEAPON_ID _weapon_id)
     {
+        //現在の武器非表示
         weapon_hand_obj[weapon_cnt].SetActive(false);
+        weapon_sprite_obj[weapon_cnt].GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+        //現在の武器のIDを変更した武器のIDに変更
         hand_weapon = _weapon_id;
         weapon_cnt = (int)_weapon_id;
         weapon_hand_obj[weapon_cnt].SetActive(true);
+        weapon_sprite_obj[weapon_cnt].GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        frame_pos.position = weapon_sprite_obj[weapon_cnt].transform.position;
     }
 
     void ParentChildren(GameObject _parent, GameObject _child)

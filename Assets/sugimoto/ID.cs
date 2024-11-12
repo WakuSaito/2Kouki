@@ -11,6 +11,4 @@ public class ID : MonoBehaviour
         BULLET,
     }
 
-    //ID•Û‘¶—p
-    public ITEM_ID id;
 }

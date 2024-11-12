@@ -5,6 +5,8 @@ using UnityEngine;
 public class ItemSet_ID : ID
 {
     public int get_num = 0;
+    //ID•Û‘¶—p
+    public ITEM_ID id;
 
     // Start is called before the first frame update
     void Start()
