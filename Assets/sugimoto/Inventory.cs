@@ -1,30 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : ID
 {
-    public const int INVENTORY_MAX = 10;
-    public const int WEAPON_INVENTORY_MAX = 4;
-    const int ITEM_MAX = 30;
-    
-    //アイテムの数保存
-    public int[] item_num = new int[INVENTORY_MAX] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    //アイテムの種類保存
-    public int[] item_type_id = new int[INVENTORY_MAX] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+    //定数
+    public const int INVENTORY_MAX = 10;        //アイテムインベントリの最大枠
+    public const int WEAPON_INVENTORY_MAX = 4;  //武器インベントリの最大枠
+    const int ITEM_MAX = 30;                    //スタックできる最大数
 
-    //手の位置
-    [SerializeField] Transform hand_pos;
+    //武器インベントリ
+    public GameObject[] weapon_hand_obj = new GameObject[WEAPON_INVENTORY_MAX] { null, null, null, null };
+    int weapon_cnt = 0;
 
 
-    //アイテム
-
-    //インベントリUI
-    [SerializeField] GameObject item_inventory;
-    //インベントリ開いてるか閉じてるか
-    bool item_inventory_flag = false;
-    //インベントリの枠
-    [SerializeField] Transform[] item_box = new Transform[INVENTORY_MAX];
+    //アイテムインベントリ 
+    public int[] item_num = new int[INVENTORY_MAX] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };                    //アイテムの数保存
+    public int[] item_type_id = new int[INVENTORY_MAX] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };      //アイテムの種類保存
+    [SerializeField] Transform hand_pos;        //手の位置
+    /*UI関連*/
+    [SerializeField] GameObject item_inventory;                                         //インベントリUI
+    bool item_inventory_flag = false;                                                   //インベントリ開いてるか閉じてるか  
+    [SerializeField] GameObject[] item_sprite_obj = new GameObject[INVENTORY_MAX];      //アイテムのスプライトを入れるオブジェ
+    [SerializeField] Sprite[] item_sprite;                                              //種類別アイテムスプライト
+    [SerializeField] Text[] item_num_text;                                              //アイテムの個数表示
 
     public enum WEAPON_ID
     {
@@ -36,11 +36,6 @@ public class Inventory : ID
 
     public WEAPON_ID hand_weapon = WEAPON_ID.HAND;
 
-    //武器のインベントリ
-    public GameObject[] weapon_hand_obj = new GameObject[WEAPON_INVENTORY_MAX] { null, null, null, null };
-    int weapon_cnt = 0;
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -50,10 +45,14 @@ public class Inventory : ID
     // Update is called once per frame
     void Update()
     {
+
     }
 
+
+    
     public void ItemInventory()
     {
+        //インベントリ開閉
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (!item_inventory_flag)
@@ -69,13 +68,15 @@ public class Inventory : ID
                 item_inventory.SetActive(false);
             }
         }
+
     }
 
     public int PistolBulletNum()
     {
+        //ピストルに入っている弾数を取得
         if (weapon_hand_obj[(int)WEAPON_ID.PISTOL] != null)
         {
-            return weapon_hand_obj[(int)WEAPON_ID.PISTOL].GetComponent<Pistol>().bullet_num;
+            return weapon_hand_obj[(int)WEAPON_ID.PISTOL].GetComponent<Pistol>().pistol_bullet_num;
         }
         else
         {
@@ -85,6 +86,8 @@ public class Inventory : ID
 
     public int InventoryBulletNum()
     {
+        //インベントリに入っているすべての弾数を取得
+
         int bullet_num = 0;
 
         for (int i = 0; i < INVENTORY_MAX; i++)
@@ -98,8 +101,127 @@ public class Inventory : ID
         return bullet_num;
     }
 
+    public void ReduceInventory(int _i)
+    {
+        //インベントリの中身を減らす
+        item_num_text[_i].text = item_num[_i] + "";
+
+        //アイテムがなくなればUI初期化
+        if (item_num[_i] == 0)
+        {
+            item_sprite_obj[_i].GetComponent<Image>().sprite = null;
+            item_sprite_obj[_i].SetActive(false);
+        }
+    }
+
+    public void ItemGet(GameObject _item)
+    {
+        //アイテム取得処理(同じアイテムは最大スタック数じゃなけれ優先的にスタックさせる)
+
+        //アイテムからID取得
+        int item_id = (int)_item.GetComponent<ItemSet_ID>().id;
+
+        //アイテムがピストルだった場合のみ取得するアイテム変更
+        switch(item_id)
+        {
+            case (int)ITEM_ID.PISTOL:
+                item_id = (int)ITEM_ID.BULLET;
+                break;
+        }
+
+        //取得可能なアイテムの数
+        int get_num = _item.GetComponent<ItemSet_ID>().get_num;
+
+        Debug.Log(get_num);
+
+
+        //取得可能数が0になるまでループ
+        while (get_num != 0)
+        {
+            bool input_flag = false;    //インベントリに入れるか調べる
+            int input_pos = -1;         //入れる位置を保存
+
+            //インベントリに同じアイテムがあるか調べる
+            for (int i = 0; i < INVENTORY_MAX; i++)
+            {
+                //インベントリのアイテムと同じIDだったら
+                if (item_type_id[i] == item_id && item_num[i] != ITEM_MAX)
+                {
+                    //すでにアイテム欄にあり、スタック上限じゃなければ
+                    input_flag = true;
+                    input_pos = i;
+                    break;
+                }
+            }
+
+            //同じアイテムがなかった場合
+            if (!input_flag)
+            {
+                for (int i = 0; i < INVENTORY_MAX; i++)
+                { 
+                    //空白(-1)があればID保存してアイテムを入れる
+                    if (item_type_id[i] == -1)
+                    {
+                        item_type_id[i] = item_id;
+                        input_flag = true;
+                        input_pos = i;
+                        break;
+                    }
+                }
+                //空白が見つからなければ終了
+                Debug.Log("アイテムがMAXです");
+                break;
+            }
+
+            if(input_flag)
+            {
+                //取得可能最大数を保存
+                int get_max = get_num;
+
+                for (int cnt = 1; cnt <= get_max; cnt++)
+                {
+                    //アイテム数がMaxじゃなければ
+                    if (item_num[input_pos] == ITEM_MAX)
+                    {
+
+                    }
+                    else
+                    {
+                        item_num[input_pos]++;
+                        get_num--;
+                    }
+                }
+
+                //取得可能なアイテム数がなくなれば終了
+                if (get_num <= 0)
+                {
+                    //アイテムインベントリUI変更処理
+                    item_sprite_obj[input_pos].SetActive(true);
+                    item_sprite_obj[input_pos].GetComponent<Image>().sprite = item_sprite[input_pos];
+                    item_num_text[input_pos].text = item_num[input_pos] + "";
+                }
+            }
+
+            //インベントリを最後まで見たら獲得可能なアイテムを0にする
+            if(input_pos==INVENTORY_MAX)
+                get_num = 0;
+        }
+
+        
+
+        //確認用
+        //for (int i = 0; i <INVENTORY_MAX;i++)
+        //{
+        //    Debug.Log(item_num[i]);
+        //    Debug.Log(item_type_id[i]);
+        //}
+    }
+
+
     public void HandWeapon()
     {
+        //武器の切り替え
+
         weapon_hand_obj[weapon_cnt].SetActive(false);
 
         //回転の取得
@@ -118,7 +240,7 @@ public class Inventory : ID
 
             //インベントリの中身が何もなければ中身のあるインベントリへ
             while (weapon_hand_obj[weapon_cnt] == null)
-            { 
+            {
                 if (weapon_hand_obj[weapon_cnt] == null)
                 {
                     weapon_cnt++;
@@ -140,7 +262,7 @@ public class Inventory : ID
             weapon_cnt--;
             if (weapon_cnt < 0)
             {
-                weapon_cnt = WEAPON_INVENTORY_MAX-1;
+                weapon_cnt = WEAPON_INVENTORY_MAX - 1;
             }
 
             //インベントリの中身が何もなければ中身のあるインベントリへ
@@ -151,7 +273,7 @@ public class Inventory : ID
                     weapon_cnt--;
                     if (weapon_cnt < 0)
                     {
-                        weapon_cnt = WEAPON_INVENTORY_MAX-1;
+                        weapon_cnt = WEAPON_INVENTORY_MAX - 1;
                     }
                 }
                 else
@@ -165,7 +287,7 @@ public class Inventory : ID
         hand_weapon = (WEAPON_ID)weapon_cnt;
         weapon_hand_obj[weapon_cnt].SetActive(true);
 
-        switch(hand_weapon)
+        switch (hand_weapon)
         {
             case WEAPON_ID.PISTOL:
                 //transform設定
@@ -185,69 +307,10 @@ public class Inventory : ID
         weapon_hand_obj[weapon_cnt].SetActive(true);
     }
 
-    public void ItemGet(GameObject _item)
-    {
-        //アイテムからID取得
-        int item_id = (int)_item.GetComponent<ItemSet_ID>().id;
-
-        //アイテムがピストルだった場合のみ取得するアイテム変更
-        if (item_id == (int)ITEM_ID.PISTOL)
-        {
-            item_id = (int)ITEM_ID.BULLET;
-        }
-
-        //取得可能なアイテムの数
-        int get_num = item_inventory.GetComponent<ItemInventory>().get_num[item_id];
-
-        while (get_num != 0)
-        {
-            for (int i = 0; i < INVENTORY_MAX; i++)
-            {
-                //インベントリのアイテム欄が空白(-1)または同じIDだったら
-                if (item_type_id[i] == -1 || item_type_id[i] == item_id)
-                {
-                    if (item_type_id[i] == -1)
-                    {
-                        item_type_id[i] = item_id;
-                    }
-
-                    Instantiate(item_inventory.GetComponent<ItemInventory>().item_obj[item_id], item_box[item_id]);
-
-                    int get_max = get_num;
-                    for (int cnt = 1; cnt <= get_max; cnt++)
-                    {
-                        //アイテム数がMaxじゃなければ
-                        if (item_num[i] == ITEM_MAX)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            item_num[i]++;
-                            get_num--;
-                        }
-                    }
-                }
-
-                //取得可能なアイテム数がなくなれば終了
-                if (get_num <= 0)
-                    break;
-            }
-
-            //インベントリを最後まで見たら獲得可能なアイテムを0にする
-            get_num = 0;
-        }
-
-        //確認用
-        //for (int i = 0; i <INVENTORY_MAX;i++)
-        //{
-        //    Debug.Log(item_num[i]);
-        //    Debug.Log(item_type_id[i]);
-        //}
-    }
-
     void ParentChildren(GameObject _parent, GameObject _child)
     {
+        //親子関係に設定
+
         _child.transform.parent = _parent.transform;
         _child.transform.position = _parent.transform.position;
     }

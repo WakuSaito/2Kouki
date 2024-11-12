@@ -9,7 +9,7 @@ public class Pistol : MonoBehaviour
     [SerializeField] GameObject bullet_obj;
 
     //もともとの弾数
-    public int bullet_num = 10;
+    public int pistol_bullet_num = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -25,44 +25,36 @@ public class Pistol : MonoBehaviour
 
     public void Reload(Inventory inventory)
     {
-        if (bullet_num < BULLET_MAX)
+        //ピストルの弾丸が最大数じゃなければreload可能
+        if (pistol_bullet_num < BULLET_MAX)
         {
-
             for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
             {
-                Debug.Log(inventory.item_type_id[i]);
-
-
                 //インベントリに弾丸があるか
                 if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
                 {
-
                     //ピストルに入る弾丸数を調べる
-                    int reload_num = BULLET_MAX - bullet_num;
-                    Debug.Log(reload_num);
-
+                    int reload_num = BULLET_MAX - pistol_bullet_num;
+                    //reloadできる最大数を保存
                     int max_reload = reload_num;
 
                     for (int cnt = 0; cnt < max_reload; cnt++)
                     {
                         if (inventory.item_num[i] == 0)
                         {
+                            //インベントリにあった弾丸の残りが0になったらidも初期化する
+                            inventory.item_type_id[i] = -1;
                             break;
                         }
                         else
                         {
                             inventory.item_num[i]--;
-                            bullet_num++;
+                            pistol_bullet_num++;
                             reload_num--;
                         }
+                        //インベントリの中身も減らす
+                        inventory.ReduceInventory(i);
                     }
-
-                    //インベントリにあった弾丸の残りが0になったらidも初期化する
-                    if (inventory.item_num[i] == 0)
-                    {
-                        inventory.item_type_id[i] = -1;
-                    }
-                    break;
                 }
             }
         }
@@ -70,7 +62,7 @@ public class Pistol : MonoBehaviour
 
     public void Attack(GameObject _rot_obj,GameObject _hand_obj)
     {
-        if (bullet_num > 0)
+        if (pistol_bullet_num > 0)
         {
             //ビューポート座標のレイを飛ばす
             Ray ray = Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f));
@@ -104,7 +96,7 @@ public class Pistol : MonoBehaviour
             Instantiate(bullet_obj, _hand_obj.transform.position, rot);
 
             //Pistol内の弾丸を減らす
-            bullet_num--;
+            pistol_bullet_num--;
             
         }
     }
