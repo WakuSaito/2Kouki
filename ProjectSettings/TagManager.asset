@@ -9,6 +9,7 @@ TagManager:
   - Zombie
   - Body
   - Head
+  - weapon
   layers:
   - Default
   - TransparentFX

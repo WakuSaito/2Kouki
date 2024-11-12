@@ -39,7 +39,7 @@ public class player : MonoBehaviour
 
     //アイテムを拾う
     [SerializeField] GameObject hand;//設置場所
-    GameObject hand_weapon;//手にある武器
+    public GameObject hand_weapon;//手にある武器
 
     //判定
     public int MAX_HP;
@@ -177,33 +177,18 @@ public class player : MonoBehaviour
                     {
                         switch (item.tag)
                         {
-                            case "pistol":
-                                //当たり判定をOFFにする
-                                item.GetComponent<BoxCollider>().enabled = false;
+                            /*アイテムについて
+                             *各武器はのタグをweaponに設定
+                             *各アイテムはitemのタグに設定
+                             *武器オブジェクトにID設定用のスクリプトをアタッチ
+                             *そこでIDを設定する
+                             */
 
-
-                                /*後でインベントリで処理に変更したほうが良いかも*/
-                                //遠距離武器を持っていない場合取得
-                                if (GetComponent<Inventory>().weapon_hand_obj[(int)Inventory.WEAPON_ID.PISTOL] == null)
-                                {
-                                    //武器インベントリに入れる
-                                    GetComponent<Inventory>().weapon_hand_obj[(int)Inventory.WEAPON_ID.PISTOL] = item;
-
-                                    //手に何も持っていなければ自動的に持つ
-                                    if (Inventory.hand_weapon == Inventory.WEAPON_ID.HAND)
-                                    {
-                                        //手にある武器をピストルへ変更
-                                        GetComponent<Inventory>().HandWeapon(Inventory.WEAPON_ID.PISTOL);
-                                        hand_weapon = GetComponent<Inventory>().weapon_hand_obj[(int)Inventory.WEAPON_ID.PISTOL];
-                                    }
-                                }
-                                //持っている場合は弾丸を取得
-                                else
-                                {
-                                    //弾丸(アイテム)を取得(Inventoryに弾丸があって最大数じゃないまたはInventoryに弾丸はないが空いていれば)
-                                    Inventory.ItemGet(item);
-                                    Destroy(item);
-                                }
+                            case "weapon":
+                                GetComponent<Inventory>().WeaponGet(item);
+                                break;
+                            case "item":
+                                GetComponent<Inventory>().ItemGet(item);
                                 break;
                         }
                     }
@@ -213,7 +198,7 @@ public class player : MonoBehaviour
             //武器
             {
                 //武器の入れ替え
-                GetComponent<Inventory>().HandWeapon();
+                GetComponent<Inventory>().ChangeWeapon();
 
                 //フラグ初期化
                 hand_pistol_flag = false;
