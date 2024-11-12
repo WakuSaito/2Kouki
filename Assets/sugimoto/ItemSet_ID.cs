@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ItemSet_ID : ID
 {
+    public int get_num = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,6 +16,7 @@ public class ItemSet_ID : ID
                 break;
             case "bullet":
                 id = ITEM_ID.BULLET;
+                get_num = 10;
                 break;
         }
 

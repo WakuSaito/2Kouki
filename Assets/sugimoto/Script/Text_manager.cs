@@ -25,7 +25,7 @@ public class Text_manager : MonoBehaviour
     void TextChange()
     {
         pistol_bullet_text.text = Inventory.PistolBulletNum() + " / Pistol ";
-        inventory_bullet_text.text = Inventory.InventoryBulletNum() + " / InventoryBullet ";
+        //inventory_bullet_text.text = Inventory.InventoryBulletNum() + " / InventoryBullet ";
     }
 
 }

@@ -181,6 +181,8 @@ public class player : MonoBehaviour
                                 //当たり判定をOFFにする
                                 item.GetComponent<BoxCollider>().enabled = false;
 
+
+                                /*後でインベントリで処理に変更したほうが良いかも*/
                                 //遠距離武器を持っていない場合取得
                                 if (GetComponent<Inventory>().weapon_hand_obj[(int)Inventory.WEAPON_ID.PISTOL] == null)
                                 {
@@ -195,7 +197,7 @@ public class player : MonoBehaviour
                                         hand_weapon = GetComponent<Inventory>().weapon_hand_obj[(int)Inventory.WEAPON_ID.PISTOL];
                                     }
                                 }
-                                //持っていない場合は弾丸を取得
+                                //持っている場合は弾丸を取得
                                 else
                                 {
                                     //弾丸(アイテム)を取得(Inventoryに弾丸があって最大数じゃないまたはInventoryに弾丸はないが空いていれば)
