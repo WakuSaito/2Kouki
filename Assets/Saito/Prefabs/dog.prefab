@@ -587,6 +587,7 @@ GameObject:
   - component: {fileID: 1745869519410043630}
   - component: {fileID: 1745869519410043631}
   - component: {fileID: 1745869519410043627}
+  - component: {fileID: 6513576538095451527}
   - component: {fileID: 1745869519410043628}
   - component: {fileID: 1745869519410043629}
   m_Layer: 0
@@ -650,6 +651,7 @@ MonoBehaviour:
   - {fileID: 1745869519410043627}
   biteStaySec: 4
   stayPlayerDistance: 5
+  detectRange: 30
 --- !u!114 &1745869519410043631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -678,6 +680,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1512077811412323190}
+--- !u!114 &6513576538095451527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745869519410043616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3714ef09700b53b45acb125a2b79db21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  markPrefab: {fileID: 4469385919023190781, guid: 6596ee907b4a7294eaa0e1ada93194bd, type: 3}
+  targetDistance: 40
+  markTargetTags:
+  - Zombie
+  zombieCenterY: 2
 --- !u!54 &1745869519410043628
 Rigidbody:
   m_ObjectHideFlags: 0

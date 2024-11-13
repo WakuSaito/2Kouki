@@ -37,6 +37,9 @@ public class ZombieManager : MonoBehaviour
     [SerializeField]
     float detectionPlayerRangeMax = 30.0f;
 
+    //現在のプレイヤー探知範囲
+    private float currentDetectionRange;
+
     [SerializeField]//攻撃開始距離
     float attackStartRange = 3.0f;
 
@@ -71,6 +74,8 @@ public class ZombieManager : MonoBehaviour
 
         //カラーのアルファ値取得
         currentAlpha = meshObj.GetComponent<Renderer>().materials[1].color.a;
+
+        currentDetectionRange = detectionPlayerRangeMin;
     }
 
     // Start is called before the first frame update
@@ -113,8 +118,11 @@ public class ZombieManager : MonoBehaviour
         //    Destroy(gameObject);
         //}
 
+
+        ChangeDetectRange();//探知範囲計算
+
         //攻撃対象を見つけているか
-        if(playerDistance < detectionPlayerRangeMin)
+        if (playerDistance < currentDetectionRange)
         {
             isFoundTarget = true;//発見
         }
@@ -216,6 +224,24 @@ public class ZombieManager : MonoBehaviour
             stanCancellTokenSource.Token,
             () => isStan = false
             );
+    }
+    //探知範囲変更
+    private void ChangeDetectRange()
+    {
+        //プレイヤーのスクリプト取得
+        player playerScript = playerObj.GetComponent<player>();
+        if (playerScript == null) return;
+
+        //プレイヤーの体力取得
+        int maxHP = playerScript.MAX_HP;
+        int currentHP = playerScript.hp;
+
+        //現在の体力の割合取得
+        float currentHPPer = currentHP / maxHP;
+
+        //現在の体力割合から探知範囲を補間で計算
+        currentDetectionRange = detectionPlayerRangeMin * currentHPPer + 
+            detectionPlayerRangeMax * (1.0f - currentHPPer);
     }
 
     /// <summary>

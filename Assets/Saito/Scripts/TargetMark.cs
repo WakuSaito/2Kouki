@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//条件に合うオブジェクトにマークを付けるスクリプト
 public class TargetMark : MonoBehaviour
 {
     [SerializeField] //位置を保存するためのオブジェクト
