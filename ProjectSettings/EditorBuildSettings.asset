@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Saito/Scenes/TitleScene.unity
-    guid: a88801c887fabf445b315f0a51b06dbb
+    path: Assets/sugimoto/Scenes/MainGame.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Saito/Scenes/TestScene.unity
     guid: 3db017533082b044bb80f4f54de52984
+  - enabled: 1
+    path: Assets/Saito/Scenes/TitleScene.unity
+    guid: a88801c887fabf445b315f0a51b06dbb
   m_configObjects: {}

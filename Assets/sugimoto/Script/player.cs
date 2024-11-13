@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
+using System.Linq;
+using UnityEngine.EventSystems;
 
 public class player : MonoBehaviour
 {
@@ -204,8 +206,19 @@ public class player : MonoBehaviour
                     //武器の入れ替え
                     GetComponent<Inventory>().ChangeWeapon();
 
-                    //フラグ初期化
-                    hand_pistol_flag = false;
+                    //全ゾンビオブジェクト
+                    GameObject[] zombieObjects = GameObject.FindGameObjectsWithTag("Zombie");
+
+                    //距離が一定以下のゾンビを全て取得
+                    foreach (var zombie in zombieObjects)
+                    {
+                        //全てのゾンビの色を通常に戻す 処理が重いかも
+                        zombie.GetComponent<ZombieManager>().ChangeColorAlpha(0.0f);
+                    }
+
+
+                        //フラグ初期化
+                        hand_pistol_flag = false;
 
                     switch (Inventory.hand_weapon)
                     {
@@ -228,15 +241,18 @@ public class player : MonoBehaviour
                             break;
                         //犬
                         case Inventory.WEAPON_ID.DOG:
+
+                            GameObject attack_obj=LockOnUpdate();
+
                             //攻撃
                             if (Input.GetMouseButtonDown(0))
                             {
-                                //攻撃するオブジェクト取得
-                                GameObject attack_obj = Ray(Attack_Distance);
+                                ////攻撃するオブジェクト取得
+                               // GameObject attack_obj = Ray(Attack_Distance);
 
                                 if (attack_obj != null)
                                 {
-                                    if (attack_obj.tag == "Body" || attack_obj.tag == "Head")
+                                    if (attack_obj.tag == "Zombie"/* || attack_obj.tag == "Head"*/)
                                     {
                                         dog.GetComponent<DogManager>().OrderAttack(attack_obj.GetComponentInParent<ZombieManager>().gameObject);
                                         Debug.Log(attack_obj + "a");
@@ -250,7 +266,22 @@ public class player : MonoBehaviour
             //Inventoryを開いている状態なら
             else
             {
-                //GetComponent<Inventory>().InventoryOperation(MouseRay());
+                //マウスの位置からUIを取得する
+                //RaycastAllの引数（PointerEventData）作成
+                PointerEventData pointData = new PointerEventData(EventSystem.current);
+                //RaycastAllの結果格納用List
+                List<RaycastResult> RayResult = new List<RaycastResult>();
+
+                //PointerEventDataにマウスの位置をセット
+                pointData.position = Input.mousePosition;
+                //RayCast（スクリーン座標）
+                EventSystem.current.RaycastAll(pointData, RayResult);
+
+                foreach (RaycastResult result in RayResult)
+                {
+                    Debug.Log(result.gameObject.name);
+                    GetComponent<Inventory>().InventoryOperation(result.gameObject);
+                }
             }
         }
         else//ゲームオーバー
@@ -267,6 +298,64 @@ public class player : MonoBehaviour
         //位置保存
         before_pos = transform.position;
     }
+
+    public GameObject LockOnUpdate()
+    {
+        //全ゾンビオブジェクト
+        GameObject[] zombieObjects = GameObject.FindGameObjectsWithTag("Zombie");
+
+        //対象の条件　後でクラス変数化
+        float activeAngle = 20.0f;
+        float activeDistance = 20.0f;
+
+        Vector3 playerPos = dir_obj.transform.position;
+        Vector3 cameraPos = camera_obj.transform.position;
+        Vector3 eyeDir = camera_obj.transform.forward;//視点方向ベクトル
+
+        List<GameObject> targetZombies = new List<GameObject>();
+
+        //距離が一定以下のゾンビを全て取得
+        foreach (var zombie in zombieObjects)
+        {
+            ////全てのゾンビの色を通常に戻す 処理が重いかも
+            //zombie.GetComponent<ZombieManager>().ChangeColorAlpha(0.0f);
+
+            Debug.Log("ゾンビ発見");
+            //距離を調べる
+            Vector3 zombiePos = zombie.transform.position;
+            //zombiePos.y += 2.0f;
+            if (Vector3.Distance(playerPos, zombiePos) > activeDistance) continue;
+
+            targetZombies.Add(zombie);//リストに追加
+        }
+
+        if (targetZombies.Count != 0)
+        {
+            //ゾンビの中心位置調整用
+            Vector3 zombieCenterAd = Vector3.up * 2.0f;
+
+            //対象のゾンビの中から視点から角度が一番近いオブジェクトを取得
+            GameObject nearestEnemy =
+                targetZombies.OrderBy(p =>
+                Vector3.Angle(((p.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir)).First();
+
+            Debug.Log("角度:" + Vector3.Angle(((nearestEnemy.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir));
+
+            //取得したオブジェクトまでと視点の角度が一定以下なら
+            if (Vector3.Angle(((nearestEnemy.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir) <= activeAngle)
+            {
+                //対象の色を変更
+                nearestEnemy.GetComponent<ZombieManager>().ChangeColorAlpha(0.25f);
+
+                //nearestEnemyが犬の攻撃対象
+
+                return nearestEnemy;
+            }
+
+        }
+        return null;
+    }
+
 
     //レイの先にあるオブジェクト取得
     public GameObject Ray(float _distance)
