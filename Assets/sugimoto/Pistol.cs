@@ -11,6 +11,12 @@ public class Pistol : MonoBehaviour
     //もともとの弾数
     public int pistol_bullet_num = 10;
 
+
+    [SerializeField] private Transform muzzleTransform;//銃口位置
+    [SerializeField] private GameObject bulletLine;//弾道
+    [SerializeField] private float bulletDistance = 20.0f;//弾の飛距離
+    [SerializeField] private float bulletSpread = 0.03f;//弾ブレ
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,12 +70,35 @@ public class Pistol : MonoBehaviour
     {
         if (pistol_bullet_num > 0)
         {
+            //ばらつきをランダムに決める
+            float x = Random.Range(-bulletSpread, bulletSpread);
+            float y = Random.Range(-bulletSpread, bulletSpread);
+
+            //視点ベクトルにばらつきを加算
+            Vector3 gunVec = _rot_obj.transform.forward + new Vector3(x, y, 0);
+
+
+            //弾道用のLineRendererを取得（見た目用）
+            LineRenderer lineRend = Instantiate(bulletLine,
+                Vector3.zero,
+                Quaternion.identity).GetComponent<LineRenderer>();
+
+            //点の数
+            lineRend.positionCount = 2;
+            //始点の座標指定
+            lineRend.SetPosition(0, muzzleTransform.position);
+
+
             //ビューポート座標のレイを飛ばす
             Ray ray = Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f));
             RaycastHit hit = new RaycastHit();
 
+
             if (Physics.Raycast(ray, out hit))
             {
+                //当たった場所を線の終点にする
+                lineRend.SetPosition(1, hit.point);
+
                 //アイテムまでの距離を調べる
                 float distance = Vector3.Distance(hit.transform.position, transform.position);
 
@@ -82,7 +111,7 @@ public class Pistol : MonoBehaviour
                     Debug.Log(hit_obj);
                     if (hit_obj.tag == "Body")
                     {
-                        hit_obj.GetComponentInParent<ZombieManager>().DamageBody();
+                        hit_obj.GetComponentInParent<ZombieManager>().DamageBody(hit.point);
                     }
                     if (hit_obj.tag == "Head")
                     {
@@ -90,10 +119,17 @@ public class Pistol : MonoBehaviour
                     }
                 }
             }
-            //向き発射される向き
-            Quaternion rot = _rot_obj.transform.rotation;
-            //弾丸生成
-            Instantiate(bullet_obj, _hand_obj.transform.position, rot);
+            //レイが何にも当たらなかったとき
+            else
+            {
+                //弾丸のベクトルの終点を線の終点にする
+                lineRend.SetPosition(1, _rot_obj.transform.position + (gunVec * bulletDistance));
+            }
+
+            ////向き発射される向き
+            //Quaternion rot = _rot_obj.transform.rotation;
+            ////弾丸生成
+            //Instantiate(bullet_obj, _hand_obj.transform.position, rot);
 
             //Pistol内の弾丸を減らす
             pistol_bullet_num--;

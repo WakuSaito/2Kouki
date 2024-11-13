@@ -60,7 +60,15 @@ public class Inventory : ID
 
     public void InventoryOperation(GameObject _item)
     {
-        Debug.Log(_item);
+        for(int i=0;i<INVENTORY_MAX;i++)
+        {
+            //現在カーソルがあっているInventoryの中身が空じゃなければ
+            if (item_sprite_obj[i] == _item && item_type_id[i] == -1) 
+            {
+                Debug.Log(_item);
+            }
+        }
+        
 
     }
 
