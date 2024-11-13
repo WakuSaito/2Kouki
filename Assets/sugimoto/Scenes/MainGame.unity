@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2794,7 +2794,7 @@ RectTransform:
   m_GameObject: {fileID: 1204869646}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.4999998, z: 1.4999998}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1332139660}
@@ -2803,7 +2803,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1204869648
 MonoBehaviour:
@@ -2818,14 +2818,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c8f8487a88d0c184f88cda365cf6ee81, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f5327d557b0a0164fa75fc79d6f88549, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6020,7 +6020,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon_hand_obj:
   - {fileID: 6454339785291286576, guid: 8a28bb5ba59d1004bb8f50e88cc6819e, type: 3}
-  - {fileID: 0}
+  - {fileID: 6440599648175510709, guid: f622e0c5b85564a49857d304f76a3503, type: 3}
   - {fileID: 0}
   - {fileID: 3580368778890858307, guid: 61f39be065d387b4d8cab53826787324, type: 3}
   weapon_sprite_obj:
@@ -6030,7 +6030,7 @@ MonoBehaviour:
   - {fileID: 47559023}
   weapon_sprite:
   - {fileID: 21300000, guid: fef76a5b11756a042ad734ffc0e3c9e3, type: 3}
-  - {fileID: 21300000, guid: c8f8487a88d0c184f88cda365cf6ee81, type: 3}
+  - {fileID: 21300000, guid: f5327d557b0a0164fa75fc79d6f88549, type: 3}
   - {fileID: 21300000, guid: 98c7a24f9a28336409a3199215b29796, type: 3}
   - {fileID: 21300000, guid: 3fa187c950cd30243b4e2612a0323f04, type: 3}
   frame_pos: {fileID: 1410045811}
