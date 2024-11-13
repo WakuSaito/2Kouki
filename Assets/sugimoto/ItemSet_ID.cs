@@ -4,21 +4,26 @@ using UnityEngine;
 
 public class ItemSet_ID : ID
 {
-    public int get_num = 0;
     //ID保存用
     public ITEM_ID id;
+    public int get_num = 0;
+    public int get_max = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        switch (gameObject.tag)
+        switch (id)
         {
-            case "pistol":
-                id = ITEM_ID.PISTOL;
+            case ITEM_ID.PISTOL:
                 break;
-            case "bullet":
-                id = ITEM_ID.BULLET;
+            case ITEM_ID.BULLET:
                 get_num = 10;
+                get_max = 30;
+                break;
+            //基本取得数は1個、スタック可能数1個
+            default:
+                get_num = 1;
+                get_max = 1;
                 break;
         }
 

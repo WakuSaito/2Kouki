@@ -8,7 +8,7 @@ public class Inventory : ID
     //定数
     public const int INVENTORY_MAX = 10;        //アイテムインベントリの最大枠
     public const int WEAPON_INVENTORY_MAX = 4;  //武器インベントリの最大枠
-    const int ITEM_MAX = 30;                    //スタックできる最大数
+    //const int ITEM_MAX = 30;                    //スタックできる最大数
 
     //武器インベントリ
     public GameObject[] weapon_hand_obj = new GameObject[WEAPON_INVENTORY_MAX] { null, null, null, null };  //武器配列
@@ -147,6 +147,7 @@ public class Inventory : ID
 
         //取得可能なアイテムの数
         int get_num = _item.GetComponent<ItemSet_ID>().get_num;
+        int max_get = _item.GetComponent<ItemSet_ID>().get_max;
 
         //取得可能数が0になるまでループ
         while (get_num != 0)
@@ -158,7 +159,7 @@ public class Inventory : ID
             for (int i = 0; i < INVENTORY_MAX; i++)
             {
                 //インベントリのアイテムと同じIDだったら
-                if (item_type_id[i] == item_id && item_num[i] != ITEM_MAX)
+                if (item_type_id[i] == item_id && item_num[i] != max_get)
                 {
                     //すでにアイテム欄にあり、スタック上限じゃなければ
                     input_flag = true;
@@ -194,7 +195,7 @@ public class Inventory : ID
                 for (int cnt = 1; cnt <= get_max; cnt++)
                 {
                     //アイテム数がMaxじゃなければ
-                    if (item_num[input_pos] != ITEM_MAX)
+                    if (item_num[input_pos] != max_get)
                     {
                         item_num[input_pos]++;
                         get_num--;
