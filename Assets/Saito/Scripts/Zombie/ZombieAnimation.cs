@@ -25,18 +25,6 @@ public class ZombieAnimation : ZombieBase
     //現在の移動アニメーション
     MoveType currentMoveType;
 
-
-    //アニメーターオブジェクトのローカルTransformをリセットするコルーチン
-    //攻撃モーションが徐々に回転,移動してしまうため
-    //ただ明らかに違和感（ワープ）がある
-    IEnumerator ResetLocalTransform(float _sec = 0)
-    {
-        yield return new WaitForSeconds(_sec);
-
-        animatorObj.transform.localRotation = Quaternion.identity;
-        animatorObj.transform.localPosition = Vector3.zero;
-    }
-
     /// <summary>
     /// 初期設定
     /// </summary>
@@ -52,9 +40,6 @@ public class ZombieAnimation : ZombieBase
     {
         Debug.Log("zombie:Attack");
         animator.SetTrigger("Attack");
-
-        //アニメーション終了時にローカルトランスフォームのリセット
-        StartCoroutine(ResetLocalTransform(2.5f));
     }
 
     public void Walk()
@@ -76,9 +61,6 @@ public class ZombieAnimation : ZombieBase
         //同じアニメーションを複数呼び出ししないように
         if (currentMoveType == MoveType.IDLE) return;
         currentMoveType = MoveType.IDLE;
-
-        //アニメーション終了時にローカルトランスフォームのリセット
-        StartCoroutine(ResetLocalTransform(0));
 
         Debug.Log("zombie:Idle");
         animator.SetTrigger("Idle");
