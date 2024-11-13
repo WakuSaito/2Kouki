@@ -40,6 +40,11 @@ public class ZombieManager : MonoBehaviour
     //現在のプレイヤー探知範囲
     private float currentDetectionRange;
 
+    [SerializeField]//探知範囲可視化用
+    GameObject debugDetectionCirclePrefab;
+
+    GameObject debugDetectionCircle;
+
     [SerializeField]//攻撃開始距離
     float attackStartRange = 3.0f;
 
@@ -76,6 +81,14 @@ public class ZombieManager : MonoBehaviour
         currentAlpha = meshObj.GetComponent<Renderer>().materials[1].color.a;
 
         currentDetectionRange = detectionPlayerRangeMin;
+
+        //デバッグ用
+        if (debugDetectionCirclePrefab != null)
+            debugDetectionCircle = Instantiate(debugDetectionCirclePrefab,
+                transform.position + transform.up * 0.2f, 
+                Quaternion.AngleAxis(-90.0f,Vector3.left), 
+                transform
+                );
     }
 
     // Start is called before the first frame update
@@ -120,6 +133,13 @@ public class ZombieManager : MonoBehaviour
 
 
         ChangeDetectRange();//探知範囲計算
+
+        //デバッグ用 範囲可視化
+        if(debugDetectionCircle != null)
+        {
+            float scale =  currentDetectionRange;
+            debugDetectionCircle.transform.localScale = new Vector3(scale, scale, 1);
+        }
 
         //攻撃対象を見つけているか
         if (playerDistance < currentDetectionRange)
