@@ -16,8 +16,6 @@ public class TestPlayerMnager : MonoBehaviour
 
     [SerializeField] private float cameraSpeed = 100;
 
-    [SerializeField] private GameObject circle;
-
     [SerializeField] private Transform muzzleTransform;//銃口位置
     [SerializeField] private GameObject bulletLine;//弾道
     [SerializeField] private float bulletDistance = 20.0f;//弾の飛距離
@@ -116,6 +114,7 @@ public class TestPlayerMnager : MonoBehaviour
         LockOnUpdate();
     }
 
+    //見ている方向のゾンビをマークするUpdate
     public void LockOnUpdate()
     {
         //全ゾンビオブジェクト
@@ -161,24 +160,19 @@ public class TestPlayerMnager : MonoBehaviour
             //取得したオブジェクトまでと視点の角度が一定以下なら
             if(Vector3.Angle(((nearestEnemy.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir) <= activeAngle)
             {
-                //とりあえずマーク用のオブジェクトを移動させる
-                circle.SetActive(true);
-                circle.transform.position = nearestEnemy.transform.position;
-
                 //対象の色を変更
                 nearestEnemy.GetComponent<ZombieManager>().ChangeColorAlpha(0.25f);
+
+                //nearestEnemyが犬の攻撃対象
                 
                 return;
             }
 
         }
-
-        circle.SetActive(false);
-
         return;
     }
 
-    //銃の処理
+    //銃の処理Update（弾数や連射速度は考慮していない）
     private void GunUpdate()
     {
         //入力チェック
@@ -192,7 +186,7 @@ public class TestPlayerMnager : MonoBehaviour
         Vector3 gunVec = verRot.forward + new Vector3(x, y, 0);
 
 
-        //弾道用のLineRendererを取得
+        //弾道用のLineRendererを取得（見た目用）
         LineRenderer lineRend = Instantiate(bulletLine,
             Vector3.zero,
             Quaternion.identity).GetComponent<LineRenderer>();
@@ -229,9 +223,6 @@ public class TestPlayerMnager : MonoBehaviour
             lineRend.SetPosition(1, verRot.position+(gunVec * bulletDistance));
         }
 
-
-        //デバッグのRay
-        Debug.DrawRay(verRot.position, gunVec * bulletDistance, Color.red, 3.0f, true);
     }
 }
 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2209598564842108686}
   - component: {fileID: 3244861619630595917}
   m_Layer: 5
-  m_Name: Mark
+  m_Name: MarkUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
