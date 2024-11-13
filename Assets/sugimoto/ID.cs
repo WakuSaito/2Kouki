@@ -9,6 +9,12 @@ public class ID : MonoBehaviour
     {
         PISTOL,
         BULLET,
+        FOOD_1,
+        FOOD_2,
+        FOOD_3,
+        FOOD_4,
+        DRINK_1,
+        DRINK_2,
     }
 
 }

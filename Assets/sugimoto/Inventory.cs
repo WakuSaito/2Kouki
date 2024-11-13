@@ -8,7 +8,7 @@ public class Inventory : ID
     //定数
     public const int INVENTORY_MAX = 10;        //アイテムインベントリの最大枠
     public const int WEAPON_INVENTORY_MAX = 4;  //武器インベントリの最大枠
-    const int ITEM_MAX = 30;                    //スタックできる最大数
+    //const int ITEM_MAX = 30;                    //スタックできる最大数
 
     //武器インベントリ
     public GameObject[] weapon_hand_obj = new GameObject[WEAPON_INVENTORY_MAX] { null, null, null, null };  //武器配列
@@ -19,6 +19,9 @@ public class Inventory : ID
     [SerializeField] Transform frame_pos;
     [SerializeField] GameObject bullet_text_obj;
     [SerializeField] Text bullet_text;
+    float color = 0.0f;
+    float display_timer = 0.0f;
+    bool display_flag = true;
 
     public enum WEAPON_ID
     {
@@ -67,6 +70,7 @@ public class Inventory : ID
                 Screen.lockCursor = false;
                 item_inventory_flag = true;
                 item_inventory.SetActive(true);
+
             }
             else
             {
@@ -74,6 +78,13 @@ public class Inventory : ID
                 item_inventory_flag = false;
                 item_inventory.SetActive(false);
             }
+        }
+
+        if(item_inventory_flag)
+        {
+            //武器インベントリ表示
+            display_flag = true;
+            display_timer = 0.0f;
         }
     }
 
@@ -136,6 +147,7 @@ public class Inventory : ID
 
         //取得可能なアイテムの数
         int get_num = _item.GetComponent<ItemSet_ID>().get_num;
+        int max_get = _item.GetComponent<ItemSet_ID>().get_max;
 
         //取得可能数が0になるまでループ
         while (get_num != 0)
@@ -147,7 +159,7 @@ public class Inventory : ID
             for (int i = 0; i < INVENTORY_MAX; i++)
             {
                 //インベントリのアイテムと同じIDだったら
-                if (item_type_id[i] == item_id && item_num[i] != ITEM_MAX)
+                if (item_type_id[i] == item_id && item_num[i] != max_get)
                 {
                     //すでにアイテム欄にあり、スタック上限じゃなければ
                     input_flag = true;
@@ -183,7 +195,7 @@ public class Inventory : ID
                 for (int cnt = 1; cnt <= get_max; cnt++)
                 {
                     //アイテム数がMaxじゃなければ
-                    if (item_num[input_pos] != ITEM_MAX)
+                    if (item_num[input_pos] != max_get)
                     {
                         item_num[input_pos]++;
                         get_num--;
@@ -242,6 +254,10 @@ public class Inventory : ID
                         //プレイヤーの現在の武器をピストルに変更
                         GetComponent<player>().hand_weapon = weapon_hand_obj[(int)WEAPON_ID.PISTOL];
                     }
+                    else
+                    {
+                        _item.SetActive(false);
+                    }
                 }
                 else
                 {
@@ -271,10 +287,13 @@ public class Inventory : ID
                 //現在の武器非表示
                 weapon_hand_obj[weapon_cnt].SetActive(false);
                 weapon_sprite_obj[weapon_cnt].GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+                //インベントリ表示
+                display_timer = 0.0f;
+                display_flag = true;
             }
 
-            //マウスホイール上回し
-            if (mouse_wheel > 0)
+            //マウスホイール下回し
+            if (mouse_wheel < 0)
             {
                 //次の武器インベントリへ
                 weapon_cnt++;
@@ -303,8 +322,8 @@ public class Inventory : ID
                     }
                 }
             }
-            //下回し
-            if (mouse_wheel < 0)
+            //上回し
+            if (mouse_wheel > 0)
             {
                 //前の武器インベントリ
                 weapon_cnt--;
@@ -345,6 +364,57 @@ public class Inventory : ID
 
         }
 
+        //武器インベントリ表示非表示
+        {
+            display_timer += Time.deltaTime;
+
+            if (display_timer >= 5.0f)
+            {
+                display_flag = false;
+                color = 0.0f;
+            }
+
+            if (!display_flag)
+            {
+                color += Time.deltaTime;
+
+                for (int i = 0; i < weapon_sprite_obj.Length; i++)
+                {
+                    //親オブジェ
+                    weapon_sprite_obj[i].transform.parent.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, weapon_sprite_obj[i].transform.parent.GetComponent<Image>().color.a - color);
+                    //オブジェ本体
+                    weapon_sprite_obj[i].GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, weapon_sprite_obj[i].GetComponent<Image>().color.a - color);
+                    //枠オブジェ
+                    frame_pos.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, frame_pos.GetComponent<Image>().color.a - color);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < weapon_sprite_obj.Length; i++)
+                {
+                    //親オブジェ
+                    weapon_sprite_obj[i].transform.parent.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+
+                    //オブジェ本体
+                    if (hand_weapon == (WEAPON_ID)i)
+                    {
+                        weapon_sprite_obj[i].GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    }
+                    else if (weapon_hand_obj[i] != null)
+                    {
+                        weapon_sprite_obj[i].GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+                    }
+                    else
+                    {
+                        weapon_sprite_obj[i].GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                    }
+
+                    //枠オブジェ
+                    frame_pos.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, 1.0f);
+                }
+            }
+        }
+
         //配置、UI設定
         bullet_text_obj.SetActive(false);
         switch (hand_weapon)
@@ -371,6 +441,9 @@ public class Inventory : ID
         weapon_hand_obj[weapon_cnt].SetActive(true);
         weapon_sprite_obj[weapon_cnt].GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
         frame_pos.position = weapon_sprite_obj[weapon_cnt].transform.position;
+        //武器インベントリ表示
+        display_flag = true;
+        display_timer = 0.0f;
     }
 
     void ParentChildren(GameObject _parent, GameObject _child)
