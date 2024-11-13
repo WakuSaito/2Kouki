@@ -40,7 +40,7 @@ public class Inventory : ID
     [SerializeField] Transform hand_pos;        //手の位置
     /*UI関連*/
     [SerializeField] GameObject item_inventory;                                         //インベントリUI
-    bool item_inventory_flag = false;                                                   //インベントリ開いてるか閉じてるか  
+    public bool item_inventory_flag = false;                                                   //インベントリ開いてるか閉じてるか  
     [SerializeField] GameObject[] item_sprite_obj = new GameObject[INVENTORY_MAX];      //アイテムのスプライトを入れるオブジェ
     [SerializeField] Sprite[] item_sprite;                                              //種類別アイテムスプライト
     [SerializeField] Text[] item_num_text;                                              //アイテムの個数表示
@@ -56,6 +56,12 @@ public class Inventory : ID
     void Update()
     {
         BulletText();
+    }
+
+    public void InventoryOperation(GameObject _item)
+    {
+        Debug.Log(_item);
+
     }
 
 
@@ -184,9 +190,6 @@ public class Inventory : ID
                 }
             }
 
-            Debug.Log(input_pos);
-
-
             if (input_flag)
             {
                 //取得可能最大数を保存
@@ -216,7 +219,7 @@ public class Inventory : ID
 
         }
 
-        
+        Destroy(_item);
 
         //確認用
         //for (int i = 0; i <INVENTORY_MAX;i++)
@@ -263,7 +266,6 @@ public class Inventory : ID
                 {
                     //弾丸(アイテム)を取得
                     ItemGet(_item);
-                    Destroy(_item);
                 }
                 break;
         }

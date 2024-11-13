@@ -18,7 +18,6 @@ public class Text_manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(Inventory.PistolBulletNum());
         bullet_text.text = Inventory.PistolBulletNum() + "Å^" + Inventory.InventoryBulletNum();
     }
 
