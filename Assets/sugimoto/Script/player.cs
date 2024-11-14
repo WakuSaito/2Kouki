@@ -58,6 +58,9 @@ public class player : MonoBehaviour
     //犬
     [SerializeField] GameObject dog;
 
+    //ゲージ
+    [SerializeField] GameObject food_gage;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -67,6 +70,9 @@ public class player : MonoBehaviour
         Rigidbody = GetComponent<Rigidbody>();
 
         hp = MAX_HP;
+
+        //ゲージ設定
+        food_gage.GetComponent<Gauge>().GaugeSetting(100);
 
         Screen.lockCursor = true;
 
@@ -84,6 +90,7 @@ public class player : MonoBehaviour
         {
             //アイテムInventory開閉
             GetComponent<Inventory>().ItemInventory();
+            food_gage.GetComponent<Gauge>().DurationReduce(2.0f, 1);
 
             if (!GetComponent<Inventory>().item_inventory_flag)
             {
@@ -279,7 +286,7 @@ public class player : MonoBehaviour
 
                 foreach (RaycastResult result in RayResult)
                 {
-                    Debug.Log(result.gameObject.name);
+                    //Debug.Log(result.gameObject.name);
                     GetComponent<Inventory>().InventoryOperation(result.gameObject);
                 }
             }

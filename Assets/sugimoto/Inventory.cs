@@ -60,18 +60,45 @@ public class Inventory : ID
 
     public void InventoryOperation(GameObject _item)
     {
-        for(int i=0;i<INVENTORY_MAX;i++)
+        //インベントリ操作
+
+        for (int i = 0; i < INVENTORY_MAX; i++)
         {
             //現在カーソルがあっているInventoryの中身が空じゃなければ
-            if (item_sprite_obj[i] == _item && item_type_id[i] == -1) 
+            if (item_sprite_obj[i] == _item && item_type_id[i] != -1) 
             {
-                Debug.Log(_item);
+                //ID取得
+                ITEM_ID _id = (ITEM_ID)item_type_id[i];
+
+                //IDが食料だったら
+                if (_id >= ITEM_ID.FOOD_1 && _id <= ITEM_ID.DRINK_2)
+                {
+                    EatFood(i);
+                }
             }
         }
-        
-
     }
 
+    public void EatFood(int _i)
+    {
+        //食事処理
+        if (Input.GetMouseButtonDown(0))
+        {
+            //スプライト削除
+            item_sprite_obj[_i].GetComponent<Image>().sprite = null;
+            item_sprite_obj[_i].SetActive(false);
+            //アイテム数を減らす
+            item_num[_i]--;
+            //アイテム数UIを変更
+            item_num_text[_i].text = item_num[_i] + "";
+
+            //アイテムがなくなればインベントリ初期化
+            if (item_num[_i] == 0)
+            {
+                item_type_id[_i] = -1;
+            }
+        }
+    }
 
 
     public void ItemInventory()
