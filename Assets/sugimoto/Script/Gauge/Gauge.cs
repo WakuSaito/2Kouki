@@ -9,8 +9,8 @@ public class Gauge : MonoBehaviour
     [SerializeField] GameObject back_gauge_obj;
 
     //数値
-    int gauge_num_max;//最大数値
-    int gauge_num_now;//今の数値
+    float gauge_num_max;//最大数値
+    float gauge_num_now;//今の数値
 
     //1メモリ
     float gauge_one_memory;
@@ -21,7 +21,7 @@ public class Gauge : MonoBehaviour
 
 
     //共通関数
-    public void GaugeSetting(int _max)//ゲージの設定
+    public float GaugeSetting(float _max)//ゲージの設定
     {
         //最大数値設定
         gauge_num_max = _max;
@@ -29,9 +29,11 @@ public class Gauge : MonoBehaviour
         gauge_num_now = gauge_num_max;
         //１メモリあたりを設定
         gauge_one_memory = gauge_obj.GetComponent<RectTransform>().sizeDelta.x / gauge_num_max;
+
+        return gauge_num_now;
     }
 
-    public int Increase_Gauge(float _increase_value)    //ゲージを増やす処理
+    public float Increase_Gauge(float _increase_value)    //ゲージを増やす処理
     {
         //ゲージの増やす量を設定
         float _increase_gauge = gauge_one_memory * _increase_value;
@@ -45,14 +47,22 @@ public class Gauge : MonoBehaviour
         //計算したゲージのサイズに設定
         gauge_obj.GetComponent<RectTransform>().sizeDelta = _now_gauge_size;
 
+        //gaugeが最大値を超えたら初期化
+        if (gauge_obj.GetComponent<RectTransform>().sizeDelta.x > gauge_num_max * gauge_one_memory) 
+        {
+            _now_gauge_size.x = gauge_num_max * gauge_one_memory;
+            gauge_num_now = gauge_num_max;
+            gauge_obj.GetComponent<RectTransform>().sizeDelta = _now_gauge_size;
+        }
+
         //今の数値を設定
-        gauge_num_now++;
+        gauge_num_now += _increase_value;
 
         //今のゲージの数値を返す
         return gauge_num_now;
     }
 
-    public int ReduceGauge(float _reduce_value)     //ゲージを減らす処理
+    public float ReduceGauge(float _reduce_value)     //ゲージを減らす処理
     {
         //ゲージが０より大きければ実行
         if (gauge_obj.GetComponent<RectTransform>().sizeDelta.x > 0)
@@ -70,7 +80,14 @@ public class Gauge : MonoBehaviour
             gauge_obj.GetComponent<RectTransform>().sizeDelta = _now_gauge_size;
 
             //今の数値を設定
-            gauge_num_now--;
+            gauge_num_now -= _reduce_value;
+        }
+        if (gauge_obj.GetComponent<RectTransform>().sizeDelta.x <= 0)
+        //０を超えた場合
+        {
+            //長さを調整
+            gauge_obj.GetComponent<RectTransform>().sizeDelta = new Vector2(0, gauge_obj.GetComponent<RectTransform>().sizeDelta.y);
+            gauge_num_now = 0;
         }
 
         //今のゲージの数値を返す
@@ -79,7 +96,7 @@ public class Gauge : MonoBehaviour
 
 
     //食料ゲージ用
-    public void DurationReduce(float _timer,float _reduce_value)    //持続的にゲージを減らす
+    public float DurationReduce(float _timer,float _reduce_value)    //持続的にゲージを減らす
     {
         //タイマー増加
         food_reduce_timer += Time.deltaTime;
@@ -87,14 +104,17 @@ public class Gauge : MonoBehaviour
         //時間が来たらゲージを減らす
         if (food_reduce_timer >= _timer) 
         {
-            ReduceGauge(_reduce_value);
             food_reduce_timer = 0.0f;
+            return ReduceGauge(_reduce_value);
         }
+
+        return gauge_num_now;
     }
 
-    public void DurationDamage(float _timer, float _reduce_value, GameObject _chack_gage_obj,GameObject _reduce_gage_obj)   //持続ダメージ
+    //持続ダメージ
+    public float DurationDamage(float _timer, float _reduce_value, GameObject _chack_gage_obj,GameObject _reduce_gage_obj)   //持続ダメージ
     {
-        if (_chack_gage_obj.GetComponent<Gauge>().gauge_num_now <= 0)
+        if (_chack_gage_obj.GetComponent<Gauge>().gauge_num_now <= 0) 
         {
             //タイマー増加
             damage_reduce_timer += Time.deltaTime;
@@ -102,14 +122,16 @@ public class Gauge : MonoBehaviour
             //時間が来たらゲージを減らす
             if (damage_reduce_timer >= _timer)
             {
-                _reduce_gage_obj.GetComponent<Gauge>().ReduceGauge(_reduce_value);
                 damage_reduce_timer = 0.0f;
+                return _reduce_gage_obj.GetComponent<Gauge>().ReduceGauge(_reduce_value);            
             }
         }
         else
         {
             damage_reduce_timer = 0.0f;
         }
+
+        return gauge_num_now;
     }
 
    

@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Inventory : ID
 {
     //定数
     public const int INVENTORY_MAX = 10;        //アイテムインベントリの最大枠
     public const int WEAPON_INVENTORY_MAX = 4;  //武器インベントリの最大枠
-    //const int ITEM_MAX = 30;                    //スタックできる最大数
+
+    //食料ゲージ
+    [SerializeField] GameObject gage_obj;
 
     //武器インベントリ
     public GameObject[] weapon_hand_obj = new GameObject[WEAPON_INVENTORY_MAX] { null, null, null, null };  //武器配列
@@ -58,7 +61,26 @@ public class Inventory : ID
         BulletText();
     }
 
-    public void InventoryOperation(GameObject _item)
+    public void CheckInventoryItem()    //カーソルのあっているアイテムを調べる
+    {
+        //マウスの位置からUIを取得する
+        //RaycastAllの引数（PointerEventData）作成
+        PointerEventData pointData = new PointerEventData(EventSystem.current);
+        //RaycastAllの結果格納用List
+        List<RaycastResult> RayResult = new List<RaycastResult>();
+
+        //PointerEventDataにマウスの位置をセット
+        pointData.position = Input.mousePosition;
+        //RayCast（スクリーン座標）
+        EventSystem.current.RaycastAll(pointData, RayResult);
+
+        foreach (RaycastResult result in RayResult)
+        {
+            GetComponent<Inventory>().InventoryOperation(result.gameObject);
+        }
+    }
+
+    void InventoryOperation(GameObject _item)   //アイテム別処理
     {
         //インベントリ操作
 
@@ -70,20 +92,30 @@ public class Inventory : ID
                 //ID取得
                 ITEM_ID _id = (ITEM_ID)item_type_id[i];
 
-                //IDが食料だったら
+                //IDが食料の場合
                 if (_id >= ITEM_ID.FOOD_1 && _id <= ITEM_ID.DRINK_2)
                 {
-                    EatFood(i);
+                    EatFood(i, _id);
                 }
             }
         }
     }
 
-    public void EatFood(int _i)
+    void EatFood(int _i, ITEM_ID _id)   //食事処理
     {
         //食事処理
         if (Input.GetMouseButtonDown(0))
         {
+            //食料ゲージを増やす
+            if (_id >= ITEM_ID.FOOD_1 && _id <= ITEM_ID.FOOD_4)
+            {
+                gage_obj.GetComponent<Gauge>().Increase_Gauge(10);
+            }
+            if (_id >= ITEM_ID.DRINK_1 && _id <= ITEM_ID.DRINK_2)
+            {
+                gage_obj.GetComponent<Gauge>().Increase_Gauge(5);
+            }
+            
             //スプライト削除
             item_sprite_obj[_i].GetComponent<Image>().sprite = null;
             item_sprite_obj[_i].SetActive(false);
@@ -269,8 +301,12 @@ public class Inventory : ID
         //アイテムからID取得
         ITEM_ID item_id = _item.GetComponent<ItemSet_ID>().id;
 
+        //インベントリ表示
+        display_timer = 0.0f;
+        display_flag = true;
+
         //IDごとに処理
-        switch(item_id)
+        switch (item_id)
         {
             //ピストル
             case ITEM_ID.PISTOL:
@@ -281,6 +317,8 @@ public class Inventory : ID
                 //武器インベントリになかった場合
                 if (weapon_hand_obj[(int)WEAPON_ID.PISTOL] == null)
                 {
+                    //ピストルの弾数表示
+                    bullet_text_obj.SetActive(true);
                     //武器インベントリに入れる
                     weapon_hand_obj[(int)WEAPON_ID.PISTOL] = _item;
 
@@ -397,6 +435,7 @@ public class Inventory : ID
                 weapon_hand_obj[weapon_cnt].SetActive(true);
                 weapon_sprite_obj[weapon_cnt].GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
                 frame_pos.position = weapon_sprite_obj[weapon_cnt].transform.position;
+                GetComponent<player>().hand_weapon = weapon_hand_obj[weapon_cnt];
             }
 
         }
@@ -453,11 +492,11 @@ public class Inventory : ID
         }
 
         //配置、UI設定
-        bullet_text_obj.SetActive(false);
+        //bullet_text_obj.SetActive(false);
         switch (hand_weapon)
         {
             case WEAPON_ID.PISTOL:
-                bullet_text_obj.SetActive(true);
+                //bullet_text_obj.SetActive(true);
                 //transform設定
                 ParentChildren(hand_pos.gameObject, weapon_hand_obj[weapon_cnt]);
                 weapon_hand_obj[weapon_cnt].transform.position = hand_pos.position;
