@@ -334,7 +334,7 @@ GameObject:
   - component: {fileID: 646657111}
   - component: {fileID: 646657110}
   m_Layer: 5
-  m_Name: TimeText
+  m_Name: TimeCountText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -661,7 +661,7 @@ GameObject:
   - component: {fileID: 1278805138}
   - component: {fileID: 1278805137}
   m_Layer: 5
-  m_Name: DayText
+  m_Name: DayCountText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -951,7 +951,7 @@ GameObject:
   - component: {fileID: 1510430854}
   - component: {fileID: 1510430853}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: TimeController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -970,9 +970,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directionalLightObj: {fileID: 1170215700}
-  daylightLengthSec: 120
-  nightLengthSec: 60
-  startTime: 30
+  sunriseHour: 6
+  sunsetHour: 20
+  startTimeHour: 8
+  cycle1HourSec: 1
+  dayCountTextObj: {fileID: 1278805135}
+  timeCountTextObj: {fileID: 646657108}
   isStopPassageTime: 0
   onDebugSunset: 0
   onDebugSunrise: 0
@@ -3888,6 +3891,7 @@ MonoBehaviour:
   bitten_zonbi_flag: 0
   anim_obj: {fileID: 286337696491222829}
   dog: {fileID: 0}
+  food_gage: {fileID: 0}
 --- !u!114 &8571731812559812299
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HourMinute
 {
-    private const int MAX_HOUR = 24;
-    private const int MAX_MINUTE = 60;
+    public const int MAX_HOUR = 24;
+    public const int MAX_MINUTE = 60;
 
     private int hour = 0;
     private int minute = 0;
@@ -78,18 +79,42 @@ public class TimeController : MonoBehaviour
     [SerializeField]//太陽光オブジェクト
     private GameObject directionalLightObj;
 
-    [SerializeField]//昼間の長さ
-    private float daylightLengthSec = 120;
-    [SerializeField]//夜の長さ
-    private float nightLengthSec = 90;
+    [SerializeField]//日の出時間
+    private int sunriseHour = 6;
+    [SerializeField]//日没時間
+    private int sunsetHour = 20;
 
-    //1日の合計時間
-    private float cicleLengthSec;
+    [SerializeField]//開始時の時間
+    private int startTimeHour = 8;
 
-    [SerializeField]//開始時の時間（朝から数えた時間）
-    private float startTime = 30;
+    //昼間の長さ
+    private float daylightLengthSec;
+    //夜の長さ
+    private float nightLengthSec;
+
+    //ゲーム内1日の秒数
+    private float cycle1DaySec;
+    [SerializeField]//ゲーム内1時間の秒数 ゲーム中に変更するとバグが発生する
+    private float cycle1HourSec = 30;
+    //ゲーム内1分の秒数
+    private float cycle1minuteSec;
+
+    //現在のゲーム内時間
+    private HourMinute currentTime;
+    //現在のゲーム内日数
+    private int currentDayCount = 1;
+
+    //前フレームのゲーム内時間
+    private int prevFrameHour;
+
     //経過時間カウント用
     private float timeCount = 0;
+
+
+    [SerializeField]//日をカウントするテキスト（d日目）
+    private GameObject dayCountTextObj;
+    [SerializeField]//時間をカウントするテキスト（hh:mm）
+    private GameObject timeCountTextObj;
 
     [SerializeField]//時間の経過を止める
     private bool isStopPassageTime = false;
@@ -105,7 +130,33 @@ public class TimeController : MonoBehaviour
 
     private void Awake()
     {
-        cicleLengthSec = daylightLengthSec + nightLengthSec;
+        //大きすぎないようにする
+        sunriseHour %= HourMinute.MAX_HOUR;
+        sunsetHour %= HourMinute.MAX_HOUR;
+        startTimeHour %= HourMinute.MAX_HOUR;
+
+        //昼の長さ（秒）計算
+        int tmp = sunsetHour - sunriseHour;
+        if (tmp < 0)
+            tmp += HourMinute.MAX_HOUR;
+        daylightLengthSec = tmp * cycle1HourSec;
+        //夜の長さ（秒）計算
+        nightLengthSec = (HourMinute.MAX_HOUR * cycle1HourSec) - daylightLengthSec;
+
+        //開始時間計算
+        int startTmp = startTimeHour - sunriseHour;
+        if (startTmp < 0)
+            startTmp += HourMinute.MAX_HOUR;
+        timeCount = startTmp * cycle1HourSec;
+
+        //ゲーム内1日の秒数計算
+        cycle1DaySec = cycle1HourSec * HourMinute.MAX_HOUR;
+        //ゲーム内1日の秒数計算
+        cycle1minuteSec = cycle1HourSec / HourMinute.MAX_MINUTE;
+
+        //時刻設定
+        currentTime = new HourMinute(startTimeHour, 0);
+        prevFrameHour = currentTime.GetHour();
     }
 
     // Update is called once per frame
@@ -131,9 +182,9 @@ public class TimeController : MonoBehaviour
         timeCount += Time.deltaTime;
 
         //一定値を超えないように
-        if (timeCount >= cicleLengthSec)
+        if (timeCount >= cycle1DaySec)
         {
-            timeCount -= cicleLengthSec;
+            timeCount -= cycle1DaySec;
         }
 
         //太陽光の角度
@@ -159,10 +210,28 @@ public class TimeController : MonoBehaviour
             isDaylight = false;
         }
 
-        Debug.Log(timeCount);
-
         //太陽光の角度変更
         directionalLightObj.transform.localRotation = Quaternion.AngleAxis(sunRotate, Vector3.right);
+
+        Debug.Log(timeCount);
+
+        //ゲーム内時間更新
+        currentTime = new HourMinute(sunriseHour, 0);
+        currentTime.AddMinute((int)(timeCount / cycle1minuteSec));
+        if(timeCountTextObj != null)
+            timeCountTextObj.GetComponent<Text>().text = currentTime.GetTimeString();//テキスト更新
+
+        //0時になったタイミングで動作
+        if (prevFrameHour > currentTime.GetHour())
+        {
+            //日数を増やす
+            currentDayCount++;
+            if (dayCountTextObj != null)
+                dayCountTextObj.GetComponent<Text>().text = currentDayCount + "日目";//テキスト更新
+        }
+
+        //時間保存
+        prevFrameHour = currentTime.GetHour();  
     }
 
     //時間を日没に変更
@@ -171,6 +240,8 @@ public class TimeController : MonoBehaviour
         isDaylight = false;
         timeCount = daylightLengthSec;
         directionalLightObj.transform.localRotation = Quaternion.AngleAxis(180, Vector3.right);
+        if (timeCountTextObj != null)
+            timeCountTextObj.GetComponent<Text>().text = currentTime.GetTimeString();//テキスト更新
     }
     //時間を日の出に変更
     public void ChangeSunrise()
@@ -178,7 +249,8 @@ public class TimeController : MonoBehaviour
         isDaylight = true;
         timeCount = 0;
         directionalLightObj.transform.localRotation = Quaternion.AngleAxis(0, Vector3.right);
-
+        if (timeCountTextObj != null)
+            timeCountTextObj.GetComponent<Text>().text = currentTime.GetTimeString();//テキスト更新
     }
 
     /// <summary>
