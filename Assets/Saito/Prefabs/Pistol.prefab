@@ -243,10 +243,10 @@ GameObject:
   - component: {fileID: 2866020372098483582}
   - component: {fileID: 3423060524086646924}
   - component: {fileID: 2587785258590676779}
-  - component: {fileID: 8518051691660677890}
+  - component: {fileID: 6885980243362262058}
   m_Layer: 0
   m_Name: Pistol
-  m_TagString: pistol
+  m_TagString: weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -294,8 +294,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet_obj: {fileID: 3390852007210028227, guid: e155a2f4f5b9e534087fd0bef3b5954b, type: 3}
-  bullet_num: 10
---- !u!114 &8518051691660677890
+  pistol_bullet_num: 10
+  muzzleTransform: {fileID: 0}
+  bulletLine: {fileID: 0}
+  bulletDistance: 20
+  bulletSpread: 0.03
+--- !u!114 &6885980243362262058
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -304,11 +308,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6677430234295823807}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dd34dade1988c94dbcb119f395ae6f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 836fa88f12cfa1c46a8903b831356ad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  get_num: 000000000a000000
+  get_num: 10
+  get_max: 30
 --- !u!1 &8325860634479917331
 GameObject:
   m_ObjectHideFlags: 0

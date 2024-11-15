@@ -707,7 +707,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 0.7534226, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0
@@ -1701,14 +1701,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 712490936}
-  - component: {fileID: 712490937}
   m_Layer: 5
   m_Name: bullet_text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &712490936
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1730,20 +1729,6 @@ RectTransform:
   m_AnchoredPosition: {x: -100, y: -380}
   m_SizeDelta: {x: 400, y: 120.00003}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &712490937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 712490935}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 361fbac42dd4669429af41dcf7d05707, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player_obj: {fileID: 3941641176075611978}
-  bullet_text: {fileID: 332001176}
 --- !u!1 &727625113
 GameObject:
   m_ObjectHideFlags: 0
@@ -3874,6 +3859,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1352847066}
+  - component: {fileID: 1352847067}
   m_Layer: 5
   m_Name: HealthGauge
   m_TagString: Untagged
@@ -3904,6 +3890,20 @@ RectTransform:
   m_AnchoredPosition: {x: -680, y: 483}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1352847067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352847065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1f3452e0556d0846981477933b63579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gauge_obj: {fileID: 650399347}
+  back_gauge_obj: {fileID: 2137592565}
 --- !u!1 &1366626117
 GameObject:
   m_ObjectHideFlags: 0
@@ -7103,20 +7103,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1147126351514629869
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3941641176075611978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0af8bcfcd57fa544caf54f46d3cdd5ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gauge: {fileID: 650399347}
-  graceGauge: {fileID: 2137592565}
 --- !u!114 &1147126351514629870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7129,6 +7115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fa7e286aa26bfd4c9e7050268f13d47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gage_obj: {fileID: 801718586}
   weapon_hand_obj:
   - {fileID: 6454339785291286576, guid: 8a28bb5ba59d1004bb8f50e88cc6819e, type: 3}
   - {fileID: 6440599648175510709, guid: f622e0c5b85564a49857d304f76a3503, type: 3}
@@ -7201,14 +7188,19 @@ MonoBehaviour:
   dir_obj: {fileID: 3941641176075611978}
   camera_obj: {fileID: 4792076061536026845}
   hand: {fileID: 1147126352475391484}
-  hand_weapon: {fileID: 0}
-  MAX_HP: 10
+  hand_weapon: {fileID: 6454339785291286576, guid: 8a28bb5ba59d1004bb8f50e88cc6819e, type: 3}
   hp: 0
+  MAX_HP: 10
   attacked_zonbi_flag: 0
   bitten_zonbi_flag: 0
   anim_obj: {fileID: 8855984948745058059}
   dog: {fileID: 2076058634}
   food_gage: {fileID: 801718586}
+  food_num_max: 0
+  food_num_now: 0
+  hp_gague: {fileID: 1352847065}
+  hp_num_max: 0
+  hp_num_now: 0
 --- !u!1 &1147126352475391484
 GameObject:
   m_ObjectHideFlags: 0
@@ -7928,7 +7920,6 @@ GameObject:
   - component: {fileID: 6759453528448621012}
   - component: {fileID: 3420639795283476888}
   - component: {fileID: 1147126351514629871}
-  - component: {fileID: 1147126351514629869}
   - component: {fileID: 1147126351514629870}
   - component: {fileID: 3941641176075611988}
   - component: {fileID: 9214986006194576646}

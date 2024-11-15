@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
 using System.Linq;
-using UnityEngine.EventSystems;
+//using UnityEngine.EventSystems;
 
 public class player : MonoBehaviour
 {
@@ -44,8 +44,8 @@ public class player : MonoBehaviour
     public GameObject hand_weapon;//手にある武器
 
     //判定
-    public int MAX_HP;
     public int hp;
+    public int MAX_HP;
     public bool attacked_zonbi_flag = false;//ダメージ判定
     public bool bitten_zonbi_flag = false;//ゲームオーバー判定
     bool game_clear_flag = false;//ゲームクリア判定
@@ -59,7 +59,12 @@ public class player : MonoBehaviour
     [SerializeField] GameObject dog;
 
     //ゲージ
-    [SerializeField] GameObject food_gage;
+    [SerializeField] GameObject food_gage;  //食料ゲージ
+    [SerializeField] float food_num_max;    //食料ゲージの最大値
+    [SerializeField] float food_num_now;    //食料ゲージの現在値
+    [SerializeField] GameObject hp_gague;   //体力ゲージ
+    [SerializeField] float hp_num_max;      //体力ゲージの最大値
+    [SerializeField] float hp_num_now;      //体力ゲージの現在値
 
     // Start is called before the first frame update
     void Start()
@@ -69,11 +74,14 @@ public class player : MonoBehaviour
         Animator = anim_obj.GetComponent<Animator>();
         Rigidbody = GetComponent<Rigidbody>();
 
-        hp = MAX_HP;
+        //後で消す
+        hp = (int)hp_num_max;
 
         //ゲージ設定
-        food_gage.GetComponent<Gauge>().GaugeSetting(100);
+        food_num_now = food_gage.GetComponent<Gauge>().GaugeSetting(food_num_max);
+        hp_num_now   = hp_gague.GetComponent<Gauge>().GaugeSetting(hp_num_max);
 
+        //カーソルキー非表示
         Screen.lockCursor = true;
 
         //マウスの位置情報保存
@@ -86,14 +94,18 @@ public class player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!bitten_zonbi_flag)
+        if (!DowmPlayer())
         {
             //アイテムInventory開閉
             GetComponent<Inventory>().ItemInventory();
-            food_gage.GetComponent<Gauge>().DurationReduce(2.0f, 1);
 
             if (!GetComponent<Inventory>().item_inventory_flag)
             {
+                //食料ゲージ減少
+                food_num_now = food_gage.GetComponent<Gauge>().DurationReduce(2.0f, 100.0f);
+                Debug.Log(food_num_now);
+                //食料ゲージがなくなった場合持続ダメージ
+                hp = (int)hp_gague.GetComponent<Gauge>().DurationDamage(2.0f, 1, food_gage, hp_gague);
 
                 //移動処理
                 {
@@ -273,22 +285,10 @@ public class player : MonoBehaviour
             //Inventoryを開いている状態なら
             else
             {
-                //マウスの位置からUIを取得する
-                //RaycastAllの引数（PointerEventData）作成
-                PointerEventData pointData = new PointerEventData(EventSystem.current);
-                //RaycastAllの結果格納用List
-                List<RaycastResult> RayResult = new List<RaycastResult>();
-
-                //PointerEventDataにマウスの位置をセット
-                pointData.position = Input.mousePosition;
-                //RayCast（スクリーン座標）
-                EventSystem.current.RaycastAll(pointData, RayResult);
-
-                foreach (RaycastResult result in RayResult)
-                {
-                    //Debug.Log(result.gameObject.name);
-                    GetComponent<Inventory>().InventoryOperation(result.gameObject);
-                }
+                run_flag = false;
+                idle_flag = true;
+                //インベントリのアイテムを調べる
+                GetComponent<Inventory>().CheckInventoryItem();
             }
         }
         else//ゲームオーバー
@@ -395,29 +395,6 @@ public class player : MonoBehaviour
             return null;
         }
     }
-    //レイの先にあるオブジェクト取得
-    //public GameObject MouseRay()
-    //{
-    //    GameObject hit_obj;
-
-    //    //ビューポート座標のレイを飛ばす
-    //    Ray ray = Canvas..ScreenPointToRay(Input.mousePosition);
-    //    RaycastHit hit = new RaycastHit();
-
-    //    if (Physics.Raycast(ray, out hit))
-    //    {
-    //        //アイテムまでの距離を調べる
-    //        float distance = Vector3.Distance(hit.transform.position, transform.position);
-    //        hit_obj = hit.collider.gameObject;
-
-    //        Debug.DrawRay(ray.origin, ray.direction * 10, Color.red, 5);
-    //        return hit_obj;
-    //    }
-    //    else
-    //    {
-    //        return null;
-    //    }
-    //}
 
 
     private void OnCollisionEnter(Collision collision)
@@ -504,17 +481,30 @@ public class player : MonoBehaviour
         _child.transform.position = _parent.transform.position;
     }
 
-    public void DamagePlayer()
+    public void DamagePlayer()  //プレイヤーがダメージを受ける
     {
-        GetComponent<HpGage>().HpDamageGage(Damage_Num);
+        hp = (int)hp_gague.GetComponent<Gauge>().ReduceGauge(Damage_Num);
     }
 
-    public void GameClear()
+    public void GameClear() //ゲームクリアかどうか
     {
         //クリアフラグON
         game_clear_flag = true;
         Debug.Log("CLEAR");
     }
+
+    bool DowmPlayer()   //体力が残っているか調べる
+    {
+        if (hp <= 0) 
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 }
 
 
