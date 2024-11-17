@@ -5,47 +5,34 @@ using System.Runtime.InteropServices;
 using System.Linq;
 //using UnityEngine.EventSystems;
 
-public class player : MonoBehaviour
+public class player : PlayerFunction
 {
     Inventory Inventory;
     Animator Animator;  // アニメーターコンポーネント取得用
     Rigidbody Rigidbody;
 
-    const float Attacked_Speed = 1.5f;
     const float Walk_Speed = 5.0f;
     const float Run_Speed = 10.0f;
-    const float Max_X_angle = 60.0f;
     const int Damage_Num = 1;
-    const int Attack_Distance = 180;
     const int Item_Distance = 5;
-
-    Vector3 Pistol_angle { get { return new Vector3(315.0f, 14.999999f, 44.9999924f); } }
 
     //移動
     bool run_flag = false;  //走っているかどうかフラグ
-    int key_push_cnt = 0;   //キー入力された回数
-    float push_timer = 0.0f;//ダブル入力カウント用
-    Vector3 before_pos;
 
     //視点移動
     [SerializeField] float cameraSensitivity = 90;
     float rot_x = 0.0f;
     float rot_y = 0.0f;
 
-    Vector3 mouse_pos;                      //マウスの位置
     [SerializeField] GameObject rot_obj;　  //弾丸生成位置用
     [SerializeField] GameObject dir_obj;    //向きを制御したいObject
     [SerializeField] GameObject camera_obj; 
-
-    Vector3 mouse_start;
 
     //アイテムを拾う
     [SerializeField] GameObject hand;//設置場所
     public GameObject hand_weapon;//手にある武器
 
     //判定
-    public int hp;
-    public int MAX_HP;
     public bool attacked_zonbi_flag = false;//ダメージ判定
     public bool bitten_zonbi_flag = false;//ゲームオーバー判定
     bool game_clear_flag = false;//ゲームクリア判定
@@ -63,8 +50,8 @@ public class player : MonoBehaviour
     [SerializeField] float food_num_max;    //食料ゲージの最大値
     [SerializeField] float food_num_now;    //食料ゲージの現在値
     [SerializeField] GameObject hp_gague;   //体力ゲージ
-    [SerializeField] float hp_num_max;      //体力ゲージの最大値
-    [SerializeField] float hp_num_now;      //体力ゲージの現在値
+    public float hp_num_max;      //体力ゲージの最大値
+    public float hp_num_now;      //体力ゲージの現在値
 
     // Start is called before the first frame update
     void Start()
@@ -74,221 +61,61 @@ public class player : MonoBehaviour
         Animator = anim_obj.GetComponent<Animator>();
         Rigidbody = GetComponent<Rigidbody>();
 
-        //後で消す
-        hp = (int)hp_num_max;
-
         //ゲージ設定
         food_num_now = food_gage.GetComponent<Gauge>().GaugeSetting(food_num_max);
         hp_num_now   = hp_gague.GetComponent<Gauge>().GaugeSetting(hp_num_max);
 
         //カーソルキー非表示
         Screen.lockCursor = true;
+    }
 
-        //マウスの位置情報保存
-        mouse_pos = Input.mousePosition;
-        mouse_start = Input.mousePosition;
-        before_pos = gameObject.transform.position;
-        //angle = this.transform.localEulerAngles;
+    private void OnCollisionEnter(Collision collision)
+    {
+        Rigidbody.velocity = Vector3.zero;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //プレイヤーが倒されていない場合
         if (!DowmPlayer())
         {
             //アイテムInventory開閉
-            GetComponent<Inventory>().ItemInventory();
+            Inventory.ItemInventory();
 
-            if (!GetComponent<Inventory>().item_inventory_flag)
+            //インベントリ閉じている
+            if (!Inventory.item_inventory_flag)
             {
-                //食料ゲージ減少
-                food_num_now = food_gage.GetComponent<Gauge>().DurationReduce(2.0f, 100.0f);
-                Debug.Log(food_num_now);
-                //食料ゲージがなくなった場合持続ダメージ
-                hp = (int)hp_gague.GetComponent<Gauge>().DurationDamage(2.0f, 1, food_gage, hp_gague);
+                //ゲージ処理
+                Gauge();
 
                 //移動処理
-                {
-                    //ダッシュ判定処理
-                    if (!attacked_zonbi_flag)
-                    {
-                        //移動キーが入力されていないかつダッシュコマンド入力１回目じゃなければ移動初期化
-                        if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D) && key_push_cnt != 1)
-                        {
-                            key_push_cnt = 0;
-                            push_timer = 0.0f;
-                            run_flag = false;
-                        }
-
-                        //Wキーが２回入力されたらダッシュ
-                        if (Input.GetKeyDown(KeyCode.W))
-                        {
-                            key_push_cnt++;
-                        }
-
-                        //ダッシュコマンド１回目の場合
-                        if (key_push_cnt == 1)
-                        {
-                            run_flag = false;
-
-                            //ダブル入力されなければ歩き（短い時間以内に２回入力）
-                            push_timer += Time.deltaTime;
-                            if (push_timer >= 1)
-                            {
-                                key_push_cnt = 0;
-                            }
-                        }
-                        //ダブル入力されればダッシュ
-                        else if (key_push_cnt >= 2)
-                        {
-                            run_flag = true;
-                        }
-
-
-                        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift))
-                        {
-                            run_flag = true;
-                        }
-
-
-                        //走り移動
-                        if (run_flag)
-                        {
-                            Move(Run_Speed);
-                        }
-                        //歩き移動
-                        else
-                        {
-                            Move(Walk_Speed);
-                        }
-                    }
-                    else
-                    {
-                        Move(Attacked_Speed);
-                    }
-
-                }
+                MoveSet();
 
                 //視点移動
-                {
-                    rot_x += Input.GetAxis("Mouse X") * cameraSensitivity * Time.deltaTime;
-                    rot_y += Input.GetAxis("Mouse Y") * cameraSensitivity * Time.deltaTime;
-                    rot_y = Mathf.Clamp(rot_y, -90, 90);
-
-                    dir_obj.transform.localRotation = Quaternion.AngleAxis(rot_x, Vector3.up);
-                    camera_obj.transform.localRotation = Quaternion.AngleAxis(rot_y, Vector3.left);//*を外した
-
-                    if (Input.GetKeyDown(KeyCode.End))
-                    {
-                        if (Screen.lockCursor == false)
-                        {
-                            Screen.lockCursor = true;
-                        }
-                        else
-                        {
-                            Screen.lockCursor = false;
-                        }
-                    }
-                }
+                ViewpointMove();
+                //マウスカーソル表示非表示
+                MouseCursorVisibility();
 
                 //アイテムを拾う
-                {
-                    if (Input.GetMouseButtonDown(1))
-                    {
-                        //アイテム取得
-                        GameObject item = Ray(Item_Distance);
+                PickUpItem();
 
-                        if (item != null)
-                        {
-                            switch (item.tag)
-                            {
-                                /*アイテムについて
-                                 *各武器はのタグをweaponに設定
-                                 *各アイテムはitemのタグに設定
-                                 *武器オブジェクトにID設定用のスクリプトをアタッチ
-                                 *そこでIDを設定する
-                                 */
+                //武器の入れ替え
+                Inventory.ChangeWeapon();
 
-                                case "weapon":
-                                    GetComponent<Inventory>().WeaponGet(item);
-                                    break;
-                                case "item":
-                                    GetComponent<Inventory>().ItemGet(item);
-                                    break;
-                            }
-                        }
-                    }
-                }
-
-                //武器
-                {
-                    //武器の入れ替え
-                    GetComponent<Inventory>().ChangeWeapon();
-
-                    //全ゾンビオブジェクト
-                    GameObject[] zombieObjects = GameObject.FindGameObjectsWithTag("Zombie");
-
-                    //距離が一定以下のゾンビを全て取得
-                    foreach (var zombie in zombieObjects)
-                    {
-                        //全てのゾンビの色を通常に戻す 処理が重いかも
-                        zombie.GetComponent<ZombieManager>().ChangeColorAlpha(0.0f);
-                    }
-
-
-                        //フラグ初期化
-                        hand_pistol_flag = false;
-
-                    switch (Inventory.hand_weapon)
-                    {
-                        //ピストル
-                        case Inventory.WEAPON_ID.PISTOL:
-
-                            hand_pistol_flag = true;
-
-                            //リロード処理
-                            if (Input.GetKeyDown(KeyCode.R))
-                            {
-                                hand_weapon.GetComponent<Pistol>().Reload(GetComponent<Inventory>());
-                            }
-                            //攻撃
-                            if (Input.GetMouseButtonDown(0))
-                            {
-                                hand_weapon.GetComponent<Pistol>().Attack(rot_obj, hand_weapon);
-
-                            }
-                            break;
-                        //犬
-                        case Inventory.WEAPON_ID.DOG:
-
-                            GameObject attack_obj=LockOnUpdate();
-
-                            //攻撃
-                            if (Input.GetMouseButtonDown(0))
-                            {
-                                ////攻撃するオブジェクト取得
-                               // GameObject attack_obj = Ray(Attack_Distance);
-
-                                if (attack_obj != null)
-                                {
-                                    if (attack_obj.tag == "Zombie"/* || attack_obj.tag == "Head"*/)
-                                    {
-                                        dog.GetComponent<DogManager>().OrderAttack(attack_obj.GetComponentInParent<ZombieManager>().gameObject);
-                                        Debug.Log(attack_obj + "a");
-                                    }
-                                }
-                            }
-                            break;
-                    }
-                }
+                //武器別処理
+                AttackWeapon();
             }
-            //Inventoryを開いている状態なら
+            //Inventoryを開いている
             else
             {
+                //移動を止める
+                Rigidbody.velocity = new Vector3(0, 0);
+
                 run_flag = false;
                 idle_flag = true;
                 //インベントリのアイテムを調べる
-                GetComponent<Inventory>().CheckInventoryItem();
+                Inventory.CheckInventoryItem();
             }
         }
         else//ゲームオーバー
@@ -298,12 +125,140 @@ public class player : MonoBehaviour
         }
 
         //アニメーション
+        Animation();
+    }
+
+    void MoveSet()
+    {
+        //ダッシュ判定処理
+        run_flag = (RunFlag());
+
+        if (run_flag)//走り移動
+        {
+            idle_flag = Move(Run_Speed, Rigidbody);
+        }
+        else//歩き移動
+        {
+            idle_flag = Move(Walk_Speed, Rigidbody);
+        }
+    }
+
+    void ViewpointMove()//視点移動
+    {
+        rot_x += Input.GetAxis("Mouse X") * cameraSensitivity * Time.deltaTime;
+        rot_y += Input.GetAxis("Mouse Y") * cameraSensitivity * Time.deltaTime;
+        rot_y = Mathf.Clamp(rot_y, -90, 90);
+
+        dir_obj.transform.localRotation = Quaternion.AngleAxis(rot_x, Vector3.up);
+        camera_obj.transform.localRotation = Quaternion.AngleAxis(rot_y, Vector3.left);//*を外した
+    }
+
+    void　PickUpItem()  //アイテムを拾う
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            //アイテム取得
+            GameObject item = Ray(Item_Distance);
+
+            if (item != null)
+            {
+                switch (item.tag)
+                {
+                    /*アイテムについて
+                     *各武器はのタグをweaponに設定
+                     *各アイテムはitemのタグに設定
+                     *武器オブジェクトにID設定用のスクリプトをアタッチ
+                     *そこでIDを設定する
+                     */
+
+                    case "weapon":
+                        GetComponent<Inventory>().WeaponGet(item);
+                        break;
+                    case "item":
+                        GetComponent<Inventory>().ItemGet(item);
+                        break;
+                }
+            }
+        }
+    }
+
+    void SearchZombie() //ゾンビを調べる(色をもとに戻す)
+    {
+        //全ゾンビオブジェクト
+        GameObject[] zombieObjects = GameObject.FindGameObjectsWithTag("Zombie");
+
+        //距離が一定以下のゾンビを全て取得
+        foreach (var zombie in zombieObjects)
+        {
+            //全てのゾンビの色を通常に戻す 処理が重いかも
+            zombie.GetComponent<ZombieManager>().ChangeColorAlpha(0.0f);
+        }
+    }
+
+    void AttackWeapon() //武器別処理
+    {
+        //ゾンビを調べる(色をもとに戻す)
+        SearchZombie();
+
+        //フラグ初期化
+        hand_pistol_flag = false;
+
+        switch (Inventory.hand_weapon)
+        {
+            //ピストル
+            case Inventory.WEAPON_ID.PISTOL:
+
+                hand_pistol_flag = true;
+
+                //リロード処理
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    hand_weapon.GetComponent<Pistol>().Reload(GetComponent<Inventory>());
+                }
+                //攻撃
+                if (Input.GetMouseButtonDown(0))
+                {
+                    hand_weapon.GetComponent<Pistol>().Attack(rot_obj, hand_weapon);
+
+                }
+                break;
+            //犬
+            case Inventory.WEAPON_ID.DOG:
+
+                GameObject attack_obj = LockOnUpdate();
+
+                //攻撃
+                if (Input.GetMouseButtonDown(0))
+                {
+                    ////攻撃するオブジェクト取得
+                    // GameObject attack_obj = Ray(Attack_Distance);
+
+                    if (attack_obj != null)
+                    {
+                        if (attack_obj.tag == "Zombie"/* || attack_obj.tag == "Head"*/)
+                        {
+                            dog.GetComponent<DogManager>().OrderAttack(attack_obj.GetComponentInParent<ZombieManager>().gameObject);
+                            Debug.Log(attack_obj + "a");
+                        }
+                    }
+                }
+                break;
+        }
+    }
+
+    void Gauge()        //各ゲージ処理
+    {
+        //食料ゲージ減少
+        food_num_now = food_gage.GetComponent<Gauge>().DurationReduce(2.0f, 1.0f);
+        //食料ゲージがなくなった場合持続ダメージ
+        hp_num_now = (int)hp_gague.GetComponent<Gauge>().DurationDamage(2.0f, 1, food_gage, hp_gague);
+    }
+
+    void Animation() //アニメーション
+    {
         Animator.SetBool("Run", run_flag);  //走る
         Animator.SetBool("Idle", idle_flag);  //idle
         Animator.SetBool("HandPislol", hand_pistol_flag);  //pistol所持状態
-
-        //位置保存
-        before_pos = transform.position;
     }
 
     public GameObject LockOnUpdate()
@@ -363,9 +318,7 @@ public class player : MonoBehaviour
         return null;
     }
 
-
-    //レイの先にあるオブジェクト取得
-    public GameObject Ray(float _distance)
+    public GameObject Ray(float _distance)//レイの先にあるオブジェクト取得
     {
         GameObject hit_obj;
 
@@ -396,94 +349,9 @@ public class player : MonoBehaviour
         }
     }
 
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Rigidbody.velocity = Vector3.zero;
-    }
-
-    private void Move(float _speed)
-    {
-        idle_flag = true;
-        {
-            //リジットボディーでの移動
-            Vector3 vec = Vector3.zero;
-
-            // Wキー（前方移動）
-            if (Input.GetKey(KeyCode.W))
-            {
-                idle_flag = false;
-                vec += transform.forward;
-            }
-            
-            // Sキー（後方移動）
-            if (Input.GetKey(KeyCode.S))
-            {
-                idle_flag = false;
-                vec += -transform.forward;
-            }
-
-            // Dキー（右移動）
-            if (Input.GetKey(KeyCode.D))
-            {
-                idle_flag = false;
-                vec += transform.right;
-            }
-
-            // Aキー（左移動）
-            if (Input.GetKey(KeyCode.A))
-            {
-                idle_flag = false;
-                vec += -transform.right;
-            }
-
-            //斜め移動の速度を一定にするため正規化
-            vec.Normalize();
-
-            //yはそのまま（代入すると重力に影響があるため）
-            Rigidbody.velocity = new Vector3(vec.x * _speed, Rigidbody.velocity.y, vec.z * _speed);
-
-            //transformでの移動
-            //// Wキー（前方移動）
-            //if (Input.GetKey(KeyCode.W))
-            //{
-            //    idle_flag = false;
-            //    transform.position += _speed * transform.forward * Time.deltaTime;
-            //}
-
-            //// Sキー（後方移動）
-            //if (Input.GetKey(KeyCode.S))
-            //{
-            //    idle_flag = false;
-            //    transform.position -= _speed * transform.forward * Time.deltaTime;
-            //}
-
-            //// Dキー（右移動）
-            //if (Input.GetKey(KeyCode.D))
-            //{
-            //    idle_flag = false;
-            //    transform.position += _speed * transform.right * Time.deltaTime;
-            //}
-
-            //// Aキー（左移動）
-            //if (Input.GetKey(KeyCode.A))
-            //{
-            //    idle_flag = false;
-            //    transform.position -= _speed * transform.right * Time.deltaTime;
-            //}
-        }
-
-    }
-
-    void ParentChildren(GameObject _parent, GameObject _child)
-    {
-        _child.transform.parent = _parent.transform;
-        _child.transform.position = _parent.transform.position;
-    }
-
     public void DamagePlayer()  //プレイヤーがダメージを受ける
     {
-        hp = (int)hp_gague.GetComponent<Gauge>().ReduceGauge(Damage_Num);
+        hp_num_now = hp_gague.GetComponent<Gauge>().ReduceGauge(Damage_Num);
     }
 
     public void GameClear() //ゲームクリアかどうか
@@ -495,7 +363,7 @@ public class player : MonoBehaviour
 
     bool DowmPlayer()   //体力が残っているか調べる
     {
-        if (hp <= 0) 
+        if (hp_num_now <= 0) 
         {
             return true;
         }

@@ -253,8 +253,8 @@ public class ZombieManager : MonoBehaviour
         if (playerScript == null) return;
 
         //ƒvƒŒƒCƒ„[‚Ì‘Ì—Íæ“¾
-        int maxHP = playerScript.MAX_HP;
-        int currentHP = playerScript.hp;
+        float maxHP = playerScript.hp_num_max;
+        float currentHP = playerScript.hp_num_now;
 
         //Œ»İ‚Ì‘Ì—Í‚ÌŠ„‡æ“¾
         float currentHPPer = currentHP / maxHP;

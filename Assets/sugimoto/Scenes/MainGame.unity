@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7189,17 +7189,15 @@ MonoBehaviour:
   camera_obj: {fileID: 4792076061536026845}
   hand: {fileID: 1147126352475391484}
   hand_weapon: {fileID: 6454339785291286576, guid: 8a28bb5ba59d1004bb8f50e88cc6819e, type: 3}
-  hp: 0
-  MAX_HP: 10
   attacked_zonbi_flag: 0
   bitten_zonbi_flag: 0
   anim_obj: {fileID: 8855984948745058059}
   dog: {fileID: 2076058634}
   food_gage: {fileID: 801718586}
-  food_num_max: 0
+  food_num_max: 100
   food_num_now: 0
   hp_gague: {fileID: 1352847065}
-  hp_num_max: 0
+  hp_num_max: 10
   hp_num_now: 0
 --- !u!1 &1147126352475391484
 GameObject:
