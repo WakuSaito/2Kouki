@@ -205,6 +205,13 @@ public class player : PlayerFunction
 
         switch (Inventory.hand_weapon)
         {
+            case Inventory.WEAPON_ID.KNIFE:
+                //攻撃処理
+                if (Input.GetMouseButtonDown(0))
+                {
+                    hand_weapon.GetComponent<Knife>().Attack(camera_obj);
+                }
+                break;
             //ピストル
             case Inventory.WEAPON_ID.PISTOL:
 
@@ -219,7 +226,6 @@ public class player : PlayerFunction
                 if (Input.GetMouseButtonDown(0))
                 {
                     hand_weapon.GetComponent<Pistol>().Attack(rot_obj, hand_weapon);
-
                 }
                 break;
             //犬
@@ -282,7 +288,7 @@ public class player : PlayerFunction
             ////全てのゾンビの色を通常に戻す 処理が重いかも
             //zombie.GetComponent<ZombieManager>().ChangeColorAlpha(0.0f);
 
-            Debug.Log("ゾンビ発見");
+            //Debug.Log("ゾンビ発見");
             //距離を調べる
             Vector3 zombiePos = zombie.transform.position;
             //zombiePos.y += 2.0f;
@@ -301,7 +307,7 @@ public class player : PlayerFunction
                 targetZombies.OrderBy(p =>
                 Vector3.Angle(((p.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir)).First();
 
-            Debug.Log("角度:" + Vector3.Angle(((nearestEnemy.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir));
+            //Debug.Log("角度:" + Vector3.Angle(((nearestEnemy.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir));
 
             //取得したオブジェクトまでと視点の角度が一定以下なら
             if (Vector3.Angle(((nearestEnemy.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir) <= activeAngle)
