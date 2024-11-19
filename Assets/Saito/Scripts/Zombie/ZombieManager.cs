@@ -210,6 +210,7 @@ public class ZombieManager : MonoBehaviour
     private void Attack()
     {
         if (isAttackCoolDown) return;//クールタイムチェック
+        if (isDead) return;
 
         //攻撃開始
         zombieAttack.StartAttack();
@@ -230,6 +231,8 @@ public class ZombieManager : MonoBehaviour
     {
         if(isStan)
             stanCancellTokenSource.Cancel();//現在動いているスタン処理のキャンセル
+
+        zombieAttack.AttackCancel();//攻撃処理のキャンセル
 
         stanCancellTokenSource = new CancellationTokenSource();
 
@@ -271,6 +274,8 @@ public class ZombieManager : MonoBehaviour
     {
         Debug.Log("Body");
 
+        zombieAnimation.DamageHitLeft();
+
         Stan(2.0);//スタン
     }
     //被弾地点からアニメーションを変更させる用のオーバーロード
@@ -302,10 +307,19 @@ public class ZombieManager : MonoBehaviour
     {
         Debug.Log("Head");
 
+        zombieAttack.AttackCancel();//攻撃処理のキャンセル
+
+        Dead();//死亡処理呼び出し
+    }
+
+    /// <summary>
+    /// 死亡処理
+    /// </summary>
+    private void Dead()
+    {
         if (isDead) return;
 
-        isDead = true;
-
+        isDead = true;//別の動作を止めるためにフラグオン
         isFreezePos = true;//移動停止
 
         zombieAnimation.Die();//アニメーション

@@ -14,6 +14,9 @@ public class ZombieAttack : ZombieBase
     [SerializeField]//当たり判定
     Collider col;
 
+    //コルーチンキャンセル用
+    Coroutine attackCoroutine;
+
     /// <summary>
     /// 初期設定
     /// </summary>
@@ -30,7 +33,23 @@ public class ZombieAttack : ZombieBase
     public void StartAttack()
     {
         Debug.Log("ゾンビの攻撃");
-        StartCoroutine(attack());//コルーチン開始
+        attackCoroutine = StartCoroutine(attack());//コルーチン開始
+    }
+
+    /// <summary>
+    /// 攻撃キャンセル用
+    /// </summary>
+    public void AttackCancel()
+    {
+        //とりあえずコライダーを無効化にする
+        col.enabled = false;
+
+        if (attackCoroutine == null) return;
+
+        //コルーチン停止
+        StopCoroutine(attackCoroutine);
+
+        attackCoroutine = null;
     }
 
     IEnumerator attack()
