@@ -130,7 +130,6 @@ Transform:
   - {fileID: 1750535752325106432}
   - {fileID: 790237427233970134}
   - {fileID: 370603178734811374}
-  - {fileID: 6588945783015725284}
   m_Father: {fileID: 3642366264324784971}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6081,37 +6080,6 @@ Transform:
   m_Father: {fileID: 1248963776793876517}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6588945783015725285
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6588945783015725284}
-  m_Layer: 2
-  m_Name: Hand
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6588945783015725284
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6588945783015725285}
-  m_LocalRotation: {x: 0.30438074, y: -0.2566048, z: -0.39667654, w: -0.827136}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.15000014, y: 0.15000005, z: 0.15}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 5665565388987220288}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: -45, y: 15, z: 45}
 --- !u!1 &6588945783501876096
 GameObject:
   m_ObjectHideFlags: 0
@@ -6383,7 +6351,7 @@ MonoBehaviour:
   rot_obj: {fileID: 1592890913074372036}
   dir_obj: {fileID: 7072990992159666771}
   camera_obj: {fileID: 1592890913074372036}
-  hand: {fileID: 6588945783015725285}
+  hand: {fileID: 0}
   hand_weapon: {fileID: 6454339785291286576, guid: 8a28bb5ba59d1004bb8f50e88cc6819e, type: 3}
   attacked_zonbi_flag: 0
   bitten_zonbi_flag: 0
@@ -6430,7 +6398,7 @@ MonoBehaviour:
   hand_weapon: 0
   item_num: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
   item_type_id: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-  hand_pos: {fileID: 6588945783015725284}
+  hand_pos: {fileID: 0}
   item_inventory: {fileID: 6096688695594789258}
   item_inventory_flag: 0
   item_sprite_obj:

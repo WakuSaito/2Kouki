@@ -526,8 +526,13 @@ public class Inventory : ID
                 //bullet_text_obj.SetActive(true);
                 //transform設定
                 ParentChildren(hand_pos.gameObject, weapon_hand_obj[weapon_cnt]);
-                weapon_hand_obj[weapon_cnt].transform.position = hand_pos.position;
+                weapon_hand_obj[weapon_cnt].transform.localRotation = Quaternion.identity;
+                weapon_hand_obj[weapon_cnt].transform.localPosition = new Vector3(0.05f, 0, 0.5f);
+                Debug.Log(weapon_hand_obj[weapon_cnt].transform);
                 weapon_hand_obj[weapon_cnt].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
+                break;
+            case WEAPON_ID.KNIFE:
+                //weapon_hand_obj[weapon_cnt].SetActive(true);
                 break;
         }
 
