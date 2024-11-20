@@ -15,6 +15,7 @@ public class ID : MonoBehaviour
         FOOD_4,
         DRINK_1,
         DRINK_2,
+        EMERGENCY_PACK
     }
 
 }
