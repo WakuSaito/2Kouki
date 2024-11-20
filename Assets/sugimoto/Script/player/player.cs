@@ -147,7 +147,7 @@ public class player : PlayerFunction
     {
         rot_x += Input.GetAxis("Mouse X") * cameraSensitivity * Time.deltaTime;
         rot_y += Input.GetAxis("Mouse Y") * cameraSensitivity * Time.deltaTime;
-        rot_y = Mathf.Clamp(rot_y, -90, 90);
+        rot_y = Mathf.Clamp(rot_y, -70, 60);
 
         dir_obj.transform.localRotation = Quaternion.AngleAxis(rot_x, Vector3.up);
         camera_obj.transform.localRotation = Quaternion.AngleAxis(rot_y, Vector3.left);//*を外した
