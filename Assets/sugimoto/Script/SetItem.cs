@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SetItem : ID
 {
-    const int SET_POS_MAX = 5;
+    const int MAX_SET = 5;
 
     //設置場所
     [SerializeField] Transform[] set_pos;
@@ -12,33 +12,62 @@ public class SetItem : ID
     [SerializeField] GameObject[] item;
 
     //設置場所保存
-    int[] set_pos_save = new int[SET_POS_MAX];
+    int[] set_pos_save;
 
+    //設置する数
     [SerializeField] int set_times = 0;
+
+    public bool test = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        SetItemPos(set_times);
+        //配列の長さ設定
+        System.Array.Resize(ref set_pos_save, set_pos.Length);
+
+        //配列を-1で初期化
+        for (int i = 0; i < set_pos_save.Length; i++)
+        {
+            set_pos_save[i] = -1;
+        }
+
+        //設置
+        SetItemPos();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //設置したアイテムが残っているかを調べる
+        SearchPosItem();
+
+        if(test)
+        {
+            //設置
+            SetItemPos();
+        }
     }
 
-    void SetItemPos(int _set_times)
+    public void SetItemPos()  //アイテム設置処理（再設置したいときこの関数を呼び出す）
     {
         int cnt = 0;
 
-        while (_set_times != cnt)
+        //現在設置している数を調べる
+        for (int i = 0; i < set_pos_save.Length; i++)
+        {
+            if (set_pos_save[i] != -1)
+            {
+                cnt++;
+            }
+        }
+
+
+        while (set_times >= cnt)
         {
             //ランダム
             int _set_pos_random = Random.Range(0, set_pos.Length);  //設置場所
             int _set_item_random = Random.Range(0, item.Length);     //アイテム
 
-            Debug.Log(_set_pos_random);
 
             //設置可能フラグ
             bool can_set_flag = false;
@@ -64,12 +93,27 @@ public class SetItem : ID
                 set_pos_save[cnt] = _set_pos_random;
                 cnt++;
 
-                //設置回数が設置場所の最大数を超えたら終了（バグ対策）
-                if (cnt >= SET_POS_MAX)
-                {
-                    break;
-                }
             }
+
+            //設置回数が設置場所の最大数を超えたら終了（バグ対策）
+            if (cnt >= set_pos.Length)
+            {
+                break;
+            }
+        }
+    }
+
+    void SearchPosItem()
+    {
+        //アイテムが設置場所にあるか
+        for (int i = 0; i < set_pos_save.Length; i++)
+        {
+            //設置位置の子が０ならなくなっているので要素を初期化
+            Debug.Log(set_pos_save[i] + "+" + i);
+            if (set_pos_save[i] != -1 && set_pos[set_pos_save[i]].childCount == 0)
+            {
+                set_pos_save[i] = -1;
+            }            
         }
     }
 }

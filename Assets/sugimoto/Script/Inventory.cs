@@ -11,7 +11,8 @@ public class Inventory : ID
     public const int WEAPON_INVENTORY_MAX = 4;  //武器インベントリの最大枠
 
     //食料ゲージ
-    [SerializeField] GameObject gage_obj;
+    [SerializeField] GameObject food_gauge_obj;
+    [SerializeField] GameObject hp_gauge_obj;
 
     //武器インベントリ
     public GameObject[] weapon_hand_obj = new GameObject[WEAPON_INVENTORY_MAX] { null, null, null, null };  //武器配列
@@ -97,6 +98,10 @@ public class Inventory : ID
                 {
                     EatFood(i, _id);
                 }
+                if(_id>=ITEM_ID.EMERGENCY_PACK)
+                {
+                    HpRecovery(i, _id);
+                }
             }
         }
     }
@@ -109,29 +114,51 @@ public class Inventory : ID
             //食料ゲージを増やす
             if (_id >= ITEM_ID.FOOD_1 && _id <= ITEM_ID.FOOD_4)
             {
-                gage_obj.GetComponent<Gauge>().Increase_Gauge(10);
+                food_gauge_obj.GetComponent<Gauge>().Increase_Gauge(10);
             }
             if (_id >= ITEM_ID.DRINK_1 && _id <= ITEM_ID.DRINK_2)
             {
-                gage_obj.GetComponent<Gauge>().Increase_Gauge(5);
+                food_gauge_obj.GetComponent<Gauge>().Increase_Gauge(5);
             }
-            
-            //スプライト削除
-            item_sprite_obj[_i].GetComponent<Image>().sprite = null;
-            item_sprite_obj[_i].SetActive(false);
-            //アイテム数を減らす
-            item_num[_i]--;
-            //アイテム数UIを変更
-            item_num_text[_i].text = item_num[_i] + "";
 
-            //アイテムがなくなればインベントリ初期化
-            if (item_num[_i] == 0)
-            {
-                item_type_id[_i] = -1;
-            }
+            //スプライト初期化
+            SpriteInitializing(_i);
         }
     }
 
+    void HpRecovery(int _i, ITEM_ID _id)
+    {
+        //応急処置
+        if (Input.GetMouseButtonDown(0))
+        {
+            //食料ゲージを増やす
+            if (_id >= ITEM_ID.EMERGENCY_PACK)
+            {
+                hp_gauge_obj.GetComponent<Gauge>().Increase_Gauge(3);
+            }
+
+            //スプライト初期化
+            SpriteInitializing(_i);
+        }
+    }
+
+    void SpriteInitializing(int _i)
+    {
+        //スプライト初期化
+        //スプライト削除
+        item_sprite_obj[_i].GetComponent<Image>().sprite = null;
+        item_sprite_obj[_i].SetActive(false);
+        //アイテム数を減らす
+        item_num[_i]--;
+        //アイテム数UIを変更
+        item_num_text[_i].text = item_num[_i] + "";
+
+        //アイテムがなくなればインベントリ初期化
+        if (item_num[_i] == 0)
+        {
+            item_type_id[_i] = -1;
+        }
+    }
 
     public void ItemInventory()
     {
