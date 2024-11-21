@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2852,6 +2852,7 @@ GameObject:
   - component: {fileID: 8195697311433392488}
   - component: {fileID: 8195697311433392489}
   - component: {fileID: 5252353692364069075}
+  - component: {fileID: 8195697311433392490}
   - component: {fileID: 123192503556123265}
   m_Layer: 0
   m_Name: Player
@@ -3193,7 +3194,7 @@ Animator:
   m_GameObject: {fileID: 338149841479647372}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 24fc2c3e62c52bf4e9e63fd980b8e85d, type: 3}
-  m_Controller: {fileID: 9100000, guid: d99c672585f269a45b353ba164f23205, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1b784dd44788ddc4199af593383759dd, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -3679,6 +3680,7 @@ MonoBehaviour:
   - {fileID: 6440599648175510709, guid: f622e0c5b85564a49857d304f76a3503, type: 3}
   - {fileID: 6677430234295823807, guid: 951a80cb2ecb8dc4eb971e2c37615f35, type: 3}
   - {fileID: 3580368778890858307, guid: 61f39be065d387b4d8cab53826787324, type: 3}
+  hand_start_pos: {fileID: 0}
   weapon_sprite_obj:
   - {fileID: 9103919027319602456}
   - {fileID: 9103919026522336649}
@@ -3730,6 +3732,26 @@ MonoBehaviour:
   - {fileID: 9103919026895605026}
   - {fileID: 9103919027130807485}
   - {fileID: 9103919026579827008}
+--- !u!95 &8195697311433392490
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5252353692364069069}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1b784dd44788ddc4199af593383759dd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &8195697311841447552
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,7 +18,6 @@ public class Knife : MonoBehaviour
 
     public void Attack(GameObject _player)
     {
-
         //ビューポート座標のレイを飛ばす
         Ray ray = Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f));
         RaycastHit hit = new RaycastHit();
