@@ -41,18 +41,20 @@ public class knifeAttackAnimetion : MonoBehaviour
             Attack_Start_Flag = true;
             transform.localRotation = AttackStart_Pos.localRotation;
             target_obj_start_pos = transform;
-            GetComponent<Knife>().Attack(_player);
         }
 
         if(Attack_Start_Flag)
         {
             Timer += Time.deltaTime;
+
+            //à íuçXêV
             transform.position = Vector3.Lerp(target_obj_start_pos.position, AttackStart_Pos.position, Timer * speed);
             transform.localRotation = Quaternion.Lerp(target_obj_start_pos.localRotation, AttackStart_Pos.localRotation, Timer * speed);
 
             if (transform.position == AttackStart_Pos.position)
             {
                 Attack_Start_Flag = false;
+                GetComponent<Knife>().Attack(_player);
                 Attack_Flag = true;
                 Timer = 0.0f;
             }
@@ -63,6 +65,7 @@ public class knifeAttackAnimetion : MonoBehaviour
             Timer += Time.deltaTime;
             transform.position = Vector3.Lerp(AttackStart_Pos.position, AttackEnd_Pos.position, Timer * speed);
             transform.localRotation = Quaternion.Lerp(AttackStart_Pos.localRotation, AttackEnd_Pos.localRotation, Timer * speed);
+
             if (transform.position == AttackEnd_Pos.position)
             {
                 Attack_Flag = false;
