@@ -109,7 +109,6 @@ public class SetItem : ID
         for (int i = 0; i < set_pos_save.Length; i++)
         {
             //Ý’uˆÊ’u‚ÌŽq‚ª‚O‚È‚ç‚È‚­‚È‚Á‚Ä‚¢‚é‚Ì‚Å—v‘f‚ð‰Šú‰»
-            Debug.Log(set_pos_save[i] + "+" + i);
             if (set_pos_save[i] != -1 && set_pos[set_pos_save[i]].childCount == 0)
             {
                 set_pos_save[i] = -1;
