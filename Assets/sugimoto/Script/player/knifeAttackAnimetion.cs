@@ -10,6 +10,7 @@ public class knifeAttackAnimetion : MonoBehaviour
     //攻撃位置
     public Transform AttackStart_Pos;
     public Transform AttackEnd_Pos;
+    Transform target_obj_start_pos;
 
     //経過時間
     float Timer = 0.0f;
@@ -18,6 +19,7 @@ public class knifeAttackAnimetion : MonoBehaviour
     [SerializeField] float speed = 3.0f;
 
     //フラグ
+    bool Attack_Start_Flag = false;
     bool Attack_Flag = false;       //攻撃中
     bool Return_Pos_Flag = false;   //定位置に戻す
 
@@ -36,9 +38,24 @@ public class knifeAttackAnimetion : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && !Attack_Flag && !Return_Pos_Flag)
         {
-            Attack_Flag = true;
+            Attack_Start_Flag = true;
             transform.localRotation = AttackStart_Pos.localRotation;
+            target_obj_start_pos = transform;
             GetComponent<Knife>().Attack(_player);
+        }
+
+        if(Attack_Start_Flag)
+        {
+            Timer += Time.deltaTime;
+            transform.position = Vector3.Lerp(target_obj_start_pos.position, AttackStart_Pos.position, Timer * speed);
+            transform.localRotation = Quaternion.Lerp(target_obj_start_pos.localRotation, AttackStart_Pos.localRotation, Timer * speed);
+
+            if (transform.position == AttackStart_Pos.position)
+            {
+                Attack_Start_Flag = false;
+                Attack_Flag = true;
+                Timer = 0.0f;
+            }
         }
 
         if (Attack_Flag)
@@ -57,8 +74,8 @@ public class knifeAttackAnimetion : MonoBehaviour
         if (Return_Pos_Flag)
         {
             Timer += Time.deltaTime;
-            transform.position = Vector3.Lerp(AttackEnd_Pos.position, ConstPos.position, Timer * 2);
-            transform.localRotation = Quaternion.Lerp(AttackEnd_Pos.localRotation, ConstPos.localRotation, Timer * 2);
+            transform.position = Vector3.Lerp(AttackEnd_Pos.position, ConstPos.position, Timer * speed);
+            transform.localRotation = Quaternion.Lerp(AttackEnd_Pos.localRotation, ConstPos.localRotation, Timer * speed);
 
             if (transform.position == ConstPos.position)
             {
