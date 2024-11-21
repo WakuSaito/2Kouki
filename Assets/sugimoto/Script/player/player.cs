@@ -147,7 +147,7 @@ public class player : PlayerFunction
     {
         rot_x += Input.GetAxis("Mouse X") * cameraSensitivity * Time.deltaTime;
         rot_y += Input.GetAxis("Mouse Y") * cameraSensitivity * Time.deltaTime;
-        rot_y = Mathf.Clamp(rot_y, -70, 60);
+        rot_y = Mathf.Clamp(rot_y, -60, 60);
 
         dir_obj.transform.localRotation = Quaternion.AngleAxis(rot_x, Vector3.up);
         camera_obj.transform.localRotation = Quaternion.AngleAxis(rot_y, Vector3.left);//*を外した
@@ -206,11 +206,9 @@ public class player : PlayerFunction
         switch (Inventory.hand_weapon)
         {
             case Inventory.WEAPON_ID.KNIFE:
-                //攻撃処理
-                if (Input.GetMouseButtonDown(0))
-                {
-                    hand_weapon.GetComponent<Knife>().Attack(camera_obj);
-                }
+                //攻撃、animation処理
+                hand_weapon.GetComponent<knifeAttackAnimetion>().AttackAnimation(camera_obj);
+
                 break;
             //ピストル
             case Inventory.WEAPON_ID.PISTOL:

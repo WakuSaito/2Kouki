@@ -16,6 +16,6 @@ public class TrackingPos : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        move_obj.transform.position = new Vector3 (target_pos.position.x,move_obj.transform.position.y,target_pos.position.z);
+        move_obj.transform.position = new Vector3 (target_pos.position.x, target_pos.transform.position.y,target_pos.position.z);
     }
 }

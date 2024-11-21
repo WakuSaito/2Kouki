@@ -16,6 +16,8 @@ public class Inventory : ID
 
     //武器インベントリ
     public GameObject[] weapon_hand_obj = new GameObject[WEAPON_INVENTORY_MAX] { null, null, null, null };  //武器配列
+    [SerializeField] Transform hand_start_pos;
+
     int weapon_cnt = 0;
     /*UI関連*/
     [SerializeField] GameObject[] weapon_sprite_obj = new GameObject[WEAPON_INVENTORY_MAX]; //アイテムのスプライトを入れるオブジェ
@@ -527,7 +529,8 @@ public class Inventory : ID
                 //transform設定
                 ParentChildren(hand_pos.gameObject, weapon_hand_obj[weapon_cnt]);
                 weapon_hand_obj[weapon_cnt].transform.localRotation = Quaternion.identity;
-                weapon_hand_obj[weapon_cnt].transform.localPosition = new Vector3(0.05f, 0, 0.5f);
+                weapon_hand_obj[weapon_cnt].transform.localPosition = new Vector3(0.08f,0.0f, 0.5f);
+                //weapon_hand_obj[weapon_cnt].transform.localPosition = hand_start_pos.localPosition;
                 Debug.Log(weapon_hand_obj[weapon_cnt].transform);
                 weapon_hand_obj[weapon_cnt].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
                 break;
