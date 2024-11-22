@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 2571701648749035478}
   - component: {fileID: 2571701648749035477}
   m_Layer: 0
-  m_Name: Spawn
-  m_TagString: Untagged
+  m_Name: Spawner
+  m_TagString: Spawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,12 +110,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 806560fbf5410b949816d6de8ddaefd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnItemPrefab:
-  - {fileID: 6455615091749529712, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
-  - {fileID: 3275300789103218470, guid: cdb1c48205cbf8d4d9d8f69b88954f08, type: 3}
-  spawnItemProbability: 0a00000005000000
-  half_collider_size: {x: 1, y: 1, z: 1}
-  spawn_quantity_min: 3
-  spawn_quantity_max: 5
-  spawn_area_radius: 10
+  spawnObjPrefab: []
+  spawnObjProbability: 
+  spawnPosY: 1
+  halfColliderSize: {x: 0.5, y: 0.5, z: 0.5}
+  spawnQuantityMin: 3
+  spawnQuantityMax: 5
+  spawnAreaRadius: 5
   spawnParent: {fileID: 0}
+  startSpawnDistance: 100

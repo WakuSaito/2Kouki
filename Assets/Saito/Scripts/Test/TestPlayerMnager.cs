@@ -109,9 +109,9 @@ public class TestPlayerMnager : MonoBehaviour
         // キャラクターを動かす
         characterController.Move(moveVelocity * Time.deltaTime);
 
-        GunUpdate();
+        //GunUpdate();
 
-        LockOnUpdate();
+        //LockOnUpdate();
     }
 
     //見ている方向のゾンビをマークするUpdate
@@ -155,7 +155,7 @@ public class TestPlayerMnager : MonoBehaviour
                 targetZombies.OrderBy(p => 
                 Vector3.Angle(((p.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir)).First();
 
-            Debug.Log("角度:" + Vector3.Angle(((nearestEnemy.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir));
+            //Debug.Log("角度:" + Vector3.Angle(((nearestEnemy.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir));
 
             //取得したオブジェクトまでと視点の角度が一定以下なら
             if(Vector3.Angle(((nearestEnemy.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir) <= activeAngle)

@@ -15,6 +15,8 @@ public class GunManager : MonoBehaviour
     [SerializeField] private float rapidSpeed = 1.0f;//連射速度
     [SerializeField] private bool isCanRapid = false;//連射可能か
 
+    [SerializeField] private int bulletDamage = 5;  //弾が敵に与えるダメージ
+
     private int currentMagazineAmount;//現在のマガジンの弾数
 
     bool isCooldown = false;//クールタイム中か
@@ -54,7 +56,7 @@ public class GunManager : MonoBehaviour
         {
             for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
             {
-                //インベントリに弾丸があるか
+                //インベントリに弾丸があるか　弾の種類を調べる必要あり
                 if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
                 {
                     //ピストルに入る弾丸数を調べる
@@ -97,6 +99,8 @@ public class GunManager : MonoBehaviour
         {
             CreateBullet();
         }
+
+        //出きれば反動を付けたい
 
         //クールタイム
         StartCoroutine(CooldownCoroutine(rapidSpeed));
@@ -154,7 +158,7 @@ public class GunManager : MonoBehaviour
         RaycastHit hit = new RaycastHit();
 
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(cameraObj.transform.position, gunVec, out hit))
         {
             //当たった場所を線の終点にする
             lineRend.SetPosition(1, hit.point);
@@ -171,11 +175,11 @@ public class GunManager : MonoBehaviour
                 Debug.Log(hit_obj);
                 if (hit_obj.tag == "Body")
                 {
-                    hit_obj.GetComponentInParent<ZombieManager>().DamageBody(hit.point);
+                    hit_obj.GetComponentInParent<ZombieManager>().DamageBody(hit.point, bulletDamage);
                 }
                 if (hit_obj.tag == "Head")
                 {
-                    hit_obj.GetComponentInParent<ZombieManager>().DamageHead();
+                    hit_obj.GetComponentInParent<ZombieManager>().DamageHead(bulletDamage);
                 }
             }
         }

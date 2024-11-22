@@ -213,8 +213,6 @@ public class TimeController : MonoBehaviour
         //太陽光の角度変更
         directionalLightObj.transform.localRotation = Quaternion.AngleAxis(sunRotate, Vector3.right);
 
-        Debug.Log(timeCount);
-
         //ゲーム内時間更新
         currentTime = new HourMinute(sunriseHour, 0);
         currentTime.AddMinute((int)(timeCount / cycle1minuteSec));
