@@ -453,12 +453,12 @@ MonoBehaviour:
   muzzleTransform: {fileID: 3287404946531418576}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
   magazineSize: 30
-  oneShotBulletAmount: 9
+  oneShotBulletAmount: 1
   bulletSpread: 0.02
   bulletDistance: 20
   rapidSpeed: 0.1
   isCanRapid: 1
-  bulletDamage: 1
+  bulletDamage: 3
 --- !u!114 &6881507793889793834
 MonoBehaviour:
   m_ObjectHideFlags: 0
