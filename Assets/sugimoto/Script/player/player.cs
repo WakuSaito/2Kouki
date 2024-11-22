@@ -215,6 +215,8 @@ public class player : PlayerFunction
 
                 hand_pistol_flag = true;
 
+                hand_weapon.GetComponent<PistolAnimation>().ReloadAnimation();
+
                 //リロード処理
                 if (Input.GetKeyDown(KeyCode.R))
                 {

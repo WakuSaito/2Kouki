@@ -18,6 +18,8 @@ public class Inventory : ID
     public GameObject[] weapon_hand_obj = new GameObject[WEAPON_INVENTORY_MAX] { null, null, null, null };  //武器配列
     [SerializeField] Transform hand_start_pos;
 
+
+
     int weapon_cnt = 0;
     /*UI関連*/
     [SerializeField] GameObject[] weapon_sprite_obj = new GameObject[WEAPON_INVENTORY_MAX]; //アイテムのスプライトを入れるオブジェ
@@ -38,6 +40,7 @@ public class Inventory : ID
     }
 
     public WEAPON_ID hand_weapon = WEAPON_ID.HAND;
+    public WEAPON_ID befor_weapon = WEAPON_ID.HAND;
 
 
     //アイテムインベントリ 
@@ -371,6 +374,7 @@ public class Inventory : ID
                 }
                 break;
         }
+
     }
 
     public void BulletText()
@@ -522,22 +526,28 @@ public class Inventory : ID
 
         //配置、UI設定
         //bullet_text_obj.SetActive(false);
-        switch (hand_weapon)
+
+        //if (hand_weapon != befor_weapon)
         {
-            case WEAPON_ID.PISTOL:
-                //bullet_text_obj.SetActive(true);
-                //transform設定
-                ParentChildren(hand_pos.gameObject, weapon_hand_obj[weapon_cnt]);
-                weapon_hand_obj[weapon_cnt].transform.localRotation = Quaternion.identity;
-                weapon_hand_obj[weapon_cnt].transform.localPosition = new Vector3(0.08f,0.0f, 0.5f);
-                //weapon_hand_obj[weapon_cnt].transform.localPosition = hand_start_pos.localPosition;
-                Debug.Log(weapon_hand_obj[weapon_cnt].transform);
-                weapon_hand_obj[weapon_cnt].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
-                break;
-            case WEAPON_ID.KNIFE:
-                //weapon_hand_obj[weapon_cnt].SetActive(true);
-                break;
+            switch (hand_weapon)
+            {
+                case WEAPON_ID.PISTOL:
+                    //bullet_text_obj.SetActive(true);
+                    //transform設定
+                    ParentChildren(hand_pos.gameObject, weapon_hand_obj[weapon_cnt]);
+                    weapon_hand_obj[weapon_cnt].transform.localRotation = Quaternion.identity;
+                    weapon_hand_obj[weapon_cnt].transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+                    //weapon_hand_obj[weapon_cnt].transform.localPosition = hand_start_pos.localPosition;
+                    Debug.Log(weapon_hand_obj[weapon_cnt].transform);
+                    weapon_hand_obj[weapon_cnt].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
+                    break;
+                case WEAPON_ID.KNIFE:
+                    //weapon_hand_obj[weapon_cnt].SetActive(true);
+                    break;
+            }
         }
+
+        befor_weapon = hand_weapon;
 
     }
 
