@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &34257058 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5350898165293083886, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 337126320}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &47559023
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,6 +431,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &103355742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 103355743}
+  m_Layer: 0
+  m_Name: RerodMiddlePos_hand_L
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &103355743
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103355742}
+  m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: -0.17655224, y: -0.3135528, z: -0.09997798}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 318946723}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45}
 --- !u!1001 &115264346
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -499,6 +535,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
+--- !u!4 &136379348 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8449670904101671144, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 1949964107}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &142942145
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,6 +729,11 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 0
+--- !u!4 &205140201 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8449670904101671144, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 932512703}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &206239662
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -695,6 +741,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1850145132}
     m_Modifications:
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazinePos
+      value: 
+      objectReference: {fileID: 2109327333}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazineParent
+      value: 
+      objectReference: {fileID: 1410002859}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Hand_L
+      value: 
+      objectReference: {fileID: 1552620425}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Pistol
+      value: 
+      objectReference: {fileID: 318946723}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_L
+      value: 
+      objectReference: {fileID: 6316802800535450392}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_R
+      value: 
+      objectReference: {fileID: 6316802799520054156}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Pistol
+      value: 
+      objectReference: {fileID: 665293548}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Magazine
+      value: 
+      objectReference: {fileID: 1816276682}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadStartPos_Hand_L
+      value: 
+      objectReference: {fileID: 245557116}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadMiddlePos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
     - target: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -797,6 +891,37 @@ Transform:
   m_Father: {fileID: 1777121496}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 83.5, y: 68, z: 85}
+--- !u!1 &245557115
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 245557116}
+  m_Layer: 0
+  m_Name: RerodStartPos_hand_L
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &245557116
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245557115}
+  m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: 0.17699985, y: 0.039999805, z: -0.10000315}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 318946723}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45}
 --- !u!1 &291743471
 GameObject:
   m_ObjectHideFlags: 0
@@ -896,13 +1021,20 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 318946722}
-  m_LocalRotation: {x: 0.000000033527606, y: 0.000000020452712, z: 0.00000002213721, w: 1}
-  m_LocalPosition: {x: 0.08651375, y: -0.029448256, z: 0.4932946}
+  m_LocalRotation: {x: 0.000000033527606, y: 0.00000007995455, z: 0.000000018637978, w: 1}
+  m_LocalPosition: {x: 0, y: -0.01, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6316802799520054156}
+  - {fileID: 6316802800535450392}
+  - {fileID: 665293548}
+  - {fileID: 103355743}
+  - {fileID: 245557116}
+  - {fileID: 1552620425}
+  - {fileID: 1816276682}
   m_Father: {fileID: 403496656}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &332001174
 GameObject:
@@ -991,6 +1123,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1850145132}
     m_Modifications:
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazinePos
+      value: 
+      objectReference: {fileID: 1206551963}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazineParent
+      value: 
+      objectReference: {fileID: 34257058}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Hand_L
+      value: 
+      objectReference: {fileID: 1552620425}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Pistol
+      value: 
+      objectReference: {fileID: 318946723}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_L
+      value: 
+      objectReference: {fileID: 6316802800535450392}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_R
+      value: 
+      objectReference: {fileID: 6316802799520054156}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Pistol
+      value: 
+      objectReference: {fileID: 665293548}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Magazine
+      value: 
+      objectReference: {fileID: 1816276682}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadStartPos_Hand_L
+      value: 
+      objectReference: {fileID: 245557116}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadMiddlePos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
     - target: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -1099,6 +1279,11 @@ RectTransform:
   m_AnchoredPosition: {x: 850, y: -100}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!4 &350236985 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5350898165293083886, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 507299460}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &377446387
 GameObject:
   m_ObjectHideFlags: 0
@@ -1273,6 +1458,11 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 1
   m_TargetDisplay: 0
+--- !u!4 &396672082 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8449670904101671144, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 1617984507}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &403496655
 GameObject:
   m_ObjectHideFlags: 0
@@ -1301,17 +1491,25 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6316802800535450392}
-  - {fileID: 6316802799520054156}
-  - {fileID: 318946723}
   - {fileID: 1370189597}
+  - {fileID: 318946723}
   m_Father: {fileID: 1302790207}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &446156172 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5350898165293083886, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 1617984507}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &487328948 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
   m_PrefabInstance: {fileID: 507299460}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &493743524 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8449670904101671144, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 1867650466}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &507299460
 PrefabInstance:
@@ -1320,6 +1518,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1850145132}
     m_Modifications:
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazinePos
+      value: 
+      objectReference: {fileID: 1857546129}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazineParent
+      value: 
+      objectReference: {fileID: 350236985}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Hand_L
+      value: 
+      objectReference: {fileID: 1552620425}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Pistol
+      value: 
+      objectReference: {fileID: 318946723}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_L
+      value: 
+      objectReference: {fileID: 6316802800535450392}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_R
+      value: 
+      objectReference: {fileID: 6316802799520054156}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Pistol
+      value: 
+      objectReference: {fileID: 665293548}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Magazine
+      value: 
+      objectReference: {fileID: 1816276682}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadStartPos_Hand_L
+      value: 
+      objectReference: {fileID: 245557116}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadMiddlePos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
     - target: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -1405,6 +1651,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1850145132}
     m_Modifications:
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazinePos
+      value: 
+      objectReference: {fileID: 1297180433}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazineParent
+      value: 
+      objectReference: {fileID: 2040216945}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Hand_L
+      value: 
+      objectReference: {fileID: 1552620425}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Pistol
+      value: 
+      objectReference: {fileID: 318946723}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_L
+      value: 
+      objectReference: {fileID: 6316802800535450392}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_R
+      value: 
+      objectReference: {fileID: 6316802799520054156}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Pistol
+      value: 
+      objectReference: {fileID: 665293548}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Magazine
+      value: 
+      objectReference: {fileID: 1816276682}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadStartPos_Hand_L
+      value: 
+      objectReference: {fileID: 245557116}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadMiddlePos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
     - target: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -1514,6 +1808,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1850145132}
     m_Modifications:
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazinePos
+      value: 
+      objectReference: {fileID: 1069149961}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazineParent
+      value: 
+      objectReference: {fileID: 1214675795}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Hand_L
+      value: 
+      objectReference: {fileID: 1552620425}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Pistol
+      value: 
+      objectReference: {fileID: 318946723}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_L
+      value: 
+      objectReference: {fileID: 6316802800535450392}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_R
+      value: 
+      objectReference: {fileID: 6316802799520054156}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Pistol
+      value: 
+      objectReference: {fileID: 665293548}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Magazine
+      value: 
+      objectReference: {fileID: 1816276682}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadStartPos_Hand_L
+      value: 
+      objectReference: {fileID: 245557116}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadMiddlePos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
     - target: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
       propertyPath: m_RootOrder
       value: 14
@@ -1660,6 +2002,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 567782825}
   m_CullTransparentMesh: 1
+--- !u!4 &590849776 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8449670904101671144, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 899734364}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &594519965
 GameObject:
   m_ObjectHideFlags: 0
@@ -1764,6 +2111,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 100, y: 100}
   m_EdgeRadius: 0
+--- !u!4 &627625977 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5350898165293083886, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 1934232704}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &639613755 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5350898165293083886, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 1479181588}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &640972778 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
@@ -1922,6 +2279,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 650399347}
   m_CullTransparentMesh: 1
+--- !u!1 &665293547
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 665293548}
+  m_Layer: 0
+  m_Name: RerodPos_pistol
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &665293548
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665293547}
+  m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: 0.25, y: 0.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 318946723}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2210,6 +2598,11 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 0
+--- !u!4 &739986777 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8449670904101671144, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 1804634137}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &762903062 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
@@ -2372,6 +2765,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gauge_obj: {fileID: 1906441166}
   back_gauge_obj: {fileID: 1497796668}
+--- !u!4 &825411645 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5350898165293083886, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 1949964107}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &828235648 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6455615091749529709, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
@@ -2459,6 +2857,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 877752225}
   m_CullTransparentMesh: 1
+--- !u!4 &887855441 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8449670904101671144, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 1934232704}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &899734364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2466,6 +2869,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1850145132}
     m_Modifications:
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazinePos
+      value: 
+      objectReference: {fileID: 590849776}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazineParent
+      value: 
+      objectReference: {fileID: 1545721134}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Hand_L
+      value: 
+      objectReference: {fileID: 1552620425}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Pistol
+      value: 
+      objectReference: {fileID: 318946723}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_L
+      value: 
+      objectReference: {fileID: 6316802800535450392}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_R
+      value: 
+      objectReference: {fileID: 6316802799520054156}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Pistol
+      value: 
+      objectReference: {fileID: 665293548}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Magazine
+      value: 
+      objectReference: {fileID: 1816276682}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadStartPos_Hand_L
+      value: 
+      objectReference: {fileID: 245557116}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadMiddlePos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
     - target: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -2866,6 +3317,11 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 0
+--- !u!4 &920889460 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8449670904101671144, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 1337219695}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &932512703
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2873,6 +3329,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1850145132}
     m_Modifications:
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazinePos
+      value: 
+      objectReference: {fileID: 396672082}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazineParent
+      value: 
+      objectReference: {fileID: 1011161768}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Hand_L
+      value: 
+      objectReference: {fileID: 1552620425}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Pistol
+      value: 
+      objectReference: {fileID: 318946723}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_L
+      value: 
+      objectReference: {fileID: 6316802800535450392}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_R
+      value: 
+      objectReference: {fileID: 6316802799520054156}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Pistol
+      value: 
+      objectReference: {fileID: 665293548}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Magazine
+      value: 
+      objectReference: {fileID: 1816276682}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadStartPos_Hand_L
+      value: 
+      objectReference: {fileID: 245557116}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadMiddlePos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
     - target: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -3019,6 +3523,11 @@ CanvasRenderer:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6455615091749529709, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
   m_PrefabInstance: {fileID: 190529309}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1011161768 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5350898165293083886, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 932512703}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1018783935 stripped
 Transform:
@@ -3379,6 +3888,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1850145132}
     m_Modifications:
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazinePos
+      value: 
+      objectReference: {fileID: 1806548815}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazineParent
+      value: 
+      objectReference: {fileID: 1991356838}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Hand_L
+      value: 
+      objectReference: {fileID: 1552620425}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Pistol
+      value: 
+      objectReference: {fileID: 318946723}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_L
+      value: 
+      objectReference: {fileID: 6316802800535450392}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_R
+      value: 
+      objectReference: {fileID: 6316802799520054156}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Pistol
+      value: 
+      objectReference: {fileID: 665293548}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Magazine
+      value: 
+      objectReference: {fileID: 1816276682}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadStartPos_Hand_L
+      value: 
+      objectReference: {fileID: 245557116}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadMiddlePos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
     - target: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -3445,6 +4002,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+--- !u!4 &1069149961 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8449670904101671144, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 558746362}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1122374069
 GameObject:
   m_ObjectHideFlags: 0
@@ -3656,6 +4218,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1204869646}
   m_CullTransparentMesh: 1
+--- !u!4 &1206551963 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8449670904101671144, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 337126320}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1214675795 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5350898165293083886, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 558746362}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1216790374
 GameObject:
   m_ObjectHideFlags: 0
@@ -3970,6 +4542,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
   m_PrefabInstance: {fileID: 1934232704}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1297180433 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8449670904101671144, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 537335976}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1302790206
 GameObject:
   m_ObjectHideFlags: 0
@@ -4172,6 +4749,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1850145132}
     m_Modifications:
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazinePos
+      value: 
+      objectReference: {fileID: 920889460}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazineParent
+      value: 
+      objectReference: {fileID: 1886233692}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Hand_L
+      value: 
+      objectReference: {fileID: 1552620425}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Pistol
+      value: 
+      objectReference: {fileID: 318946723}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_L
+      value: 
+      objectReference: {fileID: 6316802800535450392}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_R
+      value: 
+      objectReference: {fileID: 6316802799520054156}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Pistol
+      value: 
+      objectReference: {fileID: 665293548}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Magazine
+      value: 
+      objectReference: {fileID: 1816276682}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadStartPos_Hand_L
+      value: 
+      objectReference: {fileID: 245557116}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadMiddlePos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
     - target: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -4401,7 +5026,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 403496656}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1404302585 stripped
 Transform:
@@ -4412,6 +5037,11 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
   m_PrefabInstance: {fileID: 1867650466}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1410002859 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5350898165293083886, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 206239662}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1410045810
 GameObject:
@@ -4573,6 +5203,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1850145132}
     m_Modifications:
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazinePos
+      value: 
+      objectReference: {fileID: 205140201}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazineParent
+      value: 
+      objectReference: {fileID: 639613755}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Hand_L
+      value: 
+      objectReference: {fileID: 1552620425}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Pistol
+      value: 
+      objectReference: {fileID: 318946723}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_L
+      value: 
+      objectReference: {fileID: 6316802800535450392}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_R
+      value: 
+      objectReference: {fileID: 6316802799520054156}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Pistol
+      value: 
+      objectReference: {fileID: 665293548}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Magazine
+      value: 
+      objectReference: {fileID: 1816276682}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadStartPos_Hand_L
+      value: 
+      objectReference: {fileID: 245557116}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadMiddlePos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
     - target: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -4901,6 +5579,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1528686107}
   m_CullTransparentMesh: 1
+--- !u!4 &1545721134 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5350898165293083886, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 899734364}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1546955598
 GameObject:
   m_ObjectHideFlags: 0
@@ -5010,6 +5693,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2386069170994310370, guid: 416c70d9360ec7844bef94f8f41a346f, type: 3}
   m_PrefabInstance: {fileID: 6748507923162013382}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1552620424
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1552620425}
+  m_Layer: 2
+  m_Name: ConstHand_L
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1552620425
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552620424}
+  m_LocalRotation: {x: -0.00000004207416, y: -0.000000041561204, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -0.049007896, y: 0, z: -0.10000006}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 318946723}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1564311695
 GameObject:
   m_ObjectHideFlags: 0
@@ -5025,7 +5739,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1564311696
 Transform:
   m_ObjectHideFlags: 0
@@ -5051,6 +5765,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
   m_PrefabInstance: {fileID: 1060989569}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1590772846 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5350898165293083886, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 1804634137}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1617984507
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5058,6 +5777,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1850145132}
     m_Modifications:
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazinePos
+      value: 
+      objectReference: {fileID: 396672082}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazineParent
+      value: 
+      objectReference: {fileID: 446156172}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Hand_L
+      value: 
+      objectReference: {fileID: 1552620425}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Pistol
+      value: 
+      objectReference: {fileID: 318946723}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_L
+      value: 
+      objectReference: {fileID: 6316802800535450392}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_R
+      value: 
+      objectReference: {fileID: 6316802799520054156}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Pistol
+      value: 
+      objectReference: {fileID: 665293548}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Magazine
+      value: 
+      objectReference: {fileID: 1816276682}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadStartPos_Hand_L
+      value: 
+      objectReference: {fileID: 245557116}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadMiddlePos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
     - target: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -5938,6 +6705,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1850145132}
     m_Modifications:
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazinePos
+      value: 
+      objectReference: {fileID: 739986777}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazineParent
+      value: 
+      objectReference: {fileID: 1590772846}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Hand_L
+      value: 
+      objectReference: {fileID: 1552620425}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Pistol
+      value: 
+      objectReference: {fileID: 318946723}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_L
+      value: 
+      objectReference: {fileID: 6316802800535450392}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_R
+      value: 
+      objectReference: {fileID: 6316802799520054156}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Pistol
+      value: 
+      objectReference: {fileID: 665293548}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Magazine
+      value: 
+      objectReference: {fileID: 1816276682}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadStartPos_Hand_L
+      value: 
+      objectReference: {fileID: 245557116}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadMiddlePos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
     - target: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -6004,10 +6819,51 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+--- !u!4 &1806548815 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8449670904101671144, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 1060989569}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1815740504 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6455615091749529709, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
   m_PrefabInstance: {fileID: 1654666326}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1816276681
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1816276682}
+  m_Layer: 0
+  m_Name: ConstMagazinePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1816276682
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816276681}
+  m_LocalRotation: {x: 0.270598, y: 0.65328133, z: -0.27059802, w: 0.6532818}
+  m_LocalPosition: {x: 0.24999958, y: 0.09999795, z: 0.000011596572}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 318946723}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1830660646 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5350898165293083886, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 1867650466}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1845899176
 GameObject:
@@ -6071,7 +6927,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1850145131}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.27, y: 2.07, z: 2.8400002}
+  m_LocalPosition: {x: -131.6, y: 2.07, z: 2.8400002}
   m_LocalScale: {x: 10, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6093,6 +6949,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1857546129 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8449670904101671144, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 507299460}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1867650466
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6100,6 +6961,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1850145132}
     m_Modifications:
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazinePos
+      value: 
+      objectReference: {fileID: 493743524}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazineParent
+      value: 
+      objectReference: {fileID: 1830660646}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Hand_L
+      value: 
+      objectReference: {fileID: 1552620425}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Pistol
+      value: 
+      objectReference: {fileID: 318946723}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_L
+      value: 
+      objectReference: {fileID: 6316802800535450392}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_R
+      value: 
+      objectReference: {fileID: 6316802799520054156}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Pistol
+      value: 
+      objectReference: {fileID: 665293548}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Magazine
+      value: 
+      objectReference: {fileID: 1816276682}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadStartPos_Hand_L
+      value: 
+      objectReference: {fileID: 245557116}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadMiddlePos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
     - target: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -6333,6 +7242,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1882059923}
   m_CullTransparentMesh: 1
+--- !u!4 &1886233692 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5350898165293083886, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 1337219695}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1906441166
 GameObject:
   m_ObjectHideFlags: 0
@@ -6524,6 +7438,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1850145132}
     m_Modifications:
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazinePos
+      value: 
+      objectReference: {fileID: 887855441}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazineParent
+      value: 
+      objectReference: {fileID: 627625977}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Hand_L
+      value: 
+      objectReference: {fileID: 1552620425}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Pistol
+      value: 
+      objectReference: {fileID: 318946723}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_L
+      value: 
+      objectReference: {fileID: 6316802800535450392}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_R
+      value: 
+      objectReference: {fileID: 6316802799520054156}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Pistol
+      value: 
+      objectReference: {fileID: 665293548}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Magazine
+      value: 
+      objectReference: {fileID: 1816276682}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadStartPos_Hand_L
+      value: 
+      objectReference: {fileID: 245557116}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadMiddlePos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
     - target: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -6597,6 +7559,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1850145132}
     m_Modifications:
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazinePos
+      value: 
+      objectReference: {fileID: 136379348}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: MagazineParent
+      value: 
+      objectReference: {fileID: 825411645}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Hand_L
+      value: 
+      objectReference: {fileID: 1552620425}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Pistol
+      value: 
+      objectReference: {fileID: 318946723}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_L
+      value: 
+      objectReference: {fileID: 6316802800535450392}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: PistolHandPos_R
+      value: 
+      objectReference: {fileID: 6316802799520054156}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadPos_Pistol
+      value: 
+      objectReference: {fileID: 665293548}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ConstPos_Magazine
+      value: 
+      objectReference: {fileID: 1816276682}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadStartPos_Hand_L
+      value: 
+      objectReference: {fileID: 245557116}
+    - target: {fileID: 2778868064763381928, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+      propertyPath: ReloadMiddlePos_Hand_L
+      value: 
+      objectReference: {fileID: 103355743}
     - target: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -6743,6 +7753,11 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 0
+--- !u!4 &1991356838 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5350898165293083886, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 1060989569}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2006314416
 GameObject:
   m_ObjectHideFlags: 0
@@ -6823,6 +7838,11 @@ CanvasRenderer:
 --- !u!4 &2035005381 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3184731335374674245, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 537335976}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2040216945 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5350898165293083886, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
   m_PrefabInstance: {fileID: 537335976}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2041991952
@@ -7037,6 +8057,11 @@ BoxCollider2D:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1745869519410043616, guid: 905b5f5eb8469c14fafcc1e4522e76aa, type: 3}
   m_PrefabInstance: {fileID: 1051499812}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2109327333 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8449670904101671144, guid: 83893c34a6d521a498f28bca6b651ba8, type: 3}
+  m_PrefabInstance: {fileID: 206239662}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2137592565
 GameObject:
@@ -7414,6 +8439,54 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2769933890838705909, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769933890838705909, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769933890838705909, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769933890838705909, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769933890943116829, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769933890943116829, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769933890943116829, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769933890943116829, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769933891941776560, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769933891941776560, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769933891941776560, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769933891941776560, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4411915776017257984, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -7461,6 +8534,34 @@ PrefabInstance:
     - target: {fileID: 4411915776017257987, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
       propertyPath: m_Name
       value: residential_area
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524588526983140035, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524588526983140035, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524588526983140035, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524588527959827503, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524588527959827503, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524588527959827503, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524588527959827503, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da420e1411d9f0a42abbdde0a01dd9f5, type: 3}
@@ -7635,7 +8736,7 @@ MonoBehaviour:
   - {fileID: 1065191387641733927}
   - {fileID: 0}
   - {fileID: 3580368778890858307, guid: 61f39be065d387b4d8cab53826787324, type: 3}
-  hand_start_pos: {fileID: 2744167604151025784}
+  hand_start_pos: {fileID: 318946723}
   weapon_sprite_obj:
   - {fileID: 391482015}
   - {fileID: 1204869646}
@@ -7650,9 +8751,10 @@ MonoBehaviour:
   bullet_text_obj: {fileID: 712490935}
   bullet_text: {fileID: 332001176}
   hand_weapon: 0
+  befor_weapon: 0
   item_num: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
   item_type_id: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-  hand_pos: {fileID: 2744167604151025784}
+  hand_pos: {fileID: 318946723}
   item_inventory: {fileID: 1882059923}
   item_inventory_flag: 0
   item_sprite_obj:
@@ -7703,7 +8805,7 @@ MonoBehaviour:
   rot_obj: {fileID: 4792076061536026845}
   dir_obj: {fileID: 3941641176075611978}
   camera_obj: {fileID: 4792076061536026845}
-  hand: {fileID: 2744167604151025785}
+  hand: {fileID: 403496655}
   hand_weapon: {fileID: 6454339785291286576, guid: 8a28bb5ba59d1004bb8f50e88cc6819e, type: 3}
   attacked_zonbi_flag: 0
   bitten_zonbi_flag: 0
@@ -9599,13 +10701,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6316802799520054159}
-  m_LocalRotation: {x: 0.000000009245347, y: 0.000000038617323, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.10000002, y: 0.13200007, z: 0.49999997}
+  m_LocalRotation: {x: 0.00000004207416, y: -0.000000041626688, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0.039, y: -0.017, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 403496656}
-  m_RootOrder: 1
+  m_Father: {fileID: 318946723}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1 &6316802799520054159
 GameObject:
@@ -9630,13 +10732,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6316802800535450395}
-  m_LocalRotation: {x: 0.00000003816985, y: -0.000000008732392, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.040000018, y: 0.13200009, z: 0.44999993}
+  m_LocalRotation: {x: -0.00000004207416, y: -0.000000041561204, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -0.049007904, y: 0, z: -0.10000009}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 403496656}
-  m_RootOrder: 0
+  m_Father: {fileID: 318946723}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!1 &6316802800535450395
 GameObject:
