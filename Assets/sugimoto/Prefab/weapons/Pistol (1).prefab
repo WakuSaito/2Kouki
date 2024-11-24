@@ -245,7 +245,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ConstPos_Pistol: {fileID: 0}
+  ConstPos_Hand_L: {fileID: 0}
   ReloadPos_Pistol: {fileID: 0}
+  ReloadMiddlePos_Hand_L: {fileID: 0}
+  ReloadStartPos_Hand_L: {fileID: 0}
+  ConstPos_Magazine: {fileID: 0}
+  MagazinePos: {fileID: 0}
+  MagazineParent: {fileID: 0}
+  PistolHandPos_R: {fileID: 0}
+  PistolHandPos_L: {fileID: 0}
   speed: 0
 --- !u!1 &6460999896221819652
 GameObject:
