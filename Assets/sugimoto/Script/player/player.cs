@@ -208,14 +208,15 @@ public class player : PlayerFunction
             case Inventory.WEAPON_ID.KNIFE:
                 //攻撃、animation処理
                 hand_weapon.GetComponent<knifeAttackAnimetion>().AttackAnimation(camera_obj);
-
                 break;
             //ピストル
             case Inventory.WEAPON_ID.PISTOL:
 
                 hand_pistol_flag = true;
 
-                hand_weapon.GetComponent<PistolAnimation>().ReloadAnimation();
+                //hand_weapon.GetComponent<PistolAnimation>().ReloadAnimation();
+                hand_weapon.GetComponent<Animator>().enabled = true;
+
 
                 //リロード処理
                 if (Input.GetKeyDown(KeyCode.R))

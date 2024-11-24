@@ -27,22 +27,22 @@ public class IK : MonoBehaviour
 
     void OnAnimatorIK()
     {
-        switch(player.GetComponent<Inventory>().hand_weapon)
-        {
-            case Inventory.WEAPON_ID.PISTOL:
-            case Inventory.WEAPON_ID.KNIFE:
-                onIK = true;
-                break;
-            default:
-                onIK = false;
-                break;
-        }
+        //switch(player.GetComponent<Inventory>().hand_weapon)
+        //{
+        //    case Inventory.WEAPON_ID.PISTOL:
+        //    case Inventory.WEAPON_ID.KNIFE:
+        //        onIK = true;
+        //        break;
+        //    default:
+        //        onIK = false;
+        //        break;
+        //}
 
 
         if (!onIK) return;
 
 
-        if (player.GetComponent<Inventory>().hand_weapon == Inventory.WEAPON_ID.PISTOL)
+        //if (player.GetComponent<Inventory>().hand_weapon == Inventory.WEAPON_ID.PISTOL)
         {
             if (handR != null)
             {
@@ -59,16 +59,16 @@ public class IK : MonoBehaviour
                 animator.SetIKRotation(AvatarIKGoal.LeftHand, handL.rotation);
             }
         }
-        else if (player.GetComponent<Inventory>().hand_weapon == Inventory.WEAPON_ID.KNIFE)
-        {
-            if (knife_hand_R != null)
-            {
-                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
-                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
-                animator.SetIKPosition(AvatarIKGoal.RightHand, knife_hand_R.position);
-                animator.SetIKRotation(AvatarIKGoal.RightHand, knife_hand_R.rotation);
-            }
-        }
+        //else if (player.GetComponent<Inventory>().hand_weapon == Inventory.WEAPON_ID.KNIFE)
+        //{
+        //    if (knife_hand_R != null)
+        //    {
+        //        animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
+        //        animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
+        //        animator.SetIKPosition(AvatarIKGoal.RightHand, knife_hand_R.position);
+        //        animator.SetIKRotation(AvatarIKGoal.RightHand, knife_hand_R.rotation);
+        //    }
+        //}
     }
 
     void OnIK()
