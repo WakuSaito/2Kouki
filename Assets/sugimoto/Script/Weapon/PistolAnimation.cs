@@ -51,6 +51,7 @@ public class PistolAnimation : MonoBehaviour
 
     public void ReloadAnimation()
     {
+       
         if (Input.GetKeyDown(KeyCode.R) && !ReloadStart_Flag && !ReloadMiddle_Flag && !ReloadEnd_Flag && !Return_Pos_Flag)  
         {
             //リロード開始
