@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 [RequireComponent(typeof(ZombieMove))]
 [RequireComponent(typeof(ZombieAnimation))]
 [RequireComponent(typeof(ZombieAction))]
+[RequireComponent(typeof(ZombieHP))]
 
 //ゾンビ関連のクラスをnameofでまとめてもいいかも
 
@@ -29,6 +30,7 @@ public class ZombieManager : MonoBehaviour
     private ZombieAttack zombieAttack;
     private ZombieAnimation zombieAnimation;
     private ZombieAction zombieAction;
+    private ZombieHP zombieHP;
 
     GameObject playerObj;
 
@@ -106,8 +108,10 @@ public class ZombieManager : MonoBehaviour
             if (zombieAttack == null) zombie.TryGetComponent(out zombieAttack);
             if (zombieAnimation == null) zombie.TryGetComponent(out zombieAnimation);
             if (zombieAction == null) zombie.TryGetComponent(out zombieAction);
+            if (zombieHP == null) zombie.TryGetComponent(out zombieHP);
         }
 
+        Debug.Log(zombieHP.GetCurrentHP());
     }
 
 
@@ -115,6 +119,11 @@ public class ZombieManager : MonoBehaviour
     void Update()
     {
         if (playerObj == null) return;
+
+        //死亡チェック
+        if (zombieHP.IsDead())
+            Dead();
+
         if (isDead) return;//死亡済なら動かさない
         if (isStan) return;//スタン時は動かさない
 
@@ -226,28 +235,6 @@ public class ZombieManager : MonoBehaviour
             );
     }
 
-    //一定時間スタン
-    private void Stan(double _sec)
-    {
-        if(isStan)
-            stanCancellTokenSource.Cancel();//現在動いているスタン処理のキャンセル
-
-        zombieAttack.AttackCancel();//攻撃処理のキャンセル
-
-        stanCancellTokenSource = new CancellationTokenSource();
-
-        isStan = true;
-
-        //移動ベクトルをゼロにする
-        zombieMove.StopMove();
-        zombieAnimation.Idle();//停止モーション
-
-        _ = DelayRunAsync(
-            _sec,
-            stanCancellTokenSource.Token,
-            () => isStan = false
-            );
-    }
     //探知範囲変更
     private void ChangeDetectRange()
     {
@@ -270,15 +257,7 @@ public class ZombieManager : MonoBehaviour
     /// <summary>
     /// 体にダメージを受けた
     /// </summary>
-    public void DamageBody()
-    {
-        Debug.Log("Body");
-
-        zombieAnimation.DamageHitLeft();
-
-        Stan(2.0);//スタン
-    }
-    //被弾地点からアニメーションを変更させる用のオーバーロード
+    //被弾地点からアニメーションを変更させる用
     public void DamageBody(Vector3 _hitPos)
     {
         Debug.Log("Body");
@@ -298,6 +277,31 @@ public class ZombieManager : MonoBehaviour
             zombieAnimation.DamageHitRight();
         }
 
+        zombieHP.Damage(1);
+
+        Stan(2.0);//スタン
+    }
+    public void DamageBody(Vector3 _hitPos, int _damage)
+    {
+        Debug.Log("Body");
+
+        Vector3 vec = _hitPos - transform.position;
+
+        Vector3 axis = Vector3.Cross(transform.forward, vec);
+
+        if (axis.y < 0)
+        {
+            Debug.Log("左側");
+            zombieAnimation.DamageHitLeft();
+        }
+        else
+        {
+            Debug.Log("右側");
+            zombieAnimation.DamageHitRight();
+        }
+
+        zombieHP.Damage(_damage);//ダメージ
+
         Stan(2.0);//スタン
     }
     /// <summary>
@@ -309,8 +313,44 @@ public class ZombieManager : MonoBehaviour
 
         zombieAttack.AttackCancel();//攻撃処理のキャンセル
 
-        Dead();//死亡処理呼び出し
+        zombieHP.Damage(1000);
     }
+    public void DamageHead(int _damage)
+    {
+        Debug.Log("Head");
+
+        zombieAttack.AttackCancel();//攻撃処理のキャンセル
+
+        zombieHP.Damage(_damage * 2);//ダメージ
+        
+        Stan(2.5);//スタン
+    }
+
+    //一定時間スタン
+    private void Stan(double _sec)
+    {
+        if (isDead) return;
+
+        if (isStan)
+            stanCancellTokenSource.Cancel();//現在動いているスタン処理のキャンセル
+
+        zombieAttack.AttackCancel();//攻撃処理のキャンセル
+
+        stanCancellTokenSource = new CancellationTokenSource();
+
+        isStan = true;
+
+        //移動ベクトルをゼロにする
+        zombieMove.StopMove();
+        zombieAnimation.Idle();//停止モーション
+
+        _ = DelayRunAsync(
+            _sec,
+            stanCancellTokenSource.Token,
+            () => isStan = false
+            );
+    }
+
 
     /// <summary>
     /// 死亡処理

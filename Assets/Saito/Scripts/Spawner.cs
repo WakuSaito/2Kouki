@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnItem : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
     [SerializeField]//生成させるプレハブ
-    GameObject[] spawnItemPrefab;
+    GameObject[] spawnObjPrefab;
     [SerializeField]//プレハブ生成される確率（重み）
-    int[] spawnItemProbability;
+    int[] spawnObjProbability;
 
     [SerializeField]//生成するオブジェクトのy座標
     float spawnPosY = 1.0f;
@@ -53,7 +53,8 @@ public class SpawnItem : MonoBehaviour
 
             //このオブジェクトは必要なくなるので削除
             //変更する可能性アリ
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            //Destroy(gameObject);
         }
     }
 
@@ -61,9 +62,9 @@ public class SpawnItem : MonoBehaviour
     //生成開始
     public void StartSpawn()
     {
-        if (spawnItemPrefab == null) return;
+        if (spawnObjPrefab == null) return;
         //オブジェクトの数より確率の数が少ない
-        if (spawnItemPrefab.Length > spawnItemProbability.Length) return;
+        if (spawnObjPrefab.Length > spawnObjProbability.Length) return;
 
         items.Clear();//配列リセット
 
@@ -72,9 +73,9 @@ public class SpawnItem : MonoBehaviour
 
         //確率関連
         int probMax = 0;
-        for(int i=0;i< spawnItemPrefab.Length;i++)
+        for(int i=0;i< spawnObjPrefab.Length;i++)
         {
-            probMax += spawnItemProbability[i];
+            probMax += spawnObjProbability[i];
         }
 
         //複数生成する
@@ -99,9 +100,9 @@ public class SpawnItem : MonoBehaviour
                     int randNum = Random.Range(0, probMax) + 1;
                     int tmp = 0;
                     int num = 0;
-                    for (int j = 0; j < spawnItemPrefab.Length; j++)
+                    for (int j = 0; j < spawnObjPrefab.Length; j++)
                     {
-                        tmp += spawnItemProbability[j];
+                        tmp += spawnObjProbability[j];
                         if(randNum <= tmp)
                         {
                             num = j;
@@ -114,7 +115,7 @@ public class SpawnItem : MonoBehaviour
                     {
                         //アイテムをインスタンス化
                         items.Add(Instantiate(
-                            spawnItemPrefab[num],
+                            spawnObjPrefab[num],
                             spawn_pos,
                             Quaternion.identity
                             ));
@@ -125,7 +126,7 @@ public class SpawnItem : MonoBehaviour
                     {
                         //アイテムをインスタンス化
                         items.Add(Instantiate(
-                            spawnItemPrefab[num],
+                            spawnObjPrefab[num],
                             spawn_pos,
                             Quaternion.identity,
                             spawnParent

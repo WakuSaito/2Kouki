@@ -11,6 +11,8 @@ TagManager:
   - Head
   - weapon
   - item
+  - Spawner
+  - ItemSetter
   layers:
   - Default
   - TransparentFX

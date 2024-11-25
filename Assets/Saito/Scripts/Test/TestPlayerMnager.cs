@@ -109,61 +109,61 @@ public class TestPlayerMnager : MonoBehaviour
         // キャラクターを動かす
         characterController.Move(moveVelocity * Time.deltaTime);
 
-        GunUpdate();
+        //GunUpdate();
 
         LockOnUpdate();
     }
 
-    //見ている方向のゾンビをマークするUpdate
+    //見ている方向のゾンビをマークするUpdate アイテム用に変更
     public void LockOnUpdate()
     {
-        //全ゾンビオブジェクト
-        GameObject[] zombieObjects = GameObject.FindGameObjectsWithTag("Zombie");
+        //全対象タグのオブジェクト
+        GameObject[] itemObjects = GameObject.FindGameObjectsWithTag("item");
 
         //対象の条件　後でクラス変数化
-        float activeAngle = 20.0f;
-        float activeDistance = 20.0f;
+        float activeAngle = 20.0f;   //対象となる範囲
+        float activeDistance = 20.0f;//対象となる距離
 
         Vector3 playerPos = transform.position;
         Vector3 cameraPos = cameraObj.transform.position;
         Vector3 eyeDir = cameraObj.transform.forward;//視点方向ベクトル
 
-        List<GameObject> targetZombies = new List<GameObject>();
+        List<GameObject> targetItems = new List<GameObject>();
 
-        //距離が一定以下のゾンビを全て取得
-        foreach (var zombie in zombieObjects)
+        //距離が一定以下のオブジェクトのみに絞る
+        foreach (var item in itemObjects)
         {
-            //全てのゾンビの色を通常に戻す 処理が重いかも
-            zombie.GetComponent<ZombieManager>().ChangeColorAlpha(0.0f);
+            //全てのオブジェクトの色を通常に戻す 処理が重いかも
+            item.GetComponent<ColorChanger>().ChangeColorAlpha(0.0f);
 
-            Debug.Log("ゾンビ発見");
+            Debug.Log("アイテム発見");
             //距離を調べる
-            Vector3 zombiePos = zombie.transform.position;
-            //zombiePos.y += 2.0f;
-            if (Vector3.Distance(playerPos, zombiePos) > activeDistance) continue;
+            Vector3 itemPos = item.transform.position;
+            
+            if (Vector3.Distance(playerPos, itemPos) > activeDistance) continue;
 
-            targetZombies.Add(zombie);//リストに追加
+            targetItems.Add(item);//リストに追加
         }
 
-        if(targetZombies.Count != 0)
+        if(targetItems.Count != 0)
         {
-            //ゾンビの中心位置調整用
-            Vector3 zombieCenterAd = Vector3.up * 2.0f;
+            //オブジェクトの中心位置調整用
+            Vector3 itemCenterAd = Vector3.up * 0.0f;
 
-            //対象のゾンビの中から視点から角度が一番近いオブジェクトを取得
+            //対象のオブジェクトの中から視点から角度が一番近いオブジェクトを取得
             GameObject nearestEnemy =
-                targetZombies.OrderBy(p => 
-                Vector3.Angle(((p.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir)).First();
+                targetItems.OrderBy(p => 
+                Vector3.Angle(((p.transform.position + itemCenterAd) - cameraPos).normalized, eyeDir)).First();
 
-            Debug.Log("角度:" + Vector3.Angle(((nearestEnemy.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir));
+            //Debug.Log("角度:" + Vector3.Angle(((nearestEnemy.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir));
 
             //取得したオブジェクトまでと視点の角度が一定以下なら
-            if(Vector3.Angle(((nearestEnemy.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir) <= activeAngle)
+            if(Vector3.Angle(((nearestEnemy.transform.position + itemCenterAd) - cameraPos).normalized, eyeDir) <= activeAngle)
             {
                 //対象の色を変更
-                nearestEnemy.GetComponent<ZombieManager>().ChangeColorAlpha(0.25f);
+                nearestEnemy.GetComponent<ColorChanger>().ChangeColorAlpha(0.25f);
 
-                //nearestEnemyが犬の攻撃対象
+                //操作説明用の表示を出したい
                 
                 return;
             }
