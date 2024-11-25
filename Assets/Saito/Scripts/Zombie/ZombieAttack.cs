@@ -54,7 +54,7 @@ public class ZombieAttack : ZombieBase
 
     IEnumerator attack()
     {
-        hitMasters.Clear(); // ’Ç‰Á
+        hitMasters.Clear(); // ƒŠƒZƒbƒg
         yield return new WaitForSeconds(0.5f);
         col.enabled = true;
         yield return new WaitForSeconds(1.5f);
