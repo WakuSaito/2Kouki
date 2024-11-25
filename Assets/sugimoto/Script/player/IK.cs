@@ -27,16 +27,19 @@ public class IK : MonoBehaviour
 
     void OnAnimatorIK()
     {
-        //switch(player.GetComponent<Inventory>().hand_weapon)
-        //{
-        //    case Inventory.WEAPON_ID.PISTOL:
-        //    case Inventory.WEAPON_ID.KNIFE:
-        //        onIK = true;
-        //        break;
-        //    default:
-        //        onIK = false;
-        //        break;
-        //}
+        switch (player.GetComponent<Inventory>().hand_weapon)
+        {
+            case Inventory.WEAPON_ID.PISTOL:
+                onIK = true;
+
+                break;
+            case Inventory.WEAPON_ID.KNIFE:
+                onIK = true;
+                break;
+            default:
+                onIK = false;
+                break;
+        }
 
 
         if (!onIK) return;

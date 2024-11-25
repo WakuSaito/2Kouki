@@ -8,6 +8,8 @@ public class Pistol : MonoBehaviour
 
     [SerializeField] GameObject bullet_obj;
 
+    Animator anim;
+
     //‚à‚Æ‚à‚Æ‚Ì’e”
     public int pistol_bullet_num = 10;
 
@@ -20,7 +22,7 @@ public class Pistol : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-    
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -43,6 +45,10 @@ public class Pistol : MonoBehaviour
                     int reload_num = BULLET_MAX - pistol_bullet_num;
                     //reload‚Å‚«‚éÅ‘å”‚ğ•Û‘¶
                     int max_reload = reload_num;
+
+                    //animation
+                    anim.SetBool("Reload", true);  //reload
+                    Invoke("ReroadFin", 2.8f);
 
                     for (int cnt = 0; cnt < max_reload; cnt++)
                     {
@@ -135,5 +141,10 @@ public class Pistol : MonoBehaviour
             pistol_bullet_num--;
             
         }
+    }
+
+    void ReroadFin()
+    {
+        anim.SetBool("Reload", false);  //reload
     }
 }
