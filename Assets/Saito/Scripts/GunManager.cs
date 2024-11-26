@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GunManager : MonoBehaviour
 {
-
     [SerializeField] private Transform muzzleTransform;//銃口位置
     [SerializeField] private GameObject bulletLine;//弾道
 
@@ -17,52 +16,85 @@ public class GunManager : MonoBehaviour
 
     [SerializeField] private int bulletDamage = 5;  //弾が敵に与えるダメージ
 
+    //プレイヤーが持った時に代入
+    public GameObject hand_player_obj = null;
+    bool set_player_flag = false;
+
     private int currentMagazineAmount;//現在のマガジンの弾数
 
     bool isCooldown = false;//クールタイム中か
 
     GameObject cameraObj;
+    Inventory inventory;
+    Animator anim;
 
     private void Awake()
     {
         currentMagazineAmount = magazineSize;
 
         cameraObj = Camera.main.gameObject;
+        anim = GetComponent<Animator>();
+
     }
 
     private void Update()
     {
-        //デバッグ用
-        if (Input.GetKeyDown(KeyCode.R))
-            currentMagazineAmount = magazineSize;
-
-        if(Input.GetMouseButtonDown(0))
+        if (hand_player_obj != null && !set_player_flag)
         {
-            PullTriggerDown();
-        }
-        else if (Input.GetMouseButton(0))
-        {
-            PullTrigger();
+            inventory = hand_player_obj.GetComponent<Inventory>();
+            set_player_flag = true;
         }
     }
 
-
-    public void Reload(Inventory inventory)
+    public int GetCurrentMagazine()
     {
-        if (isCooldown) return;
+        return currentMagazineAmount;
+    }
 
+    public void Reload()
+    {
+
+        //リロード処理
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (isCooldown) return;
+
+            //ピストルの弾丸が最大数じゃなければreload可能
+            if (currentMagazineAmount < magazineSize)
+            {
+                for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
+                {
+                    //インベントリに弾丸があるか
+                    if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
+                    {
+                        Debug.Log("aaaaa");
+                        anim.SetBool("Reload", true);  //reload
+                        isCooldown = true;
+                        Invoke("ReroadFin", 2.8f);
+                    }
+                }
+            }
+        }
+    }
+
+    void ReroadFin()
+    {
+        anim.SetBool("Reload", false);  //reload
+        isCooldown = false;
         //ピストルの弾丸が最大数じゃなければreload可能
         if (currentMagazineAmount < magazineSize)
         {
             for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
             {
-                //インベントリに弾丸があるか　弾の種類を調べる必要あり
+                //インベントリに弾丸があるか
                 if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
                 {
                     //ピストルに入る弾丸数を調べる
                     int reload_num = magazineSize - currentMagazineAmount;
                     //reloadできる最大数を保存
                     int max_reload = reload_num;
+
+                    //animation
 
                     for (int cnt = 0; cnt < max_reload; cnt++)
                     {
@@ -75,7 +107,7 @@ public class GunManager : MonoBehaviour
                         else
                         {
                             inventory.item_num[i]--;
-                            magazineSize++;
+                            currentMagazineAmount++;
                             reload_num--;
                         }
                         //インベントリの中身も減らす
@@ -83,6 +115,17 @@ public class GunManager : MonoBehaviour
                     }
                 }
             }
+        }
+
+    }
+
+    public void StopReload()
+    {
+
+        //バグった
+        if(IsInvoking("ReroadFin"))
+        {
+            CancelInvoke("ReroadFin");
         }
     }
 

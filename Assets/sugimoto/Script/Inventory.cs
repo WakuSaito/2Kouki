@@ -198,7 +198,7 @@ public class Inventory : ID
         //ピストルに入っている弾数を取得
         if (weapon_hand_obj[(int)WEAPON_ID.PISTOL] != null)
         {
-            int num= weapon_hand_obj[(int)WEAPON_ID.PISTOL].GetComponent<Pistol>().pistol_bullet_num;
+            int num= weapon_hand_obj[(int)WEAPON_ID.PISTOL].GetComponent<GunManager>().GetCurrentMagazine();
             return num;
         }
         else
@@ -345,7 +345,7 @@ public class Inventory : ID
 
                 //当たり判定をOFFにする
                 _item.GetComponent<BoxCollider>().enabled = false;
-                _item.GetComponent<Pistol>().hand_player_obj = gameObject;
+                _item.GetComponent<GunManager>().hand_player_obj = gameObject;
 
                 //武器インベントリになかった場合
                 if (weapon_hand_obj[(int)WEAPON_ID.PISTOL] == null)
@@ -399,6 +399,11 @@ public class Inventory : ID
                 //インベントリ表示
                 display_timer = 0.0f;
                 display_flag = true;
+
+                if(hand_weapon == WEAPON_ID.PISTOL)
+                {
+                    weapon_hand_obj[weapon_cnt].GetComponent<GunManager>().StopReload();
+                }
             }
 
             //マウスホイール下回し

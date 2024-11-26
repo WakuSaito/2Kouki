@@ -39,7 +39,7 @@ public class Pistol : MonoBehaviour
         }
     }
         
-    void Reload()
+    public void Reload()
     {
         //ƒŠƒ[ƒhˆ—
         if (Input.GetKeyDown(KeyCode.R))
