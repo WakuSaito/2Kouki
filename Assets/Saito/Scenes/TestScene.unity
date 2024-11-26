@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1271036, g: 0.13384077, b: 0.120656036, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731309, g: 0.13414438, b: 0.121081874, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1216,6 +1216,7 @@ MonoBehaviour:
   bulletSpread: 0.03
   cameraObj: {fileID: 1089772051}
   activeMouse: 0
+  knifeObj: {fileID: 4796864767250055232}
 --- !u!4 &1881576735
 Transform:
   m_ObjectHideFlags: 0
@@ -1816,6 +1817,63 @@ Transform:
   m_Father: {fileID: 8852428436245984604}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2031166498667474423
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2128276496049273994}
+    m_Modifications:
+    - target: {fileID: 6190783249125029645, guid: 7f958543d42acbc4d82f82b2b797ed5a, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190783249125029645, guid: 7f958543d42acbc4d82f82b2b797ed5a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0051
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190783249125029645, guid: 7f958543d42acbc4d82f82b2b797ed5a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0221
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190783249125029645, guid: 7f958543d42acbc4d82f82b2b797ed5a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.2074
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190783249125029645, guid: 7f958543d42acbc4d82f82b2b797ed5a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190783249125029645, guid: 7f958543d42acbc4d82f82b2b797ed5a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190783249125029645, guid: 7f958543d42acbc4d82f82b2b797ed5a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190783249125029645, guid: 7f958543d42acbc4d82f82b2b797ed5a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190783249125029645, guid: 7f958543d42acbc4d82f82b2b797ed5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190783249125029645, guid: 7f958543d42acbc4d82f82b2b797ed5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190783249125029645, guid: 7f958543d42acbc4d82f82b2b797ed5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6818947072913927607, guid: 7f958543d42acbc4d82f82b2b797ed5a, type: 3}
+      propertyPath: m_Name
+      value: Knife_01
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7f958543d42acbc4d82f82b2b797ed5a, type: 3}
 --- !u!4 &2128276496049273994 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2867044993621802622, guid: 730d3a42341d0444fa447caeeda02165, type: 3}
@@ -2877,6 +2935,11 @@ Transform:
   m_Father: {fileID: 8852428436245984604}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4796864767250055232 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6818947072913927607, guid: 7f958543d42acbc4d82f82b2b797ed5a, type: 3}
+  m_PrefabInstance: {fileID: 2031166498667474423}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4806024161804407621
 GameObject:
   m_ObjectHideFlags: 0
@@ -3939,6 +4002,7 @@ MonoBehaviour:
   bullet_text_obj: {fileID: 0}
   bullet_text: {fileID: 0}
   hand_weapon: 0
+  befor_weapon: 0
   item_num: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
   item_type_id: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
   hand_pos: {fileID: 7143951837696498815}
