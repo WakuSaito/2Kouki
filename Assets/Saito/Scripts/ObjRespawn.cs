@@ -25,7 +25,7 @@ public class ObjRespawn : MonoBehaviour
         if (Input.GetKey(KeyCode.B)&&
             Input.GetKeyDown(KeyCode.R))
         {
-            Respawn();
+            
             RestPlayer();
         }
     }
@@ -49,6 +49,10 @@ public class ObjRespawn : MonoBehaviour
     //ÉvÉåÉCÉÑÅ[ÇãxëßÇ≥ÇπÇÈ
     public void RestPlayer()
     {
+        Respawn();
+
+        Debug.Log("ãxëß");
+
         if (playerScript == null) return;
 
         //ãxëß

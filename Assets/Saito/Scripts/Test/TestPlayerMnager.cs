@@ -116,6 +116,22 @@ public class TestPlayerMnager : MonoBehaviour
             knifeObj.GetComponent<KnifeManager>().StartAttack();
         }
 
+        //‹x‘§‚·‚é
+        if (Input.GetMouseButtonDown(1))
+        {
+            RaycastHit hit;
+            Vector3 rayVec = cameraObj.transform.forward * 10.0f;
+
+            if (Physics.Raycast(cameraObj.transform.position, rayVec, out hit))
+            {
+                if(hit.transform.gameObject.tag == "RestPoint")
+                {
+                    hit.transform.gameObject.GetComponent<ObjRespawn>().RestPlayer();
+                }
+            }
+        }
+
+
         LockOnUpdate();
     }
 
