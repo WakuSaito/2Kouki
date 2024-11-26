@@ -214,20 +214,26 @@ public class player : PlayerFunction
 
                 hand_pistol_flag = true;
 
-                //hand_weapon.GetComponent<PistolAnimation>().ReloadAnimation();
+                //アニメーション起動
                 hand_weapon.GetComponent<Animator>().enabled = true;
 
-
                 //リロード処理
-                if (Input.GetKeyDown(KeyCode.R))
-                {
-                    hand_weapon.GetComponent<Pistol>().Reload(GetComponent<Inventory>());
-                }
+                hand_weapon.GetComponent<GunManager>().Reload();
+
+
                 //攻撃
                 if (Input.GetMouseButtonDown(0))
                 {
-                    hand_weapon.GetComponent<Pistol>().Attack(rot_obj, hand_weapon);
+                    hand_weapon.GetComponent<GunManager>().PullTriggerDown();
                 }
+
+                //攻撃
+                if (Input.GetMouseButton(0))
+                {
+
+                    hand_weapon.GetComponent<GunManager>().PullTrigger();
+                }
+
                 break;
             //犬
             case Inventory.WEAPON_ID.DOG:
@@ -324,6 +330,64 @@ public class player : PlayerFunction
         }
         return null;
     }
+
+    public GameObject LockOnItemUpdate()
+    {
+        //全対象タグのオブジェクト
+        GameObject[] itemObjects = GameObject.FindGameObjectsWithTag("item");
+
+        //対象の条件　後でクラス変数化
+        float activeAngle = 20.0f;   //対象となる範囲
+        float activeDistance = 20.0f;//対象となる距離
+
+        Vector3 playerPos = dir_obj.transform.position;
+        Vector3 cameraPos = camera_obj.transform.position;
+        Vector3 eyeDir = camera_obj.transform.forward;//視点方向ベクトル
+
+        List<GameObject> targetItems = new List<GameObject>();
+
+        //距離が一定以下のオブジェクトのみに絞る
+        foreach (var item in itemObjects)
+        {
+            //全てのオブジェクトの色を通常に戻す 処理が重いかも
+            item.GetComponent<ColorChanger>().ChangeColorAlpha(0.0f);
+
+            Debug.Log("アイテム発見");
+            //距離を調べる
+            Vector3 itemPos = item.transform.position;
+
+            if (Vector3.Distance(playerPos, itemPos) > activeDistance) continue;
+
+            targetItems.Add(item);//リストに追加
+        }
+
+        if (targetItems.Count != 0)
+        {
+            //オブジェクトの中心位置調整用
+            Vector3 itemCenterAd = Vector3.up * 0.0f;
+
+            //対象のオブジェクトの中から視点から角度が一番近いオブジェクトを取得
+            GameObject nearestEnemy =
+                targetItems.OrderBy(p =>
+                Vector3.Angle(((p.transform.position + itemCenterAd) - cameraPos).normalized, eyeDir)).First();
+
+            //Debug.Log("角度:" + Vector3.Angle(((nearestEnemy.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir));
+
+            //取得したオブジェクトまでと視点の角度が一定以下なら
+            if (Vector3.Angle(((nearestEnemy.transform.position + itemCenterAd) - cameraPos).normalized, eyeDir) <= activeAngle)
+            {
+                //対象の色を変更
+                nearestEnemy.GetComponent<ColorChanger>().ChangeColorAlpha(0.25f);
+
+                //操作説明用の表示を出したい
+
+                return nearestEnemy;
+            }
+
+        }
+        return null;
+    }
+
 
     public GameObject Ray(float _distance)//レイの先にあるオブジェクト取得
     {

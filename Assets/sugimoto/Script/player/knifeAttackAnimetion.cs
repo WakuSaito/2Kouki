@@ -54,7 +54,7 @@ public class knifeAttackAnimetion : MonoBehaviour
             if (transform.position == AttackStart_Pos.position)
             {
                 Attack_Start_Flag = false;
-                GetComponent<Knife>().Attack(_player);
+                GetComponent<KnifeManager>().StartAttack();
                 Attack_Flag = true;
                 Timer = 0.0f;
             }
