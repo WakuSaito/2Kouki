@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2635324210352336220}
   - component: {fileID: 6632739993767749077}
   - component: {fileID: 4015882846722963802}
+  - component: {fileID: 5310888901425078669}
   - component: {fileID: 8568354282193487854}
-  - component: {fileID: 5148831674195084140}
   m_Layer: 0
   m_Name: PistolAnimation
   m_TagString: weapon
@@ -86,6 +86,28 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.2, z: 0.3}
   m_Center: {x: 0, y: 0, z: 0.08}
+--- !u!114 &5310888901425078669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116967373663445176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  muzzleTransform: {fileID: 1002887157445120487}
+  bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
+  magazineSize: 10
+  oneShotBulletAmount: 1
+  bulletSpread: 0.03
+  bulletDistance: 20
+  rapidSpeed: 1
+  isCanRapid: 0
+  bulletDamage: 5
+  hand_player_obj: {fileID: 0}
 --- !u!114 &8568354282193487854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,24 +123,6 @@ MonoBehaviour:
   id: 0
   get_num: 10
   get_max: 30
---- !u!114 &5148831674195084140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1116967373663445176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e06337e2e507a547872fe2c2b898ddf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullet_obj: {fileID: 3390852007210028227, guid: e155a2f4f5b9e534087fd0bef3b5954b, type: 3}
-  pistol_bullet_num: 10
-  muzzleTransform: {fileID: 1002887157445120487}
-  bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
-  bulletDistance: 20
-  bulletSpread: 0.03
 --- !u!1 &2269822468481854767
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,6 +645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet_obj: {fileID: 3390852007210028227, guid: e155a2f4f5b9e534087fd0bef3b5954b, type: 3}
+  hand_player_obj: {fileID: 0}
   pistol_bullet_num: 10
   muzzleTransform: {fileID: 1002887157445120487}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
