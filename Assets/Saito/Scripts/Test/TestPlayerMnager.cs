@@ -116,14 +116,35 @@ public class TestPlayerMnager : MonoBehaviour
             knifeObj.GetComponent<KnifeManager>().StartAttack();
         }
 
+        //休息する
+        if (Input.GetMouseButtonDown(1))
+        {
+            RaycastHit hit;
+            Vector3 rayVec = cameraObj.transform.forward * 10.0f;
+
+            if (Physics.Raycast(cameraObj.transform.position, rayVec, out hit))
+            {
+                if(hit.transform.gameObject.tag == "RestPoint")
+                {
+                    hit.transform.gameObject.GetComponent<ObjRespawn>().RestPlayer();
+                }
+            }
+        }
+
+
         LockOnUpdate();
     }
 
     //見ている方向のゾンビをマークするUpdate アイテム用に変更
     public void LockOnUpdate()
     {
-        //全対象タグのオブジェクト
-        GameObject[] itemObjects = GameObject.FindGameObjectsWithTag("item");
+        //全対象タグのオブジェクト weaponも追加したい
+        GameObject[] itemObjects =  GameObject.FindGameObjectsWithTag("item");
+        GameObject[] weaponObjects = GameObject.FindGameObjectsWithTag("weapon");
+
+        List<GameObject> targetObjects = new List<GameObject>();
+        targetObjects.CopyTo(itemObjects, 0);
+        targetObjects.CopyTo(weaponObjects, itemObjects.Length);
 
         //対象の条件　後でクラス変数化
         float activeAngle = 20.0f;   //対象となる範囲
@@ -136,7 +157,7 @@ public class TestPlayerMnager : MonoBehaviour
         List<GameObject> targetItems = new List<GameObject>();
 
         //距離が一定以下のオブジェクトのみに絞る
-        foreach (var item in itemObjects)
+        foreach (var item in targetObjects)
         {
             //全てのオブジェクトの色を通常に戻す 処理が重いかも
             item.GetComponent<ColorChanger>().ChangeColorAlpha(0.0f);
