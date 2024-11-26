@@ -31,7 +31,8 @@ public class IK : MonoBehaviour
         {
             case Inventory.WEAPON_ID.PISTOL:
                 onIK = true;
-
+                handL = player.GetComponent<player>().hand_weapon.GetComponent<SetHandIK>().HandL;
+                handR = player.GetComponent<player>().hand_weapon.GetComponent<SetHandIK>().HandR;
                 break;
             case Inventory.WEAPON_ID.KNIFE:
                 onIK = true;
@@ -45,7 +46,7 @@ public class IK : MonoBehaviour
         if (!onIK) return;
 
 
-        //if (player.GetComponent<Inventory>().hand_weapon == Inventory.WEAPON_ID.PISTOL)
+        if (player.GetComponent<Inventory>().hand_weapon == Inventory.WEAPON_ID.PISTOL)
         {
             if (handR != null)
             {
@@ -62,16 +63,16 @@ public class IK : MonoBehaviour
                 animator.SetIKRotation(AvatarIKGoal.LeftHand, handL.rotation);
             }
         }
-        //else if (player.GetComponent<Inventory>().hand_weapon == Inventory.WEAPON_ID.KNIFE)
-        //{
-        //    if (knife_hand_R != null)
-        //    {
-        //        animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
-        //        animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
-        //        animator.SetIKPosition(AvatarIKGoal.RightHand, knife_hand_R.position);
-        //        animator.SetIKRotation(AvatarIKGoal.RightHand, knife_hand_R.rotation);
-        //    }
-        //}
+        else if (player.GetComponent<Inventory>().hand_weapon == Inventory.WEAPON_ID.KNIFE)
+        {
+            if (knife_hand_R != null)
+            {
+                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
+                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
+                animator.SetIKPosition(AvatarIKGoal.RightHand, knife_hand_R.position);
+                animator.SetIKRotation(AvatarIKGoal.RightHand, knife_hand_R.rotation);
+            }
+        }
     }
 
     void OnIK()

@@ -345,6 +345,7 @@ public class Inventory : ID
 
                 //“–‚½‚è”»’è‚ğOFF‚É‚·‚é
                 _item.GetComponent<BoxCollider>().enabled = false;
+                _item.GetComponent<Pistol>().hand_player_obj = gameObject;
 
                 //•ŠíƒCƒ“ƒxƒ“ƒgƒŠ‚É‚È‚©‚Á‚½ê‡
                 if (weapon_hand_obj[(int)WEAPON_ID.PISTOL] == null)
