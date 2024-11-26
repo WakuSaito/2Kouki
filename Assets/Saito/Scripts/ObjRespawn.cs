@@ -7,10 +7,15 @@ public class ObjRespawn : MonoBehaviour
     //スポナーオブジェクト
     GameObject[] spawners;
 
+    player playerScript;
+
     private void Awake()
     {
         //アクティブ状態の変更後に取得すると見つからないので
         spawners = GameObject.FindGameObjectsWithTag("Spawner");
+
+        //プレイヤースクリプト取得
+        playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<player>();
     }
 
     // Update is called once per frame
@@ -19,7 +24,10 @@ public class ObjRespawn : MonoBehaviour
         //デバッグ用
         if (Input.GetKey(KeyCode.B)&&
             Input.GetKeyDown(KeyCode.R))
+        {
             Respawn();
+            RestPlayer();
+        }
     }
 
     public void Respawn()
@@ -36,5 +44,14 @@ public class ObjRespawn : MonoBehaviour
         {
             obj.GetComponent<SetItem>().SetItemPos();
         }
+    }
+
+    //プレイヤーを休息させる
+    public void RestPlayer()
+    {
+        if (playerScript == null) return;
+
+        //休息
+        playerScript.TakeRest(0.7f, 0.3f);
     }
 }

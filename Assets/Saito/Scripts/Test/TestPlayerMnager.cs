@@ -25,6 +25,8 @@ public class TestPlayerMnager : MonoBehaviour
 
     [SerializeField]private bool activeMouse = false;//マウスの視点移動の有効化
 
+    [SerializeField] private GameObject knifeObj;
+
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
@@ -109,7 +111,10 @@ public class TestPlayerMnager : MonoBehaviour
         // キャラクターを動かす
         characterController.Move(moveVelocity * Time.deltaTime);
 
-        //GunUpdate();
+        if(Input.GetMouseButtonDown(1) && knifeObj != null)
+        {
+            knifeObj.GetComponent<KnifeManager>().StartAttack();
+        }
 
         LockOnUpdate();
     }
@@ -173,56 +178,5 @@ public class TestPlayerMnager : MonoBehaviour
     }
 
     //銃の処理Update（弾数や連射速度は考慮していない）
-    private void GunUpdate()
-    {
-        //入力チェック
-        if (!Input.GetMouseButtonDown(0)) return;
-
-        //ばらつきをランダムに決める
-        float x = Random.Range(-bulletSpread, bulletSpread);
-        float y = Random.Range(-bulletSpread, bulletSpread);
-
-        //視点ベクトルにばらつきを加算
-        Vector3 gunVec = verRot.forward + new Vector3(x, y, 0);
-
-
-        //弾道用のLineRendererを取得（見た目用）
-        LineRenderer lineRend = Instantiate(bulletLine,
-            Vector3.zero,
-            Quaternion.identity).GetComponent<LineRenderer>();
-
-        //点の数
-        lineRend.positionCount = 2;
-        //始点の座標指定
-        lineRend.SetPosition(0, muzzleTransform.position);
-
-        RaycastHit hit;
-        //レイが当たったとき
-        if (Physics.Raycast(verRot.position, gunVec, out hit, bulletDistance))
-        {
-            //当たった場所を線の終点にする
-            lineRend.SetPosition(1, hit.point);
-
-            Debug.Log("タグ:"+hit.collider.gameObject.tag);
-            //当たったcollider部分のタグが体なら
-            if(hit.collider.gameObject.tag == "Body")
-            {
-                hit.transform.gameObject.GetComponent<ZombieManager>()
-                    .DamageBody(hit.point);//モーションを切り替えるため、当たった座標を渡している
-            }
-            else if (hit.collider.gameObject.tag == "Head")
-            {
-                hit.transform.gameObject.GetComponent<ZombieManager>()
-                    .DamageHead();
-            }
-        }
-        //レイが何にも当たらなかったとき
-        else
-        {
-            //弾丸のベクトルの終点を線の終点にする
-            lineRend.SetPosition(1, verRot.position+(gunVec * bulletDistance));
-        }
-
-    }
 }
 

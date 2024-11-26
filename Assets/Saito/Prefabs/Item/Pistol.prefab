@@ -107,7 +107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4610038955857266200}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0.063, z: 0.197}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -242,7 +242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2866020372098483582}
   - component: {fileID: 3423060524086646924}
-  - component: {fileID: 2587785258590676779}
+  - component: {fileID: 4164688851375142401}
   - component: {fileID: 6885980243362262058}
   - component: {fileID: 1362704585579023014}
   m_Layer: 0
@@ -282,7 +282,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.2, z: 0.3}
   m_Center: {x: 0, y: 0, z: 0.08}
---- !u!114 &2587785258590676779
+--- !u!114 &4164688851375142401
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -291,15 +291,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 6677430234295823807}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e06337e2e507a547872fe2c2b898ddf, type: 3}
+  m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet_obj: {fileID: 3390852007210028227, guid: e155a2f4f5b9e534087fd0bef3b5954b, type: 3}
-  pistol_bullet_num: 10
   muzzleTransform: {fileID: 3283362780036152016}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
-  bulletDistance: 20
+  magazineSize: 10
+  oneShotBulletAmount: 1
   bulletSpread: 0.03
+  bulletDistance: 20
+  rapidSpeed: 0.8
+  isCanRapid: 0
+  bulletDamage: 3
 --- !u!114 &6885980243362262058
 MonoBehaviour:
   m_ObjectHideFlags: 0

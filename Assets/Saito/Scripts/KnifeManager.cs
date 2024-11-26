@@ -2,11 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// ゾンビの攻撃クラス
-/// 攻撃判定にアタッチする
-/// </summary>
-public class ZombieAttack : ZombieBase
+public class KnifeManager : MonoBehaviour
 {
     // 当たり判定処理済みを記録  
     private Dictionary<int, bool> hitMasters { get; } = new Dictionary<int, bool>();
@@ -17,10 +13,11 @@ public class ZombieAttack : ZombieBase
     //コルーチンキャンセル用
     Coroutine attackCoroutine;
 
-    /// <summary>
-    /// 初期設定
-    /// </summary>
-    public override void SetUpZombie()
+    //与えるダメージ
+    [SerializeField] 
+    private int attackDamage = 2;
+
+    private void Start()
     {
         col = gameObject.GetComponent<Collider>();
         col.enabled = false;
@@ -32,7 +29,11 @@ public class ZombieAttack : ZombieBase
     /// </summary>
     public void StartAttack()
     {
-        Debug.Log("ゾンビの攻撃");
+        Debug.Log("ナイフ攻撃開始");
+
+        if (attackCoroutine != null)
+            AttackCancel();//再生中のコルーチンがあればキャンセル
+
         attackCoroutine = StartCoroutine(attack());//コルーチン開始
     }
 
@@ -55,18 +56,23 @@ public class ZombieAttack : ZombieBase
     IEnumerator attack()
     {
         hitMasters.Clear(); // リセット
-        yield return new WaitForSeconds(0.3f);
         col.enabled = true;
+
         yield return new WaitForSeconds(1.3f);
+
         col.enabled = false;
         attackCoroutine = null;
     }
 
     void OnTriggerEnter(Collider other)
     {
+        string hitTag = other.tag;
+        //対象のタグ以外は接触しない
+        if (hitTag != "Body" && hitTag != "Head") return;
+
         // 追加
         // 攻撃対象部位ならHitZoneが取得できる
-        var hitZone = other.GetComponent<HitZone>();
+        var hitZone = other.GetComponent<ZombieHitZone>();
         if (hitZone == null) return;
 
         // 攻撃対象部位の親のインスタンスIDで重複した攻撃を判定
@@ -76,7 +82,8 @@ public class ZombieAttack : ZombieBase
 
         Debug.Log("Hit!");
         // ダメージ計算とかこのへんで実装できます
-        hitZone.Master.TakeDamage();
+        hitZone.Master.TakeDamage(hitTag, attackDamage);
+
         // ヒット箇所を計算してエフェクトを表示する（前回から特に変更なし）
         //Vector3 hitPos = other.ClosestPointOnBounds(col.bounds.center);
         //GameObject effectIstance = Instantiate(hitEffect, hitPos, Quaternion.identity);

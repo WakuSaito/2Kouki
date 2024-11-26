@@ -257,6 +257,15 @@ public class ZombieManager : MonoBehaviour
     /// <summary>
     /// 体にダメージを受けた
     /// </summary>
+    public void DamageBody(int _damage)
+    {
+        Debug.Log("Body");
+
+        zombieHP.Damage(_damage);
+        zombieAnimation.DamageHitLeft();
+
+        Stan(2.0);//スタン
+    }
     //被弾地点からアニメーションを変更させる用
     public void DamageBody(Vector3 _hitPos)
     {
