@@ -380,6 +380,36 @@ public class player : PlayerFunction
         }
     }
 
+    /// <summary>
+    /// 休息（休息後の体力割合、消費する食料）
+    /// </summary>
+    public void TakeRest(float _setHpPer, float _useFoodPer)
+    {
+        //回復後の体力計算
+        float nextHp = hp_num_max * _setHpPer;
+        //現在の体力の方が少ないなら回復
+        if (nextHp > hp_num_now)
+        {
+            //体力ゲージ減少
+            hp_gague.GetComponent<Gauge>().Increase_Gauge(nextHp - hp_num_now);
+        }
+
+        //消費後の食料ゲージ計算
+        float nextFood = food_num_now - (food_num_max * _useFoodPer);
+        //下限を決める
+        float nextFoodMin = food_num_max * 0.1f;
+
+        //回復はしないように
+        if (food_num_now <= nextFoodMin) return;
+
+        //下限を下回る
+        if (nextFood <= nextFoodMin)
+        {
+            nextFood = nextFoodMin;
+        }
+        //食料ゲージ減少
+        food_gage.GetComponent<Gauge>().ReduceGauge(food_num_now - nextFood);
+    }
 }
 
 
