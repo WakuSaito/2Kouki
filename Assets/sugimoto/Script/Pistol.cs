@@ -10,11 +10,10 @@ public class Pistol : MonoBehaviour
     
     //プレイヤーが持った時に代入
     public GameObject hand_player_obj = null;
-
-    bool reload_flag = false;
-    float reload_timer = 0.0f;
+    bool set_player_flag = false;
 
     Animator anim;
+    Inventory inventory;
 
     //もともとの弾数
     public int pistol_bullet_num = 10;
@@ -33,43 +32,30 @@ public class Pistol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(reload_flag)
+        if (hand_player_obj != null && !set_player_flag) 
         {
-            reload_timer += Time.deltaTime;
-            //if()
+            inventory = hand_player_obj.GetComponent<Inventory>();
+            set_player_flag = true;
         }
     }
-
-    public bool ReloadCheck(Inventory inventory)
-    {
-        //ピストルの弾丸が最大数じゃなければreload可能
-        if (pistol_bullet_num < BULLET_MAX)
-        {
-            for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
-            {
-                //インベントリに弾丸があるか
-                if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }        
         
     void Reload()
     {
         //リロード処理
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Inventory inventory = hand_player_obj.GetComponent<Inventory>();
-
-            if(ReloadCheck(inventory))
+            //ピストルの弾丸が最大数じゃなければreload可能
+            if (pistol_bullet_num < BULLET_MAX)
             {
-                reload_flag = true;
-                anim.SetBool("Reload", true);  //reload
-                Invoke("ReroadFin", 2.8f);
+                for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
+                {
+                    //インベントリに弾丸があるか
+                    if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
+                    {
+                        anim.SetBool("Reload", true);  //reload
+                        Invoke("ReroadFin", 2.8f);
+                    }
+                }
             }
         }
     }
@@ -186,44 +172,45 @@ public class Pistol : MonoBehaviour
         }
     }
 
-    //void ReroadFin()
-    //{
-    //    anim.SetBool("Reload", false);  //reload
-    //                                    //ピストルの弾丸が最大数じゃなければreload可能
-    //    if (pistol_bullet_num < BULLET_MAX)
-    //    {
-    //        for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
-    //        {
-    //            //インベントリに弾丸があるか
-    //            if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
-    //            {
-    //                //ピストルに入る弾丸数を調べる
-    //                int reload_num = BULLET_MAX - pistol_bullet_num;
-    //                //reloadできる最大数を保存
-    //                int max_reload = reload_num;
+    void ReroadFin()
+    {
+        anim.SetBool("Reload", false);  //reload
 
-    //                //animation
+        //ピストルの弾丸が最大数じゃなければreload可能
+        if (pistol_bullet_num < BULLET_MAX)
+        {
+            for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
+            {
+                //インベントリに弾丸があるか
+                if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
+                {
+                    //ピストルに入る弾丸数を調べる
+                    int reload_num = BULLET_MAX - pistol_bullet_num;
+                    //reloadできる最大数を保存
+                    int max_reload = reload_num;
 
-    //                for (int cnt = 0; cnt < max_reload; cnt++)
-    //                {
-    //                    if (inventory.item_num[i] == 0)
-    //                    {
-    //                        //インベントリにあった弾丸の残りが0になったらidも初期化する
-    //                        inventory.item_type_id[i] = -1;
-    //                        break;
-    //                    }
-    //                    else
-    //                    {
-    //                        inventory.item_num[i]--;
-    //                        pistol_bullet_num++;
-    //                        reload_num--;
-    //                    }
-    //                    //インベントリの中身も減らす
-    //                    inventory.ReduceInventory(i);
-    //                }
-    //            }
-    //        }
-    //    }
+                    //animation
 
-    //}
+                    for (int cnt = 0; cnt < max_reload; cnt++)
+                    {
+                        if (inventory.item_num[i] == 0)
+                        {
+                            //インベントリにあった弾丸の残りが0になったらidも初期化する
+                            inventory.item_type_id[i] = -1;
+                            break;
+                        }
+                        else
+                        {
+                            inventory.item_num[i]--;
+                            pistol_bullet_num++;
+                            reload_num--;
+                        }
+                        //インベントリの中身も減らす
+                        inventory.ReduceInventory(i);
+                    }
+                }
+            }
+        }
+
+    }
 }
