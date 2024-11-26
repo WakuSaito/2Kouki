@@ -399,6 +399,7 @@ GameObject:
   - component: {fileID: 3426899592515281804}
   - component: {fileID: 6675762946346505912}
   - component: {fileID: 6881507793889793834}
+  - component: {fileID: 6403476788515633560}
   m_Layer: 0
   m_Name: AssaultRifle
   m_TagString: weapon
@@ -474,6 +475,19 @@ MonoBehaviour:
   id: 0
   get_num: 10
   get_max: 30
+--- !u!114 &6403476788515633560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6675762946346505919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbfd73b2acde7c340911c8ff7b0ba3a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshObj: {fileID: 7195771760512450076}
 --- !u!1 &6975305910890176977
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,6 +649,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 6381a2822798cc041b99cf46b7a1eebc, type: 2}
+  - {fileID: 2100000, guid: f1a55bac68c6d0f448e9db7588ff0aae, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

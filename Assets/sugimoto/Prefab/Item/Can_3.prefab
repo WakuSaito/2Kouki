@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 23184704365307464}
   - component: {fileID: 6468216064341285401}
   - component: {fileID: 8528400099139817318}
+  - component: {fileID: 3465519895387706719}
   m_Layer: 0
   m_Name: Can_3
   m_TagString: item
@@ -64,6 +65,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 64905cc01446df24a99b2d11a1b8c559, type: 2}
+  - {fileID: 2100000, guid: f1a55bac68c6d0f448e9db7588ff0aae, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -113,3 +115,16 @@ MonoBehaviour:
   id: 4
   get_num: 1
   get_max: 1
+--- !u!114 &3465519895387706719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519537717051864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbfd73b2acde7c340911c8ff7b0ba3a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshObj: {fileID: 1519537717051864}
