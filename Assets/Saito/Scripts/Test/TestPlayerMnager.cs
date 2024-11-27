@@ -135,14 +135,14 @@ public class TestPlayerMnager : MonoBehaviour
         LockOnUpdate();
     }
 
-    //見ている方向のゾンビをマークするUpdate アイテム用に変更
+    //見ている方向のゾンビをマークするUpdate アイテム用に変更 操作方法も表示したい
     public void LockOnUpdate()
     {
         //全対象タグのオブジェクト weaponも追加したい
         GameObject[] itemObjects =  GameObject.FindGameObjectsWithTag("item");
         GameObject[] weaponObjects = GameObject.FindGameObjectsWithTag("weapon");
 
-        List<GameObject> targetObjects = new List<GameObject>();
+        List<GameObject> targetObjects = new List<GameObject>();//うまくいっていない
         targetObjects.CopyTo(itemObjects, 0);
         targetObjects.CopyTo(weaponObjects, itemObjects.Length);
 

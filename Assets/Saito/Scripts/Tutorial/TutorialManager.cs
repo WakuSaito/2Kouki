@@ -7,6 +7,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(PhaseGoHome))]
 [RequireComponent(typeof(PhaseTakeWhistle))]
 [RequireComponent(typeof(PhaseUseKnife))]
+[RequireComponent(typeof(PhaseExploreHouse))]
 
 public class TutorialManager : MonoBehaviour
 {
@@ -60,6 +61,8 @@ public class TutorialManager : MonoBehaviour
     {
         if (tutorialText == null) return;
         tutorialText.text = _str;
+
+        //普段見えないようにしたい
     }
     /// <summary>
     /// テキストを非表示にする
@@ -76,6 +79,10 @@ public class TutorialManager : MonoBehaviour
     public void CreateMarker(Vector3 _pos)
     {
         if (markerPrefab == null) return;
+
+        //既に設置してあるマーカー削除
+        DeleteMarker();
+
         markerObj = Instantiate(markerPrefab, _pos, Quaternion.identity);
     }
     /// <summary>
@@ -89,6 +96,7 @@ public class TutorialManager : MonoBehaviour
         markerObj = null;
     }
 
+    //カメラを特定の場所にスライド移動できるようにしたい
 }
 
 /*
@@ -96,15 +104,16 @@ public class TutorialManager : MonoBehaviour
 
 あたりを探索する
 
-犬を助けるため外のゾンビを倒す（ナイフを使う）
+犬を助けるため外のゾンビを倒す（ナイフを使う）（簡単に倒せるようにしたい）
 
 犬が仲間になる
-
 犬に指示を出す犬笛を取りに自宅に向かう
 
-街に向かう
+笛を取得させる
+
+近くの民家を犬の探知を活用し探索
 
 犬に攻撃指示をし、道中のゾンビを撃破
 
-途中の民家を犬の探知を活用し探索
+駐屯基地を攻略しよう（ゲームの目的説明）
  */
