@@ -110,8 +110,8 @@ public class ZombieManager : MonoBehaviour
             if (zombieAction == null) zombie.TryGetComponent(out zombieAction);
             if (zombieHP == null) zombie.TryGetComponent(out zombieHP);
         }
-
-        Debug.Log(zombieHP.GetCurrentHP());
+        
+        Debug.Log("ƒ]ƒ“ƒr‰Šú‘Ì—Í:"+zombieHP.GetCurrentHP());
     }
 
 

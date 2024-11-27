@@ -9,11 +9,18 @@ public class Marker : MonoBehaviour
     private Camera cameraObj;
 
     //画面に表示するマーカーUI
-    [SerializeField] GameObject markUIPrefab;
+    [SerializeField] 
+    GameObject markUIPrefab;
     //距離表示用のテキスト
     GameObject distanceTextUI;
 
-    [SerializeField] float destroySec = 3.0f;
+    //生成されて削除されるまでの時間（０以下で削除されない）
+    [SerializeField] 
+    float destroySec = 3.0f;
+
+    //フェードアウトの速度
+    [SerializeField]
+    float fadeOutSpeed = 1.0f;
 
     //生成したオブジェクト保存用
     private GameObject markUI;
@@ -26,8 +33,10 @@ public class Marker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //一定時間後削除
-        StartCoroutine(DerayDestroy());
+        //削除までの時間が0以下なら削除しない
+        if(destroySec > 0)
+            //一定時間後削除
+            StartCoroutine(DerayDestroy());
 
         canvas = GameObject.Find("Canvas").transform;
         cameraObj = Camera.main;
@@ -82,7 +91,7 @@ public class Marker : MonoBehaviour
         if(onDelete)
         {
             //アルファ値減らす
-            currentAlpha -= 1.0f * Time.deltaTime;
+            currentAlpha -= fadeOutSpeed * Time.deltaTime;
 
             //0以下で削除
             if(currentAlpha <= 0)
@@ -95,6 +104,8 @@ public class Marker : MonoBehaviour
             //カラー変更
             Color color = markUI.GetComponent<Image>().color;
             markUI.GetComponent<Image>().color = new Color(color.r,color.g,color.b,currentAlpha);
+            Color textColor = distanceTextUI.GetComponent<Text>().color;
+            distanceTextUI.GetComponent<Text>().color = new Color(textColor.r, textColor.g, textColor.b, currentAlpha);
         }
     }
 
@@ -104,6 +115,11 @@ public class Marker : MonoBehaviour
         yield return new WaitForSeconds(destroySec);
 
         onDelete = true;//削除フラグ
+    }
+    //強制削除
+    public void StartDelete()
+    {
+        onDelete = true;
     }
 
     private float GetCameraDistance()
