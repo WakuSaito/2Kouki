@@ -1767,6 +1767,7 @@ MonoBehaviour:
   - {fileID: 7180837758190367735}
   - {fileID: 6455615091749529719}
   - {fileID: 6455615091749529716}
+  - {fileID: 1251370930331078492}
   detectionPlayerRangeMin: 10
   detectionPlayerRangeMax: 30
   debugDetectionCirclePrefab: {fileID: 0}

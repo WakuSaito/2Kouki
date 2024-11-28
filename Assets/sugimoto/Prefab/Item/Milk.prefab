@@ -68,9 +68,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -1504981713932161579, guid: 6d7b1b7dbbae8b04999632ec36943117, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: 6d7b1b7dbbae8b04999632ec36943117, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a89a0e35bd9957c46ab4f8446709e7f7, type: 2}
+    - target: {fileID: -1504981713932161579, guid: 6d7b1b7dbbae8b04999632ec36943117, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: f1a55bac68c6d0f448e9db7588ff0aae, type: 2}
     - target: {fileID: -927199367670048503, guid: 6d7b1b7dbbae8b04999632ec36943117, type: 3}
       propertyPath: m_Name
       value: Milk
@@ -114,3 +122,16 @@ MonoBehaviour:
   id: 7
   get_num: 1
   get_max: 1
+--- !u!114 &8702424119559098740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8662258556512106578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbfd73b2acde7c340911c8ff7b0ba3a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshObj: {fileID: 8662258556512106578}

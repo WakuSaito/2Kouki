@@ -13,6 +13,7 @@ TagManager:
   - item
   - Spawner
   - ItemSetter
+  - RestPoint
   layers:
   - Default
   - TransparentFX

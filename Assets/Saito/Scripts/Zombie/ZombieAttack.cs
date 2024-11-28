@@ -17,6 +17,11 @@ public class ZombieAttack : ZombieBase
     //コルーチンキャンセル用
     Coroutine attackCoroutine;
 
+    [SerializeField]//発生時間
+    private float setUpSec = 0.3f;
+    [SerializeField]//硬直時間
+    private float recoverySec = 1.0f;
+
     /// <summary>
     /// 初期設定
     /// </summary>
@@ -55,9 +60,9 @@ public class ZombieAttack : ZombieBase
     IEnumerator attack()
     {
         hitMasters.Clear(); // リセット
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(setUpSec);
         col.enabled = true;
-        yield return new WaitForSeconds(1.3f);
+        yield return new WaitForSeconds(recoverySec);
         col.enabled = false;
         attackCoroutine = null;
     }
