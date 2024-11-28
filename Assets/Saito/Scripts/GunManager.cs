@@ -67,7 +67,6 @@ public class GunManager : MonoBehaviour
                     //インベントリに弾丸があるか
                     if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
                     {
-                        Debug.Log("aaaaa");
                         anim.SetBool("Reload", true);  //reload
                         isCooldown = true;
                         Invoke("ReroadFin", 2.8f);
@@ -121,10 +120,10 @@ public class GunManager : MonoBehaviour
 
     public void StopReload()
     {
-
-        //バグった
         if(IsInvoking("ReroadFin"))
         {
+            isCooldown = false;
+            anim.SetBool("Reload", false);  //reload
             CancelInvoke("ReroadFin");
         }
     }

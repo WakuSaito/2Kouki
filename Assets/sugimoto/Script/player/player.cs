@@ -11,8 +11,8 @@ public class player : PlayerFunction
     Animator Animator;  // アニメーターコンポーネント取得用
     Rigidbody Rigidbody;
 
-    const float Walk_Speed = 5.0f;
-    const float Run_Speed = 10.0f;
+    const float Walk_Speed = 2.0f;
+    const float Run_Speed = 3.0f;
     const int Damage_Num = 1;
     const int Item_Distance = 5;
 

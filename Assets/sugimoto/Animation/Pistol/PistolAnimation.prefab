@@ -104,9 +104,9 @@ MonoBehaviour:
   oneShotBulletAmount: 1
   bulletSpread: 0.03
   bulletDistance: 20
-  rapidSpeed: 1
+  rapidSpeed: 0
   isCanRapid: 0
-  bulletDamage: 5
+  bulletDamage: 2
   hand_player_obj: {fileID: 0}
 --- !u!114 &8568354282193487854
 MonoBehaviour:
