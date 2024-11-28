@@ -2,21 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PhaseTakeWhistle : TutorialBase
+public class PhaseEatFood : TutorialBase
 {
-    [SerializeField]//犬笛オブジェクト
-    private GameObject whistleObj;
 
     public override void SetUpPhase()
     {
-        tutorialManager.SetText("犬笛を取れ");
-        tutorialManager.CreateMarker(whistleObj.transform.position);
+        tutorialManager.SetText("食料を食べよう");
     }
 
     public override void UpdatePhase()
     {
-        //ナイフを取得したら
-        //フェーズ移行
+        //if バッグを開いていないなら　開くように促す
+        //Inventory.item_inventory_flag == false
+
+        //else 開いているなら　アイテムを使うよう促す
+
+        //if 使ったら
+        //インベントリサイズ監視
+
         tutorialManager.NextPhase();
     }
 
