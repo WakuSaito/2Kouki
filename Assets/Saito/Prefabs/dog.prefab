@@ -696,6 +696,7 @@ MonoBehaviour:
   targetDistance: 40
   markTargetTags:
   - Zombie
+  - item
   zombieCenterY: 2
 --- !u!54 &1745869519410043628
 Rigidbody:

@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 //自動でアタッチされるスクリプト
-[RequireComponent(typeof(PhaseGoHome))]
-[RequireComponent(typeof(PhaseTakeWhistle))]
-[RequireComponent(typeof(PhaseUseKnife))]
-[RequireComponent(typeof(PhaseExploreHouse))]
+//[RequireComponent(typeof(PhaseGoHome))]
+//[RequireComponent(typeof(PhaseTakeItem))]
+//[RequireComponent(typeof(PhaseUseKnife))]
+//[RequireComponent(typeof(PhaseExploreHouse))]
 
 public class TutorialManager : MonoBehaviour
 {
@@ -102,16 +102,13 @@ public class TutorialManager : MonoBehaviour
 /*
 ゲーム開始（フェードイン）
 
-あたりを探索する
-
 犬を助けるため外のゾンビを倒す（ナイフを使う）（簡単に倒せるようにしたい）
 
-犬が仲間になる
-犬に指示を出す犬笛を取りに自宅に向かう
-
-笛を取得させる
-
 近くの民家を犬の探知を活用し探索
+
+食料をゲット
+
+インベントリから食料を食べさせる
 
 犬に攻撃指示をし、道中のゾンビを撃破
 

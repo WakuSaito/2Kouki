@@ -17,16 +17,9 @@ public class TargetMark : MonoBehaviour
     [SerializeField]//ゾンビのY方向の中心（足元からの距離）
     private float zombieCenterY = 2.0f;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            MarkTarget();
-        }
-    }
+
     //条件にあうオブジェクトをマークする
-    public void MarkTarget()
+    public void RangeMark()
     {
         foreach(var tagName in markTargetTags)
         {

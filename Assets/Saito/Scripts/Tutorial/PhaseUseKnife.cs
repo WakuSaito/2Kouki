@@ -15,6 +15,11 @@ public class PhaseUseKnife : TutorialBase
 
     public override void UpdatePhase()
     {
+        //if ナイフを持っていないなら スロット切り替えを促す
+        //if(player.hand_weapon.tag != "Knife")
+
+        //else 持っているなら 攻撃を促す
+
         //ゾンビを倒したら
         //フェーズ移行
         if(targetZombieObj == null)

@@ -30,6 +30,8 @@ public class DogManager : MonoBehaviour
     private DogMove dogMove;
     private DogAnimation dogAnimation;
 
+    private TargetMark targetMark;
+
     [SerializeField]//噛みついている時間
     private double biteStaySec = 4.0;
 
@@ -51,10 +53,13 @@ public class DogManager : MonoBehaviour
     //移動停止フラグ
     private bool onFreezeMove = false;
 
-    //攻撃対象に突進中
-    private bool isChargeTarget = false;
     //行動停止
     private bool isStopAction = false;
+    //指示を受けないフラグ
+    private bool IsIgnoreOrder = false;
+
+    //攻撃対象に突進中
+    private bool isChargeTarget = false;
     //移動方法を歩行にする
     private bool isMoveTypeWalk = false;
 
@@ -63,6 +68,8 @@ public class DogManager : MonoBehaviour
     {
         //プレイヤー取得
         playerObj = GameObject.FindGameObjectWithTag("Player");
+
+        targetMark = gameObject.GetComponent<TargetMark>();
     }
 
     // Start is called before the first frame update
@@ -91,7 +98,7 @@ public class DogManager : MonoBehaviour
             OrderAttack(obj);
         }
 
-        if(Input.GetKeyDown(KeyCode.U))
+        if(Input.GetKeyDown(KeyCode.K))
         {
             OrderDetection();
         }
@@ -211,6 +218,7 @@ public class DogManager : MonoBehaviour
     /// </summary>
     public void OrderAttack(GameObject _obj)//zombieの子のパーツが渡されたとき動かない可能性アリ
     {
+        if (IsIgnoreOrder) return;
         Debug.Log("攻撃指示を受け付けた");
 
         isChargeTarget = true;
@@ -222,34 +230,11 @@ public class DogManager : MonoBehaviour
     /// </summary>
     public void OrderDetection()
     {
+        if (IsIgnoreOrder) return;
         Debug.Log("探知開始");
 
-        //探知できたオブジェクト保存用
-        List<GameObject> targetObj = new List<GameObject>();
-
-        //ゾンビ全取得
-        GameObject[] zombieObjects = GameObject.FindGameObjectsWithTag("Zombie");
-        //距離が一定以下のゾンビを全て取得
-        foreach (var zombie in zombieObjects)
-        {
-            //距離を調べる
-            Vector3 zombiePos = zombie.transform.position;
-            if (Vector3.Distance(transform.position, zombiePos) > detectRange) continue;
-
-            targetObj.Add(zombie);//リストに追加
-        }
-
-        //ここでアイテムもリストに追加する
-
-
-        foreach(var obj in targetObj)
-        {
-            Vector3 markPos = obj.transform.position;
-            //Instantiate(マーク用オブジェクト,markPos)
-            //マーク用オブジェクトはビルボードがいいかも
-        }
-
-        Debug.Log("探知結果:" + targetObj.Count + "個");
+        //一定範囲の対象のオブジェクトをマーク
+        targetMark.RangeMark();
     }
 
     /// <summary>
