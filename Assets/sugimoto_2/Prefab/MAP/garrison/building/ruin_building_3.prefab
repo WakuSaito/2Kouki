@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3385080210075578565}
   - component: {fileID: 657191078437487631}
   - component: {fileID: 2906716480354977551}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ruin_building_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,9 +106,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1825614887864074080}
     m_Modifications:
+    - target: {fileID: 126958, guid: 8a61f8344ef8a4cf2982a73a4ce5e5ba, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 148890, guid: 8a61f8344ef8a4cf2982a73a4ce5e5ba, type: 3}
       propertyPath: m_Name
       value: HeliPad_Prefeb
+      objectReference: {fileID: 0}
+    - target: {fileID: 148890, guid: 8a61f8344ef8a4cf2982a73a4ce5e5ba, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 151016, guid: 8a61f8344ef8a4cf2982a73a4ce5e5ba, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 451314, guid: 8a61f8344ef8a4cf2982a73a4ce5e5ba, type: 3}
       propertyPath: m_RootOrder
@@ -166,7 +178,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 2346717613837944135, guid: 8a61f8344ef8a4cf2982a73a4ce5e5ba, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3797229228573849354, guid: 8a61f8344ef8a4cf2982a73a4ce5e5ba, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707029535251750665, guid: 8a61f8344ef8a4cf2982a73a4ce5e5ba, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6671992816561666788, guid: 8a61f8344ef8a4cf2982a73a4ce5e5ba, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8635585393349118428, guid: 8a61f8344ef8a4cf2982a73a4ce5e5ba, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8879367316626704605, guid: 8a61f8344ef8a4cf2982a73a4ce5e5ba, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8927861319890718168, guid: 8a61f8344ef8a4cf2982a73a4ce5e5ba, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5912998169584317309, guid: 8a61f8344ef8a4cf2982a73a4ce5e5ba, type: 3}
+    - {fileID: 6173126607133869074, guid: 8a61f8344ef8a4cf2982a73a4ce5e5ba, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8a61f8344ef8a4cf2982a73a4ce5e5ba, type: 3}
 --- !u!4 &1615485630175012612 stripped
 Transform:

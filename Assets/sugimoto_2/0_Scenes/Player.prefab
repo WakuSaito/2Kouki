@@ -1709,6 +1709,7 @@ MonoBehaviour:
   bullet_text_obj: {fileID: 8980372826112479530}
   bullet_text: {fileID: 8980372826242351365}
   hand_weapon: 0
+  befor_weapon: 0
   item_num: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
   item_type_id: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
   hand_pos: {fileID: 6536284799097138917}
@@ -2702,7 +2703,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 25
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -2884,6 +2885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet_obj: {fileID: 3390852007210028227, guid: e155a2f4f5b9e534087fd0bef3b5954b, type: 3}
+  hand_player_obj: {fileID: 0}
   pistol_bullet_num: 10
   muzzleTransform: {fileID: 0}
   bulletLine: {fileID: 0}
