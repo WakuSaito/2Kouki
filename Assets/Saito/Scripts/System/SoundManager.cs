@@ -21,8 +21,10 @@ public class SoundManager : MonoBehaviour
     public AudioClip gunShot;
     [SerializeField] //空撃ち
     public AudioClip gunBlankShot;
-    [SerializeField] //リロード
-    public AudioClip gunReload;
+    [SerializeField] //リロード（マガジン取り出し）
+    public AudioClip gunReloadOut;
+    [SerializeField] //リロード（マガジン入れ）
+    public AudioClip gunReloadIn;
     [SerializeField] //攻撃指示
     public AudioClip whistleAttack;
     [SerializeField] //探知指示
@@ -55,5 +57,30 @@ public class SoundManager : MonoBehaviour
     public AudioClip inventoryOpen;
     [SerializeField] //インベントリ非表示
     public AudioClip inventoryClose;
+
+    //デバッグ用
+    [SerializeField]
+    private AudioClip[] debugPlaySounds;
+    AudioSource audioSource;
+    private void Awake()
+    {
+        audioSource = gameObject.GetComponent<AudioSource>();
+    }
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Keypad0))
+        {
+            audioSource.PlayOneShot(debugPlaySounds[0]);
+        }
+        if(Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            audioSource.PlayOneShot(debugPlaySounds[1]);
+        }
+        if(Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            audioSource.PlayOneShot(debugPlaySounds[2]);
+        }
+
+    }
 
 }
