@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 //自動でアタッチされるスクリプト
 [RequireComponent(typeof(DogMove))]
 [RequireComponent(typeof(DogAnimation))]
+[RequireComponent(typeof(DogSound))]
 
 /// <summary>
 /// 犬のマネージャークラス
@@ -29,6 +30,7 @@ public class DogManager : MonoBehaviour
 
     private DogMove dogMove;
     private DogAnimation dogAnimation;
+    private DogSound dogSound;
 
     private TargetMark targetMark;
 
@@ -84,6 +86,7 @@ public class DogManager : MonoBehaviour
             //どうやら違うクラスでTryGetComponentするとnullが代入されるっぽいのでnullチェック
             if (dogMove == null) dog.TryGetComponent(out dogMove);
             if (dogAnimation == null) dog.TryGetComponent(out dogAnimation);
+            if (dogSound == null) dog.TryGetComponent(out dogSound);
         }
 
         RandomTargetPos();
@@ -224,6 +227,8 @@ public class DogManager : MonoBehaviour
         isChargeTarget = true;
 
         attackTargetObj = _obj;//攻撃対象を取得
+
+        dogSound.PlayAttackBark();//鳴き声
     }
     /// <summary>
     /// 指示：周囲の探知
@@ -235,6 +240,8 @@ public class DogManager : MonoBehaviour
 
         //一定範囲の対象のオブジェクトをマーク
         targetMark.RangeMark();
+
+        dogSound.PlayDetectBark();//鳴き声
     }
 
     /// <summary>

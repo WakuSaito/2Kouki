@@ -15,7 +15,8 @@ public class ZombieSound : ZombieBase
 
     public void PlayFootStep()
     {
-        audioSource.PlayOneShot(soundManager.zombieFootStep);
+        AudioClip randomSE = soundManager.zombieFootStep[Random.Range(0, soundManager.zombieFootStep.Length)];
+        audioSource.PlayOneShot(randomSE);
     }
     public void PlayVoice()
     {
@@ -23,11 +24,11 @@ public class ZombieSound : ZombieBase
     }
     public void PlayDamage()
     {
-        audioSource.PlayOneShot(soundManager.zomvieDamage);
+        audioSource.PlayOneShot(soundManager.zombieDamage);
     }
     public void PlayDead()
     {
-        audioSource.PlayOneShot(soundManager.zomvieDead);
+        audioSource.PlayOneShot(soundManager.zombieDead);
     }
 
 }

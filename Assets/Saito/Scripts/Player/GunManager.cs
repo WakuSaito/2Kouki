@@ -28,6 +28,9 @@ public class GunManager : MonoBehaviour
     Inventory inventory;
     Animator anim;
 
+    //サウンド再生用
+    private GunSound gunSound;
+
     private void Awake()
     {
         currentMagazineAmount = magazineSize;
@@ -35,6 +38,7 @@ public class GunManager : MonoBehaviour
         cameraObj = Camera.main.gameObject;
         anim = GetComponent<Animator>();
 
+        gunSound = gameObject.GetComponent<GunSound>();
     }
 
     private void Update()
@@ -53,7 +57,6 @@ public class GunManager : MonoBehaviour
 
     public void Reload()
     {
-
         //リロード処理
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -133,8 +136,12 @@ public class GunManager : MonoBehaviour
     /// </summary>
     public void PullTriggerDown()
     {
-        if (currentMagazineAmount <= 0) return;
         if (isCooldown) return;
+        if (currentMagazineAmount <= 0)
+        {
+            gunSound.PlayBlankShot();//発射失敗音
+            return;
+        }
 
         //同時発射数分繰り返す
         for (int i = 0; i < oneShotBulletAmount; i++)
@@ -143,6 +150,8 @@ public class GunManager : MonoBehaviour
         }
 
         //出きれば反動を付けたい
+
+        gunSound.PlayShot();//発射音
 
         //クールタイム
         StartCoroutine(CooldownCoroutine(rapidSpeed));
@@ -155,15 +164,21 @@ public class GunManager : MonoBehaviour
     /// </summary>
     public void PullTrigger()
     {
-        if (currentMagazineAmount <= 0) return;
         if (isCooldown) return;
         if (!isCanRapid) return;
+        if (currentMagazineAmount <= 0)
+        {
+            gunSound.PlayBlankShot();//発射失敗音
+            return;
+        }
 
         //同時発射数分繰り返す
         for (int i = 0; i < oneShotBulletAmount; i++)
         {
             CreateBullet();
         }
+
+        gunSound.PlayBlankShot();//発射音
 
         //クールタイム
         StartCoroutine(CooldownCoroutine(rapidSpeed));

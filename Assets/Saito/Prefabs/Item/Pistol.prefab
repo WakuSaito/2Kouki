@@ -303,6 +303,7 @@ MonoBehaviour:
   rapidSpeed: 0.8
   isCanRapid: 0
   bulletDamage: 3
+  hand_player_obj: {fileID: 0}
 --- !u!114 &6885980243362262058
 MonoBehaviour:
   m_ObjectHideFlags: 0

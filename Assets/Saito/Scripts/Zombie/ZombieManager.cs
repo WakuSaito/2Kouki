@@ -31,6 +31,7 @@ public class ZombieManager : MonoBehaviour
     private ZombieAnimation zombieAnimation;
     private ZombieAction zombieAction;
     private ZombieHP zombieHP;
+    private ZombieSound zombieSound;
 
     GameObject playerObj;
 
@@ -109,6 +110,7 @@ public class ZombieManager : MonoBehaviour
             if (zombieAnimation == null) zombie.TryGetComponent(out zombieAnimation);
             if (zombieAction == null) zombie.TryGetComponent(out zombieAction);
             if (zombieHP == null) zombie.TryGetComponent(out zombieHP);
+            if (zombieSound == null) zombie.TryGetComponent(out zombieSound);
         }
         
         Debug.Log("ゾンビ初期体力:"+zombieHP.GetCurrentHP());
@@ -372,6 +374,7 @@ public class ZombieManager : MonoBehaviour
         isFreezePos = true;//移動停止
 
         zombieAnimation.Die();//アニメーション
+        zombieSound.PlayDead();//サウンド
 
         //アニメーションが終わるころにオブジェクトを消す
         _ = DelayRunAsync(
