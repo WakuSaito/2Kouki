@@ -32,7 +32,7 @@ public class SoundManager : MonoBehaviour
 
     //ゾンビ
     [SerializeField] //足音
-    public AudioClip zombieFootStep;
+    public AudioClip[] zombieFootStep;
     [SerializeField] //呻き
     public AudioClip zombieVoice;
     [SerializeField] //被ダメージ

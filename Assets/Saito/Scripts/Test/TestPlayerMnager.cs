@@ -23,9 +23,11 @@ public class TestPlayerMnager : MonoBehaviour
 
     [SerializeField] private GameObject cameraObj;
 
-    [SerializeField]private bool activeMouse = false;//マウスの視点移動の有効化
+    [SerializeField] private bool activeMouse = false;//マウスの視点移動の有効化
 
     [SerializeField] private GameObject knifeObj;
+
+    [SerializeField] private GameObject usePistol;
 
     private void Awake()
     {
@@ -87,7 +89,21 @@ public class TestPlayerMnager : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             vec += transform.right;
-        }      
+        }
+
+        //銃
+        if (Input.GetMouseButtonDown(0))
+        {
+            usePistol.GetComponent<GunManager>().PullTriggerDown();
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            //アニメーション起動
+            usePistol.GetComponent<Animator>().enabled = true;
+
+            //リロード処理
+            usePistol.GetComponent<GunManager>().Reload();
+        }
 
         characterController.Move(vec.normalized * moveSpeed * Time.deltaTime);
 
@@ -111,10 +127,10 @@ public class TestPlayerMnager : MonoBehaviour
         // キャラクターを動かす
         characterController.Move(moveVelocity * Time.deltaTime);
 
-        if(Input.GetMouseButtonDown(1) && knifeObj != null)
-        {
-            knifeObj.GetComponent<KnifeManager>().StartAttack();
-        }
+        //if(Input.GetMouseButtonDown(1) && knifeObj != null)
+        //{
+        //    knifeObj.GetComponent<KnifeManager>().StartAttack();
+        //}
 
         //休息する
         if (Input.GetMouseButtonDown(1))
