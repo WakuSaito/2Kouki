@@ -36,9 +36,9 @@ public class SoundManager : MonoBehaviour
     [SerializeField] //呻き
     public AudioClip zombieVoice;
     [SerializeField] //被ダメージ
-    public AudioClip zomvieDamage;
+    public AudioClip zombieDamage;
     [SerializeField] //死亡
-    public AudioClip zomvieDead;
+    public AudioClip zombieDead;
 
     //犬
     [SerializeField] //足音
@@ -58,6 +58,13 @@ public class SoundManager : MonoBehaviour
     [SerializeField] //インベントリ非表示
     public AudioClip inventoryClose;
 
+    private AudioClip nextBGM;
+    private float maxVolume;
+    private float currentVolume;
+
+    private bool isFadeOut = false;
+    private bool isFadeIn = false;
+
     //デバッグ用
     [SerializeField]
     private AudioClip[] debugPlaySounds;
@@ -65,6 +72,8 @@ public class SoundManager : MonoBehaviour
     private void Awake()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
+        maxVolume = audioSource.volume;
+        currentVolume = maxVolume;
     }
     private void Update()
     {
@@ -81,6 +90,39 @@ public class SoundManager : MonoBehaviour
             audioSource.PlayOneShot(debugPlaySounds[2]);
         }
 
+
+        if(isFadeOut)
+        {
+            currentVolume -= 2.0f * Time.deltaTime;
+            if(currentVolume <= 0)
+            {
+                isFadeOut = false;
+                currentVolume = 0;
+                if(nextBGM != null)
+                {
+                    audioSource.clip = nextBGM;
+                    nextBGM = null;
+                }
+            }
+        }
+        else if(isFadeIn)
+        {
+            currentVolume += 2.0f * Time.deltaTime;
+            if (currentVolume >= maxVolume)
+            {
+                isFadeIn = false;
+                currentVolume = maxVolume;
+            }
+        }
+
+        audioSource.volume = currentVolume;
+    }
+
+    public void ChangeBGM(AudioClip _bgm)
+    {
+        nextBGM = _bgm;
+        isFadeOut = true;
+        isFadeIn = true;
     }
 
 }

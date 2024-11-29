@@ -24,11 +24,11 @@ public class ZombieSound : ZombieBase
     }
     public void PlayDamage()
     {
-        audioSource.PlayOneShot(soundManager.zomvieDamage);
+        audioSource.PlayOneShot(soundManager.zombieDamage);
     }
     public void PlayDead()
     {
-        audioSource.PlayOneShot(soundManager.zomvieDead);
+        audioSource.PlayOneShot(soundManager.zombieDead);
     }
 
 }
