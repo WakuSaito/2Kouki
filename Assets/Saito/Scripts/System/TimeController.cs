@@ -258,4 +258,33 @@ public class TimeController : MonoBehaviour
     {
         return isDaylight;
     }
+
+    public int GetCurrentHour()
+    {
+        return currentTime.GetHour();
+    }
+
+    /// <summary>
+    /// “ú–v‚©‚ç‰½•ªŒo‚Á‚½‚©æ“¾‚·‚é
+    /// </summary>
+    public int GetMinutesAfterSunset()
+    {
+        int hour = currentTime.GetHour();
+        if (hour < sunsetHour)
+            hour += HourMinute.MAX_HOUR;
+
+        return (hour - sunsetHour) * HourMinute.MAX_MINUTE + currentTime.GetMinute();
+    }
+
+    /// <summary>
+    /// “ú‚Ìo‚Ü‚Å‰½•ª‚ ‚é‚©æ“¾‚·‚é
+    /// </summary>
+    public int GetMinutesBeforeSunrise()
+    {
+        int hour = currentTime.GetHour();
+        if (hour >= sunriseHour)
+            hour -= HourMinute.MAX_HOUR;
+
+        return (sunriseHour - hour) * HourMinute.MAX_MINUTE - currentTime.GetMinute();
+    }
 }
