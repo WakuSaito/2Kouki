@@ -43,10 +43,14 @@ public class TestPlayerMnager : MonoBehaviour
         if(Input.GetMouseButtonDown(0))
         {
             activeMouse = true;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
-        if(Input.GetKeyDown(KeyCode.Escape))
+        else if(Input.GetKeyDown(KeyCode.Escape))
         {
             activeMouse = false;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
 
         if(activeMouse)

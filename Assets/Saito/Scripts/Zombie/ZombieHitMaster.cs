@@ -17,7 +17,7 @@ public class ZombieHitMaster : MonoBehaviour
     {
         if(_partTag=="Body")
         {
-            zombieManager.DamageBody(_damage);
+            zombieManager.DamageBody(Vector3.zero, _damage);
         }
         else if(_partTag == "Head")
         {
