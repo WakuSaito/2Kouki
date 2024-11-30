@@ -146,11 +146,11 @@ public class Pistol : MonoBehaviour
                     Debug.Log(hit_obj);
                     if (hit_obj.tag == "Body")
                     {
-                        hit_obj.GetComponentInParent<ZombieManager>().DamageBody(hit.point);
+                        hit_obj.GetComponentInParent<ZombieManager>().DamageBody(hit.point,2);
                     }
                     if (hit_obj.tag == "Head")
                     {
-                        hit_obj.GetComponentInParent<ZombieManager>().DamageHead();
+                        hit_obj.GetComponentInParent<ZombieManager>().DamageHead(2);
                     }
                 }
             }

@@ -136,11 +136,13 @@ public class ZombieManager : MonoBehaviour
         //プレイヤーとの距離計算
         float playerDistance = Vector3.Distance(pos, playerPos);
 
-        //プレイヤーから離れすぎたら削除する
-        //if(playerDistance > despawnPlayerDistance)
-        //{
-        //    Destroy(gameObject);
-        //}
+        //プレイヤーから離れすぎたら動かさない
+        if (playerDistance > despawnPlayerDistance)
+        {
+            zombieMove.StopMove();
+            zombieAnimation.Idle();//停止モーション
+            return;
+        }
 
 
         ChangeDetectRange();//探知範囲計算
@@ -259,39 +261,7 @@ public class ZombieManager : MonoBehaviour
     /// <summary>
     /// 体にダメージを受けた
     /// </summary>
-    public void DamageBody(int _damage)
-    {
-        Debug.Log("Body");
-
-        zombieHP.Damage(_damage);
-        zombieAnimation.DamageHitLeft();
-
-        Stan(2.0);//スタン
-    }
     //被弾地点からアニメーションを変更させる用
-    public void DamageBody(Vector3 _hitPos)
-    {
-        Debug.Log("Body");
-
-        Vector3 vec = _hitPos - transform.position;
-
-        Vector3 axis = Vector3.Cross(transform.forward, vec);
-
-        if (axis.y < 0)
-        {
-            Debug.Log("左側");
-            zombieAnimation.DamageHitLeft();
-        }
-        else
-        {
-            Debug.Log("右側");
-            zombieAnimation.DamageHitRight();
-        }
-
-        zombieHP.Damage(1);
-
-        Stan(2.0);//スタン
-    }
     public void DamageBody(Vector3 _hitPos, int _damage)
     {
         Debug.Log("Body");
@@ -318,14 +288,6 @@ public class ZombieManager : MonoBehaviour
     /// <summary>
     /// 頭にダメージを受けた
     /// </summary>
-    public void DamageHead()
-    {
-        Debug.Log("Head");
-
-        zombieAttack.AttackCancel();//攻撃処理のキャンセル
-
-        zombieHP.Damage(1000);
-    }
     public void DamageHead(int _damage)
     {
         Debug.Log("Head");
@@ -376,11 +338,24 @@ public class ZombieManager : MonoBehaviour
         zombieAnimation.Die();//アニメーション
         zombieSound.PlayDead();//サウンド
 
+        EnableCollider();//コライダー無効化
+
         //アニメーションが終わるころにオブジェクトを消す
         _ = DelayRunAsync(
                     3.5,//後で定数化したい
                     () => zombieAction.Dead()//死亡
                     );
+    }
+    //コライダー無効化
+    private void EnableCollider()
+    {
+        //全ての子オブジェクトのコライダー取得
+        Collider[] colliders = transform.GetComponentsInChildren<Collider>();
+
+        foreach(var col in colliders)
+        {
+            col.enabled = false;//無効化
+        }
     }
 
     /// <summary>
