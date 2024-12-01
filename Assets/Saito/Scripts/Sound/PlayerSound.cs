@@ -30,6 +30,10 @@ public class PlayerSound : MonoBehaviour
     {
         audioSource.PlayOneShot(soundManager.playerDrink);
     }
+    public void PlayHeal()
+    {
+        audioSource.PlayOneShot(soundManager.playerHeal);
+    }
     public void PlayDamage()
     {
         audioSource.PlayOneShot(soundManager.playerDamage);

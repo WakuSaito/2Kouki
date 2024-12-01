@@ -17,6 +17,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip playerEat;
     [SerializeField] //ˆù‚Þ
     public AudioClip playerDrink;
+    [SerializeField] //‰ñ•œ
+    public AudioClip playerHeal;
     [SerializeField] //”­–C
     public AudioClip gunShot;
     [SerializeField] //‹óŒ‚‚¿

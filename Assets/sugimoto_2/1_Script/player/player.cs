@@ -53,6 +53,11 @@ public class player : PlayerFunction
     public float hp_num_max;      //体力ゲージの最大値
     public float hp_num_now;      //体力ゲージの現在値
 
+    //視点方向探索用
+    private SearchViewArea searchViewArea;
+    [SerializeField]//サウンド用
+    private PlayerSound playerSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +65,8 @@ public class player : PlayerFunction
         Inventory = GetComponent<Inventory>();
         Animator = anim_obj.GetComponent<Animator>();
         Rigidbody = GetComponent<Rigidbody>();
+
+        searchViewArea = GetComponent<SearchViewArea>();
 
         //ゲージ設定
         food_num_now = food_gage.GetComponent<Gauge>().GaugeSetting(food_num_max);
@@ -155,51 +162,23 @@ public class player : PlayerFunction
 
     void　PickUpItem()  //アイテムを拾う
     {
+        //視点方向のアイテムを探す
+        GameObject item = searchViewArea.GetObjUpdate("item", Item_Distance);
+
         if (Input.GetMouseButtonDown(1))
-        {
+        {        
+            if (item == null) return;
+
+            playerSound.PlayPickUp();//SE
+
             //アイテム取得
-            GameObject item = Ray(Item_Distance);
-
-            if (item != null)
-            {
-                switch (item.tag)
-                {
-                    /*アイテムについて
-                     *各武器はのタグをweaponに設定
-                     *各アイテムはitemのタグに設定
-                     *武器オブジェクトにID設定用のスクリプトをアタッチ
-                     *そこでIDを設定する
-                     */
-
-                    case "weapon":
-                        //GetComponent<Inventory>().WeaponGet(item);
-                        //break;
-                    case "item":
-                        GetComponent<Inventory>().ItemGet(item);
-                        break;
-                }
-            }
+            GetComponent<Inventory>().ItemGet(item);
         }
     }
 
-    void SearchZombie() //ゾンビを調べる(色をもとに戻す)
-    {
-        //全ゾンビオブジェクト
-        GameObject[] zombieObjects = GameObject.FindGameObjectsWithTag("Zombie");
-
-        //距離が一定以下のゾンビを全て取得
-        foreach (var zombie in zombieObjects)
-        {
-            //全てのゾンビの色を通常に戻す 処理が重いかも
-            zombie.GetComponent<ZombieManager>().ChangeColorAlpha(0.0f);
-        }
-    }
 
     void AttackWeapon() //武器別処理
     {
-        //ゾンビを調べる(色をもとに戻す)
-        SearchZombie();
-
         //フラグ初期化
         hand_pistol_flag = false;
 
@@ -218,8 +197,11 @@ public class player : PlayerFunction
                 hand_weapon.GetComponent<Animator>().enabled = true;
 
                 //リロード処理
-                hand_weapon.GetComponent<GunManager>().Reload();
-
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    //リロード処理
+                    hand_weapon.GetComponent<GunManager>().Reload();
+                }
 
                 //攻撃
                 if (Input.GetMouseButtonDown(0))
@@ -238,7 +220,7 @@ public class player : PlayerFunction
             //犬
             case Inventory.WEAPON_ID.DOG:
 
-                GameObject attack_obj = LockOnUpdate();
+                GameObject attack_obj = searchViewArea.GetObjUpdate("Zombie", 20f, 2f);
 
                 //攻撃
                 if (Input.GetMouseButtonDown(0))
@@ -255,6 +237,12 @@ public class player : PlayerFunction
                         }
                     }
                 }
+                //仮で探知
+                else if(Input.GetMouseButtonDown(1))
+                {
+                    dog.GetComponent<DogManager>().OrderDetection();
+                }
+
                 break;
         }
     }
@@ -272,120 +260,6 @@ public class player : PlayerFunction
         Animator.SetBool("Run", run_flag);  //走る
         Animator.SetBool("Idle", idle_flag);  //idle
         Animator.SetBool("HandPislol", hand_pistol_flag);  //pistol所持状態
-    }
-
-    public GameObject LockOnUpdate()
-    {
-        //全ゾンビオブジェクト
-        GameObject[] zombieObjects = GameObject.FindGameObjectsWithTag("Zombie");
-
-        //対象の条件　後でクラス変数化
-        float activeAngle = 20.0f;
-        float activeDistance = 20.0f;
-
-        Vector3 playerPos = dir_obj.transform.position;
-        Vector3 cameraPos = camera_obj.transform.position;
-        Vector3 eyeDir = camera_obj.transform.forward;//視点方向ベクトル
-
-        List<GameObject> targetZombies = new List<GameObject>();
-
-        //距離が一定以下のゾンビを全て取得
-        foreach (var zombie in zombieObjects)
-        {
-            ////全てのゾンビの色を通常に戻す 処理が重いかも
-            //zombie.GetComponent<ZombieManager>().ChangeColorAlpha(0.0f);
-
-            //Debug.Log("ゾンビ発見");
-            //距離を調べる
-            Vector3 zombiePos = zombie.transform.position;
-            //zombiePos.y += 2.0f;
-            if (Vector3.Distance(playerPos, zombiePos) > activeDistance) continue;
-
-            targetZombies.Add(zombie);//リストに追加
-        }
-
-        if (targetZombies.Count != 0)
-        {
-            //ゾンビの中心位置調整用
-            Vector3 zombieCenterAd = Vector3.up * 2.0f;
-
-            //対象のゾンビの中から視点から角度が一番近いオブジェクトを取得
-            GameObject nearestEnemy =
-                targetZombies.OrderBy(p =>
-                Vector3.Angle(((p.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir)).First();
-
-            //Debug.Log("角度:" + Vector3.Angle(((nearestEnemy.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir));
-
-            //取得したオブジェクトまでと視点の角度が一定以下なら
-            if (Vector3.Angle(((nearestEnemy.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir) <= activeAngle)
-            {
-                //対象の色を変更
-                nearestEnemy.GetComponent<ZombieManager>().ChangeColorAlpha(0.25f);
-
-                //nearestEnemyが犬の攻撃対象
-
-                return nearestEnemy;
-            }
-
-        }
-        return null;
-    }
-
-    public GameObject LockOnItemUpdate()
-    {
-        //全対象タグのオブジェクト
-        GameObject[] itemObjects = GameObject.FindGameObjectsWithTag("item");
-
-        //対象の条件　後でクラス変数化
-        float activeAngle = 20.0f;   //対象となる範囲
-        float activeDistance = 20.0f;//対象となる距離
-
-        Vector3 playerPos = dir_obj.transform.position;
-        Vector3 cameraPos = camera_obj.transform.position;
-        Vector3 eyeDir = camera_obj.transform.forward;//視点方向ベクトル
-
-        List<GameObject> targetItems = new List<GameObject>();
-
-        //距離が一定以下のオブジェクトのみに絞る
-        foreach (var item in itemObjects)
-        {
-            //全てのオブジェクトの色を通常に戻す 処理が重いかも
-            item.GetComponent<ColorChanger>().ChangeColorAlpha(0.0f);
-
-            Debug.Log("アイテム発見");
-            //距離を調べる
-            Vector3 itemPos = item.transform.position;
-
-            if (Vector3.Distance(playerPos, itemPos) > activeDistance) continue;
-
-            targetItems.Add(item);//リストに追加
-        }
-
-        if (targetItems.Count != 0)
-        {
-            //オブジェクトの中心位置調整用
-            Vector3 itemCenterAd = Vector3.up * 0.0f;
-
-            //対象のオブジェクトの中から視点から角度が一番近いオブジェクトを取得
-            GameObject nearestEnemy =
-                targetItems.OrderBy(p =>
-                Vector3.Angle(((p.transform.position + itemCenterAd) - cameraPos).normalized, eyeDir)).First();
-
-            //Debug.Log("角度:" + Vector3.Angle(((nearestEnemy.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir));
-
-            //取得したオブジェクトまでと視点の角度が一定以下なら
-            if (Vector3.Angle(((nearestEnemy.transform.position + itemCenterAd) - cameraPos).normalized, eyeDir) <= activeAngle)
-            {
-                //対象の色を変更
-                nearestEnemy.GetComponent<ColorChanger>().ChangeColorAlpha(0.25f);
-
-                //操作説明用の表示を出したい
-
-                return nearestEnemy;
-            }
-
-        }
-        return null;
     }
 
 
@@ -423,6 +297,8 @@ public class player : PlayerFunction
     public void DamagePlayer()  //プレイヤーがダメージを受ける
     {
         hp_num_now = hp_gague.GetComponent<Gauge>().ReduceGauge(Damage_Num);
+
+        playerSound.PlayDamage();//SE
     }
 
     public void GameClear() //ゲームクリアかどうか

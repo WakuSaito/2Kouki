@@ -54,6 +54,9 @@ public class Inventory : ID
     [SerializeField] Sprite[] item_sprite;                                              //種類別アイテムスプライト
     [SerializeField] Text[] item_num_text;                                              //アイテムの個数表示
 
+    //SE再生用
+    [SerializeField]//サウンド用
+    private PlayerSound playerSound;
 
     // Update is called once per frame
     void Update()
@@ -114,10 +117,12 @@ public class Inventory : ID
             if (_id >= ITEM_ID.FOOD_1 && _id <= ITEM_ID.FOOD_4)
             {
                 food_gauge_obj.GetComponent<Gauge>().Increase_Gauge(10);
+                playerSound.PlayEat();//SE
             }
             if (_id >= ITEM_ID.DRINK_1 && _id <= ITEM_ID.DRINK_2)
             {
                 food_gauge_obj.GetComponent<Gauge>().Increase_Gauge(5);
+                playerSound.PlayDrink();//SE
             }
 
             //スプライト初期化
@@ -134,6 +139,7 @@ public class Inventory : ID
             if (_id >= ITEM_ID.EMERGENCY_PACK)
             {
                 hp_gauge_obj.GetComponent<Gauge>().Increase_Gauge(3);
+                playerSound.PlayHeal();//SE
             }
 
             //スプライト初期化
@@ -347,7 +353,8 @@ public class Inventory : ID
                 //当たり判定をOFFにする
                 _item.GetComponent<BoxCollider>().enabled = false;
                 _item.GetComponent<GunManager>().hand_player_obj = gameObject;
-
+                //tagをweaponに
+                _item.tag = "weapon";
 
                 //ピストルの弾数表示
                 bullet_text_obj.SetActive(true);
@@ -590,5 +597,15 @@ public class Inventory : ID
             }
         }
         return foodSum;
+    }
+
+    //引数番目のアイテムアイコンの座標取得
+    public Vector2 GetItemIconPos(int _num)
+    {
+        //引数が範囲内か調べる
+        if (_num < 0 || _num >= item_sprite_obj.Length) return Vector2.zero;
+
+        //座標を返す
+        return item_sprite_obj[_num].transform.position;
     }
 }

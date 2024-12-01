@@ -29,24 +29,28 @@ public class TestPlayerMnager : MonoBehaviour
 
     [SerializeField] private GameObject usePistol;
 
+    private SearchViewArea searchViewArea;
+
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
+        searchViewArea = GetComponent<SearchViewArea>();
 
         verRot = cameraObj.transform;
         horRot = transform;
     }
 
     void Update()
-    { 
+    {
         //常に視点が動かないようにした
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             activeMouse = true;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
-        else if(Input.GetKeyDown(KeyCode.Escape))
+        else if (Input.GetKeyDown(KeyCode.Escape) ||
+            Input.GetKeyDown(KeyCode.LeftAlt)) 
         {
             activeMouse = false;
             Cursor.visible = true;
@@ -151,72 +155,11 @@ public class TestPlayerMnager : MonoBehaviour
             }
         }
 
-
-        LockOnUpdate();
+        searchViewArea.GetObjUpdate("Zombie", 20f, 2f);
+        searchViewArea.GetObjUpdate("item", 5f);
     }
 
-    //見ている方向のゾンビをマークするUpdate アイテム用に変更 操作方法も表示したい
-    public void LockOnUpdate()
-    {
-        //全対象タグのオブジェクト weaponも追加したい
-        GameObject[] itemObjects =  GameObject.FindGameObjectsWithTag("item");
-        GameObject[] weaponObjects = GameObject.FindGameObjectsWithTag("weapon");
-
-        List<GameObject> targetObjects = new List<GameObject>();//うまくいっていない
-        targetObjects.CopyTo(itemObjects, 0);
-        targetObjects.CopyTo(weaponObjects, itemObjects.Length);
-
-        //対象の条件　後でクラス変数化
-        float activeAngle = 20.0f;   //対象となる範囲
-        float activeDistance = 20.0f;//対象となる距離
-
-        Vector3 playerPos = transform.position;
-        Vector3 cameraPos = cameraObj.transform.position;
-        Vector3 eyeDir = cameraObj.transform.forward;//視点方向ベクトル
-
-        List<GameObject> targetItems = new List<GameObject>();
-
-        //距離が一定以下のオブジェクトのみに絞る
-        foreach (var item in targetObjects)
-        {
-            //全てのオブジェクトの色を通常に戻す 処理が重いかも
-            item.GetComponent<ColorChanger>().ChangeColorAlpha(0.0f);
-
-            Debug.Log("アイテム発見");
-            //距離を調べる
-            Vector3 itemPos = item.transform.position;
-            
-            if (Vector3.Distance(playerPos, itemPos) > activeDistance) continue;
-
-            targetItems.Add(item);//リストに追加
-        }
-
-        if(targetItems.Count != 0)
-        {
-            //オブジェクトの中心位置調整用
-            Vector3 itemCenterAd = Vector3.up * 0.0f;
-
-            //対象のオブジェクトの中から視点から角度が一番近いオブジェクトを取得
-            GameObject nearestEnemy =
-                targetItems.OrderBy(p => 
-                Vector3.Angle(((p.transform.position + itemCenterAd) - cameraPos).normalized, eyeDir)).First();
-
-            //Debug.Log("角度:" + Vector3.Angle(((nearestEnemy.transform.position + zombieCenterAd) - cameraPos).normalized, eyeDir));
-
-            //取得したオブジェクトまでと視点の角度が一定以下なら
-            if(Vector3.Angle(((nearestEnemy.transform.position + itemCenterAd) - cameraPos).normalized, eyeDir) <= activeAngle)
-            {
-                //対象の色を変更
-                nearestEnemy.GetComponent<ColorChanger>().ChangeColorAlpha(0.25f);
-
-                //操作説明用の表示を出したい
-                
-                return;
-            }
-
-        }
-        return;
-    }
+    
 
     //銃の処理Update（弾数や連射速度は考慮していない）
 }

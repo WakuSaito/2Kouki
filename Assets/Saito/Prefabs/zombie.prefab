@@ -1167,10 +1167,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 10
-  MaxDistance: 500
+  MinDistance: 1
+  MaxDistance: 20
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -1180,12 +1180,21 @@ AudioSource:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -3.8432605
+      outSlope: -3.8432605
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.510486
+    - serializedVersion: 3
+      time: 0.17391235
+      value: 0.501897
+      inSlope: -1.805906
+      outSlope: -1.805906
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.70130885
+      outWeight: 0.120176025
     - serializedVersion: 3
       time: 1
       value: 0
@@ -1809,6 +1818,7 @@ GameObject:
   - component: {fileID: 6455615091749529719}
   - component: {fileID: 6455615091749529716}
   - component: {fileID: 1251370930331078492}
+  - component: {fileID: -729504131328969680}
   m_Layer: 0
   m_Name: zombie
   m_TagString: Zombie
@@ -1940,6 +1950,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 10
+--- !u!114 &-729504131328969680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6455615091749529712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbfd73b2acde7c340911c8ff7b0ba3a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshObjs:
+  - {fileID: 4193280466009199003}
 --- !u!1 &7180837758190367733
 GameObject:
   m_ObjectHideFlags: 0
