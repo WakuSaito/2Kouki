@@ -14,6 +14,8 @@ public class SetItem : ID
     //İ’uêŠ•Û‘¶
     int[] set_pos_save;
 
+    [SerializeField] Transform Parent;
+
     //İ’u‚·‚é”
     [SerializeField] int set_times = 0;
 
@@ -89,7 +91,7 @@ public class SetItem : ID
             if (can_set_flag)
             {
                 //¶¬
-                Instantiate(item[_set_item_random], set_pos[_set_pos_random].position, Quaternion.identity, set_pos[_set_pos_random]);
+                Instantiate(item[_set_item_random], set_pos[_set_pos_random].position, Quaternion.identity, Parent);
                 set_pos_save[cnt] = _set_pos_random;
                 cnt++;
 
