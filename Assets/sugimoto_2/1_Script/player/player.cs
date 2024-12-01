@@ -172,8 +172,8 @@ public class player : PlayerFunction
                      */
 
                     case "weapon":
-                        GetComponent<Inventory>().WeaponGet(item);
-                        break;
+                        //GetComponent<Inventory>().WeaponGet(item);
+                        //break;
                     case "item":
                         GetComponent<Inventory>().ItemGet(item);
                         break;

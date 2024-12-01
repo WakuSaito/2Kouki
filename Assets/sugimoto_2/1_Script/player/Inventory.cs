@@ -55,12 +55,6 @@ public class Inventory : ID
     [SerializeField] Text[] item_num_text;                                              //アイテムの個数表示
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -246,7 +240,12 @@ public class Inventory : ID
         switch(item_id)
         {
             case (int)ITEM_ID.PISTOL:
-                item_id = (int)ITEM_ID.BULLET;
+                //武器インベントリになかった場合
+                if (weapon_hand_obj[(int)WEAPON_ID.PISTOL] == null)
+                    WeaponGet(_item);
+                else
+                    item_id = (int)ITEM_ID.BULLET;
+
                 break;
         }
 
@@ -328,8 +327,10 @@ public class Inventory : ID
         //}
     }
 
-    public void WeaponGet(GameObject _item)
+    private void WeaponGet(GameObject _item)
     {
+        Debug.Log("銃ゲット");
+
         //アイテムからID取得
         ITEM_ID item_id = _item.GetComponent<ItemSet_ID>().id;
 
@@ -347,32 +348,25 @@ public class Inventory : ID
                 _item.GetComponent<BoxCollider>().enabled = false;
                 _item.GetComponent<GunManager>().hand_player_obj = gameObject;
 
-                //武器インベントリになかった場合
-                if (weapon_hand_obj[(int)WEAPON_ID.PISTOL] == null)
-                {
-                    //ピストルの弾数表示
-                    bullet_text_obj.SetActive(true);
-                    //武器インベントリに入れる
-                    weapon_hand_obj[(int)WEAPON_ID.PISTOL] = _item;
 
-                    //手に何も持っていなければ自動的に持つ
-                    if (hand_weapon == WEAPON_ID.HAND)
-                    {
-                        //武器入れ替え
-                        HandWeapon(WEAPON_ID.PISTOL);
-                        //プレイヤーの現在の武器をピストルに変更
-                        GetComponent<player>().hand_weapon = weapon_hand_obj[(int)WEAPON_ID.PISTOL];
-                    }
-                    else
-                    {
-                        _item.SetActive(false);
-                    }
+                //ピストルの弾数表示
+                bullet_text_obj.SetActive(true);
+                //武器インベントリに入れる
+                weapon_hand_obj[(int)WEAPON_ID.PISTOL] = _item;
+
+                //手に何も持っていなければ自動的に持つ
+                if (hand_weapon == WEAPON_ID.HAND)
+                {
+                    //武器入れ替え
+                    HandWeapon(WEAPON_ID.PISTOL);
+                    //プレイヤーの現在の武器をピストルに変更
+                    GetComponent<player>().hand_weapon = weapon_hand_obj[(int)WEAPON_ID.PISTOL];
                 }
                 else
                 {
-                    //弾丸(アイテム)を取得
-                    ItemGet(_item);
+                    _item.SetActive(false);
                 }
+
                 break;
         }
 
@@ -579,5 +573,22 @@ public class Inventory : ID
 
         _child.transform.parent = _parent.transform;
         _child.transform.position = _parent.transform.position;
+    }
+
+    //所持している食料の数取得
+    public int GetFoodItemSum()
+    {
+        int foodSum = 0;//返り値用合計
+
+        //所持アイテム全体から食料を探す
+        for (int i = 0; i < INVENTORY_MAX; i++)
+        {
+            if (item_type_id[i] >= (int)ITEM_ID.FOOD_1 && 
+                item_type_id[i] <= (int)ITEM_ID.DRINK_2)
+            {
+                foodSum += item_num[i];
+            }
+        }
+        return foodSum;
     }
 }
