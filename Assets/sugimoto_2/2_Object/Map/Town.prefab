@@ -2530,7 +2530,6 @@ GameObject:
   - component: {fileID: 8761872880686516291}
   - component: {fileID: 7629308185370290164}
   - component: {fileID: 7506671918755720982}
-  - component: {fileID: 6390993316150854265}
   m_Layer: 2
   m_Name: ground
   m_TagString: Finish
@@ -2598,18 +2597,6 @@ TerrainCollider:
   m_Enabled: 1
   m_TerrainData: {fileID: 15600000, guid: 46fa6e6df41192c4aa9c40c91fc865ec, type: 2}
   m_EnableTreeColliders: 1
---- !u!114 &6390993316150854265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4431708344219819516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66f762e0563bee74d8fa2c8bea613a68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5207165674474209088
 GameObject:
   m_ObjectHideFlags: 0
