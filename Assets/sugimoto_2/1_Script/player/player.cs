@@ -14,7 +14,7 @@ public class player : PlayerFunction
     const float Walk_Speed = 2.0f;
     const float Run_Speed = 3.0f;
     const int Damage_Num = 1;
-    const int Item_Distance = 5;
+    const int Item_Distance = 3;
 
     //移動
     bool run_flag = false;  //走っているかどうかフラグ
@@ -84,6 +84,8 @@ public class player : PlayerFunction
     // Update is called once per frame
     void Update()
     {
+        if (game_clear_flag) return;
+
         //プレイヤーが倒されていない場合
         if (!DowmPlayer())
         {
@@ -220,26 +222,26 @@ public class player : PlayerFunction
             //犬
             case Inventory.WEAPON_ID.DOG:
 
-                GameObject attack_obj = searchViewArea.GetObjUpdate("Zombie", 20f, 2f);
+                //攻撃するオブジェクト取得
+                GameObject attack_obj = searchViewArea.GetObjUpdate("Zombie", 20f, 0.5f);
+                Debug.Log("dog" + attack_obj);
 
                 //攻撃
                 if (Input.GetMouseButtonDown(0))
                 {
-                    ////攻撃するオブジェクト取得
-                    // GameObject attack_obj = Ray(Attack_Distance);
-
                     if (attack_obj != null)
                     {
-                        if (attack_obj.tag == "Zombie"/* || attack_obj.tag == "Head"*/)
+                        if (attack_obj.tag == "Zombie")
                         {
+                            playerSound.PlayWhistleAttack();//se
                             dog.GetComponent<DogManager>().OrderAttack(attack_obj.GetComponentInParent<ZombieManager>().gameObject);
-                            Debug.Log(attack_obj + "a");
                         }
                     }
                 }
                 //仮で探知
                 else if(Input.GetMouseButtonDown(1))
                 {
+                    playerSound.PlayWhistleDetect();//se
                     dog.GetComponent<DogManager>().OrderDetection();
                 }
 

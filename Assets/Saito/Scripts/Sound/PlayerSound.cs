@@ -38,5 +38,12 @@ public class PlayerSound : MonoBehaviour
     {
         audioSource.PlayOneShot(soundManager.playerDamage);
     }
-
+    public void PlayWhistleAttack()
+    {
+        audioSource.PlayOneShot(soundManager.whistleAttack);
+    }
+    public void PlayWhistleDetect()
+    {
+        audioSource.PlayOneShot(soundManager.whistleDetect);
+    }
 }

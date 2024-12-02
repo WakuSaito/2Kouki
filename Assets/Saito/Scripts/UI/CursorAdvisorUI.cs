@@ -20,9 +20,6 @@ public class CursorAdvisorUI : MonoBehaviour
     private Vector2 startPos;
     private Vector2 endPos;
 
-    [SerializeField]//移動終了地点のTransformObj
-    private Transform moveEndTransform;
-
     [SerializeField]//カーソルが動く時間(何秒で到着するか)
     private float cursorMoveSec = 1f;
 
@@ -38,8 +35,6 @@ public class CursorAdvisorUI : MonoBehaviour
 
         //座標保存
         startPos = transform.position;
-        endPos = moveEndTransform.position;
-        Destroy(moveEndTransform.gameObject);
     }
 
 

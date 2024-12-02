@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public class StaticVariables
+{
+    //生き残った日数
+    public static int liveingDayCount = 1;
+
+}
+
 public class SceneChanger : MonoBehaviour
 {
     [SerializeField]//sound
@@ -13,7 +20,17 @@ public class SceneChanger : MonoBehaviour
     public void LoadNextSceneAsync()
     {
         soundManager.Play2DSE(soundManager.pushButton);
-        StartCoroutine(LoadSceneAsync("TestScene", soundManager.pushButton.length));
+        StartCoroutine(LoadSceneAsync("MainGame", soundManager.pushButton.length));
+    }
+
+    public void LoadResultScene()
+    {
+        StartCoroutine(LoadSceneAsync("ResultScene"));
+    }
+
+    public void LoadTitleScene()
+    {
+        StartCoroutine(LoadSceneAsync("TitleScene"));
     }
 
     //シーン切り替えコルーチン（ロード完了まで待つ）

@@ -156,7 +156,7 @@ MonoBehaviour:
   gunBlankShot: {fileID: 8300000, guid: c8dc62d1fe61a2d49987cf0dd30bb672, type: 3}
   gunReloadOut: {fileID: 8300000, guid: 22b776c39dba19645a0b47530151b928, type: 3}
   gunReloadIn: {fileID: 8300000, guid: adb30844dda2ae94da66ec8932a9de90, type: 3}
-  whistleAttack: {fileID: 0}
+  whistleAttack: {fileID: 8300000, guid: 2de9569b55f3f564f9873b9bed1d0786, type: 3}
   whistleDetect: {fileID: 8300000, guid: 2de9569b55f3f564f9873b9bed1d0786, type: 3}
   zombieFootStep:
   - {fileID: 8300000, guid: 7a3aaaf50acd1c248b481c454a75eda1, type: 3}

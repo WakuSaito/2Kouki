@@ -270,6 +270,12 @@ public class DogManager : MonoBehaviour
         return true;
     }
 
+    //チュートリアル用のクールタイム監視用
+    public bool UsedOrderDetection()
+    {
+        return isDetectCooldown;
+    }
+
     /// <summary>
     /// ゾンビに噛みつく
     /// </summary>

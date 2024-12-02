@@ -45,4 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   markUIPrefab: {fileID: 2222267918234231688, guid: 9cc7b7a9cb604b54f8e8fb8c3266623e, type: 3}
-  destroySec: 3
+  destroySec: 5
+  fadeOutSpeed: 1

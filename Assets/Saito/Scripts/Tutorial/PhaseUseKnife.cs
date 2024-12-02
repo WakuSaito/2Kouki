@@ -17,6 +17,9 @@ public class PhaseUseKnife : TutorialBase
     [SerializeField]
     private DogManager dogManager;
 
+    [SerializeField]//“J
+    private GameObject dogWhistle;
+
     public override void SetUpPhase()
     {
         inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
@@ -47,6 +50,8 @@ public class PhaseUseKnife : TutorialBase
         {
             //Œ¢‚ª’‡ŠÔ‚É‚È‚é
             dogManager.OnStopAction(false);
+            //“J‚ğ‚½‚¹‚é
+            inventory.weapon_hand_obj[3] = dogWhistle;
 
             tutorialManager.NextPhase();
         }

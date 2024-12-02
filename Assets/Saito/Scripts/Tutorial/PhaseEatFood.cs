@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class PhaseEatFood : TutorialBase
 {
-    //ui用
-    private Transform canvas;
-
     //インベントリスクリプト
     private Inventory inventory;
 
@@ -30,15 +27,14 @@ public class PhaseEatFood : TutorialBase
         //プレイヤーからInventory取得
         inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
 
-        //キャンバス取得
-        canvas = GameObject.Find("Canvas").transform;
-
         //非表示
         plzOpenBagUI.SetActive(false);
         plzUseItemUI.SetActive(false);
 
         //アイコン位置取得
         foodIconPos = SerchFoodIcon();
+
+        Debug.Log("pos:" + foodIconPos);
 
         //カーソルの終了位置変更
         plzUseItemUI.GetComponent<CursorAdvisorUI>().SetEndPos(foodIconPos);
@@ -48,20 +44,14 @@ public class PhaseEatFood : TutorialBase
 
     public override void UpdatePhase()
     {
-        //if (inventory == null) return;
+        if (inventory == null) return;
 
-        //debug用
-        if(Input.GetKeyDown(KeyCode.E))
-        {
-            bagOpen = !bagOpen;
-        }
 
         //UI nullチェック
         if (plzOpenBagUI != null && plzUseItemUI != null)
         {
             //バッグを開いていないなら　開くように促す
-            //if(inventory.item_inventory_flag == false)
-            if (bagOpen == false)
+            if(inventory.item_inventory_flag == false)
             {
                 plzOpenBagUI.SetActive(true);
                 plzUseItemUI.SetActive(false);
@@ -75,17 +65,17 @@ public class PhaseEatFood : TutorialBase
                 plzUseItemUI.GetComponent<CursorAdvisorUI>().StartMove();
             }
         }
-
+        int foodSum = inventory.GetFoodItemSum();
 
         //食料の数が減っていれば、食べたとみなす　捨てるor交換出来るようになったらバグる
-        //if (inventory.GetFoodItemSum() < prevHaveFoodSum)
-        //{
-        //    tutorialManager.NextPhase();
-        //}
-        //else
-        //{
-        //    prevHaveFoodSum = inventory.GetFoodItemSum();//スロット数記憶
-        //}
+        if (foodSum < prevHaveFoodSum)
+        {
+            tutorialManager.NextPhase();
+        }
+        else
+        {
+            prevHaveFoodSum = foodSum;//スロット数記憶
+        }
     }
 
     //食料アイコンを探す（1番始めに見つかったもののみ）

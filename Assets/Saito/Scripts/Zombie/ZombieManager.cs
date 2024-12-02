@@ -50,6 +50,8 @@ public class ZombieManager : MonoBehaviour
 
     [SerializeField]//攻撃開始距離
     float attackStartRange = 3.0f;
+    [SerializeField]//攻撃のクールタイム
+    float attackCoolDown = 3.0f;
 
     [SerializeField]//このオブジェクトを削除するプレイヤーとの距離
     float despawnPlayerDistance = 120.0f;
@@ -66,6 +68,9 @@ public class ZombieManager : MonoBehaviour
     private bool isDead = false;
     //スタンフラグ
     private bool isStan = false;
+
+    [SerializeField] //チュートリアル用か
+    private bool isTutorialObj = false;
 
     //スタン処理キャンセル用トークン
     private CancellationTokenSource stanCancellTokenSource = new CancellationTokenSource();
@@ -84,6 +89,7 @@ public class ZombieManager : MonoBehaviour
         currentAlpha = meshObj.GetComponent<Renderer>().materials[1].color.a;
 
         currentDetectionRange = detectionPlayerRangeMin;
+
 
         //デバッグ用
         if (debugDetectionCirclePrefab != null)
@@ -114,6 +120,9 @@ public class ZombieManager : MonoBehaviour
         }
         
         Debug.Log("ゾンビ初期体力:"+zombieHP.GetCurrentHP());
+
+        if (isTutorialObj)
+            zombieAnimation.Idle();
     }
 
 
@@ -125,6 +134,12 @@ public class ZombieManager : MonoBehaviour
         //死亡チェック
         if (zombieHP.IsDead())
             Dead();
+
+        if (isTutorialObj)
+        {
+            Attack(5.0f);//攻撃
+            return;
+        }
 
         if (isDead) return;//死亡済なら動かさない
         if (isStan) return;//スタン時は動かさない
@@ -185,7 +200,7 @@ public class ZombieManager : MonoBehaviour
                     zombieMove.StopMove();
                     zombieAnimation.Idle();//停止モーション
 
-                    Attack();//攻撃
+                    Attack(attackCoolDown);//攻撃
                 }
                 else
                 {
@@ -220,7 +235,7 @@ public class ZombieManager : MonoBehaviour
         }
     }
     //攻撃
-    private void Attack()
+    private void Attack(float _coolDown)
     {
         if (isAttackCoolDown) return;//クールタイムチェック
         if (isDead) return;
@@ -234,7 +249,7 @@ public class ZombieManager : MonoBehaviour
         isAttackCoolDown = true;
         //数秒後クールタイム解除
         _ = DelayRunAsync(
-            3.0,
+            _coolDown,
             () => isAttackCoolDown = false
             );
     }
@@ -338,7 +353,7 @@ public class ZombieManager : MonoBehaviour
         zombieAnimation.Die();//アニメーション
         zombieSound.PlayDead();//サウンド
 
-        EnableCollider();//コライダー無効化
+        //EnableCollider();//コライダー無効化
 
         //アニメーションが終わるころにオブジェクトを消す
         _ = DelayRunAsync(
