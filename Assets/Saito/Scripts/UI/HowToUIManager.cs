@@ -8,7 +8,7 @@ public class HowToUIManager : MonoBehaviour
     private GameObject moveUI;
     [SerializeField]//武器切り替え
     private GameObject slotChangeUI;
-    [SerializeField]//拾う
+    [SerializeField]//拾う 拾えるアイテムがある時に中央に配置してもいいかも
     private GameObject pickUpUI;
 
     [SerializeField]//攻撃（ナイフ）
@@ -28,6 +28,8 @@ public class HowToUIManager : MonoBehaviour
     private GameObject useItemUI;
 
     private Inventory inventory;
+    [SerializeField]//犬の指示が可能か調べる用
+    private DogManager dogManager;
 
     private bool isOpenBag = false;
     private Inventory.WEAPON_ID gripWeaponID;
@@ -77,8 +79,22 @@ public class HowToUIManager : MonoBehaviour
                     detectOrderUI.SetActive(true);
                     break;
             }
-
         }
+
+
+        if (dogManager == null) return;
+
+        //犬が行動可能かによってUIの透明度変更
+        if(dogManager.CanOrderAttack())
+            attackOrderUI.GetComponent<CanvasGroup>().alpha = 1f;
+        else
+            attackOrderUI.GetComponent<CanvasGroup>().alpha = 0.5f;
+
+        if (dogManager.CanOrderDetection())
+            detectOrderUI.GetComponent<CanvasGroup>().alpha = 1f;
+        else
+            detectOrderUI.GetComponent<CanvasGroup>().alpha = 0.5f;
+
 
     }
 

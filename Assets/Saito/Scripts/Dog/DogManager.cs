@@ -43,6 +43,9 @@ public class DogManager : MonoBehaviour
     [SerializeField]//探知距離
     private float detectRange = 30.0f;
 
+    [SerializeField]//探知のクールタイム
+    private float detectCooldownSec = 60.0f;
+
 
     //攻撃対象オブジェクト
     private GameObject attackTargetObj;
@@ -56,9 +59,12 @@ public class DogManager : MonoBehaviour
     private bool onFreezeMove = false;
 
     //行動停止
+    [SerializeField]
     private bool isStopAction = false;
     //指示を受けないフラグ
-    private bool IsIgnoreOrder = false;
+    private bool isIgnoreOrder = false;
+    //探知のクールタイム中
+    private bool isDetectCooldown = false;
 
     //攻撃対象に突進中
     private bool isChargeTarget = false;
@@ -92,20 +98,6 @@ public class DogManager : MonoBehaviour
         RandomTargetPos();
     }
 
-    //デバッグ用
-    private void DebugUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            GameObject obj = GameObject.FindGameObjectWithTag("Zombie");
-            OrderAttack(obj);
-        }
-
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            OrderDetection();
-        }
-    }
 
     // Update is called once per frame
     void Update()
@@ -114,8 +106,6 @@ public class DogManager : MonoBehaviour
             dogMove.StopMove();//移動停止
             return; 
         }
-
-        DebugUpdate();//デバッグ用
 
         if (isChargeTarget)//突進
         {
@@ -164,6 +154,15 @@ public class DogManager : MonoBehaviour
         pos.y = 0.5f;
         //プレイヤーと自身の距離
         float playerDistance = Vector3.Distance(playerObj.transform.position, pos);
+        //距離が遠い場合は指示を受け付けない
+        if (playerDistance <= stayPlayerDistance)
+        {
+            isIgnoreOrder = false;
+        }
+        else
+        {
+            isIgnoreOrder = true;
+        }
 
         //ここで移動
         dogMove.LookAtPosition(targetPos);//向き変更
@@ -221,7 +220,7 @@ public class DogManager : MonoBehaviour
     /// </summary>
     public void OrderAttack(GameObject _obj)//zombieの子のパーツが渡されたとき動かない可能性アリ
     {
-        if (IsIgnoreOrder) return;
+        if (!CanOrderAttack()) return;
         Debug.Log("攻撃指示を受け付けた");
 
         isChargeTarget = true;
@@ -235,13 +234,40 @@ public class DogManager : MonoBehaviour
     /// </summary>
     public void OrderDetection()
     {
-        if (IsIgnoreOrder) return;
+        if (!CanOrderDetection()) return;
         Debug.Log("探知開始");
 
         //一定範囲の対象のオブジェクトをマーク
         targetMark.RangeMark();
 
         dogSound.PlayDetectBark();//鳴き声
+
+        isChargeTarget = false;//攻撃はキャンセル
+
+        //クールタイム
+        isDetectCooldown = true;
+        _ = DelayRunAsync(
+            detectCooldownSec,
+            () => {
+                isDetectCooldown = false;
+            });
+    }
+    //攻撃指示可能か
+    public bool CanOrderAttack()
+    {
+        if (isStopAction) return false;
+        if (isIgnoreOrder) return false;
+
+        return true;
+    }
+    //攻撃指示可能か
+    public bool CanOrderDetection()
+    {
+        if (isStopAction) return false;
+        if (isIgnoreOrder) return false;
+        if (isDetectCooldown) return false;
+
+        return true;
     }
 
     /// <summary>
@@ -293,6 +319,12 @@ public class DogManager : MonoBehaviour
         //アタッチしたオブジェクトを基準にする
         targetPos.x += pPos.x;
         targetPos.z += pPos.z;
+    }
+
+    //外部から行動の停止を変える用
+    public void OnStopAction(bool _flag)
+    {
+        isStopAction = _flag;
     }
 
 

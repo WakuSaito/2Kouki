@@ -5,17 +5,23 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
+    [SerializeField]//sound
+    private SoundManager soundManager;
+
     //ボタンで呼び出したいシーン切り替え
     //ロードシーンをはさんでもいいかも
     public void LoadNextSceneAsync()
     {
-        StartCoroutine(LoadSceneAsync("TestScene"));
+        soundManager.Play2DSE(soundManager.pushButton);
+        StartCoroutine(LoadSceneAsync("TestScene", soundManager.pushButton.length));
     }
 
     //シーン切り替えコルーチン（ロード完了まで待つ）
-    IEnumerator LoadSceneAsync(string sceneName)
+    IEnumerator LoadSceneAsync(string _sceneName, float _delay = 0f)
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        yield return new WaitForSeconds(_delay);
+
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(_sceneName);
 
         while (!asyncLoad.isDone)
         {

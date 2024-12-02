@@ -43,11 +43,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 25bd4409fdadb4a458df25312072e2cd, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -146,11 +146,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 194287e13929a3b48b9acea125f0a1e7, type: 3}
   - {fileID: 8300000, guid: 15b1a935bd3785d4890727931d996bf9, type: 3}
   - {fileID: 8300000, guid: 74b07028fa1a1284c905b11eea0e8944, type: 3}
-  playerDamage: {fileID: 0}
-  playerKnifeSwing: {fileID: 0}
-  playerPickUp: {fileID: 0}
+  playerDamage: {fileID: 8300000, guid: cd2cde74f6d75574484294a23f243f64, type: 3}
+  playerKnifeSwing: {fileID: 8300000, guid: 1afe37b8423adaa409e026ed4b7fb403, type: 3}
+  playerPickUp: {fileID: 8300000, guid: 2c9d5f1036878ca4d8d520a1347e9b34, type: 3}
   playerEat: {fileID: 8300000, guid: b246702b7c619d543a2fbab6ba52bcf2, type: 3}
   playerDrink: {fileID: 8300000, guid: 9fe33e6d8f700c145b921fa991d6902f, type: 3}
+  playerHeal: {fileID: 8300000, guid: 4bfbd3d6fb3de1241aef99fd916a1935, type: 3}
   gunShot: {fileID: 8300000, guid: 5773d3d82d2c0ca46bf0247ad4b11806, type: 3}
   gunBlankShot: {fileID: 8300000, guid: c8dc62d1fe61a2d49987cf0dd30bb672, type: 3}
   gunReloadOut: {fileID: 8300000, guid: 22b776c39dba19645a0b47530151b928, type: 3}
@@ -162,16 +163,18 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9ab3569deee902d4d96e85b8837a56b9, type: 3}
   - {fileID: 8300000, guid: 55eca3a638d6d5b4bbdf460b9f9e272d, type: 3}
   - {fileID: 8300000, guid: a1dcbee6a1e6bc740b6f62e301ec4ebb, type: 3}
-  zombieVoice: {fileID: 0}
-  zombieDamage: {fileID: 0}
-  zombieDead: {fileID: 0}
+  zombieVoice: {fileID: 8300000, guid: e239dddfe0c21d64caf05c93807ce33f, type: 3}
+  zombieDamage: {fileID: 8300000, guid: 8a2735005ec66b94da3c86b7496f98c4, type: 3}
+  zombieDead: {fileID: 8300000, guid: 88a7d25e778c3b34192d71dcd9aa5848, type: 3}
   dogFootStep: {fileID: 0}
   dogAttackBark: {fileID: 0}
   dogDetectBark: {fileID: 0}
-  pushButton: {fileID: 0}
-  escapeMap: {fileID: 0}
-  inventoryOpen: {fileID: 0}
-  inventoryClose: {fileID: 0}
+  pushButton: {fileID: 8300000, guid: 753a17f1effd240448ea36406c33e910, type: 3}
+  escapeMap: {fileID: 8300000, guid: 09079a2ecddec2844bf9080bc71401ae, type: 3}
+  inventoryOpen: {fileID: 8300000, guid: 25cb07bf6cb51a742a4ee2cc18a459c3, type: 3}
+  inventoryClose: {fileID: 8300000, guid: bc0274a3fc0db324ebaf546e8098492e, type: 3}
+  titleBGM: {fileID: 8300000, guid: 10fc48f454c8c7e48871829a4a15533d, type: 3}
+  nomalBGM: {fileID: 8300000, guid: 25bd4409fdadb4a458df25312072e2cd, type: 3}
   debugPlaySounds:
   - {fileID: 8300000, guid: 5773d3d82d2c0ca46bf0247ad4b11806, type: 3}
   - {fileID: 8300000, guid: 556cc48886713d2449816c5595ccd833, type: 3}

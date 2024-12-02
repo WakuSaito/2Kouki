@@ -9,8 +9,13 @@ public class PhaseUseKnife : TutorialBase
 
     [SerializeField]//武器切り替えを促すUI
     private GameObject plzChangeWeaponUI;
+    [SerializeField]//武器切り替えを促すUI
+    private GameObject plzUseKnifeUI;
 
     private Inventory inventory;
+
+    [SerializeField]
+    private DogManager dogManager;
 
     public override void SetUpPhase()
     {
@@ -26,17 +31,25 @@ public class PhaseUseKnife : TutorialBase
         if (inventory.hand_weapon != Inventory.WEAPON_ID.KNIFE)
         {
             plzChangeWeaponUI.SetActive(true);
+            plzUseKnifeUI.SetActive(false);
         }
         //持っているなら 攻撃を促す
         else
         {
             plzChangeWeaponUI.SetActive(false);
+            plzUseKnifeUI.SetActive(true);
+
         }
 
         //ゾンビを倒したら
         //フェーズ移行
         if (targetZombieObj == null)
+        {
+            //犬が仲間になる
+            dogManager.OnStopAction(false);
+
             tutorialManager.NextPhase();
+        }
     }
 
     public override void EndPhase()
@@ -45,5 +58,6 @@ public class PhaseUseKnife : TutorialBase
         tutorialManager.DeleteMarker();
 
         plzChangeWeaponUI.SetActive(false);
+        plzUseKnifeUI.SetActive(false);
     }
 }

@@ -248,7 +248,10 @@ public class Inventory : ID
             case (int)ITEM_ID.PISTOL:
                 //•ŠíƒCƒ“ƒxƒ“ƒgƒŠ‚É‚È‚©‚Á‚½ê‡
                 if (weapon_hand_obj[(int)WEAPON_ID.PISTOL] == null)
+                {
                     WeaponGet(_item);
+                    return;
+                }
                 else
                     item_id = (int)ITEM_ID.BULLET;
 

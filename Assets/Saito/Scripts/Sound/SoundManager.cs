@@ -60,6 +60,12 @@ public class SoundManager : MonoBehaviour
     [SerializeField] //インベントリ非表示
     public AudioClip inventoryClose;
 
+    //BGM
+    [SerializeField]
+    public AudioClip titleBGM;
+    [SerializeField] 
+    public AudioClip nomalBGM;  
+
     private AudioClip nextBGM;
     private float maxVolume;
     private float currentVolume;
@@ -125,6 +131,11 @@ public class SoundManager : MonoBehaviour
         nextBGM = _bgm;
         isFadeOut = true;
         isFadeIn = true;
+    }
+
+    public void Play2DSE(AudioClip _se)
+    {
+        audioSource.PlayOneShot(_se);
     }
 
 }
