@@ -8,12 +8,12 @@ public class ColorChanger : MonoBehaviour
     private float currentAlpha;
 
     [SerializeField]//Meshがアタッチされたオブジェクト
-    GameObject meshObj;
+    GameObject[] meshObjs;
 
     private void Awake()
     {
         //カラーのアルファ値取得
-        currentAlpha = meshObj.GetComponent<Renderer>().materials[1].color.a;
+        currentAlpha = meshObjs[0].GetComponent<Renderer>().materials[1].color.a;
     }
 
     //色のアルファ値変更
@@ -23,7 +23,11 @@ public class ColorChanger : MonoBehaviour
         if (currentAlpha == _alpha) return;
         currentAlpha = _alpha;
 
-        Color currentColor = meshObj.GetComponent<Renderer>().materials[1].color;
-        meshObj.GetComponent<Renderer>().materials[1].color = new Color(currentColor.r, currentColor.g, currentColor.b, _alpha);
+        //色変更
+        foreach(var mesh in meshObjs )
+        {
+            Color currentColor = mesh.GetComponent<Renderer>().materials[1].color;
+            mesh.GetComponent<Renderer>().materials[1].color = new Color(currentColor.r, currentColor.g, currentColor.b, _alpha);
+        }
     }
 }

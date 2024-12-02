@@ -17,6 +17,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip playerEat;
     [SerializeField] //飲む
     public AudioClip playerDrink;
+    [SerializeField] //回復
+    public AudioClip playerHeal;
     [SerializeField] //発砲
     public AudioClip gunShot;
     [SerializeField] //空撃ち
@@ -57,6 +59,12 @@ public class SoundManager : MonoBehaviour
     public AudioClip inventoryOpen;
     [SerializeField] //インベントリ非表示
     public AudioClip inventoryClose;
+
+    //BGM
+    [SerializeField]
+    public AudioClip titleBGM;
+    [SerializeField] 
+    public AudioClip nomalBGM;  
 
     private AudioClip nextBGM;
     private float maxVolume;
@@ -123,6 +131,11 @@ public class SoundManager : MonoBehaviour
         nextBGM = _bgm;
         isFadeOut = true;
         isFadeIn = true;
+    }
+
+    public void Play2DSE(AudioClip _se)
+    {
+        audioSource.PlayOneShot(_se);
     }
 
 }

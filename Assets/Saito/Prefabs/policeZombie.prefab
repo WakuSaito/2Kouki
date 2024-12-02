@@ -247,7 +247,7 @@ GameObject:
   - component: {fileID: 3275300788025516114}
   - component: {fileID: 3275300788016484236}
   - component: {fileID: 6190896710707631148}
-  - component: {fileID: 672272474941950506}
+  - component: {fileID: 1738669669692307470}
   m_Layer: 0
   m_Name: lpMale_zombie_D
   m_TagString: Untagged
@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28b3f3a3e9d6b374dbf1af5e7b8f1de8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!82 &672272474941950506
+--- !u!82 &1738669669692307470
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -324,10 +324,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 10
-  MaxDistance: 500
+  MinDistance: 1
+  MaxDistance: 20
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -337,12 +337,21 @@ AudioSource:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -3.8432605
+      outSlope: -3.8432605
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.510486
+    - serializedVersion: 3
+      time: 0.17391235
+      value: 0.501897
+      inSlope: -1.805906
+      outSlope: -1.805906
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.70130885
+      outWeight: 0.120176025
     - serializedVersion: 3
       time: 1
       value: 0
@@ -2255,6 +2264,7 @@ GameObject:
   - component: {fileID: 3275300789103218469}
   - component: {fileID: 3275300789103218468}
   - component: {fileID: 3051902216973887886}
+  - component: {fileID: 7161401307623120938}
   m_Layer: 0
   m_Name: policeZombie
   m_TagString: Zombie
@@ -2386,6 +2396,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 10
+--- !u!114 &7161401307623120938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3275300789103218470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbfd73b2acde7c340911c8ff7b0ba3a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshObjs:
+  - {fileID: 3275300788025883698}
 --- !u!1 &3275300789440745298
 GameObject:
   m_ObjectHideFlags: 0

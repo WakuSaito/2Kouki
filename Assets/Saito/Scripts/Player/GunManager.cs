@@ -57,26 +57,21 @@ public class GunManager : MonoBehaviour
 
     public void Reload()
     {
-        //リロード処理
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            if (isCooldown) return;
+        if (isCooldown) return;
+        //ピストルの弾丸が最大数じゃなければreload可能
+        if (currentMagazineAmount >= magazineSize) return;
 
-            //ピストルの弾丸が最大数じゃなければreload可能
-            if (currentMagazineAmount < magazineSize)
+        for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
+        {
+            //インベントリに弾丸があるか
+            if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
             {
-                for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
-                {
-                    //インベントリに弾丸があるか
-                    if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
-                    {
-                        anim.SetBool("Reload", true);  //reload
-                        isCooldown = true;
-                        Invoke("ReroadFin", 2.8f);
-                    }
-                }
+                anim.SetBool("Reload", true);  //reload
+                isCooldown = true;
+                Invoke("ReroadFin", 2.8f);
             }
         }
+
     }
 
     void ReroadFin()

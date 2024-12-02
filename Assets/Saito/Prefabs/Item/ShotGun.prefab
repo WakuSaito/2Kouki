@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 8602515176905560378}
   m_Layer: 0
   m_Name: ShotGun
-  m_TagString: weapon
+  m_TagString: item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -385,6 +385,7 @@ MonoBehaviour:
   rapidSpeed: 1
   isCanRapid: 0
   bulletDamage: 1
+  hand_player_obj: {fileID: 0}
 --- !u!114 &8602515176905560378
 MonoBehaviour:
   m_ObjectHideFlags: 0

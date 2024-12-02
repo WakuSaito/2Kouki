@@ -14,13 +14,17 @@ public class PhaseEatFood : TutorialBase
     private int prevHaveFoodSum = 0;
 
     [SerializeField]//バッグを開けるよう指示するUI
-    private GameObject plzOpenBagUIPrefab;
     private GameObject plzOpenBagUI;
 
     [SerializeField]//アイテムを使うよう指示するUI
-    private GameObject plzUseItemUIPrefab;
     private GameObject plzUseItemUI;
-    
+
+    //食料アイコンの位置
+    private Vector2 foodIconPos;
+
+    //debug用
+    private bool bagOpen = false;
+
     public override void SetUpPhase()
     {
         //プレイヤーからInventory取得
@@ -28,47 +32,79 @@ public class PhaseEatFood : TutorialBase
 
         //キャンバス取得
         canvas = GameObject.Find("Canvas").transform;
-        //UI生成
-        plzOpenBagUI = Instantiate(plzOpenBagUIPrefab, canvas);
-        plzUseItemUI = Instantiate(plzUseItemUIPrefab, canvas);
+
         //非表示
         plzOpenBagUI.SetActive(false);
         plzUseItemUI.SetActive(false);
+
+        //アイコン位置取得
+        foodIconPos = SerchFoodIcon();
+
+        //カーソルの終了位置変更
+        plzUseItemUI.GetComponent<CursorAdvisorUI>().SetEndPos(foodIconPos);
 
         tutorialManager.SetText("食料を食べよう");
     }
 
     public override void UpdatePhase()
     {
-        if (inventory == null) return;
+        //if (inventory == null) return;
+
+        //debug用
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            bagOpen = !bagOpen;
+        }
 
         //UI nullチェック
         if (plzOpenBagUI != null && plzUseItemUI != null)
         {
             //バッグを開いていないなら　開くように促す
-            if (inventory.item_inventory_flag == false)
+            //if(inventory.item_inventory_flag == false)
+            if (bagOpen == false)
             {
                 plzOpenBagUI.SetActive(true);
                 plzUseItemUI.SetActive(false);
+                plzUseItemUI.GetComponent<CursorAdvisorUI>().StopMove();
             }
             //else 開いているなら　アイテムを使うよう促す
             else
             {
                 plzOpenBagUI.SetActive(false);
                 plzUseItemUI.SetActive(true);
+                plzUseItemUI.GetComponent<CursorAdvisorUI>().StartMove();
             }
         }
 
 
         //食料の数が減っていれば、食べたとみなす　捨てるor交換出来るようになったらバグる
-        if(inventory.GetFoodItemSum() < prevHaveFoodSum)
+        //if (inventory.GetFoodItemSum() < prevHaveFoodSum)
+        //{
+        //    tutorialManager.NextPhase();
+        //}
+        //else
+        //{
+        //    prevHaveFoodSum = inventory.GetFoodItemSum();//スロット数記憶
+        //}
+    }
+
+    //食料アイコンを探す（1番始めに見つかったもののみ）
+    private Vector2 SerchFoodIcon()
+    {
+        if (inventory == null) return Vector2.zero;
+
+        for (int i = 0; i < inventory.item_type_id.Length; i++)
         {
-            tutorialManager.NextPhase();
+            int id = inventory.item_type_id[i];
+            if (id >= (int)ID.ITEM_ID.FOOD_1 &&
+                id <= (int)ID.ITEM_ID.DRINK_2)
+            {
+                return inventory.GetItemIconPos(i);
+            }
         }
-        else
-        {
-            prevHaveFoodSum = inventory.GetFoodItemSum();//スロット数記憶
-        }  
+
+        Debug.Log("食料アイコンが見つかりません");
+        return Vector2.zero;
     }
 
     public override void EndPhase()
@@ -76,8 +112,8 @@ public class PhaseEatFood : TutorialBase
         tutorialManager.HideText();
         tutorialManager.DeleteMarker();
 
-        //UI削除
-        Destroy(plzOpenBagUI);
-        Destroy(plzUseItemUI);
+        //UI非表示
+        plzOpenBagUI.SetActive(false);
+        plzUseItemUI.SetActive(false);
     }
 }

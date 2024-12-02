@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PhaseTakeItem : TutorialBase
 {
-    [SerializeField]//犬笛オブジェクト
+    [SerializeField]//食料オブジェクト
     private GameObject itemObj;
 
     public override void SetUpPhase()
