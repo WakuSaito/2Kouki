@@ -264,6 +264,12 @@ public class TimeController : MonoBehaviour
         return currentTime.GetHour();
     }
 
+    //“ú”æ“¾
+    public int GetDayCount()
+    {
+        return currentDayCount;
+    }
+
     /// <summary>
     /// “ú–v‚©‚ç‰½•ªŒo‚Á‚½‚©æ“¾‚·‚é
     /// </summary>

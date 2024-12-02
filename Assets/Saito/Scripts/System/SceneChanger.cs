@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public class StaticVariables
+{
+    //¶‚«c‚Á‚½“ú”
+    public static int liveingDayCount = 1;
+
+}
+
 public class SceneChanger : MonoBehaviour
 {
     [SerializeField]//sound

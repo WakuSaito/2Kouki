@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PhaseClear : TutorialBase
 {
+    [SerializeField]
+    private TimeController timeController;
+
     private SceneChanger sceneChanger;
 
     private SoundManager soundManager;
@@ -15,6 +18,9 @@ public class PhaseClear : TutorialBase
         sceneChanger = GetComponent<SceneChanger>();
 
         soundManager.Play2DSE(soundManager.escapeMap);//se
+
+        //“ú”•Û‘¶
+        StaticVariables.liveingDayCount = timeController.GetDayCount();
 
         Invoke("SceneChange", soundManager.escapeMap.length);
     }
