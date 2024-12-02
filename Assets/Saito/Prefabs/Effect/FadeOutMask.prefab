@@ -92,6 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animType: 1
   animSec: 1
+  onAwake: 1
 --- !u!225 &8185239229116224999
 CanvasGroup:
   m_ObjectHideFlags: 0

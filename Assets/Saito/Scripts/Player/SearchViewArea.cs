@@ -51,23 +51,48 @@ public class SearchViewArea : MonoBehaviour
             Vector3 itemCenterAd = Vector3.up * _objMidUp;
 
             //対象のオブジェクトの中から視点から角度が一番近いオブジェクトを取得
-            GameObject nearestEnemy =
+            GameObject nearestTarget =
                 targetItems.OrderBy(p =>
                 Vector3.Angle(((p.transform.position + itemCenterAd) - cameraPos).normalized, eyeDir)).First();
 
+            //対象の位置
+            Vector3 targetPos = nearestTarget.transform.position + itemCenterAd;
 
             //取得したオブジェクトまでと視点の角度が一定以下なら
-            if (Vector3.Angle(((nearestEnemy.transform.position + itemCenterAd) - cameraPos).normalized, eyeDir) <= activeAngle)
+            if (Vector3.Angle((targetPos - cameraPos).normalized, eyeDir) <= activeAngle)
             {
-                //対象の色を変更
-                nearestEnemy.GetComponent<ColorChanger>().ChangeColorAlpha(0.25f);
+                //途中に壁などが無いか調べる
+                RaycastHit hit;
+                Physics.Raycast(cameraPos, targetPos - cameraPos, out hit);
+                Debug.DrawRay(cameraPos, targetPos - cameraPos, Color.blue, 1f);
+                Debug.Log("hit" + hit.transform.gameObject);
 
-                SelectColor(nearestEnemy);//色変更
-                SaveTarget(_targetTag, nearestEnemy);//情報保存
+                //一番上の親までに対象のタグがあるか調べる
+                Transform trans = hit.transform;
+                Transform rootTrans = hit.transform.root;
+                while(true)
+                {
+                    Debug.Log("tag" + trans.tag);
+                    if (trans.tag == _targetTag)
+                    {
+                        //対象の色を変更
+                        nearestTarget.GetComponent<ColorChanger>().ChangeColorAlpha(0.25f);
 
-                return nearestEnemy;
+                        SelectColor(nearestTarget);//色変更
+                        SaveTarget(_targetTag, nearestTarget);//情報保存
+
+                        return nearestTarget;
+                    }
+
+                    if (trans != rootTrans)
+                    {
+                        trans = trans.parent;//一つ上の親に進む
+                        continue;
+                    }
+                    else
+                        break;
+                }             
             }
-
         }
 
         SaveTarget(_targetTag, null);//情報保存

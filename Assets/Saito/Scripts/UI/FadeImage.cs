@@ -21,12 +21,21 @@ public class FadeImage : MonoBehaviour
     //透過させるためのコンポーネント
     CanvasGroup canvasGroup;
 
+    [SerializeField]//起動時に自動で動くか
+    private bool onAwake = false;
+
     private void Awake()
     {
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
     }
 
     private void Start()
+    {
+        if (onAwake)
+            StartFade();
+    }
+
+    public void StartFade()
     {
         switch (animType)
         {

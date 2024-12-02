@@ -13,7 +13,17 @@ public class SceneChanger : MonoBehaviour
     public void LoadNextSceneAsync()
     {
         soundManager.Play2DSE(soundManager.pushButton);
-        StartCoroutine(LoadSceneAsync("TestScene", soundManager.pushButton.length));
+        StartCoroutine(LoadSceneAsync("MainGame", soundManager.pushButton.length));
+    }
+
+    public void LoadResultScene()
+    {
+        StartCoroutine(LoadSceneAsync("ResultScene"));
+    }
+
+    public void LoadTitleScene()
+    {
+        StartCoroutine(LoadSceneAsync("TitleScene"));
     }
 
     //シーン切り替えコルーチン（ロード完了まで待つ）
