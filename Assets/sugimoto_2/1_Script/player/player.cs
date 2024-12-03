@@ -14,7 +14,7 @@ public class player : PlayerFunction
     const float Walk_Speed = 2.0f;
     const float Run_Speed = 3.0f;
     const int Damage_Num = 1;
-    const int Item_Distance = 3;
+    const int Item_Distance = 1;
 
     //移動
     bool run_flag = false;  //走っているかどうかフラグ
@@ -57,6 +57,11 @@ public class player : PlayerFunction
     private SearchViewArea searchViewArea;
     [SerializeField]//サウンド用
     private PlayerSound playerSound;
+
+    [SerializeField]//ゲームオーバー用
+    private GameObject fadeOutUI;
+    [SerializeField]
+    private SceneChanger sceneChanger;
 
     // Start is called before the first frame update
     void Start()
@@ -129,8 +134,11 @@ public class player : PlayerFunction
         }
         else//ゲームオーバー
         {
+            if (game_clear_flag) return;
             //ゾンビの向いている向きによって倒れる方向を変える（ゾンビの向いている方向の逆方向へ倒れる（後ろ））
             //か、画面フェードアウト
+            fadeOutUI.GetComponent<FadeImage>().StartFade();
+            sceneChanger.LoadGameOverScene();
         }
 
         //アニメーション

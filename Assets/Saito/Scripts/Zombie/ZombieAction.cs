@@ -53,7 +53,7 @@ public class ZombieAction : ZombieBase
 
         //とりあえず同じ位置にドロップ
         Vector3 dropPos = transform.position;
-        dropPos.y = 1f;//とりあえず埋まらないように
+        //とりあえず埋まらないように
 
         //生成
         Instantiate(

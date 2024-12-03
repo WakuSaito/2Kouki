@@ -28,6 +28,7 @@ public class PhaseClear : TutorialBase
 
     private IEnumerator SceneChange(float _delay)
     {
+        Debug.Log("ÉNÉäÉA");
         yield return new WaitForSeconds(_delay);
 
         sceneChanger.LoadResultScene();
