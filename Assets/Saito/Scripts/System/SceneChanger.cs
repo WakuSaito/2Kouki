@@ -43,6 +43,9 @@ public class SceneChanger : MonoBehaviour
     {
         yield return new WaitForSeconds(_delay);
 
+        //カーソルキー表示
+        Screen.lockCursor = false;
+
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(_sceneName);
 
         while (!asyncLoad.isDone)

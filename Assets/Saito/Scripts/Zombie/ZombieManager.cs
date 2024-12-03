@@ -90,14 +90,6 @@ public class ZombieManager : MonoBehaviour
 
         currentDetectionRange = detectionPlayerRangeMin;
 
-
-        //デバッグ用
-        if (debugDetectionCirclePrefab != null)
-            debugDetectionCircle = Instantiate(debugDetectionCirclePrefab,
-                transform.position + transform.up * 0.2f, 
-                Quaternion.AngleAxis(-90.0f,Vector3.left)              
-                );
-        debugDetectionCircle.transform.SetParent(transform);
     }
 
     // Start is called before the first frame update
@@ -162,12 +154,6 @@ public class ZombieManager : MonoBehaviour
 
         ChangeDetectRange();//探知範囲計算
 
-        //デバッグ用 範囲可視化
-        if(debugDetectionCircle != null)
-        {
-            float scale =  currentDetectionRange;
-            debugDetectionCircle.transform.localScale = new Vector3(scale, scale, 1);
-        }
 
         //攻撃対象を見つけているか
         if (playerDistance < currentDetectionRange)
