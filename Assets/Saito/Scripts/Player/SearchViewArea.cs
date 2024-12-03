@@ -75,9 +75,6 @@ public class SearchViewArea : MonoBehaviour
                     Debug.Log("tag" + trans.tag);
                     if (trans.tag == _targetTag)
                     {
-                        //対象の色を変更
-                        nearestTarget.GetComponent<ColorChanger>().ChangeColorAlpha(0.25f);
-
                         SelectColor(nearestTarget);//色変更
                         SaveTarget(_targetTag, nearestTarget);//情報保存
 
@@ -111,7 +108,7 @@ public class SearchViewArea : MonoBehaviour
     }
 
     //変更されているカラーを戻す
-    private void ResetColor(string _tag)
+    public void ResetColor(string _tag)
     {
         if (!prevTargetObj.ContainsKey(_tag)) return;
         if (prevTargetObj[_tag] == null) return;

@@ -1889,11 +1889,13 @@ MonoBehaviour:
   - {fileID: 6455615091749529716}
   - {fileID: 1251370930331078492}
   - {fileID: 8768809644385745461}
-  detectionPlayerRangeMin: 10
-  detectionPlayerRangeMax: 30
+  detectionPlayerRangeMin: 5
+  detectionPlayerRangeMax: 15
   debugDetectionCirclePrefab: {fileID: 0}
-  attackStartRange: 2
-  despawnPlayerDistance: 120
+  attackStartRange: 0.5
+  attackCoolDown: 3
+  despawnPlayerDistance: 50
+  isTutorialObj: 0
   meshObj: {fileID: 4193280466009199003}
 --- !u!114 &6455615091749529718
 MonoBehaviour:
@@ -1907,8 +1909,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dcb33eab3d348c4f8a1c23e5e784682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runSpeed: 5
-  walkSpeed: 1
+  runSpeed: 2
+  walkSpeed: 0.25
   turnSpeed: 500
 --- !u!114 &6455615091749529719
 MonoBehaviour:

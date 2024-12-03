@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3974119539716891438}
   - component: {fileID: 5304045406626271852}
   - component: {fileID: 9107288545554829471}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Bench_2 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 655631588321034144}
   - component: {fileID: 3494449439384346150}
   - component: {fileID: 8313873292540585222}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Bench_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 192131230123237479}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: ItemPos_1_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1446673500028215720}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -240,7 +240,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1906525658843090667}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: ItemPos _1_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -271,7 +271,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2105550141763899789}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: ItemPos_1_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,7 +305,7 @@ GameObject:
   - component: {fileID: 6174916266390102306}
   - component: {fileID: 4906867017312824373}
   - component: {fileID: 5463782775904588229}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Destroy Mhosue Lod_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -400,7 +400,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9101524155614254117}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: ItemPos_1_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,7 +434,7 @@ GameObject:
   - component: {fileID: 92060651755583422}
   - component: {fileID: 3051613662402232051}
   - component: {fileID: 742260823088844793}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -529,7 +529,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3681973101742329638}
   - component: {fileID: 3882359548821223313}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: House_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -598,7 +598,7 @@ GameObject:
   - component: {fileID: 3954156535339529167}
   - component: {fileID: 8512904120687176598}
   - component: {fileID: 2263321671889041053}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Destroy Mhosue Lod_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -693,7 +693,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2650919808285798199}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: ItemPos_1_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -727,7 +727,7 @@ GameObject:
   - component: {fileID: 2263840402797084972}
   - component: {fileID: 6815315666715641732}
   - component: {fileID: 1980002360685704297}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Destroy Mhosue Lod_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -825,7 +825,7 @@ GameObject:
   - component: {fileID: 6772380574354282520}
   - component: {fileID: 7027774751980563876}
   - component: {fileID: 5378345894289673228}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Table_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -923,7 +923,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5398070860777556764}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: ItemPos_1_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -954,7 +954,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6735318932565794087}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: ItemPos_1_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -988,7 +988,7 @@ GameObject:
   - component: {fileID: 8642107528460237042}
   - component: {fileID: 8628464598485114440}
   - component: {fileID: 3831280164010606909}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1085,7 +1085,7 @@ GameObject:
   - component: {fileID: 8047534515380638774}
   - component: {fileID: 4686095143349714140}
   - component: {fileID: 7498337398321565681}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1183,7 +1183,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1052166032811627894, guid: 8fc22196fc3e23f42a7f1d0ce39d649f, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3464560410772837669, guid: 8fc22196fc3e23f42a7f1d0ce39d649f, type: 3}
       propertyPath: m_RootOrder
@@ -1321,7 +1321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7419013259085550586, guid: f4c037dd331f27748a911b0250a8e9b1, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4c037dd331f27748a911b0250a8e9b1, type: 3}
@@ -1399,7 +1399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7419013259085550586, guid: f4c037dd331f27748a911b0250a8e9b1, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4c037dd331f27748a911b0250a8e9b1, type: 3}
