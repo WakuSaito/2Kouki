@@ -321,7 +321,7 @@ public class Inventory : ID
             {
                 //入れる場所が見つからなければ終了             
                 Debug.Log("アイテムがMAXです");
-                break;
+                return;
             }
 
         }

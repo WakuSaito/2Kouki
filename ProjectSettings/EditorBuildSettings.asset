@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/sugimoto_2/0_Scenes/MainGame.unity
     guid: 3c2633a05c46eab4986c2417a0957d25
+  - enabled: 1
+    path: Assets/Saito/Scenes/GameOverScene.unity
+    guid: c82034b55e5f4a241b9795bc9e983cd3
   m_configObjects: {}

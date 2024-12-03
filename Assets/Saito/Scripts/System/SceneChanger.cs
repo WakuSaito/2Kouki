@@ -33,6 +33,11 @@ public class SceneChanger : MonoBehaviour
         StartCoroutine(LoadSceneAsync("TitleScene"));
     }
 
+    public void LoadGameOverScene()
+    {
+        StartCoroutine(LoadSceneAsync("GameOverScene", 2f));
+    }
+
     //シーン切り替えコルーチン（ロード完了まで待つ）
     IEnumerator LoadSceneAsync(string _sceneName, float _delay = 0f)
     {
