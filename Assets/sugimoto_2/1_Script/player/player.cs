@@ -165,7 +165,7 @@ public class player : PlayerFunction
     void　PickUpItem()  //アイテムを拾う
     {
         //視点方向のアイテムを探す
-        GameObject item = searchViewArea.GetObjUpdate("item", Item_Distance);
+        GameObject item = searchViewArea.GetObjUpdate("item", Item_Distance,0.03f);
 
         if (Input.GetMouseButtonDown(1))
         {        
@@ -183,6 +183,8 @@ public class player : PlayerFunction
     {
         //フラグ初期化
         hand_pistol_flag = false;
+
+        searchViewArea.ResetColor("Zombie");
 
         switch (Inventory.hand_weapon)
         {

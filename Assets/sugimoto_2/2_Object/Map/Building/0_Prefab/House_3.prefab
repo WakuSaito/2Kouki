@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1235620563679888578}
   - component: {fileID: 4264123129890996760}
   - component: {fileID: 2234016788169437225}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Drawer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 6642807770684618130}
   - component: {fileID: 4155384801306980951}
   - component: {fileID: 5883020704723724085}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Shelf_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 816111817898496227}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: ItemPos _3_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1283156783536132445}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: ItemPos_3_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +268,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 771660492808411169}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,7 +301,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6101138543436053074}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: ItemPos_3_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -334,7 +334,7 @@ GameObject:
   - component: {fileID: 3818237979232060567}
   - component: {fileID: 6726249326359148260}
   - component: {fileID: 3225835548097676416}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Bench_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -418,7 +418,7 @@ GameObject:
   - component: {fileID: 8903530330062410074}
   - component: {fileID: 1978095922088909062}
   - component: {fileID: 6355665661096776305}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Mhouse_8 Lod_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -513,7 +513,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1613392248204700787}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: ItemPos_3_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -547,7 +547,7 @@ GameObject:
   - component: {fileID: 2979890398386327803}
   - component: {fileID: 1395636520370405130}
   - component: {fileID: 6289707065277583073}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -644,7 +644,7 @@ GameObject:
   - component: {fileID: 3636944140271431819}
   - component: {fileID: 6339976873094215502}
   - component: {fileID: 4607828092933513772}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Shelf_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -743,7 +743,7 @@ GameObject:
   - component: {fileID: 9104703721679857685}
   - component: {fileID: 8921970056455016383}
   - component: {fileID: 1221200256648325007}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Table_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -844,7 +844,7 @@ GameObject:
   - component: {fileID: 8833860749589612384}
   - component: {fileID: 1150934016582796202}
   - component: {fileID: 3727391206237883053}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Mhouse_8 Lod_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -942,7 +942,7 @@ GameObject:
   - component: {fileID: 511200243891783884}
   - component: {fileID: 4886285922972592635}
   - component: {fileID: 534544792956151957}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Mhouse_8 Lod_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1038,7 +1038,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8674885328145397418}
   - component: {fileID: 9016416291368555704}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: House_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1107,7 +1107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6256200182041935146}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: ItemPos_3_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1141,7 +1141,7 @@ GameObject:
   - component: {fileID: 3094536989534302672}
   - component: {fileID: 1121740833047072680}
   - component: {fileID: 7087522961672702532}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1237,7 +1237,7 @@ GameObject:
   - component: {fileID: 8005969646194182828}
   - component: {fileID: 486250150820739295}
   - component: {fileID: 8584856606595746491}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Bench_2 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

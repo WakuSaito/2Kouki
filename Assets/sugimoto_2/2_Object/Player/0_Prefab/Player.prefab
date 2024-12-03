@@ -724,10 +724,12 @@ GameObject:
   m_Component:
   - component: {fileID: 3410801999780338575}
   - component: {fileID: 8770116563822215669}
+  - component: {fileID: 3612195456019102265}
   - component: {fileID: 2602600048221552944}
   - component: {fileID: 2602600048221552942}
   - component: {fileID: 8882607281973495564}
   - component: {fileID: 997536222842096717}
+  - component: {fileID: 6035501524682821605}
   m_Layer: 0
   m_Name: Rio
   m_TagString: Untagged
@@ -772,6 +774,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &3612195456019102265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2602600048221552949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd4b6a021a3489449b7a634fafa0edc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2602600048221552944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,6 +927,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &6035501524682821605
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2602600048221552949}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &2720409723768280413
 GameObject:
   m_ObjectHideFlags: 0
@@ -7279,14 +7306,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2385422794979732282}
-  - component: {fileID: 1878491325426694882}
-  - component: {fileID: 8178537278023497638}
+  - component: {fileID: 7441574275953005956}
   - component: {fileID: 5842264661055652049}
   - component: {fileID: 5842264661055652048}
   - component: {fileID: 3278751212286362842}
   - component: {fileID: 7515109558935918954}
   - component: {fileID: 2385422794979732280}
-  - component: {fileID: 2385422794979732281}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -7311,20 +7336,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1878491325426694882
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7515109558935918964}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 2, z: 1}
-  m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &8178537278023497638
+--- !u!114 &7441574275953005956
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7333,7 +7345,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7515109558935918964}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afd4b6a021a3489449b7a634fafa0edc, type: 3}
+  m_Script: {fileID: 11500000, guid: dc5afe5406187d8439f79273c5fef60d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &5842264661055652049
@@ -7481,26 +7493,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!95 &2385422794979732281
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7515109558935918964}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 31ce1def989e8d94cb8ac3e9934cb8ae, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &7558724730263289695
 GameObject:
   m_ObjectHideFlags: 0

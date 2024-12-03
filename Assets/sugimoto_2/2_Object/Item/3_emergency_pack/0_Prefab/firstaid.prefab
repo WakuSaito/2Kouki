@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: -8089293235153435538}
   - component: {fileID: 6755060325015528331}
   - component: {fileID: 4891919112432534912}
+  - component: {fileID: -8702560561319700453}
+  - component: {fileID: -3962411620086610854}
   m_Layer: 0
   m_Name: firstaid
   m_TagString: item
@@ -44,7 +46,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1987713744733760}
-  m_Mesh: {fileID: 4300000, guid: 334a15b23e6d31f44bef4858676d704a, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 8d56c38a2a51ead42950be7cd8c7bfb3, type: 3}
 --- !u!23 &23692305094115228
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -65,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7825501409e770149836d764a6df318d, type: 2}
+  - {fileID: 2100000, guid: 95c5196e7c1e0974a906ea7b1ea5b495, type: 2}
   - {fileID: 2100000, guid: f1a55bac68c6d0f448e9db7588ff0aae, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -148,4 +150,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbfd73b2acde7c340911c8ff7b0ba3a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshObj: {fileID: 1987713744733760}
+  meshObjs: []
+--- !u!54 &-8702560561319700453
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987713744733760}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &-3962411620086610854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987713744733760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29735b8ea96c1a44981dfad4cc914b5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
