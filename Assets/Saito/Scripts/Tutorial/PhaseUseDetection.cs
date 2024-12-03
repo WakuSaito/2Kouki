@@ -27,8 +27,14 @@ public class PhaseUseDetection : TutorialBase
 
     public override void UpdatePhase()
     {
+        //インベントリを開いているときは邪魔になるので消す
+        if (inventory.item_inventory_flag == true)
+        {
+            plzChangeWeaponUI.SetActive(false);
+            plzUseDetectionUI.SetActive(false);
+        }
         //if 笛を持っていないなら　持たせるよう促す
-        if (inventory.hand_weapon != Inventory.WEAPON_ID.DOG)
+        else if (inventory.hand_weapon != Inventory.WEAPON_ID.DOG)
         {
             plzChangeWeaponUI.SetActive(true);
             plzUseDetectionUI.SetActive(false);

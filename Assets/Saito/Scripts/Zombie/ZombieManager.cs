@@ -95,9 +95,9 @@ public class ZombieManager : MonoBehaviour
         if (debugDetectionCirclePrefab != null)
             debugDetectionCircle = Instantiate(debugDetectionCirclePrefab,
                 transform.position + transform.up * 0.2f, 
-                Quaternion.AngleAxis(-90.0f,Vector3.left), 
-                transform
+                Quaternion.AngleAxis(-90.0f,Vector3.left)              
                 );
+        debugDetectionCircle.transform.SetParent(transform);
     }
 
     // Start is called before the first frame update
@@ -353,7 +353,7 @@ public class ZombieManager : MonoBehaviour
         zombieAnimation.Die();//アニメーション
         zombieSound.PlayDead();//サウンド
 
-        //EnableCollider();//コライダー無効化
+        EnableCollider();//コライダー無効化
 
         //アニメーションが終わるころにオブジェクトを消す
         _ = DelayRunAsync(
@@ -371,6 +371,8 @@ public class ZombieManager : MonoBehaviour
         {
             col.enabled = false;//無効化
         }
+
+        GetComponent<Rigidbody>().useGravity = false;
     }
 
     /// <summary>

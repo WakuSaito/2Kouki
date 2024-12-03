@@ -30,8 +30,14 @@ public class PhaseUseKnife : TutorialBase
 
     public override void UpdatePhase()
     {
+        //インベントリを開いているときは邪魔になるので消す
+        if (inventory.item_inventory_flag == true)
+        {
+            plzChangeWeaponUI.SetActive(false);
+            plzUseKnifeUI.SetActive(false);
+        }
         //if ナイフを持っていないなら スロット切り替えを促す
-        if (inventory.hand_weapon != Inventory.WEAPON_ID.KNIFE)
+        else if (inventory.hand_weapon != Inventory.WEAPON_ID.KNIFE)
         {
             plzChangeWeaponUI.SetActive(true);
             plzUseKnifeUI.SetActive(false);

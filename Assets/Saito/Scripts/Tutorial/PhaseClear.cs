@@ -22,11 +22,14 @@ public class PhaseClear : TutorialBase
         //“ú”•Û‘¶
         StaticVariables.liveingDayCount = timeController.GetDayCount();
 
-        Invoke("SceneChange", soundManager.escapeMap.length);
+        //’x‚ç‚¹‚ÄƒV[ƒ“ˆÚ“®
+        StartCoroutine(SceneChange(soundManager.escapeMap.length));
     }
 
-    private void SceneChange()
+    private IEnumerator SceneChange(float _delay)
     {
+        yield return new WaitForSeconds(_delay);
+
         sceneChanger.LoadResultScene();
     }
 
