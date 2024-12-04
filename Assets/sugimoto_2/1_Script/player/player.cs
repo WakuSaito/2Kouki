@@ -31,6 +31,7 @@ public class player : PlayerFunction
     //アイテムを拾う
     [SerializeField] GameObject hand;//設置場所
     public GameObject hand_weapon;//手にある武器
+    bool item_all_get_flag = false;
 
     //判定
     public bool attacked_zonbi_flag = false;//ダメージ判定
@@ -189,7 +190,13 @@ public class player : PlayerFunction
 
             //アイテム取得
             //GetComponent<Inventory>().ItemGet(item);
-            iteminventory.ItemCheck(item.GetComponent<ItemInformation>());
+            item_all_get_flag = iteminventory.ItemGet(item.GetComponent<ItemSetting>().iteminfo);
+            Debug.Log(item_all_get_flag);
+
+            if(item_all_get_flag)
+            {               
+                Destroy(item);
+            }
         }
     }
 
