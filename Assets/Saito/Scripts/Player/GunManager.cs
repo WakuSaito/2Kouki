@@ -61,6 +61,12 @@ public class GunManager : MonoBehaviour
         //ピストルの弾丸が最大数じゃなければreload可能
         if (currentMagazineAmount >= magazineSize) return;
 
+        if(inventory == null)
+        {
+            currentMagazineAmount = magazineSize;
+            return;
+        }
+
         for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
         {
             //インベントリに弾丸があるか
@@ -145,8 +151,10 @@ public class GunManager : MonoBehaviour
         }
 
         //出きれば反動を付けたい
+        anim.SetTrigger("Shot");
 
         gunSound.PlayShot();//発射音
+
 
         //クールタイム
         StartCoroutine(CooldownCoroutine(rapidSpeed));
@@ -231,7 +239,7 @@ public class GunManager : MonoBehaviour
                 }
                 if (hit_obj.tag == "Head")
                 {
-                    hit_obj.GetComponentInParent<ZombieManager>().DamageHead(bulletDamage);
+                    hit_obj.GetComponentInParent<ZombieManager>().DamageHead(hit.point, bulletDamage);
                 }
             }
         }

@@ -13,6 +13,9 @@ public class ZombieAnimation : ZombieBase
     [SerializeField]//アニメーター
     private Animator animator;
 
+    [SerializeField]//ヒダメージエフェクト
+    private GameObject damagedEffect;
+
     //移動アニメーションの種類
     enum MoveType
     { 
@@ -106,5 +109,18 @@ public class ZombieAnimation : ZombieBase
 
         Debug.Log("zombie:Die");
         animator.SetTrigger("Die");
+    }
+
+    //ダメージパーティクル表示(ダメージを受けた位置)
+    public void DamagedEffect(Vector3 _damagedPlace)
+    {
+        //外側に向けたい
+        Vector3 vec = _damagedPlace - transform.position;
+
+        GameObject effect = Instantiate(damagedEffect, 
+            _damagedPlace, 
+            Quaternion.Euler(vec));
+
+        Destroy(effect, 1f);
     }
 }

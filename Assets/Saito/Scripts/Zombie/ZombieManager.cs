@@ -281,6 +281,8 @@ public class ZombieManager : MonoBehaviour
             Debug.Log("右側");
             zombieAnimation.DamageHitRight();
         }
+        //エフェクト表示
+        zombieAnimation.DamagedEffect(_hitPos);
 
         zombieHP.Damage(_damage);//ダメージ
 
@@ -296,7 +298,24 @@ public class ZombieManager : MonoBehaviour
         zombieAttack.AttackCancel();//攻撃処理のキャンセル
 
         zombieHP.Damage(_damage * 2);//ダメージ
+
+        zombieAnimation.DamageHitRight();
+
+        Stan(2.5);//スタン
+    }
+    public void DamageHead(Vector3 _hitPos, int _damage)
+    {
+        Debug.Log("Head");
         
+        zombieAttack.AttackCancel();//攻撃処理のキャンセル
+
+        zombieHP.Damage(_damage * 2);//ダメージ
+
+        //アニメーション
+        zombieAnimation.DamageHitRight();
+        //エフェクト表示
+        zombieAnimation.DamagedEffect(_hitPos);
+
         Stan(2.5);//スタン
     }
 

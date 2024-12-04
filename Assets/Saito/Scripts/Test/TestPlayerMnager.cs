@@ -26,8 +26,10 @@ public class TestPlayerMnager : MonoBehaviour
     [SerializeField] private bool activeMouse = false;//マウスの視点移動の有効化
 
     [SerializeField] private GameObject knifeObj;
-
     [SerializeField] private GameObject usePistol;
+
+    //弾無限
+    [SerializeField] private bool isInfinityBullet;
 
     private SearchViewArea searchViewArea;
 
@@ -112,6 +114,10 @@ public class TestPlayerMnager : MonoBehaviour
             //リロード処理
             usePistol.GetComponent<GunManager>().Reload();
         }
+        if(isInfinityBullet)
+        {
+            usePistol.GetComponent<GunManager>().Reload();
+        }
 
         characterController.Move(vec.normalized * moveSpeed * Time.deltaTime);
 
@@ -155,8 +161,8 @@ public class TestPlayerMnager : MonoBehaviour
             }
         }
 
-        searchViewArea.GetObjUpdate("Zombie", 20f, 2f);
-        searchViewArea.GetObjUpdate("item", 5f);
+        //searchViewArea.GetObjUpdate("Zombie", 20f, 2f);
+        //searchViewArea.GetObjUpdate("item", 5f);
     }
 
     
