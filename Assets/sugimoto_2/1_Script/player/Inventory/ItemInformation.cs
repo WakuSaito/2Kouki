@@ -2,10 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemInformation : MonoBehaviour
+enum ITEM_TYPE
+{
+    NON,        //初期値
+    FOOD,
+    RECOVERY,
+    WEAPON,
+}
+public class ItemInformation/* : MonoBehaviour*/
 {
     public enum ITEM_TYPE
     {
+        NON,        //初期値
         FOOD,
         RECOVERY,
         WEAPON,
@@ -13,6 +21,7 @@ public class ItemInformation : MonoBehaviour
 
     public enum ITEM_ID
     {
+        NON,        //初期値
         FOOD_1,
         FOOD_2,
         FOOD_3,
@@ -29,18 +38,27 @@ public class ItemInformation : MonoBehaviour
         DOG_DIRECTION,
     }
 
-    public ITEM_TYPE type;
-    public ITEM_ID id;
-    public int get_num;
-    public int stack_max;
+    public ITEM_TYPE type   = ITEM_TYPE.NON;
+    public ITEM_ID id       = ITEM_ID.NON;
+    public int get_num      = 0;
+    public int stack_max    = 0;
+    public Sprite sprite    = null;
 
-    //コンストラクタ
-    public ItemInformation(ITEM_TYPE _type, ITEM_ID _id, int _get_num, int _stack_max)
+    public RecoveryItemInformation recoveryitem_info;
+
+    private void Start()
     {
-        //自分のクラスのメンバーに引数の値を代入する
-        type = _type;
-        id = _id;
-        get_num = _get_num;
-        stack_max = _stack_max;
+        switch(type)
+        {
+            case ITEM_TYPE.FOOD:
+            case ITEM_TYPE.RECOVERY:
+                recoveryitem_info = new RecoveryItemInformation();
+            break;
+        }
     }
+}
+
+public class RecoveryItemInformation
+{
+    public int recovery_num;
 }
