@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class ItemInventory : MonoBehaviour
 {
-    ItemInformation.ItemInfo item_Info;
-
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -19,4 +15,13 @@ public class ItemInventory : MonoBehaviour
     {
 
     }
+
+    public void RemoveItem(ItemInformation _item)
+    {
+        Debug.Log(_item.type);
+        Debug.Log(_item.id);
+        Debug.Log(_item.get_num);
+        Debug.Log(_item.stack_max);
+    }
+
 }
