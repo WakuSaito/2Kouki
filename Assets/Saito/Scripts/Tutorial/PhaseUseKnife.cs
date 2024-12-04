@@ -30,6 +30,8 @@ public class PhaseUseKnife : TutorialBase
 
     public override void UpdatePhase()
     {
+        if (inventory == null) return;
+
         //インベントリを開いているときは邪魔になるので消す
         if (inventory.item_inventory_flag == true)
         {
