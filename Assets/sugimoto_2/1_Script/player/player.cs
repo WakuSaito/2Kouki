@@ -63,9 +63,15 @@ public class player : PlayerFunction
     [SerializeField]
     private SceneChanger sceneChanger;
 
+
+    ItemInventory iteminventory;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        iteminventory = new ItemInventory();
+
         //コンポーネント取得
         Inventory = GetComponent<Inventory>();
         Animator = anim_obj.GetComponent<Animator>();
@@ -182,7 +188,8 @@ public class player : PlayerFunction
             playerSound.PlayPickUp();//SE
 
             //アイテム取得
-            GetComponent<Inventory>().ItemGet(item);
+            //GetComponent<Inventory>().ItemGet(item);
+            iteminventory.ItemCheck(item.GetComponent<ItemInformation>());
         }
     }
 
