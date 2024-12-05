@@ -29,6 +29,7 @@ public enum ITEM_ID
     DOG_DIRECTION,
 }
 
+[System.Serializable]
 public class ItemInformation
 {
     public ITEM_TYPE type;
@@ -120,7 +121,7 @@ public class ItemInformation
         }
     }
 }
-
+[System.Serializable]
 public class RecoveryItemInformation
 {
     public int recovery_num = -1;
@@ -130,6 +131,8 @@ public class RecoveryItemInformation
     }
 }
 
+
+[System.Serializable]
 public class WeaponItemInformation
 {
     public int bullet_num = -1;

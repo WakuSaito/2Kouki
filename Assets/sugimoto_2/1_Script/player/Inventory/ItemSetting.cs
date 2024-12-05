@@ -49,8 +49,7 @@ public class ItemSetting : MonoBehaviour
     //Update is called once per frame
     void Update()
     {
-        //Inventory.iteminfo[0].DebugLog();
-        //iteminfo.DebugLog();
+
     }
 
 }
