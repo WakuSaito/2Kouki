@@ -52,6 +52,14 @@ public class ItemInformation
         stack_max   = 0;
         sprite      = null;
     }
+    public ItemInformation(ItemInformation _item)
+    {
+        type = _item.type;
+        id = _item.id;
+        get_num = _item.get_num;
+        stack_max = _item.stack_max;
+        sprite = _item.sprite;
+    }
 
     //コンストラクタ(種類、ID、取得可能数、スタック可能数、画像)
     public ItemInformation(ITEM_TYPE _type, ITEM_ID _id, int _get_num, int _stack_max, Sprite _sprite)
@@ -81,6 +89,34 @@ public class ItemInformation
             case ITEM_TYPE.WEAPON:
                 weaponitem_info = new WeaponItemInformation(_num);
                 break;
+        }
+    }
+
+    public ItemInformation GetItemInfo()
+    {
+        return new ItemInformation();
+    }
+
+
+    public void DebugLog()
+    {
+        for (int sloat = 0; sloat < 10; sloat++)
+        {
+            Debug.Log(type);
+            Debug.Log(id);
+            Debug.Log(get_num);
+            Debug.Log(stack_max);
+            Debug.Log(sprite);
+            if (type== ITEM_TYPE.FOOD)
+            {
+                Debug.Log(recoveryitem_info);
+                Debug.Log(recoveryitem_info.recovery_num);
+            }
+            if (type == ITEM_TYPE.WEAPON)
+            {
+                Debug.Log(weaponitem_info);
+                Debug.Log(weaponitem_info.bullet_num);
+            }
         }
     }
 }

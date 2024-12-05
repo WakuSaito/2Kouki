@@ -191,10 +191,10 @@ public class player : PlayerFunction
             //アイテム取得
             //GetComponent<Inventory>().ItemGet(item);
             item_all_get_flag = iteminventory.ItemGet(item.GetComponent<ItemSetting>().iteminfo);
-            Debug.Log(item_all_get_flag);
+            //Debug.Log(item_all_get_flag);
 
-            if(item_all_get_flag)
-            {               
+            if (item_all_get_flag)
+            {
                 Destroy(item);
             }
         }
