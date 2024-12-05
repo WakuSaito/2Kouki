@@ -1,45 +1,66 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ItemInventoryInformation
+public class ItemInventorySloat
 {
+    public ItemInformation iteminfo;
     public int stack_num = 0;
-
-    //public ItemInventoryInformation(int _stack_num)
-    //{
-    //    stack_num = _stack_num;
-    //}
 }
 
 public class ItemInventory : MonoBehaviour
 {
     const int SLOAT_MAX = 10;
 
+    public ItemInventorySloat[] sloats = new ItemInventorySloat[SLOAT_MAX];
+
     //アイテム情報を保存
-    ItemInformation[] iteminfo = new ItemInformation[SLOAT_MAX];
-    //アイテムの所持情報を取得
-    ItemInventoryInformation[] iteminventoryinfo = new ItemInventoryInformation[SLOAT_MAX];
+    //public ItemInformation[] iteminfo = new ItemInformation[SLOAT_MAX];
 
-    //private void Start()
-    //{
-    //    for (int sloat = 0; sloat < SLOAT_MAX; sloat++) 
-    //    {
-    //        iteminventoryinfo[sloat] = new ItemInventoryInformation();
-    //        iteminfo[sloat] = new ItemInformation();
-    //    }
-    //}
+    /*UI関連*/
+    [SerializeField] Transform[] item_sprite_pos;                                         //インベントリUI
 
+    private void Start()
+    {
+        sloats[0] = new ItemInventorySloat();
+    }
+
+    private void Update()
+    {
+        Debug.Log(sloats[0]);
+    }
+
+    public void Test(ItemInformation _item)
+    {
+
+    }
+
+    void SetItemUI(ItemInformation _item)
+    {
+        for (int sloat = 0; sloat < SLOAT_MAX; sloat++)
+        {
+            //if (sloats[sloat] != ITEM_ID.NON)
+            //{
+            //    item_sprite_pos[sloat].GetComponent<Image>().sprite = ;
+            //}
+        }
+    }
     public bool ItemGet(ItemInformation _item)
     {
-        return ItemCheck(_item);
+        bool all_get_flag = ItemCheck(_item);
+        SetItemUI(_item);
+
+        return all_get_flag;
     }
 
     bool ItemCheck(ItemInformation _item)
     {
-        if (_item.type == ITEM_TYPE.WEAPON) 
+        Debug.Log(sloats[0]);
+
+        if (_item.type == ITEM_TYPE.WEAPON)
         {
-            switch(_item.id)
+            switch (_item.id)
             {
                 case ITEM_ID.PISTOL:
                     //所持していない場合
@@ -51,44 +72,44 @@ public class ItemInventory : MonoBehaviour
             }
         }
 
-        return InSloat(_item,SloatCheck(_item));
+        return InSloat(_item, SloatCheck(_item));
     }
 
     int SloatCheck(ItemInformation _item)
     {
         for (int sloat = 0; sloat < SLOAT_MAX; sloat++)
         {
-            if (iteminfo[sloat] == null)
+            if (sloats[sloat] == null)
             {
-                iteminventoryinfo[sloat] = new ItemInventoryInformation();
+                sloats[sloat] = new ItemInventorySloat();
                 return sloat;
             }
 
-            if (iteminfo[sloat].id == _item.id)
-            {
-                if (_item.stack_max != iteminventoryinfo[sloat].stack_num)
-                {
-                    return sloat;
-                }
-            }
+            //if (iteminfo[sloat].id == _item.id || iteminfo[sloat].id == ITEM_ID.NON)
+            //{
+            //    if (_item.stack_max != iteminventoryinfo[sloat].stack_num)
+            //    {
+            //        return sloat;
+            //    }
+            //}
         }
 
         return -1;
     }
 
-    bool InSloat(ItemInformation _item ,int _sloat)
+    bool InSloat(ItemInformation _item, int _sloat)
     {
         Debug.Log(_sloat);
         //スロットに入れない
         if (_sloat == -1) return false;
 
         //スタック上限または取得できる物がなくなるまで
-        while (iteminventoryinfo[_sloat].stack_num != _item.stack_max)
+        while (sloats[_sloat].stack_num != _item.stack_max)
         {
             //取得できるものがなくなれば終了
             if (_item.get_num == 0) return true;
 
-            iteminventoryinfo[_sloat].stack_num++;
+            sloats[_sloat].stack_num++;
             _item.get_num--;
         }
 
@@ -207,8 +228,4 @@ public class ItemInventory : MonoBehaviour
     //}
 
     // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

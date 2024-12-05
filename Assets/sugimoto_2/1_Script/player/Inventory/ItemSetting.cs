@@ -8,6 +8,8 @@ public class ItemSetting : MonoBehaviour
     [SerializeField] ITEM_ID id;
     [SerializeField] Sprite sprite;
 
+    ItemInventory Inventory;
+
     //Start is called before the first frame update
     void Start()
     {
@@ -19,8 +21,6 @@ public class ItemSetting : MonoBehaviour
             case ITEM_ID.FOOD_3:
             case ITEM_ID.FOOD_4:
                 iteminfo = new ItemInformation(ITEM_TYPE.FOOD, id, 1, 1, sprite, 10);
-
-                Debug.Log("t");
                 break;
             case ITEM_ID.DRINK_1:
             case ITEM_ID.DRINK_2:
@@ -43,11 +43,14 @@ public class ItemSetting : MonoBehaviour
                 break;
         }
 
+        Inventory = new ItemInventory();
     }
 
     //Update is called once per frame
     void Update()
     {
-
+        //Inventory.iteminfo[0].DebugLog();
+        //iteminfo.DebugLog();
     }
+
 }
