@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemInventorySloat
+[System.Serializable]
+public class ItemInventorySloat:ItemInformation
 {
-    public ItemInformation iteminfo;
+    //public ItemInformation iteminfo;
     public int stack_num = 0;
 }
 
@@ -15,6 +16,8 @@ public class ItemInventory : MonoBehaviour
 
     public ItemInventorySloat[] sloats = new ItemInventorySloat[SLOAT_MAX];
 
+    bool set_flag = false;
+
     //ÉAÉCÉeÉÄèÓïÒÇï€ë∂
     //public ItemInformation[] iteminfo = new ItemInformation[SLOAT_MAX];
 
@@ -23,17 +26,25 @@ public class ItemInventory : MonoBehaviour
 
     private void Start()
     {
-        sloats[0] = new ItemInventorySloat();
+        
     }
 
     private void Update()
     {
-        Debug.Log(sloats[0]);
+        sloats[0] = Set(0);
     }
 
-    public void Test(ItemInformation _item)
+    ItemInventorySloat Set(int _sloat)
     {
+        Debug.Log("testa");
 
+        if (set_flag)
+        {
+            Debug.Log("test");
+            sloats[0] = new ItemInventorySloat() { id = ITEM_ID.FOOD_1 };
+            set_flag = false;
+        }
+        return sloats[0];
     }
 
     void SetItemUI(ItemInformation _item)
@@ -48,16 +59,14 @@ public class ItemInventory : MonoBehaviour
     }
     public bool ItemGet(ItemInformation _item)
     {
-        bool all_get_flag = ItemCheck(_item);
-        SetItemUI(_item);
+        set_flag = ItemCheck(_item);
+        //SetItemUI(_item);
 
-        return all_get_flag;
+        return set_flag;
     }
 
     bool ItemCheck(ItemInformation _item)
     {
-        Debug.Log(sloats[0]);
-
         if (_item.type == ITEM_TYPE.WEAPON)
         {
             switch (_item.id)
@@ -85,13 +94,13 @@ public class ItemInventory : MonoBehaviour
                 return sloat;
             }
 
-            //if (iteminfo[sloat].id == _item.id || iteminfo[sloat].id == ITEM_ID.NON)
-            //{
-            //    if (_item.stack_max != iteminventoryinfo[sloat].stack_num)
-            //    {
-            //        return sloat;
-            //    }
-            //}
+            if (sloats[sloat].id == _item.id || sloats[sloat].id == ITEM_ID.NON)
+            {
+                if (_item.stack_max != sloats[sloat].stack_num)
+                {
+                    return sloat;
+                }
+            }
         }
 
         return -1;
