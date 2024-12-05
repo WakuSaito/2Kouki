@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -359,6 +359,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Can_1
       objectReference: {fileID: 0}
+    - target: {fileID: 1998466318430720, guid: 7cb7c5be01653a1428d32ac86da5dec7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4552656703966922, guid: 7cb7c5be01653a1428d32ac86da5dec7, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -581,7 +585,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &102567737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1452,6 +1456,14 @@ PrefabInstance:
       objectReference: {fileID: 2113370535}
     - target: {fileID: 6843375317535280222, guid: 2456a157eac667849aa3a77b9620bb8c, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7515109558935918954, guid: 2456a157eac667849aa3a77b9620bb8c, type: 3}
+      propertyPath: m_Constraints
+      value: 116
+      objectReference: {fileID: 0}
+    - target: {fileID: 7515109558935918954, guid: 2456a157eac667849aa3a77b9620bb8c, type: 3}
+      propertyPath: m_IsKinematic
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7515109558935918964, guid: 2456a157eac667849aa3a77b9620bb8c, type: 3}
@@ -3352,6 +3364,10 @@ PrefabInstance:
     - target: {fileID: 6455615091749529712, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
       propertyPath: m_Name
       value: FirstZombie
+      objectReference: {fileID: 0}
+    - target: {fileID: 6455615091749529712, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6455615091749529713, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
       propertyPath: isStan
@@ -6411,7 +6427,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1745869519410043616, guid: 905b5f5eb8469c14fafcc1e4522e76aa, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1745869519410043630, guid: 905b5f5eb8469c14fafcc1e4522e76aa, type: 3}
       propertyPath: isStopAction
@@ -10185,7 +10201,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1750410343
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10509,6 +10525,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e51f36bb451e05144867677b10e6fc37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item_sprite_pos:
+  - {fileID: 1742821472}
+  - {fileID: 1546955599}
+  - {fileID: 594519966}
+  - {fileID: 1753892688}
+  - {fileID: 914960963}
+  - {fileID: 2059451539}
+  - {fileID: 2041991953}
+  - {fileID: 791559795}
+  - {fileID: 1663427597}
+  - {fileID: 1738317090}
 --- !u!4 &1781734831
 Transform:
   m_ObjectHideFlags: 0
@@ -10653,7 +10680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1845899177
 Transform:
   m_ObjectHideFlags: 0
@@ -10690,7 +10717,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1850145132
 Transform:
   m_ObjectHideFlags: 0
@@ -10725,6 +10752,14 @@ PrefabInstance:
     - target: {fileID: 9080490743459797383, guid: 417fc42acd2b0314684f087cd42ca603, type: 3}
       propertyPath: m_Name
       value: SoundManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 9080490743459797383, guid: 417fc42acd2b0314684f087cd42ca603, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9080490743459797384, guid: 417fc42acd2b0314684f087cd42ca603, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9080490743459797384, guid: 417fc42acd2b0314684f087cd42ca603, type: 3}
       propertyPath: dogDetectBark
@@ -11753,7 +11788,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2017136256
 Transform:
   m_ObjectHideFlags: 0
