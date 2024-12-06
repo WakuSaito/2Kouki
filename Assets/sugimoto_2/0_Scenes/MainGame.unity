@@ -1274,6 +1274,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3900953781807897565, guid: 2456a157eac667849aa3a77b9620bb8c, type: 3}
+      propertyPath: attackDamage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5778360746224014617, guid: 2456a157eac667849aa3a77b9620bb8c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5842264661055652048, guid: 2456a157eac667849aa3a77b9620bb8c, type: 3}
       propertyPath: frame_pos
       value: 
@@ -1450,6 +1458,22 @@ PrefabInstance:
       propertyPath: sceneChanger
       value: 
       objectReference: {fileID: 2113370535}
+    - target: {fileID: 6796866569018614630, guid: 2456a157eac667849aa3a77b9620bb8c, type: 3}
+      propertyPath: m_Radius
+      value: 0.058500163
+      objectReference: {fileID: 0}
+    - target: {fileID: 6796866569018614630, guid: 2456a157eac667849aa3a77b9620bb8c, type: 3}
+      propertyPath: m_Center.x
+      value: -0.0000036146566
+      objectReference: {fileID: 0}
+    - target: {fileID: 6796866569018614630, guid: 2456a157eac667849aa3a77b9620bb8c, type: 3}
+      propertyPath: m_Center.y
+      value: 0.3093421
+      objectReference: {fileID: 0}
+    - target: {fileID: 6796866569018614630, guid: 2456a157eac667849aa3a77b9620bb8c, type: 3}
+      propertyPath: m_Center.z
+      value: 0.0009758292
+      objectReference: {fileID: 0}
     - target: {fileID: 6843375317535280222, guid: 2456a157eac667849aa3a77b9620bb8c, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -6417,9 +6441,17 @@ PrefabInstance:
       propertyPath: isStopAction
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1745869519410043630, guid: 905b5f5eb8469c14fafcc1e4522e76aa, type: 3}
+      propertyPath: stayPlayerDistance
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6513576538095451527, guid: 905b5f5eb8469c14fafcc1e4522e76aa, type: 3}
       propertyPath: zombieCenterY
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6513576538095451527, guid: 905b5f5eb8469c14fafcc1e4522e76aa, type: 3}
+      propertyPath: targetDistance
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 905b5f5eb8469c14fafcc1e4522e76aa, type: 3}
@@ -13108,6 +13140,7 @@ MonoBehaviour:
   playerSound: {fileID: 8855984948745058066}
   fadeOutUI: {fileID: 0}
   sceneChanger: {fileID: 0}
+  obj: {fileID: 0}
 --- !u!1 &1148736399800337045
 GameObject:
   m_ObjectHideFlags: 0
@@ -14130,6 +14163,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1845899177}
     m_Modifications:
+    - target: {fileID: 394054540479392108, guid: 117c76ed32ba9b1439475578b0f3b44b, type: 3}
+      propertyPath: spawnQuantityMax
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 394054540479392108, guid: 117c76ed32ba9b1439475578b0f3b44b, type: 3}
+      propertyPath: spawnQuantityMin
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1205576736922791029, guid: 117c76ed32ba9b1439475578b0f3b44b, type: 3}
+      propertyPath: spawnQuantityMax
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1205576736922791029, guid: 117c76ed32ba9b1439475578b0f3b44b, type: 3}
+      propertyPath: spawnQuantityMin
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2535068543601519434, guid: 117c76ed32ba9b1439475578b0f3b44b, type: 3}
+      propertyPath: spawnQuantityMax
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2535068543601519434, guid: 117c76ed32ba9b1439475578b0f3b44b, type: 3}
+      propertyPath: spawnQuantityMin
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315822872838746587, guid: 117c76ed32ba9b1439475578b0f3b44b, type: 3}
+      propertyPath: spawnQuantityMax
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315822872838746587, guid: 117c76ed32ba9b1439475578b0f3b44b, type: 3}
+      propertyPath: spawnQuantityMin
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8557511468067915112, guid: 117c76ed32ba9b1439475578b0f3b44b, type: 3}
       propertyPath: m_Name
       value: road1

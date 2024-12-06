@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1961,6 +1961,10 @@ PrefabInstance:
       propertyPath: dog
       value: 
       objectReference: {fileID: 2076058634}
+    - target: {fileID: 5842264661055652049, guid: 2456a157eac667849aa3a77b9620bb8c, type: 3}
+      propertyPath: obj
+      value: 
+      objectReference: {fileID: 1781734829}
     - target: {fileID: 5842264661055652049, guid: 2456a157eac667849aa3a77b9620bb8c, type: 3}
       propertyPath: hp_gague
       value: 
@@ -11362,7 +11366,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1523808865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13492,6 +13496,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1781734831}
+  - component: {fileID: 1781734832}
   m_Layer: 0
   m_Name: Inventory_Test
   m_TagString: Untagged
@@ -13514,6 +13519,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1781734832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781734829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e51f36bb451e05144867677b10e6fc37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sloat_size: 10
+  sprite_pos:
+  - {fileID: 1742821472}
+  - {fileID: 1546955599}
+  - {fileID: 594519966}
+  - {fileID: 1753892688}
+  - {fileID: 914960963}
+  - {fileID: 2059451539}
+  - {fileID: 2041991953}
+  - {fileID: 791559795}
+  - {fileID: 1663427597}
+  - {fileID: 1738317090}
 --- !u!1 &1790711823
 GameObject:
   m_ObjectHideFlags: 0
@@ -14025,7 +14054,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1882059924
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16396,6 +16425,7 @@ MonoBehaviour:
   playerSound: {fileID: 8855984948745058066}
   fadeOutUI: {fileID: 0}
   sceneChanger: {fileID: 0}
+  obj: {fileID: 0}
 --- !u!1 &1148736399800337045
 GameObject:
   m_ObjectHideFlags: 0
