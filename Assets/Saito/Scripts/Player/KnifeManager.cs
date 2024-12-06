@@ -80,6 +80,8 @@ public class KnifeManager : MonoBehaviour
         if (hitMasters.ContainsKey(masterId)) return;
         hitMasters[masterId] = true;
 
+        //Vector3 hitPos = other.
+
         Debug.Log("Hit!");
         // ダメージ計算とかこのへんで実装できます
         hitZone.Master.TakeDamage(hitTag, attackDamage);

@@ -114,13 +114,14 @@ public class ZombieAnimation : ZombieBase
     //ダメージパーティクル表示(ダメージを受けた位置)
     public void DamagedEffect(Vector3 _damagedPlace)
     {
+        if (damagedEffect == null) return;
+
         //外側に向けたい
         Vector3 vec = _damagedPlace - transform.position;
 
         GameObject effect = Instantiate(damagedEffect, 
             _damagedPlace, 
-            Quaternion.Euler(vec));
-
-        Destroy(effect, 1f);
+            Quaternion.identity
+            );
     }
 }
