@@ -64,13 +64,13 @@ public class player : PlayerFunction
     [SerializeField]
     private SceneChanger sceneChanger;
 
-    InventoryTest ItemInventory;
-    const int InventorySloat_Size = 10;
+    ItemInventory ItemInventory;
+    public GameObject obj;
 
     // Start is called before the first frame update
     void Start()
     {
-        ItemInventory = new InventoryTest(InventorySloat_Size);
+        //ItemInventory = obj.GetComponent<ItemInventory>();
 
         //コンポーネント取得
         Inventory = GetComponent<Inventory>();
@@ -78,7 +78,7 @@ public class player : PlayerFunction
         Rigidbody = GetComponent<Rigidbody>();
 
         searchViewArea = GetComponent<SearchViewArea>();
-
+        
         //ゲージ設定
         food_num_now = food_gage.GetComponent<Gauge>().GaugeSetting(food_num_max);
         hp_num_now   = hp_gague.GetComponent<Gauge>().GaugeSetting(hp_num_max);
@@ -97,8 +97,6 @@ public class player : PlayerFunction
     {
         if (game_clear_flag) return;
 
-        // デバッグ用: インベントリの内容を表示（例えば、Dキーを押したとき）
-        if (Input.GetKeyDown(KeyCode.D)) { ItemInventory.PrintInventory(); }
 
         //プレイヤーが倒されていない場合
         if (!DowmPlayer())
@@ -193,12 +191,13 @@ public class player : PlayerFunction
             //アイテム取得
             //GetComponent<Inventory>().ItemGet(item);
 
-            bool all_get_flag = ItemInventory.AddItemInventory(item.GetComponent<ItemSetting>().iteminfo);
+            Inventory.ItemGet(item);
+            //bool all_get_flag = ItemInventory.AddItemInventory(item.GetComponent<ItemSetting>().iteminfo);
 
-            if (all_get_flag)
-            {
-                Destroy(item);
-            }        
+            //if (all_get_flag)
+            //{
+            //    Destroy(item);
+            //}        
         }
     }
 
@@ -278,9 +277,9 @@ public class player : PlayerFunction
     void Gauge()        //各ゲージ処理
     {
         //食料ゲージ減少
-        food_num_now = food_gage.GetComponent<Gauge>().DurationReduce(2.0f, 1.0f);
+        food_num_now = food_gage.GetComponent<Gauge>().DurationReduce(6.0f, 1.0f);
         //食料ゲージがなくなった場合持続ダメージ
-        hp_num_now = (int)hp_gague.GetComponent<Gauge>().DurationDamage(2.0f, 1, food_gage, hp_gague);
+        hp_num_now = (int)hp_gague.GetComponent<Gauge>().DurationDamage(6.0f, 1, food_gage, hp_gague);
     }
 
     void Animation() //アニメーション

@@ -17,6 +17,9 @@ public class InventorySloat
     //ƒAƒCƒeƒ€‚ğ’Ç‰Á‚Å‚«‚é‚©’²‚×‚é
     public bool CanAddItem(ItemInformation _iteminfro)
     {
+        //•Ší‚Ìê‡‚Ìˆ—‚ğ’Ç‰Á
+
+
         return ItemInfo == null || (ItemInfo.id == _iteminfro.id && Item_Num < ItemInfo.stack_max);
     }
 
