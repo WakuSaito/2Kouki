@@ -64,14 +64,13 @@ public class player : PlayerFunction
     [SerializeField]
     private SceneChanger sceneChanger;
 
-
-    ItemInventory iteminventory;
-
+    InventoryTest ItemInventory;
+    const int InventorySloat_Size = 10;
 
     // Start is called before the first frame update
     void Start()
     {
-        iteminventory = new ItemInventory();
+        ItemInventory = new InventoryTest(InventorySloat_Size);
 
         //コンポーネント取得
         Inventory = GetComponent<Inventory>();
@@ -97,6 +96,9 @@ public class player : PlayerFunction
     void Update()
     {
         if (game_clear_flag) return;
+
+        // デバッグ用: インベントリの内容を表示（例えば、Dキーを押したとき）
+        if (Input.GetKeyDown(KeyCode.D)) { ItemInventory.PrintInventory(); }
 
         //プレイヤーが倒されていない場合
         if (!DowmPlayer())
@@ -190,13 +192,13 @@ public class player : PlayerFunction
 
             //アイテム取得
             //GetComponent<Inventory>().ItemGet(item);
-            item_all_get_flag = iteminventory.ItemGet(item.GetComponent<ItemSetting>().iteminfo);
-            //Debug.Log(item_all_get_flag);
 
-            if (item_all_get_flag)
+            bool all_get_flag = ItemInventory.AddItemInventory(item.GetComponent<ItemSetting>().iteminfo);
+
+            if (all_get_flag)
             {
                 Destroy(item);
-            }
+            }        
         }
     }
 
