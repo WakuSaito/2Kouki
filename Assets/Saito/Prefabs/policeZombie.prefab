@@ -2371,6 +2371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 3275300788016484236}
+  damagedEffect: {fileID: 1265039584626568888, guid: f44aa7898dd6ba24181df7a5012d326e, type: 3}
 --- !u!114 &3275300789103218468
 MonoBehaviour:
   m_ObjectHideFlags: 0
