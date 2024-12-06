@@ -80,11 +80,11 @@ public class KnifeManager : MonoBehaviour
         if (hitMasters.ContainsKey(masterId)) return;
         hitMasters[masterId] = true;
 
-        //Vector3 hitPos = other.
+        Vector3 hitPos = other.ClosestPointOnBounds(this.transform.position);
 
         Debug.Log("Hit!");
         // ダメージ計算とかこのへんで実装できます
-        hitZone.Master.TakeDamage(hitTag, attackDamage);
+        hitZone.Master.TakeDamage(hitTag, attackDamage, hitPos);
 
         // ヒット箇所を計算してエフェクトを表示する（前回から特に変更なし）
         //Vector3 hitPos = other.ClosestPointOnBounds(col.bounds.center);
