@@ -13,15 +13,15 @@ public class ZombieHitMaster : MonoBehaviour
     /// <summary>
     /// ÚG‚µ‚½•”ˆÊ‚Ìƒ^ƒO‚ğ“n‚·
     /// </summary>
-    public void TakeDamage(string _partTag, int _damage)
+    public void TakeDamage(string _partTag, int _damage, Vector3 _hitpos)
     {
         if(_partTag=="Body")
         {
-            zombieManager.DamageBody(Vector3.zero, _damage);
+            zombieManager.DamageBody(_hitpos, _damage);
         }
         else if(_partTag == "Head")
         {
-            zombieManager.DamageHead(Vector3.zero, _damage);
+            zombieManager.DamageHead(_hitpos, _damage);
         }
 
     }
