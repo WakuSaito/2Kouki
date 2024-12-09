@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class GunManager : MonoBehaviour
 {
-    [SerializeField] private Transform muzzleTransform;//銃口位置
-    [SerializeField] private GameObject bulletLine;//弾道
+    [SerializeField] private Transform muzzleTransform; //銃口位置
+
+    [SerializeField] private GameObject bulletLine;         //弾道
+    [SerializeField] private GameObject muzzleFlashPrefab;  //マズルフラッシュ用エフェクト
+    [SerializeField] private GameObject bulletHitPrefab;    //着弾エフェクト
 
     [SerializeField] private int magazineSize = 10;//弾の容量
     [SerializeField] private int oneShotBulletAmount = 1; //一発で発射される量
@@ -144,22 +147,7 @@ public class GunManager : MonoBehaviour
             return;
         }
 
-        //同時発射数分繰り返す
-        for (int i = 0; i < oneShotBulletAmount; i++)
-        {
-            CreateBullet();
-        }
-
-        //出きれば反動を付けたい
-        anim.SetTrigger("Shot");
-
-        gunSound.PlayShot();//発射音
-
-
-        //クールタイム
-        StartCoroutine(CooldownCoroutine(rapidSpeed));
-
-        currentMagazineAmount--;
+        Shot();
     }
 
     /// <summary>
@@ -175,19 +163,25 @@ public class GunManager : MonoBehaviour
             return;
         }
 
+        Shot();
+    }
+
+    private void Shot()
+    {
         //同時発射数分繰り返す
         for (int i = 0; i < oneShotBulletAmount; i++)
         {
             CreateBullet();
         }
 
-        gunSound.PlayBlankShot();//発射音
+        gunSound.PlayShot();//発射音
 
         //クールタイム
         StartCoroutine(CooldownCoroutine(rapidSpeed));
 
         currentMagazineAmount--;
     }
+
 
     //弾発射
     private void CreateBullet()
@@ -199,29 +193,16 @@ public class GunManager : MonoBehaviour
         //視点ベクトルにばらつきを加算
         Vector3 gunVec = cameraObj.transform.forward + new Vector3(x, y, 0);
 
-
-        //弾道用のLineRendererを取得（見た目用）
-        LineRenderer lineRend = Instantiate(
-            bulletLine,
-            Vector3.zero,
-            Quaternion.identity
-            ).GetComponent<LineRenderer>();
-
-        //点の数
-        lineRend.positionCount = 2;
-        //始点の座標指定
-        lineRend.SetPosition(0, muzzleTransform.position);
-
-
-        //ビューポート座標のレイを飛ばす
-        Ray ray = Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f));
+        //当たったオブジェクト情報
         RaycastHit hit = new RaycastHit();
 
+        //着弾地点
+        Vector3 bulletHitPos;
 
+        //なにかに当たった
         if (Physics.Raycast(cameraObj.transform.position, gunVec, out hit))
         {
-            //当たった場所を線の終点にする
-            lineRend.SetPosition(1, hit.point);
+            bulletHitPos = hit.point;
 
             //アイテムまでの距離を調べる
             float distance = Vector3.Distance(hit.transform.position, transform.position);
@@ -229,8 +210,6 @@ public class GunManager : MonoBehaviour
             //距離が範囲内なら
             if (distance <= 30.0f)
             {
-                Debug.DrawRay(ray.origin, ray.direction * 10, Color.red, 5);
-
                 GameObject hit_obj = hit.collider.gameObject;
                 Debug.Log(hit_obj);
                 if (hit_obj.tag == "Body")
@@ -247,7 +226,57 @@ public class GunManager : MonoBehaviour
         else
         {
             //弾丸のベクトルの終点を線の終点にする
-            lineRend.SetPosition(1, cameraObj.transform.position + (gunVec * bulletDistance));
+            bulletHitPos = cameraObj.transform.position + (gunVec * bulletDistance);
+        }
+
+        //エフェクト作成
+        CreateBulletEffect(bulletHitPos);
+    }
+
+    private void CreateBulletEffect(Vector3 _hitPos)
+    {
+        //マズルフラッシュ
+        if (muzzleFlashPrefab != null)
+        {
+            Instantiate(muzzleFlashPrefab,
+                muzzleTransform.position,
+                Quaternion.identity,
+                transform
+                ).transform.localRotation = Quaternion.identity;
+        }
+
+        //弾道
+        if (bulletLine != null)
+        {
+        //弾道用のLineRendererを取得（見た目用）
+        LineRenderer lineRend = Instantiate(
+            bulletLine,
+            Vector3.zero,
+            Quaternion.identity
+            ).GetComponent<LineRenderer>();
+
+        //点の数
+        lineRend.positionCount = 2;
+        //始点の座標指定
+        lineRend.SetPosition(0, muzzleTransform.position);
+
+        //当たった場所を線の終点にする
+        lineRend.SetPosition(1, _hitPos);
+        }
+
+        //着弾
+        if(bulletHitPrefab != null)
+        {
+            //着弾地点に生成
+            GameObject hitEffect = 
+                Instantiate(bulletHitPrefab,
+                _hitPos,
+                Quaternion.identity
+                );
+
+            //発射方向に向ける
+            hitEffect.transform.rotation = 
+                Quaternion.LookRotation(muzzleTransform.position - hitEffect.transform.position);
         }
     }
     

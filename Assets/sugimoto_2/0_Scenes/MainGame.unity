@@ -4524,6 +4524,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   muzzleTransform: {fileID: 1656324216}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
+  muzzleFlashPrefab: {fileID: 0}
+  bulletHitPrefab: {fileID: 0}
   magazineSize: 10
   oneShotBulletAmount: 1
   bulletSpread: 0.03
@@ -5967,6 +5969,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   muzzleTransform: {fileID: 1695004172}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
+  muzzleFlashPrefab: {fileID: 0}
+  bulletHitPrefab: {fileID: 0}
   magazineSize: 10
   oneShotBulletAmount: 1
   bulletSpread: 0.03
@@ -7169,6 +7173,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   muzzleTransform: {fileID: 857427016}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
+  muzzleFlashPrefab: {fileID: 0}
+  bulletHitPrefab: {fileID: 0}
   magazineSize: 10
   oneShotBulletAmount: 1
   bulletSpread: 0.03
@@ -7776,6 +7782,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   muzzleTransform: {fileID: 1620759149}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
+  muzzleFlashPrefab: {fileID: 0}
+  bulletHitPrefab: {fileID: 0}
   magazineSize: 10
   oneShotBulletAmount: 1
   bulletSpread: 0.03
@@ -9762,6 +9770,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   muzzleTransform: {fileID: 63526926}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
+  muzzleFlashPrefab: {fileID: 0}
+  bulletHitPrefab: {fileID: 0}
   magazineSize: 10
   oneShotBulletAmount: 1
   bulletSpread: 0.03
@@ -11522,6 +11532,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   muzzleTransform: {fileID: 189758129}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
+  muzzleFlashPrefab: {fileID: 0}
+  bulletHitPrefab: {fileID: 0}
   magazineSize: 10
   oneShotBulletAmount: 1
   bulletSpread: 0.03
@@ -12389,6 +12401,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   muzzleTransform: {fileID: 1095954544}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
+  muzzleFlashPrefab: {fileID: 0}
+  bulletHitPrefab: {fileID: 0}
   magazineSize: 10
   oneShotBulletAmount: 1
   bulletSpread: 0.03
@@ -15552,6 +15566,7 @@ MonoBehaviour:
   ConstPos: {fileID: 1916263973}
   AttackStart_Pos: {fileID: 1122374070}
   AttackEnd_Pos: {fileID: 243234670}
+  trailEffectObj: {fileID: 0}
   speed: 3
 --- !u!114 &7555480364096876003
 MonoBehaviour:
