@@ -18,7 +18,7 @@ public class ItemSetting : MonoBehaviour
             case ITEM_ID.FOOD_2:
             case ITEM_ID.FOOD_3:
             case ITEM_ID.FOOD_4:
-                iteminfo = new ItemInformation(ITEM_TYPE.FOOD, id, 3, 1, sprite, 10);
+                iteminfo = new ItemInformation(ITEM_TYPE.FOOD, id, 1, 1, sprite, 10);
                 break;
             case ITEM_ID.DRINK_1:
             case ITEM_ID.DRINK_2:

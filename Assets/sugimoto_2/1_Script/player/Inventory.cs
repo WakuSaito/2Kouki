@@ -165,33 +165,33 @@ public class Inventory : ID
         }
     }
 
-    public void ItemInventory()
-    {
-        //インベントリ開閉
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (!item_inventory_flag)
-            {
-                Screen.lockCursor = false;
-                item_inventory_flag = true;
-                item_inventory.SetActive(true);
+    //public void ItemInventory()
+    //{
+    //    //インベントリ開閉
+    //    if (Input.GetKeyDown(KeyCode.E))
+    //    {
+    //        if (!item_inventory_flag)
+    //        {
+    //            Screen.lockCursor = false;
+    //            item_inventory_flag = true;
+    //            item_inventory.SetActive(true);
 
-            }
-            else
-            {
-                Screen.lockCursor = true;
-                item_inventory_flag = false;
-                item_inventory.SetActive(false);
-            }
-        }
+    //        }
+    //        else
+    //        {
+    //            Screen.lockCursor = true;
+    //            item_inventory_flag = false;
+    //            item_inventory.SetActive(false);
+    //        }
+    //    }
 
-        if(item_inventory_flag)
-        {
-            //武器インベントリ表示
-            display_flag = true;
-            display_timer = 0.0f;
-        }
-    }
+    //    if(item_inventory_flag)
+    //    {
+    //        //武器インベントリ表示
+    //        display_flag = true;
+    //        display_timer = 0.0f;
+    //    }
+    //}
 
     public int PistolBulletNum()
     {
