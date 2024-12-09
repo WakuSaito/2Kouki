@@ -120,6 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   muzzleTransform: {fileID: 1002887157445120487}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
+  muzzleFlashPrefab: {fileID: 100000, guid: 16652ec55bffc364799da4b8bb3bf2eb, type: 3}
   magazineSize: 10
   oneShotBulletAmount: 1
   bulletSpread: 0.03
@@ -275,7 +276,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2269822468481854767}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: -0, y: 0.076, z: 0.194}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

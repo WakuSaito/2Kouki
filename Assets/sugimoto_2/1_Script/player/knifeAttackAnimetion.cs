@@ -12,6 +12,9 @@ public class knifeAttackAnimetion : MonoBehaviour
     public Transform AttackEnd_Pos;
     Transform target_obj_start_pos;
 
+    //残像エフェクト
+    [SerializeField] GameObject trailEffectObj;
+
     //経過時間
     float Timer = 0.0f;
 
@@ -23,16 +26,12 @@ public class knifeAttackAnimetion : MonoBehaviour
     bool Attack_Flag = false;       //攻撃中
     bool Return_Pos_Flag = false;   //定位置に戻す
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        if (trailEffectObj != null)//残像オフ
+            trailEffectObj.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
 
     public void AttackAnimation(GameObject _player)
     {
@@ -57,6 +56,8 @@ public class knifeAttackAnimetion : MonoBehaviour
                 GetComponent<KnifeManager>().StartAttack();
                 Attack_Flag = true;
                 Timer = 0.0f;
+                if (trailEffectObj != null)//残像オン
+                    trailEffectObj.SetActive(true);
             }
         }
 
@@ -71,6 +72,8 @@ public class knifeAttackAnimetion : MonoBehaviour
                 Attack_Flag = false;
                 Return_Pos_Flag = true;
                 Timer = 0.0f;
+                if (trailEffectObj != null)//残像オフ
+                    trailEffectObj.SetActive(false);
             }
         }
 
