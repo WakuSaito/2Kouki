@@ -64,15 +64,15 @@ public class SearchViewArea : MonoBehaviour
                 //途中に壁などが無いか調べる
                 RaycastHit hit;
                 Physics.Raycast(cameraPos, targetPos - cameraPos, out hit);
-                Debug.DrawRay(cameraPos, targetPos - cameraPos, Color.blue, 1f);
-                Debug.Log("hit" + hit.transform.gameObject);
+                //Debug.DrawRay(cameraPos, targetPos - cameraPos, Color.blue, 1f);
+                //Debug.Log("hit" + hit.transform.gameObject);
 
                 //一番上の親までに対象のタグがあるか調べる
                 Transform trans = hit.transform;
                 Transform rootTrans = hit.transform.root;
                 while(true)
                 {
-                    Debug.Log("tag" + trans.tag);
+                    //Debug.Log("tag" + trans.tag);
                     if (trans.tag == _targetTag)
                     {
                         SelectColor(nearestTarget);//色変更

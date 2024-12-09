@@ -70,7 +70,7 @@ public class player : PlayerFunction
     // Start is called before the first frame update
     void Start()
     {
-        //ItemInventory = obj.GetComponent<ItemInventory>();
+        ItemInventory = obj.GetComponent<ItemInventory>();
 
         //コンポーネント取得
         Inventory = GetComponent<Inventory>();
@@ -101,11 +101,13 @@ public class player : PlayerFunction
         //プレイヤーが倒されていない場合
         if (!DowmPlayer())
         {
-            //アイテムInventory開閉
-            Inventory.ItemInventory();
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                ItemInventory.InventoryOpenOrClose();
+            }
 
             //インベントリ閉じている
-            if (!Inventory.item_inventory_flag)
+            if (!ItemInventory.item_inventory_flag)
             {
                 //ゲージ処理
                 Gauge();
@@ -136,7 +138,7 @@ public class player : PlayerFunction
                 run_flag = false;
                 idle_flag = true;
                 //インベントリのアイテムを調べる
-                Inventory.CheckInventoryItem();
+                //Inventory.CheckInventoryItem();
             }
         }
         else//ゲームオーバー
@@ -191,13 +193,13 @@ public class player : PlayerFunction
             //アイテム取得
             //GetComponent<Inventory>().ItemGet(item);
 
-            Inventory.ItemGet(item);
-            //bool all_get_flag = ItemInventory.AddItemInventory(item.GetComponent<ItemSetting>().iteminfo);
+            //Inventory.ItemGet(item);
+            bool all_get_flag = ItemInventory.Inventory.AddItemInventory(item.GetComponent<ItemSetting>().iteminfo);
 
-            //if (all_get_flag)
-            //{
-            //    Destroy(item);
-            //}        
+            if (all_get_flag)
+            {
+                Destroy(item);
+            }
         }
     }
 
