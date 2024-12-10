@@ -17,7 +17,7 @@ public class InventoryTest
         //ƒXƒƒbƒg“à‰Šú‰»‰Šú‰»
         for (int sloat = 0; sloat < _sloat_size; sloat++)
         {
-            Sloats[sloat] = new InventorySloat() { Set_Pos = _set_pos[sloat], Text = _text[sloat] };
+            Sloats[sloat] = new InventorySloat() { Set_Pos = _set_pos[sloat], Text = _text[sloat], Start_Pos = _set_pos[sloat].position };
         }
     }
 
