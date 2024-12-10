@@ -14,8 +14,9 @@ public class GunManager : MonoBehaviour
     [SerializeField] private int oneShotBulletAmount = 1; //一発で発射される量
     [SerializeField] private float bulletSpread = 0.03f;  //弾ブレ
     [SerializeField] private float bulletDistance = 20.0f;//弾の飛距離
-    [SerializeField] private float rapidSpeed = 1.0f;//連射速度
-    [SerializeField] private bool isCanRapid = false;//連射可能か
+    [SerializeField] private float rapidSpeed = 1.0f; //連射速度
+    [SerializeField] private bool isCanRapid = false; //連射可能か
+    [SerializeField] private float reloadSpeed = 2.8f;//リロード速度
 
     [SerializeField] private int bulletDamage = 5;  //弾が敵に与えるダメージ
 
@@ -67,6 +68,9 @@ public class GunManager : MonoBehaviour
         if(inventory == null)
         {
             currentMagazineAmount = magazineSize;
+            anim.SetBool("Reload", true);  //reload
+            isCooldown = true;
+            Invoke("ReroadFin", reloadSpeed);
             return;
         }
 
@@ -77,7 +81,7 @@ public class GunManager : MonoBehaviour
             {
                 anim.SetBool("Reload", true);  //reload
                 isCooldown = true;
-                Invoke("ReroadFin", 2.8f);
+                Invoke("ReroadFin", reloadSpeed);
             }
         }
 
@@ -87,6 +91,9 @@ public class GunManager : MonoBehaviour
     {
         anim.SetBool("Reload", false);  //reload
         isCooldown = false;
+
+        if (inventory == null) return;
+
         //ピストルの弾丸が最大数じゃなければreload可能
         if (currentMagazineAmount < magazineSize)
         {
@@ -159,7 +166,6 @@ public class GunManager : MonoBehaviour
         if (!isCanRapid) return;
         if (currentMagazineAmount <= 0)
         {
-            gunSound.PlayBlankShot();//発射失敗音
             return;
         }
 
@@ -175,6 +181,8 @@ public class GunManager : MonoBehaviour
         }
 
         gunSound.PlayShot();//発射音
+
+        anim.SetTrigger("Shot");//アニメーション
 
         //クールタイム
         StartCoroutine(CooldownCoroutine(rapidSpeed));
