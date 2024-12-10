@@ -9,6 +9,9 @@ public class InventorySloat
     public ItemInformation ItemInfo { get; set; } // スロットに格納されるアイテム
     public int Item_Num { get; set; } // スロット内のアイテム数
 
+    public Vector3 Start_Pos { get; set; }
+    public bool catch_flag { get; set; }
+
     public Transform Set_Pos { get; set; }
 
     public Text Text { get; set; }
@@ -71,10 +74,8 @@ public class InventorySloat
         ItemInfo.get_num = Item_Num;
     }
 
-    public void InMouseSloat(GameObject _hit_sloat)
+    public GameObject InMouseSloat(GameObject _hit_sloat)
     {
-        Debug.Log("test");
-
         if (_hit_sloat == Set_Pos.gameObject)
         {
             if (Input.GetMouseButton(0))
@@ -83,8 +84,10 @@ public class InventorySloat
             }
             else
             {
-                _hit_sloat.transform.position = Set_Pos.position;
+                _hit_sloat.transform.position = Start_Pos;
             }
+            return Set_Pos.gameObject;
         }
+        return null;
     }
 }

@@ -11,6 +11,8 @@ public class ItemInventory : MonoBehaviour
     [SerializeField] Transform[] sprite_pos;
     [SerializeField] Text[] text;
 
+    GameObject catch_obj;
+
     public bool item_inventory_flag = false;
 
     // Start is called before the first frame update
@@ -68,12 +70,19 @@ public class ItemInventory : MonoBehaviour
         {
             Debug.Log(result.gameObject);
 
-            foreach(var sloat in Inventory.Sloats)
+            //スロットアイテム掴む
+            for (int sloat = 0; sloat < sloat_size; sloat++)
             {
-                Debug.Log("t");
-
-                sloat.InMouseSloat(result.gameObject);
+                if (result.gameObject == Inventory.Sloats[sloat].Set_Pos.gameObject)
+                {
+                    catch_obj = result.gameObject;
+                    break;
+                }
             }
+            //foreach(var sloat in Inventory.Sloats)
+            //{
+            //    catch_obj = sloat.InMouseSloat(result.gameObject);
+            //}
         }
     }
 
