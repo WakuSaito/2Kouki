@@ -132,6 +132,12 @@ public class player : PlayerFunction
             //Inventoryを開いている
             else
             {
+                //ゲージ回復処理
+                if(Input.GetMouseButtonDown(1))
+                {
+                    ItemInventory.Recovery_Gage();
+                }
+
                 //移動を止める
                 Rigidbody.velocity = new Vector3(0, 0);
 

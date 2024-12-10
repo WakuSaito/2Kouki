@@ -90,7 +90,7 @@ public class Inventory : ID
         for (int i = 0; i < INVENTORY_MAX; i++)
         {
             //現在カーソルがあっているInventoryの中身が空じゃなければ
-            if (item_sprite_obj[i] == _item && item_type_id[i] != -1) 
+            if (item_sprite_obj[i] == _item && item_type_id[i] != -1)
             {
                 //ID取得
                 ITEM_ID _id = (ITEM_ID)item_type_id[i];
@@ -100,7 +100,7 @@ public class Inventory : ID
                 {
                     EatFood(i, _id);
                 }
-                if(_id>=ITEM_ID.EMERGENCY_PACK)
+                if (_id >= ITEM_ID.EMERGENCY_PACK)
                 {
                     HpRecovery(i, _id);
                 }

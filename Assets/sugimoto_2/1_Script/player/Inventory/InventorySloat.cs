@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*  できること
+ ・アイテム情報管理
+ ・スロットアイテムの位置
+ */
+
 [System.Serializable]
 public class InventorySloat
 {
@@ -10,7 +15,6 @@ public class InventorySloat
     public int Item_Num { get; set; } // スロット内のアイテム数
 
     public Vector3 Start_Pos { get; set; }
-    public bool catch_flag { get; set; }
 
     public Transform Set_Pos { get; set; }
 
@@ -68,26 +72,46 @@ public class InventorySloat
         Text.GetComponent<Text>().text = Item_Num + "";
     }
 
+    public void DeleteSloatUI()
+    {       
+        //UI表示
+        Set_Pos.gameObject.SetActive(false);
+        Set_Pos.GetComponent<Image>().sprite = null;
+        Text.GetComponent<Text>().text = Item_Num + "";
+    }
+
     public void SetSloatItemInfo()
     {
         //獲得可能数は所持している数
         ItemInfo.get_num = Item_Num;
     }
 
-    public GameObject InMouseSloat(GameObject _hit_sloat)
+    //public GameObject InMouseSloat(GameObject _hit_sloat)
+    //{
+    //    if (_hit_sloat == Set_Pos.gameObject)
+    //    {
+    //        if (Input.GetMouseButton(0))
+    //        {
+    //            _hit_sloat.transform.position = Input.mousePosition;
+    //        }
+    //        else
+    //        {
+    //            _hit_sloat.transform.position = Start_Pos;
+    //        }
+    //        return Set_Pos.gameObject;
+    //    }
+    //    return null;
+    //}
+
+    public void UseItem()
     {
-        if (_hit_sloat == Set_Pos.gameObject)
+        Item_Num--;
+
+        if (Item_Num <= 0)
         {
-            if (Input.GetMouseButton(0))
-            {
-                _hit_sloat.transform.position = Input.mousePosition;
-            }
-            else
-            {
-                _hit_sloat.transform.position = Start_Pos;
-            }
-            return Set_Pos.gameObject;
+            ItemInfo = null;
+            DeleteSloatUI();
         }
-        return null;
     }
+
 }

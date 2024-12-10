@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*  できること
+ ・アイテム取得
+ ・アイテム移動
+ ・スロットの管理
+ ・同じアイテム同士、スタック上限じゃなければスタックする
+ */
+
 
 [System.Serializable]
 public class InventoryTest
@@ -20,7 +27,7 @@ public class InventoryTest
             Sloats[sloat] = new InventorySloat() { Set_Pos = _set_pos[sloat], Text = _text[sloat], Start_Pos = _set_pos[sloat].position };
         }
     }
-
+    //アイテム取得
     public bool AddItemInventory(ItemInformation _iteminfo)
     {
         foreach(var sloat in Sloats)
@@ -46,7 +53,19 @@ public class InventoryTest
         return false;
     }
 
+    public void ItemSloatChange(int _cach_num ,int in_sloat_num)
+    {
+        InventorySloat temp = Sloats[in_sloat_num];
+        Sloats[in_sloat_num] = Sloats[_cach_num];
+        Sloats[_cach_num] = temp;
+        //Sloats[in_sloat_num].SetSloatUI();
+        //Sloats[_cach_num].SetSloatUI();
+    }
 
+    public void UseItem(int _index)
+    {
+        Sloats[_index].UseItem();
+    }
 
     // デバッグ用メソッドを追加
     public void PrintInventory() 
