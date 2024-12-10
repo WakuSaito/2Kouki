@@ -106,7 +106,12 @@ public class TestPlayerMnager : MonoBehaviour
         {
             usePistol.GetComponent<GunManager>().PullTriggerDown();
         }
-        if (Input.GetKeyDown(KeyCode.R))
+        else if (Input.GetMouseButton(0))
+        {
+            usePistol.GetComponent<GunManager>().PullTrigger();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R)) 
         {
             //アニメーション起動
             usePistol.GetComponent<Animator>().enabled = true;
@@ -114,10 +119,10 @@ public class TestPlayerMnager : MonoBehaviour
             //リロード処理
             usePistol.GetComponent<GunManager>().Reload();
         }
-        if(isInfinityBullet)
-        {
-            usePistol.GetComponent<GunManager>().Reload();
-        }
+        //if(isInfinityBullet)
+        //{
+        //    usePistol.GetComponent<GunManager>().Reload();
+        //}
 
         characterController.Move(vec.normalized * moveSpeed * Time.deltaTime);
 
