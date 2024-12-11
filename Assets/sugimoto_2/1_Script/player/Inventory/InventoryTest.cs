@@ -24,7 +24,7 @@ public class InventoryTest
         //スロット内初期化初期化
         for (int sloat = 0; sloat < _sloat_size; sloat++)
         {
-            Sloats[sloat] = new InventorySloat() { Set_Pos = _set_pos[sloat], Text = _text[sloat], Start_Pos = _set_pos[sloat].position };
+            Sloats[sloat] = new InventorySloat() { Set_Pos = _set_pos[sloat], Text = _text[sloat], Start_Pos = _set_pos[sloat].position, Sloat_No = sloat };
         }
     }
     //アイテム取得
@@ -58,13 +58,10 @@ public class InventoryTest
         InventorySloat temp = Sloats[in_sloat_num];
         Sloats[in_sloat_num] = Sloats[_cach_num];
         Sloats[_cach_num] = temp;
+        Sloats[in_sloat_num].Sloat_No = in_sloat_num;
+        Sloats[_cach_num].Sloat_No = _cach_num;
         //Sloats[in_sloat_num].SetSloatUI();
         //Sloats[_cach_num].SetSloatUI();
-    }
-
-    public void UseItem(int _index)
-    {
-        Sloats[_index].UseItem();
     }
 
     // デバッグ用メソッドを追加
@@ -75,7 +72,7 @@ public class InventoryTest
             var slot = Sloats[i]; 
             if (slot.ItemInfo != null) 
             { 
-                Debug.Log($"Slot {i}: {slot.Item_Num}, Quantity: {slot.Text}"); 
+                Debug.Log($"Slot {i}: {slot.Sloat_No}, Quantity: {slot.Item_Num}"); 
             } 
             else 
             { 

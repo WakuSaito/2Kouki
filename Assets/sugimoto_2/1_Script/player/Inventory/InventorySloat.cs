@@ -8,12 +8,11 @@ using UnityEngine.UI;
  ・スロットアイテムの位置
  */
 
-[System.Serializable]
 public class InventorySloat
 {
     public ItemInformation ItemInfo { get; set; } // スロットに格納されるアイテム
-    public int Item_Num { get; set; } // スロット内のアイテム数
-
+    public int Item_Num { get; set; }   // スロット内のアイテム数
+    public int Sloat_No { get; set; }   //スロットの番号
     public Vector3 Start_Pos { get; set; }
 
     public Transform Set_Pos { get; set; }
@@ -21,7 +20,7 @@ public class InventorySloat
     public Text Text { get; set; }
 
     //スロットが空か調べる
-    public bool CheckSloatEmpty()
+    public bool IsEmpty()
     {
         return Item_Num == 0;
     }
@@ -75,9 +74,9 @@ public class InventorySloat
     public void DeleteSloatUI()
     {       
         //UI表示
-        Set_Pos.gameObject.SetActive(false);
         Set_Pos.GetComponent<Image>().sprite = null;
         Text.GetComponent<Text>().text = Item_Num + "";
+        Set_Pos.gameObject.SetActive(false);
     }
 
     public void SetSloatItemInfo()
@@ -86,32 +85,22 @@ public class InventorySloat
         ItemInfo.get_num = Item_Num;
     }
 
-    //public GameObject InMouseSloat(GameObject _hit_sloat)
-    //{
-    //    if (_hit_sloat == Set_Pos.gameObject)
-    //    {
-    //        if (Input.GetMouseButton(0))
-    //        {
-    //            _hit_sloat.transform.position = Input.mousePosition;
-    //        }
-    //        else
-    //        {
-    //            _hit_sloat.transform.position = Start_Pos;
-    //        }
-    //        return Set_Pos.gameObject;
-    //    }
-    //    return null;
-    //}
-
     public void UseItem()
     {
         Item_Num--;
+        SetSloatItemInfo();
 
-        if (Item_Num <= 0)
+        //空になったら初期化
+        if (IsEmpty())
         {
             ItemInfo = null;
             DeleteSloatUI();
         }
     }
 
+    public void CrearSloat()
+    {
+        ItemInfo = null;
+        DeleteSloatUI();
+    }
 }
