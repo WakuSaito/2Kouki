@@ -76,6 +76,7 @@ public class ItemInventory : MonoBehaviour
     public void CheckInventoryItem()    //カーソルのあっているアイテムを調べる
     {
         select_item = null;
+        hit_box = null;
 
         //マウスの位置からUIを取得する
         //RaycastAllの引数（PointerEventData）作成
@@ -168,36 +169,33 @@ public class ItemInventory : MonoBehaviour
         }
         else
         {
-            if (hit_box == null)
+            if (hit_box != null)
             {
-                //元の位置に戻す
-                catch_obj.transform.position = sloat_box[catch_sloat_num].transform.position;
-                catch_obj = null;
-                drag_flag = false;
-            }
-            else
-            {
-                //移動先を調べる //バグ：アイテム情報がある場合は移動できないようにする
+                //移動先を調べる
                 for (int sloat = 0; sloat < sloat_size; sloat++)
                 {
                     if (hit_box == sloat_box[sloat])
                     {
-                        //入れたい場所のスロットがいっぱいじゃなければ入れる
+                        //入れたい場所のスロットが空
                         if (Inventory.Sloats[sloat].ItemInfo == null)
                         {
+                            Debug.Log("a");
                             //中身を入れ替える
                             Inventory.ItemSloatChange(catch_sloat_num, sloat);
                             //設置
                             catch_obj.transform.position = hit_box.transform.position;
-
+                            //移動前のスロット初期化
                             Inventory.Sloats[catch_sloat_num].CrearSloat();
                         }
                         else
                         {
-                            if (Inventory.AddItemInventory(Inventory.Sloats[catch_sloat_num].ItemInfo))
+                            //スロットアイテム＋スロットアイテム
+                            if (Inventory.AddSloatSloatInventory(Inventory.Sloats[catch_sloat_num],Inventory.Sloats[sloat]))
                             {
                                 //中身を入れ替える
                                 Inventory.ItemSloatChange(catch_sloat_num, sloat);
+                                //Inventory.Sloats[sloat].SetSloatUI();
+                                Inventory.Sloats[catch_sloat_num].SetSloatUI();
                             }
                             else
                             {
@@ -209,7 +207,14 @@ public class ItemInventory : MonoBehaviour
                         break;
                     }
                 }
+            }
 
+            if (catch_obj != null) 
+            {
+                //元の位置に戻す
+                catch_obj.transform.position = sloat_box[catch_sloat_num].transform.position;
+                catch_obj = null;
+                drag_flag = false;
             }
         }
     }

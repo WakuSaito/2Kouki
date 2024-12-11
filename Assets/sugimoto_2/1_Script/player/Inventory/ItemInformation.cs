@@ -207,6 +207,15 @@ public class ItemInformation
         //c‚Á‚½”‚ğ•Ô‚·
         return get_num = _get_num;
     }
+
+    public void DebugLog()
+    {
+        Debug.Log("type : " + type);
+        Debug.Log("id : "+id);
+        Debug.Log("get_num : " + get_num);
+        Debug.Log("stack_max : " + stack_max);
+        Debug.Log("sprite : " + sprite);
+    }
 }
 
 [System.Serializable]

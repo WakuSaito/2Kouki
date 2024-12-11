@@ -53,6 +53,65 @@ public class InventoryTest
         return false;
     }
 
+    public bool AddSloatSloatInventory(InventorySloat _sloat)
+    {
+        //全部と調べちゃダメ
+        foreach (var sloat in Sloats)//×
+        {
+            if (sloat.CanAddSloatSloat(_sloat))
+            {
+                int remaining_num = sloat.AddSloatSloat(_sloat);
+
+                sloat.SetSloatUI();
+                sloat.SetSloatItemInfo();
+                //すべて追加できた場合
+                if (remaining_num <= 0)
+                {
+                    if (_sloat.IsEmpty())
+                    {
+                        _sloat.CrearSloat();
+                    }
+                    return true;
+                }
+                else
+                {
+                    //追加できなかった分を更新
+                    _sloat.ItemInfo.get_num = remaining_num;
+                }
+            }
+        }
+    
+        return false;
+
+    }
+    public bool AddSloatSloatInventory(InventorySloat _catch, InventorySloat _in_sloat)
+    {
+        if (_in_sloat.CanAddSloatSloat(_catch))
+        {
+            int remaining_num = _in_sloat.AddSloatSloat(_catch);
+
+            _in_sloat.SetSloatUI();
+            _in_sloat.SetSloatItemInfo();
+            //すべて追加できた場合
+            if (remaining_num <= 0)
+            {
+                if (_catch.IsEmpty())
+                {
+                    _catch.CrearSloat();
+                }
+                return true;
+            }
+            else
+            {
+                //追加できなかった分を更新
+                _catch.ItemInfo.get_num = remaining_num;
+            }
+        }
+    
+        return false;
+
+    }
+
     public void ItemSloatChange(int _cach_num ,int in_sloat_num)
     {
         InventorySloat temp = Sloats[in_sloat_num];
@@ -60,7 +119,7 @@ public class InventoryTest
         Sloats[_cach_num] = temp;
         Sloats[in_sloat_num].Sloat_No = in_sloat_num;
         Sloats[_cach_num].Sloat_No = _cach_num;
-        //Sloats[in_sloat_num].SetSloatUI();
+        Sloats[in_sloat_num].SetSloatUI();
         //Sloats[_cach_num].SetSloatUI();
     }
 
