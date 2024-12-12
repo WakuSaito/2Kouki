@@ -11,7 +11,8 @@ public class ShotGunManager : GunManager
 
     public override void Reload()
     {
-        if (isCooldown) return;
+        if (isShotCooldown) return;
+        if (isReload) return;
         //ピストルの弾丸が最大数じゃなければreload可能
         if (GetCurrentMagazine() >= GetMagazineSize()) return;
 
@@ -20,7 +21,7 @@ public class ShotGunManager : GunManager
         if (inventory == null)
         {
             anim.SetBool("Reload", true);  //reload
-            isCooldown = true;
+            isReload = true;
             return;
         }
 
@@ -30,7 +31,7 @@ public class ShotGunManager : GunManager
             if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
             {
                 anim.SetBool("Reload", true);  //reload
-                isCooldown = true;
+                isReload = true;
             }
         }
 
@@ -40,7 +41,7 @@ public class ShotGunManager : GunManager
     public override void StopReload()
     {
         onCancelReload = true;
-        isCooldown = false;
+        isReload = false;
         anim.SetBool("Reload", false);
     }
 
@@ -68,7 +69,7 @@ public class ShotGunManager : GunManager
 
         //リロード終了
         anim.SetBool("Reload", false);
-        isCooldown = false;
+        isReload = false;
     }
 
 }

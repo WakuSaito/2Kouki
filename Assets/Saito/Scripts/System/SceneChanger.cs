@@ -20,6 +20,7 @@ public class SceneChanger : MonoBehaviour
     public void LoadNextSceneAsync()
     {
         soundManager.Play2DSE(soundManager.pushButton);
+        soundManager.ChangeBGM(null, 0.6f);//BGMフェードアウト
         StartCoroutine(LoadSceneAsync("MainGame", soundManager.pushButton.length));
     }
 
