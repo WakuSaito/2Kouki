@@ -26,14 +26,14 @@ public class GunManager : MonoBehaviour
 
     private int currentMagazineAmount;//現在のマガジンの弾数
 
-    bool isCooldown = false;//クールタイム中か
+    protected bool isCooldown = false;//クールタイム中か
 
     GameObject cameraObj;
-    Inventory inventory;
-    Animator anim;
-
+    protected Inventory inventory;
     //サウンド再生用
     private GunSound gunSound;
+    protected Animator anim;
+
 
     private void Awake()
     {
@@ -42,7 +42,7 @@ public class GunManager : MonoBehaviour
         cameraObj = Camera.main.gameObject;
         anim = GetComponent<Animator>();
 
-        gunSound = gameObject.GetComponent<GunSound>();
+        gunSound = GetComponent<GunSound>();
     }
 
     private void Update()
@@ -54,12 +54,17 @@ public class GunManager : MonoBehaviour
         }
     }
 
+    public int GetMagazineSize()
+    {
+        return magazineSize;
+    }
+
     public int GetCurrentMagazine()
     {
         return currentMagazineAmount;
     }
 
-    public void Reload()
+    public virtual void Reload()
     {
         if (isCooldown) return;
         //ピストルの弾丸が最大数じゃなければreload可能
@@ -67,7 +72,6 @@ public class GunManager : MonoBehaviour
 
         if(inventory == null)
         {
-            currentMagazineAmount = magazineSize;
             anim.SetBool("Reload", true);  //reload
             isCooldown = true;
             Invoke("ReroadFin", reloadSpeed);
@@ -92,54 +96,87 @@ public class GunManager : MonoBehaviour
         anim.SetBool("Reload", false);  //reload
         isCooldown = false;
 
-        if (inventory == null) return;
+        //ピストルに入る弾丸数を調べる
+        int emptyAmount = HowManyCanLoaded();
 
-        //ピストルの弾丸が最大数じゃなければreload可能
-        if (currentMagazineAmount < magazineSize)
-        {
-            for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
-            {
-                //インベントリに弾丸があるか
-                if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
-                {
-                    //ピストルに入る弾丸数を調べる
-                    int reload_num = magazineSize - currentMagazineAmount;
-                    //reloadできる最大数を保存
-                    int max_reload = reload_num;
-
-                    //animation
-
-                    for (int cnt = 0; cnt < max_reload; cnt++)
-                    {
-                        if (inventory.item_num[i] == 0)
-                        {
-                            //インベントリにあった弾丸の残りが0になったらidも初期化する
-                            inventory.item_type_id[i] = -1;
-                            break;
-                        }
-                        else
-                        {
-                            inventory.item_num[i]--;
-                            currentMagazineAmount++;
-                            reload_num--;
-                        }
-                        //インベントリの中身も減らす
-                        inventory.ReduceInventory(i);
-                    }
-                }
-            }
-        }
-
+        AddBullet(emptyAmount);
     }
 
-    public void StopReload()
+    public virtual void StopReload()
     {
-        if(IsInvoking("ReroadFin"))
+        if (IsInvoking("ReroadFin"))
         {
             isCooldown = false;
             anim.SetBool("Reload", false);  //reload
             CancelInvoke("ReroadFin");
         }
+    }
+
+    public void AddBullet(int _amount)
+    {
+        int addAmount = _amount;
+        //最大は超えないように
+        if (addAmount > magazineSize - currentMagazineAmount)
+            addAmount = magazineSize - currentMagazineAmount;
+
+        if (inventory == null) {
+            currentMagazineAmount += addAmount;
+            return;
+        }     
+
+
+        for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
+        {
+            //インベントリに弾丸があるか
+            if (inventory.item_type_id[i] != (int)ID.ITEM_ID.BULLET) continue;
+
+            for (int cnt = 0; cnt < addAmount; cnt++)
+            {
+                if (inventory.item_num[i] == 0)
+                {
+                    //インベントリにあった弾丸の残りが0になったらidも初期化する
+                    inventory.item_type_id[i] = -1;
+                    break;
+                }
+                else
+                {
+                    //下の関数にまとめて欲しい
+                    inventory.item_num[i]--;
+                    //インベントリの中身も減らす 複数減らせるようにしてほしい
+                    inventory.ReduceInventory(i);
+
+                    currentMagazineAmount++;
+                    addAmount--;
+                }
+            }
+        }
+    }
+
+    //後何発弾を入れられるか
+    public int HowManyCanLoaded()
+    {
+        //マガジンに入る弾数計算
+        int canLoadedAmount = magazineSize - currentMagazineAmount;
+
+        if (inventory == null) return canLoadedAmount;
+
+        for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
+        {
+            //インベントリに弾丸があるか
+            if (inventory.item_type_id[i] != (int)ID.ITEM_ID.BULLET) continue;
+
+            for (int cnt = 0; cnt < canLoadedAmount; cnt++)
+            {
+                //インベントリに弾がある場合
+                if (inventory.item_num[i] != 0)
+                    canLoadedAmount--; 
+                //弾が無い場合
+                else          
+                    break;
+            }
+        }
+
+        return canLoadedAmount;
     }
 
     /// <summary>
@@ -154,6 +191,7 @@ public class GunManager : MonoBehaviour
             return;
         }
 
+        Debug.Log("発砲");
         Shot();
     }
 
