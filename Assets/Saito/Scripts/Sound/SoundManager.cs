@@ -67,6 +67,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip nomalBGM;  
 
     private AudioClip nextBGM;
+    private float changeBGMSpeed;
     private float maxVolume;
     private float currentVolume;
 
@@ -101,21 +102,19 @@ public class SoundManager : MonoBehaviour
 
         if(isFadeOut)
         {
-            currentVolume -= 2.0f * Time.deltaTime;
-            if(currentVolume <= 0)
+            currentVolume -= changeBGMSpeed * Time.deltaTime;
+            if (currentVolume <= 0)
             {
                 isFadeOut = false;
                 currentVolume = 0;
-                if(nextBGM != null)
-                {
-                    audioSource.clip = nextBGM;
-                    nextBGM = null;
-                }
+
+                audioSource.clip = nextBGM;
+                nextBGM = null;
             }
         }
         else if(isFadeIn)
         {
-            currentVolume += 2.0f * Time.deltaTime;
+            currentVolume += changeBGMSpeed * Time.deltaTime;
             if (currentVolume >= maxVolume)
             {
                 isFadeIn = false;
@@ -126,9 +125,10 @@ public class SoundManager : MonoBehaviour
         audioSource.volume = currentVolume;
     }
 
-    public void ChangeBGM(AudioClip _bgm)
+    public void ChangeBGM(AudioClip _bgm, float _speed)
     {
         nextBGM = _bgm;
+        changeBGMSpeed = _speed;
         isFadeOut = true;
         isFadeIn = true;
     }

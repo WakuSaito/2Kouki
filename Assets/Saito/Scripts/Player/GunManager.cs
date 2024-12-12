@@ -26,7 +26,8 @@ public class GunManager : MonoBehaviour
 
     private int currentMagazineAmount;//現在のマガジンの弾数
 
-    protected bool isCooldown = false;//クールタイム中か
+    protected bool isShotCooldown = false;//発砲クールタイム中か
+    protected bool isReload = false;  //リロード中か
 
     GameObject cameraObj;
     protected Inventory inventory;
@@ -66,14 +67,15 @@ public class GunManager : MonoBehaviour
 
     public virtual void Reload()
     {
-        if (isCooldown) return;
+        if (isShotCooldown) return;
+        if (isReload) return;
         //ピストルの弾丸が最大数じゃなければreload可能
         if (currentMagazineAmount >= magazineSize) return;
 
         if(inventory == null)
         {
             anim.SetBool("Reload", true);  //reload
-            isCooldown = true;
+            isReload = true;
             Invoke("ReroadFin", reloadSpeed);
             return;
         }
@@ -84,7 +86,7 @@ public class GunManager : MonoBehaviour
             if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
             {
                 anim.SetBool("Reload", true);  //reload
-                isCooldown = true;
+                isReload = true;
                 Invoke("ReroadFin", reloadSpeed);
             }
         }
@@ -94,7 +96,7 @@ public class GunManager : MonoBehaviour
     void ReroadFin()
     {
         anim.SetBool("Reload", false);  //reload
-        isCooldown = false;
+        isReload = false;
 
         //ピストルに入る弾丸数を調べる
         int emptyAmount = HowManyCanLoaded();
@@ -106,7 +108,7 @@ public class GunManager : MonoBehaviour
     {
         if (IsInvoking("ReroadFin"))
         {
-            isCooldown = false;
+            isReload = false;
             anim.SetBool("Reload", false);  //reload
             CancelInvoke("ReroadFin");
         }
@@ -184,11 +186,15 @@ public class GunManager : MonoBehaviour
     /// </summary>
     public void PullTriggerDown()
     {
-        if (isCooldown) return;
+        if (isShotCooldown) return;
         if (currentMagazineAmount <= 0)
         {
             gunSound.PlayBlankShot();//発射失敗音
             return;
+        }
+        if (isReload)
+        {
+            StopReload();
         }
 
         Debug.Log("発砲");
@@ -200,7 +206,7 @@ public class GunManager : MonoBehaviour
     /// </summary>
     public void PullTrigger()
     {
-        if (isCooldown) return;
+        if (isShotCooldown) return;
         if (!isCanRapid) return;
         if (currentMagazineAmount <= 0)
         {
@@ -276,7 +282,17 @@ public class GunManager : MonoBehaviour
         }
 
         //エフェクト作成
-        CreateBulletEffect(bulletHitPos);
+        StartCoroutine(DelayCoroutine(bulletHitPos));
+    }
+
+    private IEnumerator DelayCoroutine(Vector3 _hitPos)
+    {
+        //アニメーション後にエフェクトを出したいので2フレーム遅らせる      
+        yield return null;
+        yield return null;
+
+        //エフェクト作成
+        CreateBulletEffect(_hitPos);
     }
 
     private void CreateBulletEffect(Vector3 _hitPos)
@@ -329,12 +345,12 @@ public class GunManager : MonoBehaviour
     //クールタイム用コルーチン
     private IEnumerator CooldownCoroutine(float _sec)
     {
-        isCooldown = true;
+        isShotCooldown = true;
 
         //連射速度分待つ
         yield return new WaitForSeconds(_sec);
 
-        isCooldown = false;
+        isShotCooldown = false;
     }
 
 }
