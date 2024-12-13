@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GunManager : MonoBehaviour
 {
@@ -76,7 +77,7 @@ public class GunManager : MonoBehaviour
         {
             anim.SetBool("Reload", true);  //reload
             isReload = true;
-            Invoke("ReroadFin", reloadSpeed);
+            Invoke(nameof(ReroadFin), reloadSpeed);
             return;
         }
 
@@ -87,7 +88,7 @@ public class GunManager : MonoBehaviour
             {
                 anim.SetBool("Reload", true);  //reload
                 isReload = true;
-                Invoke("ReroadFin", reloadSpeed);
+                Invoke(nameof(ReroadFin), reloadSpeed);
             }
         }
 
@@ -106,11 +107,11 @@ public class GunManager : MonoBehaviour
 
     public virtual void StopReload()
     {
-        if (IsInvoking("ReroadFin"))
+        if (IsInvoking(nameof(ReroadFin)))
         {
             isReload = false;
             anim.SetBool("Reload", false);  //reload
-            CancelInvoke("ReroadFin");
+            CancelInvoke(nameof(ReroadFin));
         }
     }
 
@@ -194,10 +195,14 @@ public class GunManager : MonoBehaviour
         }
         if (isReload)
         {
-            StopReload();
+            //アニメーション遷移を確定させるため1フレーム遅延実行
+            StartCoroutine(DelayFrameCoroutine(
+                1,
+                () => StopReload()
+            ));
+
         }
 
-        Debug.Log("発砲");
         Shot();
     }
 
@@ -239,8 +244,8 @@ public class GunManager : MonoBehaviour
     private void CreateBullet()
     {
         //ばらつきをランダムに決める
-        float x = Random.Range(-bulletSpread, bulletSpread);
-        float y = Random.Range(-bulletSpread, bulletSpread);
+        float x = UnityEngine.Random.Range(-bulletSpread, bulletSpread);
+        float y = UnityEngine.Random.Range(-bulletSpread, bulletSpread);
 
         //視点ベクトルにばらつきを加算
         Vector3 gunVec = cameraObj.transform.forward + new Vector3(x, y, 0);
@@ -281,18 +286,23 @@ public class GunManager : MonoBehaviour
             bulletHitPos = cameraObj.transform.position + (gunVec * bulletDistance);
         }
 
-        //エフェクト作成
-        StartCoroutine(DelayCoroutine(bulletHitPos));
+        //アニメーション後にエフェクトを出したいので1フレーム遅らせる   
+        StartCoroutine(DelayFrameCoroutine(
+            1, 
+            () => CreateBulletEffect(bulletHitPos)
+        ));
     }
 
-    private IEnumerator DelayCoroutine(Vector3 _hitPos)
+    //対象のアクションを一定フレーム後遅延実行させる
+    private IEnumerator DelayFrameCoroutine(int _frame, Action _action)
     {
-        //アニメーション後にエフェクトを出したいので2フレーム遅らせる      
-        yield return null;
-        yield return null;
+        for (int i = 0; i < _frame; i++)
+        {
+            yield return null;
+        }
 
-        //エフェクト作成
-        CreateBulletEffect(_hitPos);
+        //アクション実行
+        _action();
     }
 
     private void CreateBulletEffect(Vector3 _hitPos)
