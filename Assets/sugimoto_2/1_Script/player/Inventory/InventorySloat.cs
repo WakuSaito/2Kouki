@@ -15,9 +15,9 @@ public class InventorySloat
     public int Sloat_No { get; set; }   //スロットの番号
     public Vector3 Start_Pos { get; set; }
 
-    public Transform Set_Pos { get; set; }
+    //public Transform Set_Pos { get; set; }
 
-    public Text Text { get; set; }
+    //public Text Text { get; set; }
 
     //スロットが空か調べる
     public bool IsEmpty()
@@ -27,16 +27,27 @@ public class InventorySloat
     
     /*プレイヤーが拾ったアイテム*/
     //アイテムを追加できるか調べる
-    public bool CanAddItem(ItemInformation _iteminfro)
+    public bool CanAdd_PickUPItem(ItemInformation _iteminfro)
     {
         //武器の場合の処理を追加
+        if (ItemInfo == null) return true;
+        if (ItemInfo.id == _iteminfro.id && Item_Num < ItemInfo.stack_max) return true;
 
+        return false;
+    }
 
-        return ItemInfo == null || (ItemInfo.id == _iteminfro.id && Item_Num < ItemInfo.stack_max);
+    public bool CanAdd_SloatItem(InventorySloat _sloat)
+    {
+        if (ItemInfo == null) return false;
+        if (Sloat_No == _sloat.Sloat_No) return false;
+        if (ItemInfo.id != _sloat.ItemInfo.id) return false;
+        if (Item_Num == ItemInfo.stack_max) return false;
+
+        return true;
     }
 
     //アイテムを追加、スロットに入らなかったアイテム数を返す
-    public int AddItem(ItemInformation _iteminfo)
+    public int Add_PickUPItem(ItemInformation _iteminfo)
     {
         //アイテム情報がなければ入れる
         if(ItemInfo == null)
@@ -46,7 +57,7 @@ public class InventorySloat
         }
 
         //アイテムが入っていて、IDが違う場合は入れれない
-        if(ItemInfo.id != _iteminfo.id)
+        if (ItemInfo.id != _iteminfo.id)
         {
             return ItemInfo.get_num;
         }
@@ -66,17 +77,8 @@ public class InventorySloat
 
 
     /*スロットアイテムを足し合わせる*/
-    public bool CanAddSloatSloat(InventorySloat _sloat)
-    {
-        if (ItemInfo == null) return false;
-        if (Sloat_No == _sloat.Sloat_No) return false;
-        if (ItemInfo.id != _sloat.ItemInfo.id) return false;
-        if (Item_Num == ItemInfo.stack_max) return false;
 
-        return true;
-    }
-
-    public int AddSloatSloat(InventorySloat _sloat)
+    public int Add_SloatItem(InventorySloat _sloat)
     {
         //スロットの空き容量を調べる
         int stack_space = ItemInfo.stack_max - Item_Num;
@@ -86,58 +88,37 @@ public class InventorySloat
         //スロットのアイテム数を更新
         Item_Num += add_num;
         _sloat.Item_Num -= add_num;
-        _sloat.SetSloatItemInfo();
-        _sloat.SetSloatUI();
 
         return _sloat.ItemInfo.get_num;
     }
 
     /*設定関係*/
 
-    public void SloatPosSet(Transform _set_pos)
-    {
-        Start_Pos = _set_pos.position;
-    }
-
-    public void SetSloatUI()
-    {
-        //UI表示
-        Set_Pos.gameObject.SetActive(true);
-        Set_Pos.GetComponent<Image>().sprite = ItemInfo.sprite;
-        Text.GetComponent<Text>().text = Item_Num + "";
-    }
-
-    public void DeleteSloatUI()
-    {       
-        //UI表示
-        Set_Pos.GetComponent<Image>().sprite = null;
-        Text.GetComponent<Text>().text = Item_Num + "";
-        Set_Pos.gameObject.SetActive(false);
-    }
-
     public void SetSloatItemInfo()
     {
-        //獲得可能数は所持している数
-        ItemInfo.get_num = Item_Num;
+        if (ItemInfo != null)
+        {
+            //獲得可能数は所持している数
+            Debug.Log(ItemInfo.get_num);
+            Debug.Log(Item_Num);
+            ItemInfo.get_num = Item_Num;
+        }
     }
 
     public void UseItem()
     {
         Item_Num--;
         SetSloatItemInfo();
-        SetSloatUI();
 
         //空になったら初期化
         if (IsEmpty())
         {
             ItemInfo = null;
-            DeleteSloatUI();
         }
     }
 
     public void CrearSloat()
     {
         ItemInfo = null;
-        DeleteSloatUI();
     }
 }

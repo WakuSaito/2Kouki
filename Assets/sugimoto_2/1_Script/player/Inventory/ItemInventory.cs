@@ -20,13 +20,14 @@ public class ItemInventory : MonoBehaviour
     [SerializeField] int sloat_size = 10;
     [SerializeField] Transform[] sprite_pos;
     [SerializeField] Text[] text;
-    [SerializeField] GameObject[] sloat_box;
+    [SerializeField] Transform[] sloat_box;
 
     GameObject catch_obj;
     int catch_sloat_num;
     GameObject select_item;
     int select_sloat_num;
     GameObject hit_box;
+    int hit_box_num;
     bool drag_flag = false;
 
     public bool item_inventory_flag = false;
@@ -39,7 +40,7 @@ public class ItemInventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Inventory = new InventoryTest(sloat_size, sprite_pos, text);
+        Inventory = new InventoryTest(sloat_size, sloat_box);
     }
 
     // Update is called once per frame
@@ -52,6 +53,7 @@ public class ItemInventory : MonoBehaviour
         {
             CheckInventoryItem();
             ItemCatch();
+            Inventory.SetUI();
         }
     }
     public void InventoryOpenOrClose()
@@ -92,26 +94,24 @@ public class ItemInventory : MonoBehaviour
 
         foreach (RaycastResult result in RayResult)
         {
-            int sloat_num = 0;
-
             //カーソルがあっているアイテム
-            foreach (var sloat in Inventory.Sloats)
+            for (int cnt = 0; cnt < sloat_box.Length; cnt++)
             {
-                if (result.gameObject == sloat.Set_Pos.gameObject)
+                if (result.gameObject == sloat_box[cnt].GetChild(0).gameObject)
                 {
                     select_item = result.gameObject;
-                    select_sloat_num = sloat_num;
+                    select_sloat_num = cnt;
                     break;
                 }
-                sloat_num++;
             }
 
             //カーソルがあっているスロットのbox
-            foreach (var box in sloat_box)
+            for (int cnt = 0; cnt < sloat_box.Length; cnt++)
             {
-                if (result.gameObject == box)
+                if (result.gameObject == sloat_box[cnt].gameObject)
                 {
-                    hit_box = box;
+                    hit_box = sloat_box[cnt].gameObject;
+                    hit_box_num = cnt;
                     break;
                 }
             }
@@ -154,7 +154,7 @@ public class ItemInventory : MonoBehaviour
     void ItemCatch()
     {
         //つかんだオブジェクトを保存
-        if(Input.GetMouseButtonDown(0)&& select_item != null)
+        if (Input.GetMouseButtonDown(0) && select_item != null)
         {
             catch_obj = select_item;
             catch_sloat_num = select_sloat_num;
@@ -172,41 +172,35 @@ public class ItemInventory : MonoBehaviour
             if (hit_box != null)
             {
                 //移動先を調べる
-                for (int sloat = 0; sloat < sloat_size; sloat++)
+                //入れたい場所のスロットが空
+                if (Inventory.Sloats[hit_box_num].ItemInfo == null)
                 {
-                    if (hit_box == sloat_box[sloat])
+                    Debug.Log("a1");
+                    //中身を入れ替える
+                    Inventory.ItemSloatChange(catch_sloat_num, hit_box_num);
+                    //設置
+                    catch_obj.transform.position = sloat_box[catch_sloat_num].transform.position;
+                    //移動前のスロット初期化
+                    Inventory.Sloats[catch_sloat_num].CrearSloat();
+                }
+                else
+                {
+                    //スロットアイテム＋スロットアイテム
+                    if (Inventory.AddSloatSloatInventory(catch_sloat_num, hit_box_num))
                     {
-                        //入れたい場所のスロットが空
-                        if (Inventory.Sloats[sloat].ItemInfo == null)
-                        {
-                            Debug.Log("a");
-                            //中身を入れ替える
-                            Inventory.ItemSloatChange(catch_sloat_num, sloat);
-                            //設置
-                            catch_obj.transform.position = hit_box.transform.position;
-                            //移動前のスロット初期化
-                            Inventory.Sloats[catch_sloat_num].CrearSloat();
-                        }
-                        else
-                        {
-                            //スロットアイテム＋スロットアイテム
-                            if (Inventory.AddSloatSloatInventory(Inventory.Sloats[catch_sloat_num],Inventory.Sloats[sloat]))
-                            {
-                                //中身を入れ替える
-                                Inventory.ItemSloatChange(catch_sloat_num, sloat);
-                                //Inventory.Sloats[sloat].SetSloatUI();
-                                Inventory.Sloats[catch_sloat_num].SetSloatUI();
-                            }
-                            else
-                            {
-                                catch_obj.transform.position = Inventory.Sloats[catch_sloat_num].Start_Pos;
-                            }
-                        }
-                        catch_obj = null;
-                        drag_flag = false;
-                        break;
+                        Debug.Log("a2");
+
+                        //設置
+                        catch_obj.transform.position = sloat_box[hit_box_num].transform.position;
+                    }
+                    else
+                    {
+                        catch_obj.transform.position = Inventory.Sloat_Box[catch_sloat_num].position;
                     }
                 }
+                hit_box = null;
+                catch_obj = null;
+                drag_flag = false;
             }
 
             if (catch_obj != null) 
