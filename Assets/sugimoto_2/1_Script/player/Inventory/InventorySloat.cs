@@ -15,10 +15,6 @@ public class InventorySloat
     public int Sloat_No { get; set; }   //スロットの番号
     public Vector3 Start_Pos { get; set; }
 
-    //public Transform Set_Pos { get; set; }
-
-    //public Text Text { get; set; }
-
     //スロットが空か調べる
     public bool IsEmpty()
     {
@@ -46,43 +42,24 @@ public class InventorySloat
         return true;
     }
 
-    //アイテムを追加、スロットに入らなかったアイテム数を返す
-    //public int Add_PickUPItem(ItemInformation _iteminfo)
-    //{
-    //    //アイテム情報がなければ入れる
-    //    if(ItemInfo == null)
-    //    {
-    //        ItemInfo = _iteminfo;
-    //        Item_Num = 0;           //アイテム数を後で数えて入れなおすため
-    //    }
-
-        
-
-    //    //アイテムが入っていて、IDが違う場合は入れれない
-    //    if (ItemInfo.id != _iteminfo.id)
-    //    {
-    //        return ItemInfo.get_num;
-    //    }
-
-
-    //    //スロットの空き容量を調べる
-    //    int stack_space = ItemInfo.stack_max - Item_Num;
-    //    //追加できるアイテム数を調べる
-    //    int add_num = Mathf.Min(_iteminfo.get_num, stack_space);//取得可能数がはいるか、空き容量の数しか入らないか
-
-    //    //スロットのアイテム数を更新
-    //    Item_Num += add_num;
-    //    _iteminfo.get_num -= add_num;
-
-    //    return _iteminfo.get_num;
-    //}
-
     public int Add_PickUPItem(ItemInformation _iteminfo)
     {
         //アイテム情報がなければ入れる
         if(ItemInfo == null)
         {
-            ItemInfo = new ItemInformation(_iteminfo.type, _iteminfo.id, _iteminfo.get_num, _iteminfo.stack_max, _iteminfo.sprite);
+            switch(_iteminfo.type)
+            {
+                case ITEM_TYPE.FOOD:
+                case ITEM_TYPE.RECOVERY:
+                    ItemInfo = new ItemInformation(_iteminfo.type, _iteminfo.id, _iteminfo.get_num, _iteminfo.stack_max, _iteminfo.sprite, _iteminfo.recoveryitem_info.recovery_num);
+                    break;
+                case ITEM_TYPE.WEAPON:
+                    ItemInfo = new ItemInformation(_iteminfo.type, _iteminfo.id, _iteminfo.get_num, _iteminfo.stack_max, _iteminfo.sprite, _iteminfo.weaponitem_info.bullet_num);
+                    break;
+                default:
+                    ItemInfo = new ItemInformation(_iteminfo.type, _iteminfo.id, _iteminfo.get_num, _iteminfo.stack_max, _iteminfo.sprite);
+                    break;
+            }
             ItemInfo.get_num = 0;           //アイテム数を後で数えて入れなおすため
         }
 
@@ -126,21 +103,9 @@ public class InventorySloat
 
     /*設定関係*/
 
-    //public void SetSloatItemInfo()
-    //{
-    //    if (ItemInfo != null)
-    //    {
-    //        //獲得可能数は所持している数
-    //        Debug.Log(ItemInfo.get_num);
-    //        Debug.Log(ItemInfo.get_num);
-    //        ItemInfo.get_num = ItemInfo.get_num;
-    //    }
-    //}
-
     public void UseItem()
     {
         ItemInfo.get_num--;
-        //SetSloatItemInfo();
 
         //空になったら初期化
         if (IsEmpty())
