@@ -215,6 +215,17 @@ public class ItemInformation
         Debug.Log("get_num : " + get_num);
         Debug.Log("stack_max : " + stack_max);
         Debug.Log("sprite : " + sprite);
+        switch (type)
+        {
+            case ITEM_TYPE.FOOD:
+            case ITEM_TYPE.RECOVERY:
+                Debug.Log(recoveryitem_info.recovery_num);
+                break;
+            case ITEM_TYPE.WEAPON:
+                Debug.Log(weaponitem_info.bullet_num);
+                break;
+        }
+
     }
 }
 

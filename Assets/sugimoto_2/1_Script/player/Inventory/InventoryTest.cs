@@ -40,7 +40,7 @@ public class InventoryTest
             if (Sloats[sloat].CanAdd_PickUPItem(_iteminfo))
             {
                 int remaining_num = Sloats[sloat].Add_PickUPItem(_iteminfo);
-                Sloats[sloat].SetSloatItemInfo();
+                //Sloats[sloat].SetSloatItemInfo();
 
                 //Ç∑Ç◊Çƒí«â¡Ç≈Ç´ÇΩèÍçá
                 if (remaining_num <= 0)
@@ -63,7 +63,7 @@ public class InventoryTest
         if (Sloats[_in_sloat].CanAdd_SloatItem(Sloats[_catch]))
         {
             int remaining_num = Sloats[_in_sloat].Add_SloatItem(Sloats[_catch]);
-            Sloats[_catch].SetSloatItemInfo();
+            //Sloats[_catch].SetSloatItemInfo();
 
             //Ç∑Ç◊Çƒí«â¡Ç≈Ç´ÇΩèÍçá
             if (remaining_num <= 0)
@@ -93,13 +93,14 @@ public class InventoryTest
             {
                 Sloat_Box[sloat].GetChild(0).gameObject.SetActive(true);
                 Sloat_Box[sloat].GetChild(0).GetComponent<Image>().sprite = Sloats[sloat].ItemInfo.sprite;
+                Sloat_Box[sloat].GetChild(0).GetChild(0).GetComponent<Text>().text = Sloats[sloat].ItemInfo.get_num + "";
             }
             else
             {
                 Sloat_Box[sloat].GetChild(0).gameObject.SetActive(false);
                 Sloat_Box[sloat].GetChild(0).GetComponent<Image>().sprite = null;
+                Sloat_Box[sloat].GetChild(0).GetChild(0).GetComponent<Text>().text = 0 + "";
             }
-            Sloat_Box[sloat].GetChild(0).GetChild(0).GetComponent<Text>().text = Sloats[sloat].Item_Num + "";
         }
     }
 
@@ -120,7 +121,7 @@ public class InventoryTest
             var slot = Sloats[i]; 
             if (slot.ItemInfo != null) 
             {
-                Debug.Log($"Slot {i}: {slot.Sloat_No}, Quantity: {slot.Item_Num} , Get_Num ; {slot.ItemInfo.get_num}"); 
+                Debug.Log($"Slot {i}: {slot.Sloat_No}, Quantity: {slot.ItemInfo} , Get_Num ; {slot.ItemInfo.get_num}"); 
             } 
             else 
             { 

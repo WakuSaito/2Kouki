@@ -123,17 +123,20 @@ public class ItemInventory : MonoBehaviour
         if (select_item != null)
         {
             ITEM_ID _id = Inventory.Sloats[select_sloat_num].ItemInfo.id;
+            int recovery_num = Inventory.Sloats[select_sloat_num].ItemInfo.recoveryitem_info.recovery_num;
+
+            Debug.Log(recovery_num);
 
             //H—¿
             {
                 if (_id >= ITEM_ID.FOOD_1 && _id <= ITEM_ID.FOOD_4)
                 {
-                    food_gauge_obj.GetComponent<Gauge>().Increase_Gauge(10);
+                    food_gauge_obj.GetComponent<Gauge>().Increase_Gauge(recovery_num);
                     //playerSound.PlayEat();//SE
                 }
                 if (_id >= ITEM_ID.DRINK_1 && _id <= ITEM_ID.DRINK_2)
                 {
-                    food_gauge_obj.GetComponent<Gauge>().Increase_Gauge(5);
+                    food_gauge_obj.GetComponent<Gauge>().Increase_Gauge(recovery_num);
                     //playerSound.PlayDrink();//SE
                 }
             }
@@ -142,7 +145,7 @@ public class ItemInventory : MonoBehaviour
             {
                 if (_id >= ITEM_ID.EMERGENCY_PACK)
                 {
-                    hp_gauge_obj.GetComponent<Gauge>().Increase_Gauge(3);
+                    hp_gauge_obj.GetComponent<Gauge>().Increase_Gauge(recovery_num);
                     //playerSound.PlayHeal();//SE
                 }
             }

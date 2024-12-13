@@ -25,7 +25,7 @@ public class ItemSetting : MonoBehaviour
                 iteminfo = new ItemInformation(ITEM_TYPE.FOOD, id, 1, 1, sprite, 5);
                 break;
             case ITEM_ID.EMERGENCY_PACK:
-                iteminfo = new ItemInformation(ITEM_TYPE.RECOVERY, id, 1, 1, sprite, 10);
+                iteminfo = new ItemInformation(ITEM_TYPE.RECOVERY, id, 1, 1, sprite, 3);
                 break;
             //コンストラクタ(種類、ID、取得可能数、スタック可能数、画像)
             case ITEM_ID.BULLET:
