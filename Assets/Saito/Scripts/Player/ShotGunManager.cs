@@ -22,6 +22,7 @@ public class ShotGunManager : GunManager
         {
             anim.SetBool("Reload", true);  //reload
             isReload = true;
+            Invoke(nameof(StartBulletIn), 0.22f);
             return;
         }
 
@@ -32,6 +33,7 @@ public class ShotGunManager : GunManager
             {
                 anim.SetBool("Reload", true);  //reload
                 isReload = true;
+                Invoke(nameof(StartBulletIn), 0.22f);
             }
         }
 
