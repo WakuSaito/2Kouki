@@ -200,7 +200,7 @@ public class player : PlayerFunction
             //GetComponent<Inventory>().ItemGet(item);
 
             //Inventory.ItemGet(item);
-            bool all_get_flag = ItemInventory.Inventory.AddItemInventory(item.GetComponent<ItemSetting>().iteminfo);
+            bool all_get_flag = ItemInventory.Inventory.AddInventory_PickUP_Item(item.GetComponent<ItemSetting>().iteminfo);
 
             if (all_get_flag)
             {

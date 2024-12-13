@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /*  できること
- ・アイテム取得
+ ・アイテムをスロットに入れる
  ・アイテム移動
  ・スロットの管理
  ・同じアイテム同士、スタック上限じゃなければスタックする
@@ -14,30 +14,34 @@ using UnityEngine.UI;
 [System.Serializable]
 public class InventoryTest
 {
-    public InventorySloat[] Sloats { get; set; }
+    public InventorySloat[] Sloats { get; set; } //スロット情報
 
-    public InventoryTest(int _sloat_size ,Transform[] _set_pos,Text[] _text)
+    public Transform[] Sloat_Box { get; set; }  //スロットの位置
+
+    public InventoryTest(int _sloat_size,Transform[] _sloat_box)//コンストラクタ
     {
         //サイズ分の配列作成
         Sloats = new InventorySloat[_sloat_size];
+        Sloat_Box = new Transform[_sloat_size];
 
         //スロット内初期化初期化
         for (int sloat = 0; sloat < _sloat_size; sloat++)
         {
-            Sloats[sloat] = new InventorySloat() { Set_Pos = _set_pos[sloat], Text = _text[sloat], Start_Pos = _set_pos[sloat].position, Sloat_No = sloat };
+            Sloat_Box[sloat] = _sloat_box[sloat];
+            Sloats[sloat] = new InventorySloat() { Start_Pos = _sloat_box[sloat].position, Sloat_No = sloat };//Set_Pos = _set_pos[sloat], Text = _text[sloat], 
         }
     }
-    //アイテム取得
-    public bool AddItemInventory(ItemInformation _iteminfo)
-    {
-        foreach(var sloat in Sloats)
-        {
-            if (sloat.CanAddItem(_iteminfo))
-            {
-                int remaining_num = sloat.AddItem(_iteminfo);
 
-                sloat.SetSloatUI();
-                sloat.SetSloatItemInfo();
+    //アイテム取得
+    public bool AddInventory_PickUP_Item(ItemInformation _iteminfo)
+    {
+        for (int sloat = 0; sloat < Sloats.Length; sloat++)
+        {
+            if (Sloats[sloat].CanAdd_PickUPItem(_iteminfo))
+            {
+                int remaining_num = Sloats[sloat].Add_PickUPItem(_iteminfo);
+                Sloats[sloat].SetSloatItemInfo();
+
                 //すべて追加できた場合
                 if (remaining_num <= 0)
                 {
@@ -53,63 +57,50 @@ public class InventoryTest
         return false;
     }
 
-    public bool AddSloatSloatInventory(InventorySloat _sloat)
+    //スロットアイテムからスロットアイテムへ
+    public bool AddSloatSloatInventory(int _catch, int _in_sloat)
     {
-        //全部と調べちゃダメ
-        foreach (var sloat in Sloats)//×
+        if (Sloats[_in_sloat].CanAdd_SloatItem(Sloats[_catch]))
         {
-            if (sloat.CanAddSloatSloat(_sloat))
-            {
-                int remaining_num = sloat.AddSloatSloat(_sloat);
+            int remaining_num = Sloats[_in_sloat].Add_SloatItem(Sloats[_catch]);
+            Sloats[_catch].SetSloatItemInfo();
 
-                sloat.SetSloatUI();
-                sloat.SetSloatItemInfo();
-                //すべて追加できた場合
-                if (remaining_num <= 0)
-                {
-                    if (_sloat.IsEmpty())
-                    {
-                        _sloat.CrearSloat();
-                    }
-                    return true;
-                }
-                else
-                {
-                    //追加できなかった分を更新
-                    _sloat.ItemInfo.get_num = remaining_num;
-                }
-            }
-        }
-    
-        return false;
-
-    }
-    public bool AddSloatSloatInventory(InventorySloat _catch, InventorySloat _in_sloat)
-    {
-        if (_in_sloat.CanAddSloatSloat(_catch))
-        {
-            int remaining_num = _in_sloat.AddSloatSloat(_catch);
-
-            _in_sloat.SetSloatUI();
-            _in_sloat.SetSloatItemInfo();
             //すべて追加できた場合
             if (remaining_num <= 0)
             {
-                if (_catch.IsEmpty())
+                if (Sloats[_catch].IsEmpty())
                 {
-                    _catch.CrearSloat();
+                    Sloats[_catch].CrearSloat();
                 }
                 return true;
             }
             else
             {
                 //追加できなかった分を更新
-                _catch.ItemInfo.get_num = remaining_num;
+                Sloats[_catch].ItemInfo.get_num = remaining_num;
             }
         }
-    
+
         return false;
 
+    }
+
+    public void SetUI()
+    {
+        for (int sloat = 0; sloat < Sloats.Length; sloat++)
+        {
+            if (Sloats[sloat].ItemInfo != null)
+            {
+                Sloat_Box[sloat].GetChild(0).gameObject.SetActive(true);
+                Sloat_Box[sloat].GetChild(0).GetComponent<Image>().sprite = Sloats[sloat].ItemInfo.sprite;
+            }
+            else
+            {
+                Sloat_Box[sloat].GetChild(0).gameObject.SetActive(false);
+                Sloat_Box[sloat].GetChild(0).GetComponent<Image>().sprite = null;
+            }
+            Sloat_Box[sloat].GetChild(0).GetChild(0).GetComponent<Text>().text = Sloats[sloat].Item_Num + "";
+        }
     }
 
     public void ItemSloatChange(int _cach_num ,int in_sloat_num)
@@ -119,8 +110,6 @@ public class InventoryTest
         Sloats[_cach_num] = temp;
         Sloats[in_sloat_num].Sloat_No = in_sloat_num;
         Sloats[_cach_num].Sloat_No = _cach_num;
-        Sloats[in_sloat_num].SetSloatUI();
-        //Sloats[_cach_num].SetSloatUI();
     }
 
     // デバッグ用メソッドを追加
@@ -130,8 +119,8 @@ public class InventoryTest
         { 
             var slot = Sloats[i]; 
             if (slot.ItemInfo != null) 
-            { 
-                Debug.Log($"Slot {i}: {slot.Sloat_No}, Quantity: {slot.Item_Num}"); 
+            {
+                Debug.Log($"Slot {i}: {slot.Sloat_No}, Quantity: {slot.Item_Num} , Get_Num ; {slot.ItemInfo.get_num}"); 
             } 
             else 
             { 

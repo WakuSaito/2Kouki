@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -14292,16 +14292,16 @@ MonoBehaviour:
   - {fileID: 739590970}
   - {fileID: 1261280967}
   sloat_box:
-  - {fileID: 1021796419}
-  - {fileID: 727625113}
-  - {fileID: 2006314416}
-  - {fileID: 1216790374}
-  - {fileID: 1442520176}
-  - {fileID: 643782930}
-  - {fileID: 877752225}
-  - {fileID: 1739540960}
-  - {fileID: 1621261999}
-  - {fileID: 1924928517}
+  - {fileID: 1021796420}
+  - {fileID: 727625114}
+  - {fileID: 2006314417}
+  - {fileID: 1216790375}
+  - {fileID: 1442520177}
+  - {fileID: 643782931}
+  - {fileID: 877752226}
+  - {fileID: 1739540961}
+  - {fileID: 1621262000}
+  - {fileID: 1924928518}
   item_inventory_flag: 1
   food_gauge_obj: {fileID: 801718586}
   hp_gauge_obj: {fileID: 1352847065}
