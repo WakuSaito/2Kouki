@@ -9,13 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2220944134345003367}
+  - component: {fileID: 2439165400011978781}
   m_Layer: 0
-  m_Name: no_hand
+  m_Name: Hand_Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2220944134345003367
 Transform:
   m_ObjectHideFlags: 0
@@ -31,3 +32,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2439165400011978781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6454339785291286576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57af3cc5b3ed2ec42ad81864fd1d928a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iteminfo:
+    type: 0
+    id: 0
+    get_num: 0
+    stack_max: 0
+    sprite: {fileID: 21300000, guid: 18bbd52a133c87141a6afff679c50dd7, type: 3}
+    recoveryitem_info:
+      recovery_num: 0
+    weaponitem_info:
+      bullet_num: 0
+      weapon_obj: {fileID: 0}
+  id: 12
+  sprite: {fileID: 21300000, guid: 18bbd52a133c87141a6afff679c50dd7, type: 3}

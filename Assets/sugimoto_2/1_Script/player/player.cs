@@ -64,13 +64,20 @@ public class player : PlayerFunction
     [SerializeField]
     private SceneChanger sceneChanger;
 
+    //インベントリ
     ItemInventory ItemInventory;
     public GameObject obj;
+    WeaponInventory WeaponInventory;
+    public GameObject WeponInventory_obj;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
+        //インベントリ
         ItemInventory = obj.GetComponent<ItemInventory>();
+        WeaponInventory = WeponInventory_obj.GetComponent<WeaponInventory>();
 
         //コンポーネント取得
         Inventory = GetComponent<Inventory>();
@@ -124,7 +131,7 @@ public class player : PlayerFunction
                 PickUpItem();
 
                 //武器の入れ替え
-                Inventory.ChangeWeapon();
+                hand_weapon = WeaponInventory.ChangeWeapon();
 
                 //武器別処理
                 AttackWeapon();
@@ -199,12 +206,36 @@ public class player : PlayerFunction
             //アイテム取得
             //GetComponent<Inventory>().ItemGet(item);
 
-            //Inventory.ItemGet(item);
-            bool all_get_flag = ItemInventory.Inventory.AddInventory_PickUP_Item(item.GetComponent<ItemSetting>().iteminfo);
+            ITEM_TYPE type = item.GetComponent<ItemSetting>().iteminfo.type;
+            bool all_get_flag = false;
+
+            switch(type)
+            {
+                case ITEM_TYPE.WEAPON:
+                    all_get_flag = WeaponInventory.Inventory.AddInventory_PickUP_Item(item.GetComponent<ItemSetting>().iteminfo, WeaponInventory);
+                    break;
+                default:
+                    all_get_flag = ItemInventory.Inventory.AddInventory_PickUP_Item(item.GetComponent<ItemSetting>().iteminfo, WeaponInventory);
+                    break;
+            }
 
             if (all_get_flag)
             {
-                Destroy(item);
+                if (item.GetComponent<ItemSetting>().iteminfo.type == ITEM_TYPE.WEAPON)
+                {
+                    WeaponInventory.WeaponGet(item);
+                }
+                else
+                {
+                    Destroy(item);
+                }
+            }
+            else
+            {
+                if (item.GetComponent<ItemSetting>().iteminfo.type == ITEM_TYPE.WEAPON)
+                {
+                    WeaponInventory.WeaponGet(item);
+                }
             }
         }
     }
@@ -217,14 +248,14 @@ public class player : PlayerFunction
 
         searchViewArea.ResetColor("Zombie");
 
-        switch (Inventory.hand_weapon)
+        switch (WeaponInventory.select_weapon)
         {
-            case Inventory.WEAPON_ID.KNIFE:
+            case WeaponInventory.Sloat_Order.KNIFE:
                 //攻撃、animation処理
                 hand_weapon.GetComponent<knifeAttackAnimetion>().AttackAnimation(camera_obj);
                 break;
             //ピストル
-            case Inventory.WEAPON_ID.PISTOL:
+            case WeaponInventory.Sloat_Order.GUN:
 
                 hand_pistol_flag = true;
 
@@ -253,7 +284,7 @@ public class player : PlayerFunction
 
                 break;
             //犬
-            case Inventory.WEAPON_ID.DOG:
+            case WeaponInventory.Sloat_Order.DOG:
 
                 //攻撃するオブジェクト取得
                 GameObject attack_obj = searchViewArea.GetObjUpdate("Zombie", 20f, 0.5f);

@@ -33,14 +33,13 @@ public class InventoryTest
     }
 
     //アイテム取得
-    public bool AddInventory_PickUP_Item(ItemInformation _iteminfo)
+    public bool AddInventory_PickUP_Item(ItemInformation _iteminfo ,WeaponInventory _weaponInventory)
     {
         for (int sloat = 0; sloat < Sloats.Length; sloat++)
         {
-            if (Sloats[sloat].CanAdd_PickUPItem(_iteminfo))
+            if (Sloats[sloat].CanAdd_PickUPItem(_iteminfo, _weaponInventory))
             {
                 int remaining_num = Sloats[sloat].Add_PickUPItem(_iteminfo);
-                //Sloats[sloat].SetSloatItemInfo();
 
                 //すべて追加できた場合
                 if (remaining_num <= 0)
@@ -54,6 +53,23 @@ public class InventoryTest
                 }
             }
         }
+        return false;
+    }
+
+    public bool AddWeaponInventory_PickUP_Item(ItemInformation _iteminfo ,ItemInventory _itemInventory)
+    {
+        for (int sloat = 0; sloat < Sloats.Length; sloat++)
+        {
+            //すでに所持している武器なら
+            if (Sloats[sloat].ItemInfo.id == _iteminfo.id)
+            {
+                //情報を弾丸に変更し、アイテムインベントリに入れる
+                _iteminfo.id = ITEM_ID.BULLET;
+                //_itemInventory.Inventory.AddInventory_PickUP_Item(_iteminfo);
+                break;
+            }
+        }
+
         return false;
     }
 
@@ -85,6 +101,17 @@ public class InventoryTest
 
     }
 
+    public void Add_WeaponInventory(GameObject[] _sloats)
+    {
+        for (int sloat = 0; sloat < Sloats.Length; sloat++)
+        {
+            if (_sloats[sloat] != null)
+            {
+                Sloats[sloat].ItemInfo = _sloats[sloat].GetComponent<ItemSetting>().iteminfo;
+            }
+        }
+    }
+
     public void SetUI()
     {
         for (int sloat = 0; sloat < Sloats.Length; sloat++)
@@ -100,6 +127,22 @@ public class InventoryTest
                 Sloat_Box[sloat].GetChild(0).gameObject.SetActive(false);
                 Sloat_Box[sloat].GetChild(0).GetComponent<Image>().sprite = null;
                 Sloat_Box[sloat].GetChild(0).GetChild(0).GetComponent<Text>().text = 0 + "";
+            }
+        }
+    }
+    public void SetWeaponUI()
+    {
+        for (int sloat = 0; sloat < Sloats.Length; sloat++)
+        {
+            if (Sloats[sloat].ItemInfo != null)
+            {
+                Sloat_Box[sloat].GetChild(0).gameObject.SetActive(true);
+                Sloat_Box[sloat].GetChild(0).GetComponent<Image>().sprite = Sloats[sloat].ItemInfo.sprite;
+            }
+            else
+            {
+                Sloat_Box[sloat].GetChild(0).gameObject.SetActive(false);
+                Sloat_Box[sloat].GetChild(0).GetComponent<Image>().sprite = null;
             }
         }
     }
@@ -121,7 +164,7 @@ public class InventoryTest
             var slot = Sloats[i]; 
             if (slot.ItemInfo != null) 
             {
-                Debug.Log($"Slot {i}: {slot.Sloat_No}, Quantity: {slot.ItemInfo} , Get_Num ; {slot.ItemInfo.get_num}"); 
+                Debug.Log($"Slot {i}: {slot.Sloat_No}, Quantity: {slot.ItemInfo.id} , Get_Num ; {slot.ItemInfo.get_num}"); 
             } 
             else 
             { 
