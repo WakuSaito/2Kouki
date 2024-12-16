@@ -11,6 +11,17 @@ public class ItemSetting : MonoBehaviour
     //Start is called before the first frame update
     void Start()
     {
+        ItemSet();
+    }
+
+    //Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    public void ItemSet()
+    {
         switch (id)
         {
             //コンストラクタ(種類、ID、取得可能数、スタック可能数、画像、回復数)
@@ -40,12 +51,6 @@ public class ItemSetting : MonoBehaviour
                 iteminfo = new ItemInformation(ITEM_TYPE.WEAPON, id, 1, 1, sprite);
                 break;
         }
-    }
-
-    //Update is called once per frame
-    void Update()
-    {
-
     }
 
 }

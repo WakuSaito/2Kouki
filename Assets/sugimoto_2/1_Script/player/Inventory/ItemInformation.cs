@@ -208,6 +208,8 @@ public class ItemInformation
         return get_num = _get_num;
     }
 
+
+
     public void DebugLog()
     {
         Debug.Log("type : " + type);
@@ -243,6 +245,8 @@ public class RecoveryItemInformation
 public class WeaponItemInformation
 {
     public int bullet_num = -1;
+    public GameObject weapon_obj;
+
     public WeaponItemInformation(int _bullet_num)
     {
         bullet_num = _bullet_num;
