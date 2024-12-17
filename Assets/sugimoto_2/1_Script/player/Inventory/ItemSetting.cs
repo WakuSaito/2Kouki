@@ -7,6 +7,7 @@ public class ItemSetting : MonoBehaviour
     public ItemInformation iteminfo;
     [SerializeField] ITEM_ID id;
     [SerializeField] Sprite sprite;
+    [SerializeField] Sprite bullet_sprite;
 
     //Start is called before the first frame update
     void Start()
@@ -48,7 +49,7 @@ public class ItemSetting : MonoBehaviour
             case ITEM_ID.HAND:
             case ITEM_ID.KNIFE:
             case ITEM_ID.DOG_DIRECTION:
-                iteminfo = new ItemInformation(ITEM_TYPE.WEAPON, id, 1, 1, sprite);
+                iteminfo = new ItemInformation(ITEM_TYPE.WEAPON, id, 1, 1, sprite, gameObject, bullet_sprite);
                 break;
         }
     }

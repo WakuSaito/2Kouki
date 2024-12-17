@@ -23,42 +23,10 @@ public class InventorySloat
     
     /*プレイヤーが拾ったアイテム*/
     //アイテムを追加できるか調べる
-    public bool CanAdd_PickUPItem(ItemInformation _iteminfro, WeaponInventory _weaponInventory)
+    public bool CanAdd_PickUPItem(ItemInformation _iteminfo)
     {
-        //武器の場合の処理を追加
-        /*
-        所持している武器オブジェクトの中に、取得したアイテムと同じ種類じゃなければ取得
-        情報を入れる場所はスロット３
-        オブジェクトは消さずに、武器インベントリに保存する（捨てることをしない以外は表示非表示で対応）
-        同じ種類の場合アイテム情報を弾丸に変更
-         */
-
-        if (_iteminfro.type == ITEM_TYPE.WEAPON)
-        {
-            for (int sloat = 0; sloat < _weaponInventory.weapon.Length; sloat++)
-            {
-                if (_weaponInventory.weapon[sloat] != null)
-                {
-                    ITEM_ID weapon = _weaponInventory.weapon[sloat].GetComponent<ItemSetting>().iteminfo.id;
-
-                    //すでに所持してる武器と同じIDなら弾丸に変更
-                    if (weapon == _iteminfro.id)
-                    {
-                        _iteminfro.id = ITEM_ID.BULLET;
-                        //情報をすべて弾丸に変えたい
-
-                        break;
-                    }
-                }
-            }
-
-            if (_iteminfro.id != ITEM_ID.BULLET)
-            {
-                return false;
-            }
-        }
         if (ItemInfo == null) return true;
-        if (ItemInfo.id == _iteminfro.id && ItemInfo.get_num < ItemInfo.stack_max) return true;
+        if (ItemInfo.id == _iteminfo.id && ItemInfo.get_num < ItemInfo.stack_max) return true;
 
         return false;
     }

@@ -47,7 +47,7 @@ public class ItemInventory : MonoBehaviour
     void Update()
     {
         // デバッグ用: インベントリの内容を表示
-        //if (Input.GetKeyDown(KeyCode.D)) { Inventory.PrintInventory(); }
+        if (Input.GetKeyDown(KeyCode.D)) { Inventory.PrintInventory(); }
 
         if (item_inventory_flag)
         {

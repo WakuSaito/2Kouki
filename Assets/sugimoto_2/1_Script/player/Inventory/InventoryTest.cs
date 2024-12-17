@@ -35,9 +35,71 @@ public class InventoryTest
     //アイテム取得
     public bool AddInventory_PickUP_Item(ItemInformation _iteminfo ,WeaponInventory _weaponInventory)
     {
+        //武器の場合の処理を追加
+        /*
+        所持している武器オブジェクトの中に、取得したアイテムと同じ種類じゃなければ取得
+        情報を入れる場所はスロット３
+        オブジェクトは消さずに、武器インベントリに保存する（捨てることをしない以外は表示非表示で対応）
+        同じ種類の場合アイテム情報を弾丸に変更
+
+        最初に武器インベントリを調べる
+        武器インベントリに入っていた場合アイテムインベントリを調べる
+         */
+
+        //種類が武器の場合
+        if (_iteminfo.type == ITEM_TYPE.WEAPON)
+        {
+            //武器インベントリにあるか調べる
+            if (_weaponInventory.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN].ItemInfo == null) 
+            {
+                //武器インベントリにいれる
+                _weaponInventory.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN].ItemInfo 
+                    = new ItemInformation(_iteminfo.type, _iteminfo.id, _iteminfo.get_num, _iteminfo.stack_max, _iteminfo.sprite, _iteminfo.weaponitem_info.weapon_obj,_iteminfo.weaponitem_info.bullet_sprite);
+
+                //武器をプレイヤーの子にしておく
+                _weaponInventory.WeaponGet(_iteminfo.weaponitem_info.weapon_obj);
+
+                return false;
+            }
+            //アイテムインベントリにあるか調べる
+            else
+            {
+                //インベントリに入れれるか調べる
+                bool in_flag = true;
+
+                //武器インベントリと同じIDか調べる
+                if (_weaponInventory.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN].ItemInfo.id == _iteminfo.id)
+                {
+                    in_flag = false;
+                }
+
+                //インベントリの中身と比べる
+                for (int sloat = 0; sloat < Sloats.Length; sloat++)
+                {
+                    if (Sloats[sloat].ItemInfo != null && Sloats[sloat].ItemInfo.id == _iteminfo.id)
+                    {
+                        in_flag = false;
+                        break;
+                    }
+                }
+
+                //インベントリに入れれなければ弾丸に変更
+                if(!in_flag)
+                {
+                    //アイテム情報を弾丸に変更
+                    _iteminfo.BulletInfo();
+                }
+                else
+                {
+                    //武器をプレイヤーの子にしておく
+                    _weaponInventory.WeaponGet(_iteminfo.weaponitem_info.weapon_obj);
+                }
+            }
+        }
+
         for (int sloat = 0; sloat < Sloats.Length; sloat++)
         {
-            if (Sloats[sloat].CanAdd_PickUPItem(_iteminfo, _weaponInventory))
+            if (Sloats[sloat].CanAdd_PickUPItem(_iteminfo))
             {
                 int remaining_num = Sloats[sloat].Add_PickUPItem(_iteminfo);
 
@@ -53,23 +115,6 @@ public class InventoryTest
                 }
             }
         }
-        return false;
-    }
-
-    public bool AddWeaponInventory_PickUP_Item(ItemInformation _iteminfo ,ItemInventory _itemInventory)
-    {
-        for (int sloat = 0; sloat < Sloats.Length; sloat++)
-        {
-            //すでに所持している武器なら
-            if (Sloats[sloat].ItemInfo.id == _iteminfo.id)
-            {
-                //情報を弾丸に変更し、アイテムインベントリに入れる
-                _iteminfo.id = ITEM_ID.BULLET;
-                //_itemInventory.Inventory.AddInventory_PickUP_Item(_iteminfo);
-                break;
-            }
-        }
-
         return false;
     }
 

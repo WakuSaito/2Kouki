@@ -27,14 +27,14 @@ public class IK : MonoBehaviour
 
     void OnAnimatorIK()
     {
-        switch (player.GetComponent<Inventory>().hand_weapon)
+        switch (player.GetComponent<player>().WeaponInventory.select_weapon)
         {
-            case Inventory.WEAPON_ID.PISTOL:
+            case WeaponInventory.Sloat_Order.GUN:
                 onIK = true;
                 handL = player.GetComponent<player>().hand_weapon.GetComponent<SetHandIK>().HandL;
                 handR = player.GetComponent<player>().hand_weapon.GetComponent<SetHandIK>().HandR;
                 break;
-            case Inventory.WEAPON_ID.KNIFE:
+            case WeaponInventory.Sloat_Order.KNIFE:
                 onIK = true;
                 break;
             default:
@@ -46,7 +46,7 @@ public class IK : MonoBehaviour
         if (!onIK) return;
 
 
-        if (player.GetComponent<Inventory>().hand_weapon == Inventory.WEAPON_ID.PISTOL)
+        if (player.GetComponent<player>().WeaponInventory.select_weapon == WeaponInventory.Sloat_Order.GUN)
         {
             if (handR != null)
             {
@@ -63,7 +63,7 @@ public class IK : MonoBehaviour
                 animator.SetIKRotation(AvatarIKGoal.LeftHand, handL.rotation);
             }
         }
-        else if (player.GetComponent<Inventory>().hand_weapon == Inventory.WEAPON_ID.KNIFE)
+        else if (player.GetComponent<player>().WeaponInventory.select_weapon == WeaponInventory.Sloat_Order.KNIFE)
         {
             if (knife_hand_R != null)
             {
