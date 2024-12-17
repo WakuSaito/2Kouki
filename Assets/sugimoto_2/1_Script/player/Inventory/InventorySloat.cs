@@ -52,9 +52,16 @@ public class InventorySloat
                 case ITEM_TYPE.RECOVERY:
                     ItemInfo = new ItemInformation(_iteminfo.type, _iteminfo.id, _iteminfo.get_num, _iteminfo.stack_max, _iteminfo.sprite, _iteminfo.recoveryitem_info.recovery_num);
                     break;
-                //case ITEM_TYPE.WEAPON:
-                //    ItemInfo = new ItemInformation(_iteminfo.type, _iteminfo.id, _iteminfo.get_num, _iteminfo.stack_max, _iteminfo.sprite, _iteminfo.weaponitem_info.bullet_num);
-                //    break;
+                case ITEM_TYPE.WEAPON:
+                    if (_iteminfo.id >= ITEM_ID.PISTOL && _iteminfo.id <= ITEM_ID.SHOTGUN)
+                    {
+                        ItemInfo = new ItemInformation(_iteminfo.type, _iteminfo.id, _iteminfo.get_num, _iteminfo.stack_max, _iteminfo.sprite, _iteminfo.weaponitem_info.weapon_obj, _iteminfo.weaponitem_info.bullet_sprite);
+                    }
+                    else
+                    {
+                        ItemInfo = new ItemInformation(_iteminfo.type, _iteminfo.id, _iteminfo.get_num, _iteminfo.stack_max, _iteminfo.sprite);
+                    }
+                    break;
                 default:
                     ItemInfo = new ItemInformation(_iteminfo.type, _iteminfo.id, _iteminfo.get_num, _iteminfo.stack_max, _iteminfo.sprite);
                     break;
