@@ -90,8 +90,6 @@ public class WeaponInventory : MonoBehaviour
             frame_pos.position = sloat_box[(int)select_weapon].position;
             sprite_pos[(int)select_weapon].GetComponent<Image>().color = opacity;
         }
-
-        Inventory.Add_WeaponInventory(weapon);
     }
 
     public GameObject ChangeWeapon()

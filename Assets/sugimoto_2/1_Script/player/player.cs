@@ -208,14 +208,23 @@ public class player : PlayerFunction
             //アイテム取得
             //GetComponent<Inventory>().ItemGet(item);
 
-            ITEM_TYPE type = item.GetComponent<ItemSetting>().iteminfo.type;
             bool all_get_flag = false;
             all_get_flag = ItemInventory.Inventory.AddInventory_PickUP_Item(item.GetComponent<ItemSetting>().iteminfo, WeaponInventory);
 
+            ITEM_ID id = item.GetComponent<ItemSetting>().iteminfo.id;
+
             if (all_get_flag)
             {
-                Destroy(item);
+                if (id >= ITEM_ID.PISTOL && id <= ITEM_ID.SHOTGUN) 
+                {
+
+                }
+                else
+                { 
+                    Destroy(item);
+                }
             }
+
         }
     }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2092,7 +2092,7 @@ MonoBehaviour:
       weapon_obj: {fileID: 0}
       bullet_sprite: {fileID: 0}
   id: 1
-  sprite: {fileID: 21300000, guid: 5e1ca548f2e579f4a8915a22da850abf, type: 3}
+  sprite: {fileID: 21300000, guid: 6d2233f0465343b478036afaebbf8f08, type: 3}
   bullet_sprite: {fileID: 0}
 --- !u!65 &228405123
 BoxCollider:
@@ -2588,7 +2588,7 @@ MonoBehaviour:
       weapon_obj: {fileID: 0}
       bullet_sprite: {fileID: 0}
   id: 5
-  sprite: {fileID: 21300000, guid: 95d6bb1362e025441826d44764465110, type: 3}
+  sprite: {fileID: 21300000, guid: 4216bc81c0a56204b86fbea3c07db330, type: 3}
   bullet_sprite: {fileID: 0}
 --- !u!65 &274491389
 BoxCollider:
@@ -4078,6 +4078,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 419801878}
   m_Mesh: {fileID: -2920378444690669910, guid: fdf00ae655c6f9d4abac02c38bd47b3e, type: 3}
+--- !u!1 &426849776 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7515109558935918964, guid: 2456a157eac667849aa3a77b9620bb8c, type: 3}
+  m_PrefabInstance: {fileID: 220252964}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &430816099
 GameObject:
   m_ObjectHideFlags: 0
@@ -4788,7 +4793,7 @@ MonoBehaviour:
       weapon_obj: {fileID: 0}
       bullet_sprite: {fileID: 0}
   id: 10
-  sprite: {fileID: 21300000, guid: d6db8613f28ba7b4382ad23e5e9acae9, type: 3}
+  sprite: {fileID: 21300000, guid: 23bb162879fa65c408016d7ac45f0520, type: 3}
   bullet_sprite: {fileID: 21300000, guid: 6fdfb8f4dc13c3d48ba52b9d66fa66f9, type: 3}
 --- !u!82 &554841271
 AudioSource:
@@ -5052,8 +5057,8 @@ MonoBehaviour:
     weaponitem_info:
       weapon_obj: {fileID: 0}
       bullet_sprite: {fileID: 0}
-  id: 11
-  sprite: {fileID: 21300000, guid: d6db8613f28ba7b4382ad23e5e9acae9, type: 3}
+  id: 10
+  sprite: {fileID: 21300000, guid: 23bb162879fa65c408016d7ac45f0520, type: 3}
   bullet_sprite: {fileID: 21300000, guid: 6fdfb8f4dc13c3d48ba52b9d66fa66f9, type: 3}
 --- !u!82 &558174391
 AudioSource:
@@ -9366,7 +9371,7 @@ MonoBehaviour:
     weaponitem_info:
       weapon_obj: {fileID: 0}
       bullet_sprite: {fileID: 0}
-  id: 11
+  id: 9
   sprite: {fileID: 21300000, guid: d6db8613f28ba7b4382ad23e5e9acae9, type: 3}
   bullet_sprite: {fileID: 21300000, guid: 6fdfb8f4dc13c3d48ba52b9d66fa66f9, type: 3}
 --- !u!82 &931722934
@@ -9916,7 +9921,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.78431374}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -10895,7 +10900,7 @@ MonoBehaviour:
     weaponitem_info:
       weapon_obj: {fileID: 0}
       bullet_sprite: {fileID: 0}
-  id: 10
+  id: 9
   sprite: {fileID: 21300000, guid: d6db8613f28ba7b4382ad23e5e9acae9, type: 3}
   bullet_sprite: {fileID: 21300000, guid: 6fdfb8f4dc13c3d48ba52b9d66fa66f9, type: 3}
 --- !u!82 &1059505569
@@ -12296,7 +12301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -14299,7 +14304,7 @@ MonoBehaviour:
       weapon_obj: {fileID: 0}
       bullet_sprite: {fileID: 0}
   id: 7
-  sprite: {fileID: 21300000, guid: 5c044ac8711de6d409abc527c1809519, type: 3}
+  sprite: {fileID: 21300000, guid: 466e61816f1409c4b90f5357a5b19757, type: 3}
   bullet_sprite: {fileID: 0}
 --- !u!65 &1522170388
 BoxCollider:
@@ -17416,6 +17421,7 @@ MonoBehaviour:
   item_inventory_flag: 1
   food_gauge_obj: {fileID: 801718586}
   hp_gauge_obj: {fileID: 1352847065}
+  player_obj: {fileID: 426849776}
 --- !u!224 &1884259302 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8185239229116224995, guid: 3c64184d8e1e23b499bbf8480b1b75c9, type: 3}
@@ -17766,8 +17772,8 @@ MonoBehaviour:
     weaponitem_info:
       weapon_obj: {fileID: 0}
       bullet_sprite: {fileID: 0}
-  id: 9
-  sprite: {fileID: 21300000, guid: d6db8613f28ba7b4382ad23e5e9acae9, type: 3}
+  id: 10
+  sprite: {fileID: 21300000, guid: 23bb162879fa65c408016d7ac45f0520, type: 3}
   bullet_sprite: {fileID: 21300000, guid: 6fdfb8f4dc13c3d48ba52b9d66fa66f9, type: 3}
 --- !u!82 &1933597399
 AudioSource:
@@ -23420,8 +23426,8 @@ MonoBehaviour:
     weaponitem_info:
       weapon_obj: {fileID: 0}
       bullet_sprite: {fileID: 0}
-  id: 9
-  sprite: {fileID: 21300000, guid: d6db8613f28ba7b4382ad23e5e9acae9, type: 3}
+  id: 10
+  sprite: {fileID: 21300000, guid: 23bb162879fa65c408016d7ac45f0520, type: 3}
   bullet_sprite: {fileID: 21300000, guid: 6fdfb8f4dc13c3d48ba52b9d66fa66f9, type: 3}
 --- !u!65 &7919653762439259117
 BoxCollider:

@@ -28,7 +28,8 @@ public class ItemInventory : MonoBehaviour
     int select_sloat_num;
     GameObject hit_box;
     int hit_box_num;
-    bool drag_flag = false;
+    GameObject hit_weapon_box;
+    int hit_weapon_num;
 
     public bool item_inventory_flag = false;
 
@@ -36,11 +37,15 @@ public class ItemInventory : MonoBehaviour
     [SerializeField] GameObject food_gauge_obj; //食料
     [SerializeField] GameObject hp_gauge_obj;   //体力
 
+    player Player;
+    [SerializeField] GameObject player_obj;
+
 
     // Start is called before the first frame update
     void Start()
     {
         Inventory = new InventoryTest(sloat_size, sloat_box);
+        Player = player_obj.GetComponent<player>();
     }
 
     // Update is called once per frame
@@ -115,6 +120,17 @@ public class ItemInventory : MonoBehaviour
                     break;
                 }
             }
+
+            //武器インベントリ
+            for (int cnt = 0; cnt < Player.WeaponInventory.Inventory.Sloat_Box.Length; cnt++)
+            {
+                if (result.gameObject == Player.WeaponInventory.Inventory.Sloat_Box[cnt].gameObject)
+                {
+                    hit_weapon_box = Player.WeaponInventory.Inventory.Sloat_Box[cnt].gameObject;
+                    hit_weapon_num = cnt;
+                    break;
+                }
+            }
         }
     }
 
@@ -170,10 +186,30 @@ public class ItemInventory : MonoBehaviour
         if (Input.GetMouseButton(0)) 
         {
             catch_obj.transform.position = Input.mousePosition;
-            drag_flag = true;
         }
         else
         {
+            Debug.Log(catch_obj);
+            Debug.Log(hit_weapon_box);
+            Debug.Log(hit_box);
+
+            if (hit_weapon_box != null)
+            {
+                if (Inventory.Sloats[catch_sloat_num].ItemInfo.id >= ITEM_ID.PISTOL && Inventory.Sloats[catch_sloat_num].ItemInfo.id <= ITEM_ID.SHOTGUN)
+                {
+                    Player.WeaponInventory.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN].ItemInfo.weaponitem_info.weapon_obj.SetActive(false);
+                    Inventory.ItemSloatChange(Player.WeaponInventory, catch_sloat_num);
+                    catch_obj.transform.position = hit_weapon_box.transform.position;
+                    Player.WeaponInventory.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN].ItemInfo.weaponitem_info.weapon_obj.SetActive(true);
+                    Player.WeaponInventory.weapon[(int)WeaponInventory.Sloat_Order.GUN] = Player.WeaponInventory.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN].ItemInfo.weaponitem_info.weapon_obj;
+                }
+                else
+                {
+                    catch_obj.transform.position = sloat_box[catch_sloat_num].position;
+                }
+
+                hit_weapon_box = null;
+            }
             if (hit_box != null)
             {
                 //移動先を調べる
@@ -184,7 +220,9 @@ public class ItemInventory : MonoBehaviour
                     //中身を入れ替える
                     Inventory.ItemSloatChange(catch_sloat_num, hit_box_num);
                     //設置
-                    catch_obj.transform.position = sloat_box[catch_sloat_num].transform.position;
+                    Debug.Log(catch_sloat_num);
+                    catch_obj.transform.position 
+                        = sloat_box[catch_sloat_num].transform.position;
                     //移動前のスロット初期化
                     Inventory.Sloats[catch_sloat_num].CrearSloat();
                 }
@@ -203,9 +241,9 @@ public class ItemInventory : MonoBehaviour
                         catch_obj.transform.position = Inventory.Sloat_Box[catch_sloat_num].position;
                     }
                 }
+
                 hit_box = null;
                 catch_obj = null;
-                drag_flag = false;
             }
 
             if (catch_obj != null) 
@@ -213,7 +251,6 @@ public class ItemInventory : MonoBehaviour
                 //元の位置に戻す
                 catch_obj.transform.position = sloat_box[catch_sloat_num].transform.position;
                 catch_obj = null;
-                drag_flag = false;
             }
         }
     }
