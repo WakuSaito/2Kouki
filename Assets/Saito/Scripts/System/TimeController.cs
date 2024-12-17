@@ -74,7 +74,7 @@ public class HourMinute
 }
 
 //時間経過スクリプト　（昼夜の処理など）
-public class TimeController : MonoBehaviour
+public class TimeController : MonoBehaviour, IStopObject
 {
     [SerializeField]//太陽光オブジェクト
     private GameObject directionalLightObj;
@@ -292,5 +292,15 @@ public class TimeController : MonoBehaviour
             hour -= HourMinute.MAX_HOUR;
 
         return (sunriseHour - hour) * HourMinute.MAX_MINUTE - currentTime.GetMinute();
+    }
+    //一時停止
+    public void Pause()
+    {
+        isStopPassageTime = true;
+    }
+    //再開
+    public void Resume()
+    {
+        isStopPassageTime = false;
     }
 }

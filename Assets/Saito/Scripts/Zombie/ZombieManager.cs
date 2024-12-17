@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 /// ゾンビの管理クラス
 /// ZombieBaseを継承したクラスを扱う
 /// </summary>
-public class ZombieManager : MonoBehaviour
+public class ZombieManager : MonoBehaviour, IStopObject
 {
     /// <summary>
     /// 操作するクラス
@@ -43,23 +43,14 @@ public class ZombieManager : MonoBehaviour
     //現在のプレイヤー探知範囲
     private float currentDetectionRange;
 
-    [SerializeField]//探知範囲可視化用
-    GameObject debugDetectionCirclePrefab;
-
-    GameObject debugDetectionCircle;
-
     [SerializeField]//攻撃開始距離
     float attackStartRange = 3.0f;
-    [SerializeField]//攻撃のクールタイム
-    float attackCoolDown = 3.0f;
 
     [SerializeField]//このオブジェクトを削除するプレイヤーとの距離
     float despawnPlayerDistance = 120.0f;
 
     //攻撃対象を発見している
     private bool isFoundTarget = false;
-    //攻撃のクールタイム中
-    private bool isAttackCoolDown = false;
     //ランダムに向きを変えるクールタイム中
     private bool isChangeDirCoolDown = false;
     //移動不可フラグ
@@ -68,17 +59,22 @@ public class ZombieManager : MonoBehaviour
     private bool isDead = false;
     //スタンフラグ
     private bool isStan = false;
+    //一時停止
+    private bool isStop = false;
 
     [SerializeField] //チュートリアル用か
     private bool isTutorialObj = false;
 
     //スタン処理キャンセル用トークン
-    private CancellationTokenSource stanCancellTokenSource = new CancellationTokenSource();
+    private IEnumerator stanCoroutine;
 
     [SerializeField]//Meshがアタッチされたオブジェクト
     GameObject meshObj;
     //現在の色のアルファ値
     private float currentAlpha;
+
+    //動作中の遅延動作
+    List<IEnumerator> inActionDelays = new List<IEnumerator>();
 
     private void Awake()
     {
@@ -121,6 +117,7 @@ public class ZombieManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isStop) return;
         if (playerObj == null) return;
 
         //死亡チェック
@@ -129,7 +126,7 @@ public class ZombieManager : MonoBehaviour
 
         if (isTutorialObj)
         {
-            Attack(5.0f);//攻撃
+            Attack();//攻撃のみ繰り返す
             return;
         }
 
@@ -167,7 +164,7 @@ public class ZombieManager : MonoBehaviour
 
         //移動
         {
-            if (isFreezePos || isAttackCoolDown)//停止
+            if (isFreezePos || zombieAttack.IsAttack)//停止
             {
                 //プレイヤーの方を向く
                 zombieMove.LookAtPosition(playerPos);
@@ -186,7 +183,7 @@ public class ZombieManager : MonoBehaviour
                     zombieMove.StopMove();
                     zombieAnimation.Idle();//停止モーション
 
-                    Attack(attackCoolDown);//攻撃
+                    Attack();//攻撃
                 }
                 else
                 {
@@ -202,10 +199,12 @@ public class ZombieManager : MonoBehaviour
                 if (!isChangeDirCoolDown)
                 {
                     isChangeDirCoolDown = true;//クールタイム中に
-                    _ = DelayRunAsync(
+                    inActionDelays.Add(
+                        DelayRunCoroutine(
                         UnityEngine.Random.Range(4.0f, 8.0f),//次に向きを変えるまでの時間を決める
                         () => isChangeDirCoolDown = false  //フラグオフ
-                        );
+                        ));
+                    StartCoroutine(inActionDelays[inActionDelays.Count - 1]);
 
                     //ランダムに向きを設定
                     Vector3 direction = new Vector3(0, UnityEngine.Random.Range(-180, 180), 0);
@@ -221,23 +220,15 @@ public class ZombieManager : MonoBehaviour
         }
     }
     //攻撃
-    private void Attack(float _coolDown)
+    private void Attack()
     {
-        if (isAttackCoolDown) return;//クールタイムチェック
+        if (zombieAttack.IsAttack) return;//クールタイムチェック
         if (isDead) return;
 
         //攻撃開始
         zombieAttack.StartAttack();
         //攻撃モーション再生
         zombieAnimation.Attack();
-
-        //攻撃のクールタイム中にする
-        isAttackCoolDown = true;
-        //数秒後クールタイム解除
-        _ = DelayRunAsync(
-            _coolDown,
-            () => isAttackCoolDown = false
-            );
     }
 
     //探知範囲変更
@@ -286,7 +277,7 @@ public class ZombieManager : MonoBehaviour
 
         zombieHP.Damage(_damage);//ダメージ
 
-        Stan(2.0);//スタン
+        Stan(2.0f);//スタン
     }
     /// <summary>
     /// 頭にダメージを受けた
@@ -301,7 +292,7 @@ public class ZombieManager : MonoBehaviour
 
         zombieAnimation.DamageHitRight();
 
-        Stan(2.5);//スタン
+        Stan(2.5f);//スタン
     }
     public void DamageHead(Vector3 _hitPos, int _damage)
     {
@@ -316,20 +307,25 @@ public class ZombieManager : MonoBehaviour
         //エフェクト表示
         zombieAnimation.DamagedEffect(_hitPos);
 
-        Stan(2.5);//スタン
+        Stan(2.5f);//スタン
     }
 
     //一定時間スタン
-    private void Stan(double _sec)
+    private void Stan(float _sec)
     {
         if (isDead) return;
 
-        if (isStan)
-            stanCancellTokenSource.Cancel();//現在動いているスタン処理のキャンセル
+        if (isStan && stanCoroutine != null)
+        {
+            StopCoroutine(stanCoroutine);
+            inActionDelays.Remove(stanCoroutine);
+            stanCoroutine = null;
+        }
+           // stanCancellTokenSource.Cancel();//現在動いているスタン処理のキャンセル
 
         zombieAttack.AttackCancel();//攻撃処理のキャンセル
 
-        stanCancellTokenSource = new CancellationTokenSource();
+        //stanCancellTokenSource = new CancellationTokenSource();
 
         isStan = true;
 
@@ -337,11 +333,15 @@ public class ZombieManager : MonoBehaviour
         zombieMove.StopMove();
         zombieAnimation.Idle();//停止モーション
 
-        _ = DelayRunAsync(
+
+        inActionDelays.Add(
+            DelayRunCoroutine(
             _sec,
-            stanCancellTokenSource.Token,
             () => isStan = false
-            );
+            ));
+        stanCoroutine = inActionDelays[inActionDelays.Count - 1];
+        StartCoroutine(inActionDelays[inActionDelays.Count - 1]);
+        
     }
 
 
@@ -361,10 +361,12 @@ public class ZombieManager : MonoBehaviour
         EnableCollider();//コライダー無効化
 
         //アニメーションが終わるころにオブジェクトを消す
-        _ = DelayRunAsync(
-                    3.5,//後で定数化したい
+        inActionDelays.Add(
+            DelayRunCoroutine(
+                    3.5f,//後で定数化したい
                     () => zombieAction.Dead()//死亡
-                    );
+                    ));
+        StartCoroutine(inActionDelays[inActionDelays.Count - 1]);
     }
     //コライダー無効化
     private void EnableCollider()
@@ -385,15 +387,17 @@ public class ZombieManager : MonoBehaviour
     /// (停止する時間)
     /// 犬側で呼び出してね
     /// </summary>
-    public void FreezePosition(double _sec)
+    public void FreezePosition(float _sec)
     {
         //移動停止フラグオン
         isFreezePos = true;
         //しばらくしたらオフにする
-        _ = DelayRunAsync(
+        inActionDelays.Add(
+            DelayRunCoroutine(
                     _sec,
                     () => isFreezePos = false
-                    );
+                    ));
+        StartCoroutine(inActionDelays[inActionDelays.Count - 1]);
     }
 
     //色のアルファ値変更
@@ -422,6 +426,47 @@ public class ZombieManager : MonoBehaviour
         // ディレイ処理
         await Task.Delay(TimeSpan.FromSeconds(_wait_sec), _token);
         _action();
+    }
+
+    private IEnumerator DelayRunCoroutine(float _wait_sec, Action _action)
+    {
+        //このコルーチンの情報取得 出来ればリスト追加もここでやりたい
+        IEnumerator thisCor = inActionDelays[inActionDelays.Count - 1];
+        yield return new WaitForSeconds(_wait_sec);
+
+        _action();
+        //終了時にこのコルーチン情報を削除
+        inActionDelays.Remove(thisCor);
+    }
+
+    //一時停止
+    public void Pause()
+    {
+        isStop = true;
+
+        zombieAttack.Pause();
+
+        foreach(var cor in inActionDelays)
+        {
+            if (cor == null) continue;
+
+            StopCoroutine(cor);
+        }
+        
+    }
+    //再開
+    public void Resume()
+    {
+        isStop = false;
+
+        zombieAttack.Resume();
+
+        foreach (var cor in inActionDelays)
+        {
+            if (cor == null) continue;
+
+            StartCoroutine(cor);
+        }
     }
 
 }

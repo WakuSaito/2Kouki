@@ -15,12 +15,15 @@ public class ZombieAttack : ZombieBase
     Collider col;
 
     //コルーチンキャンセル用
-    Coroutine attackCoroutine;
+    IEnumerator attackCoroutine;
 
     [SerializeField]//発生時間
     private float setUpSec = 0.3f;
     [SerializeField]//硬直時間
     private float recoverySec = 1.0f;
+
+    //攻撃中フラグ
+    public bool IsAttack { get; private set; }
 
     /// <summary>
     /// 初期設定
@@ -31,14 +34,16 @@ public class ZombieAttack : ZombieBase
         col.enabled = false;
     }
 
-
     /// <summary>
     /// 攻撃開始
     /// </summary>
     public void StartAttack()
     {
         Debug.Log("ゾンビの攻撃");
-        attackCoroutine = StartCoroutine(attack());//コルーチン開始
+        IsAttack = true;
+
+        attackCoroutine = attack();//コルーチン開始
+        StartCoroutine(attackCoroutine);
     }
 
     /// <summary>
@@ -48,6 +53,7 @@ public class ZombieAttack : ZombieBase
     {
         //とりあえずコライダーを無効化にする
         col.enabled = false;
+        IsAttack = false;
 
         if (attackCoroutine == null) return;
 
@@ -55,6 +61,26 @@ public class ZombieAttack : ZombieBase
         StopCoroutine(attackCoroutine);
 
         attackCoroutine = null;
+    }
+    //一時停止
+    public void Pause()
+    {
+        if (attackCoroutine == null) return;
+
+        col.enabled = false;
+
+        //コルーチン停止
+        StopCoroutine(attackCoroutine);
+    }
+    //再開
+    public void Resume()
+    {
+        if (IsAttack == false) return;
+        if (attackCoroutine == null) return;
+
+        col.enabled = true;
+
+        StartCoroutine(attackCoroutine);
     }
 
     IEnumerator attack()
@@ -65,6 +91,7 @@ public class ZombieAttack : ZombieBase
         yield return new WaitForSeconds(recoverySec);
         col.enabled = false;
         attackCoroutine = null;
+        IsAttack = false;
     }
 
     void OnTriggerEnter(Collider other)

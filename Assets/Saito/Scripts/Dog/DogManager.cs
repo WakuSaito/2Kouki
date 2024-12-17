@@ -288,7 +288,7 @@ public class DogManager : MonoBehaviour
         attackTargetObj.TryGetComponent(out zombieManager);
         if (zombieManager == null) return;
 
-        zombieManager.FreezePosition(biteStaySec);//ƒ]ƒ“ƒr‚ð’âŽ~
+        zombieManager.FreezePosition((float)biteStaySec);//ƒ]ƒ“ƒr‚ð’âŽ~
 
         dogAnimation.Attack();
         isStopAction = true;
