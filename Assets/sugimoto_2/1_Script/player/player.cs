@@ -67,7 +67,7 @@ public class player : PlayerFunction
     //インベントリ
     ItemInventory ItemInventory;
     public GameObject obj;
-    WeaponInventory WeaponInventory;
+    public WeaponInventory WeaponInventory;
     public GameObject WeponInventory_obj;
 
 
@@ -112,6 +112,8 @@ public class player : PlayerFunction
             {
                 ItemInventory.InventoryOpenOrClose();
             }
+
+            hand_weapon = WeaponInventory.weapon[(int)WeaponInventory.select_weapon];
 
             //インベントリ閉じている
             if (!ItemInventory.item_inventory_flag)
@@ -208,34 +210,11 @@ public class player : PlayerFunction
 
             ITEM_TYPE type = item.GetComponent<ItemSetting>().iteminfo.type;
             bool all_get_flag = false;
-
-            switch(type)
-            {
-                case ITEM_TYPE.WEAPON:
-                    all_get_flag = WeaponInventory.Inventory.AddInventory_PickUP_Item(item.GetComponent<ItemSetting>().iteminfo, WeaponInventory);
-                    break;
-                default:
-                    all_get_flag = ItemInventory.Inventory.AddInventory_PickUP_Item(item.GetComponent<ItemSetting>().iteminfo, WeaponInventory);
-                    break;
-            }
+            all_get_flag = ItemInventory.Inventory.AddInventory_PickUP_Item(item.GetComponent<ItemSetting>().iteminfo, WeaponInventory);
 
             if (all_get_flag)
             {
-                if (item.GetComponent<ItemSetting>().iteminfo.type == ITEM_TYPE.WEAPON)
-                {
-                    WeaponInventory.WeaponGet(item);
-                }
-                else
-                {
-                    Destroy(item);
-                }
-            }
-            else
-            {
-                if (item.GetComponent<ItemSetting>().iteminfo.type == ITEM_TYPE.WEAPON)
-                {
-                    WeaponInventory.WeaponGet(item);
-                }
+                Destroy(item);
             }
         }
     }

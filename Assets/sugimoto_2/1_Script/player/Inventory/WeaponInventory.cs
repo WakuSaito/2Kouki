@@ -38,6 +38,15 @@ public class WeaponInventory : MonoBehaviour
         Inventory.Sloats[(int)Sloat_Order.HAND].ItemInfo = new ItemInformation(hand.type, hand.id, hand.get_num, hand.stack_max, hand.sprite);
         hand = weapon[(int)Sloat_Order.KNIFE].GetComponent<ItemSetting>().iteminfo;
         Inventory.Sloats[(int)Sloat_Order.KNIFE].ItemInfo = new ItemInformation(hand.type, hand.id, hand.get_num, hand.stack_max, hand.sprite);
+
+        for (int sloat = 0; sloat < sloat_size; sloat++)
+        {
+            if (sloat != (int)Sloat_Order.HAND && weapon[sloat] != null)
+            {
+                weapon[sloat].SetActive(false);
+                sprite_pos[sloat].GetComponent<Image>().color = semitransparent;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -73,10 +82,13 @@ public class WeaponInventory : MonoBehaviour
         _item.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
         _item.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
 
-        if (select_weapon == Sloat_Order.HAND) 
+        if (select_weapon == Sloat_Order.HAND)
         {
+            sprite_pos[(int)select_weapon].GetComponent<Image>().color = semitransparent;
             select_weapon = Sloat_Order.GUN;
             _item.SetActive(true);
+            frame_pos.position = sloat_box[(int)select_weapon].position;
+            sprite_pos[(int)select_weapon].GetComponent<Image>().color = opacity;
         }
 
         Inventory.Add_WeaponInventory(weapon);
