@@ -412,22 +412,8 @@ public class ZombieManager : MonoBehaviour, IStopObject
     }
 
     /// <summary>
-    /// 遅らせてActionを実行するasync
+    /// 遅らせてActionを実行するコルーチン
     /// </summary>
-    private async ValueTask DelayRunAsync(double _wait_sec, Action _action)
-    {
-        // ディレイ処理
-        await Task.Delay(TimeSpan.FromSeconds(_wait_sec));
-        _action();
-    }
-    //キャンセル用
-    private async ValueTask DelayRunAsync(double _wait_sec, CancellationToken _token, Action _action)
-    {
-        // ディレイ処理
-        await Task.Delay(TimeSpan.FromSeconds(_wait_sec), _token);
-        _action();
-    }
-
     private IEnumerator DelayRunCoroutine(float _wait_sec, Action _action)
     {
         //このコルーチンの情報取得 出来ればリスト追加もここでやりたい
