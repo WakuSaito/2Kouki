@@ -203,8 +203,6 @@ public class InventoryTest
 
     public void ItemSloatChange(WeaponInventory _weapon_sloat, int _cach_num)
     {
-        Debug.Log(Sloats[_cach_num].ItemInfo.weaponitem_info.weapon_obj);
-
         InventorySloat temp = _weapon_sloat.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN];
         _weapon_sloat.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN] = Sloats[_cach_num];
         Sloats[_cach_num] = temp;
