@@ -84,7 +84,7 @@ public class ItemInventory : MonoBehaviour
     {
         select_item = null;
         hit_box = null;
-
+        hit_weapon_box = null;
         //マウスの位置からUIを取得する
         //RaycastAllの引数（PointerEventData）作成
         PointerEventData pointData = new PointerEventData(EventSystem.current);
@@ -172,6 +172,57 @@ public class ItemInventory : MonoBehaviour
 
     }
 
+    public bool CheckInBullet()
+    {
+        for (int sloat = 0; sloat < sloat_size; sloat++) 
+        {
+            if (Inventory.Sloats[sloat].ItemInfo == null) continue;
+
+            if (Inventory.Sloats[sloat].ItemInfo.id == ITEM_ID.BULLET)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public int SubBullet(int _amount)
+    {
+        int addAmount = _amount;
+        int add_num = 0;
+
+        for (int sloat = 0; sloat < sloat_size; sloat++)
+        {
+            if (Inventory.Sloats[sloat].ItemInfo == null) continue;
+
+            if (Inventory.Sloats[sloat].ItemInfo.id == ITEM_ID.BULLET)
+            {
+                int bullet_num = Inventory.Sloats[sloat].ItemInfo.get_num;
+
+                if (bullet_num > addAmount)
+                {
+                    Inventory.Sloats[sloat].ItemInfo.get_num -= addAmount;
+                    return addAmount + add_num;
+                }
+                else
+                {
+                    addAmount -= Inventory.Sloats[sloat].ItemInfo.get_num;
+                    add_num += Inventory.Sloats[sloat].ItemInfo.get_num;
+                    Debug.Log(addAmount);
+                    Inventory.Sloats[sloat].ItemInfo.get_num = 0;
+                    if (Inventory.Sloats[sloat].IsEmpty())
+                    {
+                        Inventory.Sloats[sloat].CrearSloat();
+                    }
+                }
+            }
+
+        }
+
+        return _amount - addAmount;
+    }
+
     void ItemCatch()
     {
         //つかんだオブジェクトを保存
@@ -183,25 +234,30 @@ public class ItemInventory : MonoBehaviour
 
         if (catch_obj == null) return;
 
+        Debug.Log(catch_obj);
+
         if (Input.GetMouseButton(0)) 
         {
             catch_obj.transform.position = Input.mousePosition;
         }
         else
         {
-            Debug.Log(catch_obj);
-            Debug.Log(hit_weapon_box);
-            Debug.Log(hit_box);
-
             if (hit_weapon_box != null)
             {
                 if (Inventory.Sloats[catch_sloat_num].ItemInfo.id >= ITEM_ID.PISTOL && Inventory.Sloats[catch_sloat_num].ItemInfo.id <= ITEM_ID.SHOTGUN)
                 {
+                    //現在の銃を非表示
                     Player.WeaponInventory.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN].ItemInfo.weaponitem_info.weapon_obj.SetActive(false);
+                    //スロットの中身を入れ替える
                     Inventory.ItemSloatChange(Player.WeaponInventory, catch_sloat_num);
+                    //掴んでいるオブジェクトの位置を当たった武器スロットの位置へ
                     catch_obj.transform.position = hit_weapon_box.transform.position;
+                    //入れ替えた武器を表示
                     Player.WeaponInventory.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN].ItemInfo.weaponitem_info.weapon_obj.SetActive(true);
+                    //武器インベントリの武器を入れ替えた武器に変更
                     Player.WeaponInventory.weapon[(int)WeaponInventory.Sloat_Order.GUN] = Player.WeaponInventory.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN].ItemInfo.weaponitem_info.weapon_obj;
+                    //catch_obj = Player.WeaponInventory.Inventory.Sloat_Box[(int)WeaponInventory.Sloat_Order.GUN].GetChild(0).gameObject;
+                    catch_obj.transform.position = sloat_box[catch_sloat_num].position;
                 }
                 else
                 {
@@ -220,8 +276,7 @@ public class ItemInventory : MonoBehaviour
                     //中身を入れ替える
                     Inventory.ItemSloatChange(catch_sloat_num, hit_box_num);
                     //設置
-                    Debug.Log(catch_sloat_num);
-                    catch_obj.transform.position 
+                    catch_obj.transform.position
                         = sloat_box[catch_sloat_num].transform.position;
                     //移動前のスロット初期化
                     Inventory.Sloats[catch_sloat_num].CrearSloat();

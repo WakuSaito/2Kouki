@@ -32,6 +32,7 @@ public class GunManager : MonoBehaviour
 
     GameObject cameraObj;
     protected Inventory inventory;
+    protected ItemInventory iteminventory;
     //サウンド再生用
     private GunSound gunSound;
     protected Animator anim;
@@ -52,6 +53,7 @@ public class GunManager : MonoBehaviour
         if (hand_player_obj != null && !set_player_flag)
         {
             inventory = hand_player_obj.GetComponent<Inventory>();
+            iteminventory = hand_player_obj.GetComponent<player>().ItemInventory;
             set_player_flag = true;
         }
     }
@@ -73,7 +75,16 @@ public class GunManager : MonoBehaviour
         //ピストルの弾丸が最大数じゃなければreload可能
         if (currentMagazineAmount >= magazineSize) return;
 
-        if(inventory == null)
+        //if(inventory == null)
+        //{
+        //    anim.SetBool("Reload", true);  //reload
+        //    isReload = true;
+        //    Invoke(nameof(ReroadFin), reloadSpeed);
+        //    return;
+        //}
+        if (!iteminventory.CheckInBullet()) return;
+
+        if (iteminventory.CheckInBullet())
         {
             anim.SetBool("Reload", true);  //reload
             isReload = true;
@@ -81,16 +92,16 @@ public class GunManager : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
-        {
-            //インベントリに弾丸があるか
-            if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
-            {
-                anim.SetBool("Reload", true);  //reload
-                isReload = true;
-                Invoke(nameof(ReroadFin), reloadSpeed);
-            }
-        }
+        //for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
+        //{
+        //    //インベントリに弾丸があるか
+        //    if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
+        //    {
+        //        anim.SetBool("Reload", true);  //reload
+        //        isReload = true;
+        //        Invoke(nameof(ReroadFin), reloadSpeed);
+        //    }
+        //}
 
     }
 
@@ -122,37 +133,39 @@ public class GunManager : MonoBehaviour
         if (addAmount > magazineSize - currentMagazineAmount)
             addAmount = magazineSize - currentMagazineAmount;
 
+        currentMagazineAmount+=iteminventory.SubBullet(_amount);
+
         if (inventory == null) {
             currentMagazineAmount += addAmount;
             return;
-        }     
-
-
-        for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
-        {
-            //インベントリに弾丸があるか
-            if (inventory.item_type_id[i] != (int)ID.ITEM_ID.BULLET) continue;
-
-            for (int cnt = 0; cnt < addAmount; cnt++)
-            {
-                if (inventory.item_num[i] == 0)
-                {
-                    //インベントリにあった弾丸の残りが0になったらidも初期化する
-                    inventory.item_type_id[i] = -1;
-                    break;
-                }
-                else
-                {
-                    //下の関数にまとめて欲しい
-                    inventory.item_num[i]--;
-                    //インベントリの中身も減らす 複数減らせるようにしてほしい
-                    inventory.ReduceInventory(i);
-
-                    currentMagazineAmount++;
-                    addAmount--;
-                }
-            }
         }
+
+
+        //for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
+        //{
+        //    //インベントリに弾丸があるか
+        //    if (inventory.item_type_id[i] != (int)ID.ITEM_ID.BULLET) continue;
+
+        //    for (int cnt = 0; cnt < addAmount; cnt++)
+        //    {
+        //        if (inventory.item_num[i] == 0)
+        //        {
+        //            //インベントリにあった弾丸の残りが0になったらidも初期化する
+        //            inventory.item_type_id[i] = -1;
+        //            break;
+        //        }
+        //        else
+        //        {
+        //            //下の関数にまとめて欲しい
+        //            inventory.item_num[i]--;
+        //            //インベントリの中身も減らす 複数減らせるようにしてほしい
+        //            inventory.ReduceInventory(i);
+
+        //            currentMagazineAmount++;
+        //            addAmount--;
+        //        }
+        //    }
+        //}
     }
 
     //後何発弾を入れられるか

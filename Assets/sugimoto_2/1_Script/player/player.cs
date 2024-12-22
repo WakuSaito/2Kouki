@@ -65,7 +65,7 @@ public class player : PlayerFunction
     private SceneChanger sceneChanger;
 
     //インベントリ
-    ItemInventory ItemInventory;
+    public ItemInventory ItemInventory;
     public GameObject obj;
     public WeaponInventory WeaponInventory;
     public GameObject WeponInventory_obj;
@@ -213,11 +213,16 @@ public class player : PlayerFunction
 
             ITEM_ID id = item.GetComponent<ItemSetting>().iteminfo.id;
 
+            if (id >= ITEM_ID.PISTOL && id <= ITEM_ID.SHOTGUN)
+            {
+                item.GetComponent<GunManager>().hand_player_obj = gameObject;
+            }
+
             if (all_get_flag)
             {
                 if (id >= ITEM_ID.PISTOL && id <= ITEM_ID.SHOTGUN) 
                 {
-
+                    item.GetComponent<GunManager>().hand_player_obj = gameObject;
                 }
                 else
                 { 
