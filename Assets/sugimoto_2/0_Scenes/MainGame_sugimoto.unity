@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4732,6 +4732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundType: 
   muzzleTransform: {fileID: 277105938}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
   muzzleFlashPrefab: {fileID: 100000, guid: 16652ec55bffc364799da4b8bb3bf2eb, type: 3}
@@ -5331,6 +5332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundType: 
   muzzleTransform: {fileID: 172245483}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
   muzzleFlashPrefab: {fileID: 100000, guid: 16652ec55bffc364799da4b8bb3bf2eb, type: 3}
@@ -5596,6 +5598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundType: 
   muzzleTransform: {fileID: 1421689550}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
   muzzleFlashPrefab: {fileID: 100000, guid: 16652ec55bffc364799da4b8bb3bf2eb, type: 3}
@@ -8106,6 +8109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundType: 
   muzzleTransform: {fileID: 1656324216}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
   muzzleFlashPrefab: {fileID: 0}
@@ -10001,6 +10005,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundType: 
   muzzleTransform: {fileID: 884333338}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
   muzzleFlashPrefab: {fileID: 100000, guid: 16652ec55bffc364799da4b8bb3bf2eb, type: 3}
@@ -10281,6 +10286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundType: 
   muzzleTransform: {fileID: 521714308}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
   muzzleFlashPrefab: {fileID: 100000, guid: 16652ec55bffc364799da4b8bb3bf2eb, type: 3}
@@ -10801,6 +10807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundType: 
   muzzleTransform: {fileID: 1695004172}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
   muzzleFlashPrefab: {fileID: 0}
@@ -11623,6 +11630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundType: 
   muzzleTransform: {fileID: 2049662535}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
   muzzleFlashPrefab: {fileID: 100000, guid: 16652ec55bffc364799da4b8bb3bf2eb, type: 3}
@@ -12870,6 +12878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundType: 
   muzzleTransform: {fileID: 857427016}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
   muzzleFlashPrefab: {fileID: 0}
@@ -13743,6 +13752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundType: 
   muzzleTransform: {fileID: 1620759149}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
   muzzleFlashPrefab: {fileID: 0}
@@ -17034,6 +17044,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundType: 
   muzzleTransform: {fileID: 63526926}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
   muzzleFlashPrefab: {fileID: 0}
@@ -18370,7 +18381,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1845899177
 Transform:
   m_ObjectHideFlags: 0
@@ -19258,6 +19269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundType: 
   muzzleTransform: {fileID: 1655550920}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
   muzzleFlashPrefab: {fileID: 100000, guid: 16652ec55bffc364799da4b8bb3bf2eb, type: 3}
@@ -19841,6 +19853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundType: 
   muzzleTransform: {fileID: 189758129}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
   muzzleFlashPrefab: {fileID: 0}
@@ -20891,6 +20904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundType: 
   muzzleTransform: {fileID: 1095954544}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
   muzzleFlashPrefab: {fileID: 0}
@@ -22854,6 +22868,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundType: 
   muzzleTransform: {fileID: 8068688322137211313}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
   muzzleFlashPrefab: {fileID: 100000, guid: 16652ec55bffc364799da4b8bb3bf2eb, type: 3}
