@@ -14,6 +14,8 @@ public class PhaseUseKnife : TutorialBase
 
     private Inventory inventory;
 
+    private WeaponInventory weaponInventory;
+
     [SerializeField]
     private DogManager dogManager;
 
@@ -23,6 +25,7 @@ public class PhaseUseKnife : TutorialBase
     public override void SetUpPhase()
     {
         inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+        //weaponInventory = GameObject.FindGameObjectWithTag("Player").GetComponent<weaponInventory>();
 
         tutorialManager.SetText("ƒiƒCƒt‚Åƒ]ƒ“ƒr‚ğ“|‚»‚¤");
         tutorialManager.CreateMarker(targetZombieObj.transform.position);
@@ -60,6 +63,7 @@ public class PhaseUseKnife : TutorialBase
             dogManager.OnStopAction(false);
             //“J‚ğ‚½‚¹‚é
             inventory.weapon_hand_obj[3] = dogWhistle;
+            //weaponInventory.weapon[3] = dogWhistle;
 
             tutorialManager.NextPhase();
         }

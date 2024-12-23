@@ -8,14 +8,19 @@ public class PhaseGoTown : TutorialBase
     [SerializeField]//目標の座標
     private Vector3 TargetPos;
 
-    [SerializeField]
+    [SerializeField]//フェードアウト用
     private GameObject fadeUI;
+
+    [SerializeField]//見た目用ヘリコプターオブジェクト
+    private GameObject helicoptorObj;
 
     public override void SetUpPhase()
     {
-
         tutorialManager.SetText("街で装備を整え\nヘリコプターで脱出しよう");
         tutorialManager.CreateMarker(TargetPos);
+        //ヘリを表示
+        if(helicoptorObj != null)
+            helicoptorObj.SetActive(true);
     }
 
     public override void UpdatePhase()

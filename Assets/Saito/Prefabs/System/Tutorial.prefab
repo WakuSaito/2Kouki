@@ -322,6 +322,7 @@ GameObject:
   - component: {fileID: 6710698756658029551}
   - component: {fileID: 6710698756658029549}
   - component: {fileID: 6710698756658029552}
+  - component: {fileID: 3328819696575346634}
   - component: {fileID: 6710698756658029550}
   - component: {fileID: 3327066974600761009}
   - component: {fileID: 6710698756658029546}
@@ -433,6 +434,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plzOpenBagUI: {fileID: 7638296040880561382}
   plzUseItemUI: {fileID: 3757973856232461245}
+--- !u!114 &3328819696575346634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6710698756658029543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e15a2f7a01ba29a45a3173065a08b8cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6710698756658029550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -459,6 +472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6257642d13516f6449792920a25b7dc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeController: {fileID: 0}
 --- !u!114 &6710698756658029546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,6 +493,7 @@ MonoBehaviour:
   - {fileID: 6710698756658029549}
   - {fileID: 6710698756658029552}
   - {fileID: 6710698756658029552}
+  - {fileID: 3328819696575346634}
   - {fileID: 6710698756658029550}
   - {fileID: 3327066974600761009}
 --- !u!114 &3436107488620114792
