@@ -5,6 +5,7 @@ using System;
 
 public class GunManager : MonoBehaviour
 {
+    [SerializeField] private string soundType;//サウンドの種類（武器種）
     [SerializeField] private Transform muzzleTransform; //銃口位置
 
     [SerializeField] private GameObject bulletLine;         //弾道
@@ -75,14 +76,13 @@ public class GunManager : MonoBehaviour
         //ピストルの弾丸が最大数じゃなければreload可能
         if (currentMagazineAmount >= magazineSize) return;
 
-        //if(inventory == null)
-        //{
-        //    anim.SetBool("Reload", true);  //reload
-        //    isReload = true;
-        //    Invoke(nameof(ReroadFin), reloadSpeed);
-        //    return;
-        //}
-        if (!iteminventory.CheckInBullet()) return;
+        if (inventory == null)
+        {
+            anim.SetBool("Reload", true);  //reload
+            isReload = true;
+            Invoke(nameof(ReroadFin), reloadSpeed);
+            return;
+        }
 
         if (iteminventory.CheckInBullet())
         {
@@ -133,13 +133,12 @@ public class GunManager : MonoBehaviour
         if (addAmount > magazineSize - currentMagazineAmount)
             addAmount = magazineSize - currentMagazineAmount;
 
-        currentMagazineAmount+=iteminventory.SubBullet(_amount);
-
         if (inventory == null) {
             currentMagazineAmount += addAmount;
             return;
         }
 
+        currentMagazineAmount+=iteminventory.SubBullet(_amount);
 
         //for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
         //{
@@ -242,7 +241,7 @@ public class GunManager : MonoBehaviour
             CreateBullet();
         }
 
-        gunSound.PlayShot();//発射音
+        gunSound.PlayShot(soundType);//発射音
 
         anim.SetTrigger("Shot");//アニメーション
 

@@ -141,14 +141,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4197603381247416356}
-  m_LocalRotation: {x: -0.38268346, y: -0, z: 0.9238795, w: 0}
+  m_LocalRotation: {x: -0.3727586, y: -0.11344123, z: 0.9197686, w: 0.046988968}
   m_LocalPosition: {x: -0.336, y: 0.015, z: -0.076}
   m_LocalScale: {x: 1.57886, y: 1.5350004, z: 1.0964298}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 382705189385652362}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 180}
+  m_LocalEulerAnglesHint: {x: 10, y: -45, z: 170}
 --- !u!1 &4197603381932390085
 GameObject:
   m_ObjectHideFlags: 0
@@ -525,6 +525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundType: Assault
   muzzleTransform: {fileID: 3287404946531418576}
   bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
   muzzleFlashPrefab: {fileID: 100000, guid: 16652ec55bffc364799da4b8bb3bf2eb, type: 3}

@@ -152,10 +152,16 @@ MonoBehaviour:
   playerEat: {fileID: 8300000, guid: b246702b7c619d543a2fbab6ba52bcf2, type: 3}
   playerDrink: {fileID: 8300000, guid: 9fe33e6d8f700c145b921fa991d6902f, type: 3}
   playerHeal: {fileID: 8300000, guid: 4bfbd3d6fb3de1241aef99fd916a1935, type: 3}
-  gunShot: {fileID: 8300000, guid: 5773d3d82d2c0ca46bf0247ad4b11806, type: 3}
   gunBlankShot: {fileID: 8300000, guid: c8dc62d1fe61a2d49987cf0dd30bb672, type: 3}
-  gunReloadOut: {fileID: 8300000, guid: 22b776c39dba19645a0b47530151b928, type: 3}
-  gunReloadIn: {fileID: 8300000, guid: adb30844dda2ae94da66ec8932a9de90, type: 3}
+  pistolShot: {fileID: 8300000, guid: 5773d3d82d2c0ca46bf0247ad4b11806, type: 3}
+  pistolReloadOut: {fileID: 8300000, guid: 3d8ce04e4f0363f4c9a1554540088435, type: 3}
+  pistolReloadIn: {fileID: 8300000, guid: 5a8799d48bcb74a41865b778a15f6348, type: 3}
+  assaultShot: {fileID: 8300000, guid: 1876ce3b1fbcc4943af7debcd9908e6e, type: 3}
+  assaultReloadOut: {fileID: 8300000, guid: a3863995804c7b04584449d8e5de41a8, type: 3}
+  assaultReloadIn: {fileID: 8300000, guid: 05e0cc0d48e38cb47bd09689e54bf025, type: 3}
+  assaultChargingHandle: {fileID: 8300000, guid: bf0ba6e631b7e364da0499356f050490, type: 3}
+  shotgunShot: {fileID: 8300000, guid: 1af0a1465c89a1f41a994509ce792aad, type: 3}
+  shotgunBulletIn: {fileID: 8300000, guid: a2402ea7aa3051f41ba0e504dc2a16b8, type: 3}
   whistleAttack: {fileID: 8300000, guid: 2de9569b55f3f564f9873b9bed1d0786, type: 3}
   whistleDetect: {fileID: 8300000, guid: 2de9569b55f3f564f9873b9bed1d0786, type: 3}
   zombieFootStep:

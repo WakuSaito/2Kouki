@@ -31,14 +31,28 @@ public class StopObjectAction : MonoBehaviour
 
     private void Update()
     {
-        //if (inventory == null) return;
+        bool newStopBool = currentStopState;
 
-        ////変更後の状態決め
-        //bool onStop = inventory.item_inventory_flag;
-        if (!Input.GetKeyDown(KeyCode.P)) return;
-        bool onStop = !currentStopState;
+        if(inventory != null)
+        {
+            //インベントリを開いているとき
+            if(inventory.item_inventory_flag == true)
+            {
+                newStopBool = true;
+            }
+            else
+            {
+                newStopBool = false;
+            }
+        }
+        //デバッグ用
+        else if (Input.GetKeyDown(KeyCode.P))
+        {
+            newStopBool = !currentStopState;
+        }
+
         //変わらなければ終了
-        if (onStop == currentStopState) return;
+        if (newStopBool == currentStopState) return;
 
         //IStopObjectを全取得
         var stopInterfaces = InterfaceUtils.FindObjectOfInterfaces<IStopObject>();
@@ -48,13 +62,13 @@ public class StopObjectAction : MonoBehaviour
         {
             if (stopI == null) continue;
 
-            if (onStop)
+            if (newStopBool)
                 stopI.Pause();//一時停止
             else
                 stopI.Resume();//再開
         }
-        Debug.Log("停止状態:" + onStop);
-        currentStopState = onStop;
+        Debug.Log("停止状態:" + newStopBool);
+        currentStopState = newStopBool;
     }    
 }
 

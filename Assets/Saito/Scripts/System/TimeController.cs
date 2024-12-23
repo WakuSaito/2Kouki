@@ -225,7 +225,10 @@ public class TimeController : MonoBehaviour, IStopObject
             //日数を増やす
             currentDayCount++;
             if (dayCountTextObj != null)
-                dayCountTextObj.GetComponent<Text>().text = currentDayCount + "日目";//テキスト更新
+            {
+                //dayCountTextObj.GetComponent<Text>().text = currentDayCount + "日目";//テキスト更新
+                dayCountTextObj.GetComponent<DayCountUI>().ChangeDay(currentDayCount);
+            }
         }
 
         //時間保存

@@ -357,6 +357,7 @@ public class ZombieManager : MonoBehaviour, IStopObject
 
         zombieAnimation.Die();//アニメーション
         zombieSound.PlayDead();//サウンド
+        GetComponent<Rigidbody>().velocity = Vector3.zero;//動きを止める
 
         EnableCollider();//コライダー無効化
 
@@ -418,13 +419,17 @@ public class ZombieManager : MonoBehaviour, IStopObject
     {
         //このコルーチンの情報取得 出来ればリスト追加もここでやりたい
         IEnumerator thisCor = inActionDelays[inActionDelays.Count - 1];
-        yield return new WaitForSeconds(_wait_sec);
+
+        //コルーチンを再開しても待機時間情報が消えないようにする
+        for (float i = 0; i < _wait_sec; i += 0.1f)
+            yield return new WaitForSeconds(0.1f);
 
         _action();
         //終了時にこのコルーチン情報を削除
         inActionDelays.Remove(thisCor);
     }
 
+    //インターフェースでの停止処理用
     //一時停止
     public void Pause()
     {
@@ -432,7 +437,9 @@ public class ZombieManager : MonoBehaviour, IStopObject
 
         zombieAttack.Pause();
 
-        foreach(var cor in inActionDelays)
+        //ループ中に要素が変わらないようにクッションを噛ます
+        List<IEnumerator> tmpList = new List<IEnumerator>(inActionDelays);
+        foreach(var cor in tmpList)
         {
             if (cor == null) continue;
 
@@ -447,7 +454,8 @@ public class ZombieManager : MonoBehaviour, IStopObject
 
         zombieAttack.Resume();
 
-        foreach (var cor in inActionDelays)
+        List<IEnumerator> tmpList = new List<IEnumerator>(inActionDelays);
+        foreach (var cor in tmpList)
         {
             if (cor == null) continue;
 

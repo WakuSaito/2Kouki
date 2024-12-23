@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Linq;
 //using UnityEngine.EventSystems;
 
-public class player : PlayerFunction
+public class player : PlayerFunction, IStopObject
 {
     Inventory Inventory;
     Animator Animator;  // アニメーターコンポーネント取得用
@@ -70,6 +70,8 @@ public class player : PlayerFunction
     public WeaponInventory WeaponInventory;
     public GameObject WeponInventory_obj;
 
+    //ポーズ用停止フラグ
+    private bool is_pause = false;
 
 
     // Start is called before the first frame update
@@ -103,6 +105,12 @@ public class player : PlayerFunction
     void Update()
     {
         if (game_clear_flag) return;
+
+        if (is_pause)
+        {
+            Rigidbody.velocity = new Vector3(0, 0);
+            return;
+        }
 
 
         //プレイヤーが倒されていない場合
@@ -408,6 +416,16 @@ public class player : PlayerFunction
         }
         //食料ゲージ減少
         food_gage.GetComponent<Gauge>().ReduceGauge(food_num_now - nextFood);
+    }
+
+    public void Pause()
+    {
+        is_pause = true;
+    }
+
+    public void Resume()
+    {
+        is_pause = false;
     }
 }
 

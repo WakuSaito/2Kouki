@@ -19,14 +19,29 @@ public class SoundManager : MonoBehaviour
     public AudioClip playerDrink;
     [SerializeField] //回復
     public AudioClip playerHeal;
-    [SerializeField] //発砲
-    public AudioClip gunShot;
+
+    //銃
     [SerializeField] //空撃ち
     public AudioClip gunBlankShot;
+    [SerializeField] //発砲
+    public AudioClip pistolShot;
     [SerializeField] //リロード（マガジン取り出し）
-    public AudioClip gunReloadOut;
+    public AudioClip pistolReloadOut;
     [SerializeField] //リロード（マガジン入れ）
-    public AudioClip gunReloadIn;
+    public AudioClip pistolReloadIn;
+    [SerializeField] //発砲
+    public AudioClip assaultShot;
+    [SerializeField] //リロード（マガジン取り出し）
+    public AudioClip assaultReloadOut;
+    [SerializeField] //リロード（マガジン入れ）
+    public AudioClip assaultReloadIn;
+    [SerializeField] //チャージングハンドルを引く
+    public AudioClip assaultChargingHandle;
+    [SerializeField] //発砲
+    public AudioClip shotgunShot;
+    [SerializeField] //弾込め
+    public AudioClip shotgunBulletIn;
+
     [SerializeField] //攻撃指示
     public AudioClip whistleAttack;
     [SerializeField] //探知指示
