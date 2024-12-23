@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 /// <summary>
 /// 犬のマネージャークラス
 /// </summary>
-public class DogManager : MonoBehaviour
+public class DogManager : MonoBehaviour, IStopObject
 {
     /// <summary>
     /// 操作するクラス
@@ -35,7 +35,7 @@ public class DogManager : MonoBehaviour
     private TargetMark targetMark;
 
     [SerializeField]//噛みついている時間
-    private double biteStaySec = 4.0;
+    private float biteStaySec = 4.0f;
 
     [SerializeField]//待機状態になるプレイヤーとの距離
     private float stayPlayerDistance = 5.0f;
@@ -71,6 +71,12 @@ public class DogManager : MonoBehaviour
     //移動方法を歩行にする
     private bool isMoveTypeWalk = false;
 
+    //ポーズ用停止フラグ
+    private bool isPause = false;
+
+    //動作中の遅延動作
+    List<IEnumerator> inActionDelays = new List<IEnumerator>();
+
 
     private void Awake()
     {
@@ -102,7 +108,7 @@ public class DogManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isStopAction) {
+        if (isStopAction || isPause) {
             dogMove.StopMove();//移動停止
             return; 
         }
@@ -188,17 +194,20 @@ public class DogManager : MonoBehaviour
 
             //停止時間をランダムに決める
             //変数は後でクラス変数にする
-            double freezeSec = UnityEngine.Random.Range(2.0f, 5.0f);
+            float freezeSec = UnityEngine.Random.Range(2.0f, 5.0f);
 
             onFreezeMove = true;
-            _ = DelayRunAsync(
+            //一定時間停止
+            inActionDelays.Add(
+                        DelayRunCoroutine(
                         freezeSec,
                         () => {
                             onFreezeMove = false;
                             RandomTargetPos();
                             isMoveTypeWalk = true;
                         }
-                        );
+                        ));
+            StartCoroutine(inActionDelays[inActionDelays.Count - 1]);
         }
     }
 
@@ -246,11 +255,15 @@ public class DogManager : MonoBehaviour
 
         //クールタイム
         isDetectCooldown = true;
-        _ = DelayRunAsync(
-            detectCooldownSec,
-            () => {
-                isDetectCooldown = false;
-            });
+
+        inActionDelays.Add(
+                        DelayRunCoroutine(
+                        detectCooldownSec,
+                        () => {
+                            isDetectCooldown = false;
+                        }
+                        ));
+        StartCoroutine(inActionDelays[inActionDelays.Count - 1]);
     }
     //攻撃指示可能か
     public bool CanOrderAttack()
@@ -294,21 +307,33 @@ public class DogManager : MonoBehaviour
         isStopAction = true;
         isChargeTarget = false;
 
-        _ = DelayRunAsync(
-            biteStaySec,
-            () => {
-                isStopAction = false; 
-            });
+        //一定時間停止
+        inActionDelays.Add(
+                        DelayRunCoroutine(
+                        biteStaySec,
+                        () => {
+                            isStopAction = false;
+                        }
+                        ));
+        StartCoroutine(inActionDelays[inActionDelays.Count - 1]);
     }
 
+
     /// <summary>
-    /// 遅らせてActionを実行するasync
+    /// 遅らせてActionを実行するコルーチン
     /// </summary>
-    private async ValueTask DelayRunAsync(double wait_sec, Action action)
+    private IEnumerator DelayRunCoroutine(float _wait_sec, Action _action)
     {
-        // ディレイ処理
-        await Task.Delay(TimeSpan.FromSeconds(wait_sec));
-        action();
+        //このコルーチンの情報取得 出来ればリスト追加もここでやりたい
+        IEnumerator thisCor = inActionDelays[inActionDelays.Count - 1];
+
+        //コルーチンを再開しても待機時間情報が消えないようにする
+        for (float i = 0; i < _wait_sec; i += 0.1f)
+            yield return new WaitForSeconds(0.1f);
+
+        _action();
+        //終了時にこのコルーチン情報を削除
+        inActionDelays.Remove(thisCor);
     }
 
 
@@ -334,6 +359,34 @@ public class DogManager : MonoBehaviour
     }
 
 
+    //インターフェースでの停止処理用
+    //一時停止
+    public void Pause()
+    {
+        isPause = true;
+
+        //ループ中に要素が変わらないようにクッションを噛ます
+        List<IEnumerator> tmpList = new List<IEnumerator>(inActionDelays);
+        foreach (var cor in tmpList)
+        {
+            if (cor == null) continue;
+
+            StopCoroutine(cor);
+        }
+    }
+    //再開
+    public void Resume()
+    {
+        isPause = false;
+
+        List<IEnumerator> tmpList = new List<IEnumerator>(inActionDelays);
+        foreach (var cor in tmpList)
+        {
+            if (cor == null) continue;
+
+            StartCoroutine(cor);
+        }
+    }
 }
 
 /*
