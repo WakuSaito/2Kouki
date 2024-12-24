@@ -1891,9 +1891,7 @@ MonoBehaviour:
   - {fileID: 8768809644385745461}
   detectionPlayerRangeMin: 5
   detectionPlayerRangeMax: 15
-  debugDetectionCirclePrefab: {fileID: 0}
-  attackStartRange: 0.5
-  attackCoolDown: 3
+  attackStartRange: 0.3
   despawnPlayerDistance: 50
   isTutorialObj: 0
   meshObj: {fileID: 4193280466009199003}

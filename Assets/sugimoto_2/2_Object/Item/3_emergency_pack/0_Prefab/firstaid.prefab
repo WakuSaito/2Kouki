@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 33251482398695548}
   - component: {fileID: 23692305094115228}
   - component: {fileID: 95161500554173096}
-  - component: {fileID: -8089293235153435538}
-  - component: {fileID: 6755060325015528331}
+  - component: {fileID: 5562630242119268182}
   - component: {fileID: 4891919112432534912}
+  - component: {fileID: 6755060325015528331}
   - component: {fileID: -8702560561319700453}
   - component: {fileID: -3962411620086610854}
   m_Layer: 0
@@ -110,7 +110,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &-8089293235153435538
+--- !u!114 &5562630242119268182
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,25 +119,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1987713744733760}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 836fa88f12cfa1c46a8903b831356ad0, type: 3}
+  m_Script: {fileID: 11500000, guid: 57af3cc5b3ed2ec42ad81864fd1d928a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 8
-  get_num: 0
-  get_max: 0
---- !u!65 &6755060325015528331
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1987713744733760}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.8154834, y: 0.3475596, z: 0.62949526}
-  m_Center: {x: -0.0068259835, y: 0.1600316, z: 0.0025842488}
+  iteminfo:
+    type: 0
+    id: 0
+    get_num: 0
+    stack_max: 0
+    sprite: {fileID: 0}
+    recoveryitem_info:
+      recovery_num: 0
+    weaponitem_info:
+      weapon_obj: {fileID: 0}
+      bullet_sprite: {fileID: 0}
+  id: 7
+  sprite: {fileID: 21300000, guid: 466e61816f1409c4b90f5357a5b19757, type: 3}
+  bullet_sprite: {fileID: 0}
 --- !u!114 &4891919112432534912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,6 +150,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meshObjs:
   - {fileID: 1987713744733760}
+--- !u!65 &6755060325015528331
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987713744733760}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8154834, y: 0.3475596, z: 0.62949526}
+  m_Center: {x: -0.0068259835, y: 0.1600316, z: 0.0025842488}
 --- !u!54 &-8702560561319700453
 Rigidbody:
   m_ObjectHideFlags: 0

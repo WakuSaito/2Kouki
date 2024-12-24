@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class GunManager : MonoBehaviour
+public class GunManager : MonoBehaviour, IWeapon
 {
     [SerializeField] private string soundType;//サウンドの種類（武器種）
     [SerializeField] private Transform muzzleTransform; //銃口位置
@@ -375,4 +375,17 @@ public class GunManager : MonoBehaviour
         isShotCooldown = false;
     }
 
+    //仕舞う
+    public void PutAway()
+    {
+        gameObject.SetActive(false);
+    }
+    //取り出す
+    public void PutOut()
+    {
+        gameObject.SetActive(true);
+
+        isReload = false;
+        isShotCooldown = false;
+    }
 }

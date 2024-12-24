@@ -44,7 +44,7 @@ public class ZombieManager : MonoBehaviour, IStopObject
     private float currentDetectionRange;
 
     [SerializeField]//攻撃開始距離
-    float attackStartRange = 3.0f;
+    float attackStartRange = 2.0f;
 
     [SerializeField]//このオブジェクトを削除するプレイヤーとの距離
     float despawnPlayerDistance = 120.0f;
@@ -265,19 +265,19 @@ public class ZombieManager : MonoBehaviour, IStopObject
         if (axis.y < 0)
         {
             Debug.Log("左側");
-            zombieAnimation.DamageHitLeft();
+            //zombieAnimation.DamageHitLeft();
         }
         else
         {
             Debug.Log("右側");
-            zombieAnimation.DamageHitRight();
+            //zombieAnimation.DamageHitRight();
         }
         //エフェクト表示
         zombieAnimation.DamagedEffect(_hitPos);
 
         zombieHP.Damage(_damage);//ダメージ
 
-        Stan(2.0f);//スタン
+        Stan(0.1f);//スタン
     }
     /// <summary>
     /// 頭にダメージを受けた
@@ -292,7 +292,7 @@ public class ZombieManager : MonoBehaviour, IStopObject
 
         zombieAnimation.DamageHitRight();
 
-        Stan(2.5f);//スタン
+        Stan(0.3f);//スタン
     }
     public void DamageHead(Vector3 _hitPos, int _damage)
     {
@@ -307,7 +307,7 @@ public class ZombieManager : MonoBehaviour, IStopObject
         //エフェクト表示
         zombieAnimation.DamagedEffect(_hitPos);
 
-        Stan(2.5f);//スタン
+        Stan(0.3f);//スタン
     }
 
     //一定時間スタン
@@ -364,7 +364,7 @@ public class ZombieManager : MonoBehaviour, IStopObject
         //アニメーションが終わるころにオブジェクトを消す
         inActionDelays.Add(
             DelayRunCoroutine(
-                    3.5f,//後で定数化したい
+                    2.5f,//後で定数化したい
                     () => zombieAction.Dead()//死亡
                     ));
         StartCoroutine(inActionDelays[inActionDelays.Count - 1]);
