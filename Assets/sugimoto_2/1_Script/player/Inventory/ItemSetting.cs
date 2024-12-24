@@ -10,15 +10,9 @@ public class ItemSetting : MonoBehaviour
     [SerializeField] Sprite bullet_sprite;
 
     //Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         ItemSet();
-    }
-
-    //Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void ItemSet()
