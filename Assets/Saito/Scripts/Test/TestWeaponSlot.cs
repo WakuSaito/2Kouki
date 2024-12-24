@@ -56,11 +56,24 @@ public class TestWeaponSlot : MonoBehaviour
         {
             if (weaponSlotObjects[i] == null) continue;
 
-            //選択中のアイテム以外非表示
-            if (i == selectWeponNum)
-                weaponSlotObjects[i].SetActive(true);
+            IWeapon i_weapon = weaponSlotObjects[i].GetComponent<IWeapon>();
+
+            if (i_weapon != null)
+            {
+                //選択中のアイテム以外非表示
+                if (i == selectWeponNum)
+                    i_weapon.PutOut();
+                else
+                    i_weapon.PutAway();
+            }
             else
-                weaponSlotObjects[i].SetActive(false);//銃などの遅延処理が途中で止まってしまう
+            {
+                //選択中のアイテム以外非表示
+                if (i == selectWeponNum)
+                    weaponSlotObjects[i].SetActive(true);
+                else
+                    weaponSlotObjects[i].SetActive(false);//銃などの遅延処理が途中で止まってしまう
+            }
         }
 
         MoveFrame();
@@ -111,5 +124,7 @@ public class TestWeaponSlot : MonoBehaviour
         if (_num < 0 || _num >= weaponSlotObjects.Length) return;
 
         weaponSlotObjects[_num] = _obj;
+
+        SetSlotIcon(_num);//画像更新
     }
 }

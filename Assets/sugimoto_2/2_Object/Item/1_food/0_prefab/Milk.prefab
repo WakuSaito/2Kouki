@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3690375696743673975}
   - component: {fileID: 6920432079804025998}
   - component: {fileID: 2941967722380082620}
-  - component: {fileID: 141137382419882021}
+  - component: {fileID: 5135206108172769657}
   - component: {fileID: 8702424119559098740}
   - component: {fileID: -6410265452982269847}
   - component: {fileID: -2835916313138066672}
@@ -102,7 +102,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.07333349, y: 0.23866948, z: 0.10318597}
   m_Center: {x: 0, y: 0.11933474, z: -0.0014625229}
---- !u!114 &141137382419882021
+--- !u!114 &5135206108172769657
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,12 +111,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 8662258556512106578}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 836fa88f12cfa1c46a8903b831356ad0, type: 3}
+  m_Script: {fileID: 11500000, guid: 57af3cc5b3ed2ec42ad81864fd1d928a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 7
-  get_num: 1
-  get_max: 1
+  iteminfo:
+    type: 0
+    id: 0
+    get_num: 0
+    stack_max: 0
+    sprite: {fileID: 0}
+    recoveryitem_info:
+      recovery_num: 0
+    weaponitem_info:
+      weapon_obj: {fileID: 0}
+      bullet_sprite: {fileID: 0}
+  id: 5
+  sprite: {fileID: 21300000, guid: eb82aaa24149fae4680f6f3e608c24ea, type: 3}
+  bullet_sprite: {fileID: 0}
 --- !u!114 &8702424119559098740
 MonoBehaviour:
   m_ObjectHideFlags: 0

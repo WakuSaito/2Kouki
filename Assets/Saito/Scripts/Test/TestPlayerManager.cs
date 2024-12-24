@@ -5,7 +5,6 @@ using System.Linq;
 
 public class TestPlayerManager : MonoBehaviour
 {
-
     private CharacterController characterController;  // CharacterController型の変数
     private Vector3 moveVelocity;  // キャラクターコントローラーを動かすためのVector3型の変数
     private Transform verRot;  //縦の視点移動の変数(カメラに合わせる)
@@ -18,6 +17,10 @@ public class TestPlayerManager : MonoBehaviour
     [SerializeField] private GameObject cameraObj;
     [SerializeField] private bool activeMouse = false;//マウスの視点移動の有効化
 
+    [SerializeField] private Animator animator;//アニメーター
+
+    [SerializeField] private Gauge gaugeHP;//hpゲージ
+
     [SerializeField] private TestWeaponSlot testWeaponSlot;
 
     [SerializeField] private DogManager dogManager;
@@ -26,13 +29,18 @@ public class TestPlayerManager : MonoBehaviour
 
     private SearchViewArea searchViewArea;
 
+    [SerializeField] private GameObject pistolObj;
+
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
         searchViewArea = GetComponent<SearchViewArea>();
 
         verRot = cameraObj.transform;
-        horRot = transform;    
+        horRot = transform;
+
+        if(gaugeHP != null)
+            gaugeHP.GaugeSetting(10f);//最大体力
     }
 
     private void Start()
@@ -71,14 +79,7 @@ public class TestPlayerManager : MonoBehaviour
         {
             Vector3 vec = Vector3.zero;
             float moveSpeed;
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                moveSpeed = dashSpeed;
-            }
-            else
-            {
-                moveSpeed = walkSpeed;
-            }
+
             //Wキーがおされたら
             if (Input.GetKey(KeyCode.W))
             {
@@ -100,7 +101,29 @@ public class TestPlayerManager : MonoBehaviour
                 vec += transform.right;
             }
 
-            characterController.Move(vec.normalized * moveSpeed * Time.deltaTime);
+            if (vec != Vector3.zero)
+            {
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    moveSpeed = dashSpeed;
+                    animator.SetBool("Run", true);
+                }
+                else
+                {
+                    moveSpeed = walkSpeed;
+                    animator.SetBool("Run", false);
+                }
+                animator.SetBool("Idle", false);
+                characterController.Move(vec.normalized * moveSpeed * Time.deltaTime);
+            }
+            else
+            {
+                animator.SetBool("Idle", true);
+
+            }
+
+            
+
 
             // 接地しているとき
             if (characterController.isGrounded)
@@ -133,7 +156,9 @@ public class TestPlayerManager : MonoBehaviour
             }
         }
 
-       
+        searchViewArea.ResetColor("Zombie");
+
+
         handWeapon = testWeaponSlot.GetSelectWeapon();
         if (handWeapon != null)
         {
@@ -209,9 +234,20 @@ public class TestPlayerManager : MonoBehaviour
     {
         if (_item == null) return;
 
+        ItemSetting itemSetting = _item.GetComponent<ItemSetting>();
+        if (itemSetting == null) return;
+
+        if(itemSetting.iteminfo.id == ITEM_ID.PISTOL)
+            testWeaponSlot.AddWeapon(2, pistolObj);
+
         Destroy(_item);
     }
 
+    public void Damaged()
+    {
+        if (gaugeHP != null)
+            gaugeHP.ReduceGauge(1f);
+    }
 
 
 }

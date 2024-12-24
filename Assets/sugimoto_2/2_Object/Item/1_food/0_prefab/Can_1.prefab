@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4552656703966922}
   - component: {fileID: 33212110270649516}
   - component: {fileID: 23205837548549660}
-  - component: {fileID: -2649076243740241485}
+  - component: {fileID: 660809161345993525}
   - component: {fileID: -6525428743091690772}
   - component: {fileID: 3048089821469491188}
   - component: {fileID: 5075864800846412589}
@@ -89,7 +89,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &-2649076243740241485
+--- !u!114 &660809161345993525
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -98,12 +98,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1998466318430720}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 836fa88f12cfa1c46a8903b831356ad0, type: 3}
+  m_Script: {fileID: 11500000, guid: 57af3cc5b3ed2ec42ad81864fd1d928a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 2
-  get_num: 1
-  get_max: 1
+  iteminfo:
+    type: 0
+    id: 0
+    get_num: 0
+    stack_max: 0
+    sprite: {fileID: 0}
+    recoveryitem_info:
+      recovery_num: 0
+    weaponitem_info:
+      weapon_obj: {fileID: 0}
+      bullet_sprite: {fileID: 0}
+  id: 1
+  sprite: {fileID: 21300000, guid: 6d2233f0465343b478036afaebbf8f08, type: 3}
+  bullet_sprite: {fileID: 0}
 --- !u!114 &-6525428743091690772
 MonoBehaviour:
   m_ObjectHideFlags: 0

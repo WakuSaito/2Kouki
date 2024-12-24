@@ -5,10 +5,12 @@ using UnityEngine;
 public class HitMaster : MonoBehaviour
 {
     player playerScript;
+    TestPlayerManager playerManager;
 
     private void Awake()
     {
         playerScript = GetComponent<player>();
+        playerManager = GetComponent<TestPlayerManager>();
     }
     public void TakeDamage()
     {
@@ -16,6 +18,9 @@ public class HitMaster : MonoBehaviour
         Debug.Log("Damage!");
 
         //ダメージ呼び出し
-        playerScript.DamagePlayer();
+        if (playerScript != null)
+            playerScript.DamagePlayer();
+        else if (playerManager != null)
+            playerManager.Damaged();
     }
 }

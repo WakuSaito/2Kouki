@@ -561,6 +561,7 @@ GameObject:
   - component: {fileID: 3352612859635718113}
   - component: {fileID: 4985958058492578670}
   - component: {fileID: 4269121156645278649}
+  - component: {fileID: 889583203123625858}
   - component: {fileID: 476129112872709208}
   - component: {fileID: 3975528624600160417}
   m_Layer: 2
@@ -676,8 +677,34 @@ MonoBehaviour:
   rapidSpeed: 0.5
   isCanRapid: 1
   reloadSpeed: 2.8
-  bulletDamage: 5
+  bulletDamage: 4
   hand_player_obj: {fileID: 0}
+--- !u!114 &889583203123625858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9010196160431444620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57af3cc5b3ed2ec42ad81864fd1d928a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iteminfo:
+    type: 0
+    id: 0
+    get_num: 0
+    stack_max: 0
+    sprite: {fileID: 0}
+    recoveryitem_info:
+      recovery_num: 0
+    weaponitem_info:
+      weapon_obj: {fileID: 0}
+      bullet_sprite: {fileID: 0}
+  id: 9
+  sprite: {fileID: 21300000, guid: d6db8613f28ba7b4382ad23e5e9acae9, type: 3}
+  bullet_sprite: {fileID: 0}
 --- !u!114 &476129112872709208
 MonoBehaviour:
   m_ObjectHideFlags: 0
