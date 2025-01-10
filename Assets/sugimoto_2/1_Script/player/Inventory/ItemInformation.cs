@@ -147,6 +147,7 @@ public enum ITEM_ID
     HAND,
     KNIFE,
     DOG_DIRECTION,
+    CHEST,
 }
 
 [System.Serializable]

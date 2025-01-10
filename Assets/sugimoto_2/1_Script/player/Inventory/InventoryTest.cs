@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 /*  できること
  ・アイテムをスロットに入れる
@@ -30,6 +31,25 @@ public class InventoryTest
             Sloat_Box[sloat] = _sloat_box[sloat];
             Sloats[sloat] = new InventorySloat() { Start_Pos = _sloat_box[sloat].position, Sloat_No = sloat };//Set_Pos = _set_pos[sloat], Text = _text[sloat], 
         }
+        Debug.Log(Sloats.Length);
+        
+    }
+
+    public List<RaycastResult> HitResult()
+    {
+        //マウスの位置からUIを取得する
+        //RaycastAllの引数（PointerEventData）作成
+        PointerEventData pointData = new PointerEventData(EventSystem.current);
+        //RaycastAllの結果格納用List
+        List<RaycastResult> RayResult = new List<RaycastResult>();
+
+        //PointerEventDataにマウスの位置をセット
+        pointData.position = Input.mousePosition;
+
+        //RayCast（スクリーン座標）
+        EventSystem.current.RaycastAll(pointData, RayResult);
+
+        return RayResult;
     }
 
     //アイテム取得
