@@ -13,15 +13,24 @@ using UnityEngine.EventSystems;
  ・同じアイテム同士、スタック上限じゃなければスタックする
  */
 
+public enum INVENTORY
+{
+    NON,
+    ITEM,
+    CHEST,
+}
+
 
 public class ItemInventory : MonoBehaviour
 {
+    //インベントリの初期設定用
     public InventoryTest Inventory;
     [SerializeField] int sloat_size = 10;
     [SerializeField] Transform[] sprite_pos;
     [SerializeField] Text[] text;
     [SerializeField] Transform[] sloat_box;
 
+    //アイテムBOX
     GameObject catch_obj;
     int catch_sloat_num;
     GameObject select_item;
@@ -32,6 +41,7 @@ public class ItemInventory : MonoBehaviour
     int hit_weapon_num;
 
     public bool item_inventory_flag = false;
+    public bool open_chest_flag = false;
 
     //ゲージ
     [SerializeField] GameObject food_gauge_obj; //食料
@@ -39,6 +49,7 @@ public class ItemInventory : MonoBehaviour
 
     player Player;
     [SerializeField] GameObject player_obj;
+
 
 
     // Start is called before the first frame update
@@ -60,11 +71,21 @@ public class ItemInventory : MonoBehaviour
             ItemCatch();
             Inventory.SetUI();
         }
+
+        switch(Player.inventory_status)
+        {
+            case INVENTORY.NON:
+                break;
+            case INVENTORY.ITEM:
+                break;
+            case INVENTORY.CHEST:
+                break;
+        }
     }
+
     public void InventoryOpenOrClose()
     {
         //インベントリ開閉
-
         if(item_inventory_flag)
         {
             Screen.lockCursor = true;
@@ -85,52 +106,51 @@ public class ItemInventory : MonoBehaviour
         select_item = null;
         hit_box = null;
         hit_weapon_box = null;
-        //マウスの位置からUIを取得する
-        //RaycastAllの引数（PointerEventData）作成
-        PointerEventData pointData = new PointerEventData(EventSystem.current);
-        //RaycastAllの結果格納用List
-        List<RaycastResult> RayResult = new List<RaycastResult>();
 
-        //PointerEventDataにマウスの位置をセット
-        pointData.position = Input.mousePosition;
-
-        //RayCast（スクリーン座標）
-        EventSystem.current.RaycastAll(pointData, RayResult);
-
-        foreach (RaycastResult result in RayResult)
+        foreach (RaycastResult result in Inventory.HitResult())
         {
-            //カーソルがあっているアイテム
-            for (int cnt = 0; cnt < sloat_box.Length; cnt++)
+            switch(Player.inventory_status)
             {
-                if (result.gameObject == sloat_box[cnt].GetChild(0).gameObject)
-                {
-                    select_item = result.gameObject;
-                    select_sloat_num = cnt;
+                case INVENTORY.NON:
                     break;
-                }
+                case INVENTORY.ITEM:
+                    //カーソルがあっているアイテム
+                    for (int cnt = 0; cnt < sloat_box.Length; cnt++)
+                    {
+                        if (result.gameObject == sloat_box[cnt].GetChild(0).gameObject)
+                        {
+                            select_item = result.gameObject;
+                            select_sloat_num = cnt;
+                            break;
+                        }
+                    }
+
+                    //カーソルがあっているスロットのbox
+                    for (int cnt = 0; cnt < sloat_box.Length; cnt++)
+                    {
+                        if (result.gameObject == sloat_box[cnt].gameObject)
+                        {
+                            hit_box = sloat_box[cnt].gameObject;
+                            hit_box_num = cnt;
+                            break;
+                        }
+                    }
+
+                    //武器インベントリ
+                    for (int cnt = 0; cnt < Player.WeaponInventory.Inventory.Sloat_Box.Length; cnt++)
+                    {
+                        if (result.gameObject == Player.WeaponInventory.Inventory.Sloat_Box[cnt].gameObject)
+                        {
+                            hit_weapon_box = Player.WeaponInventory.Inventory.Sloat_Box[cnt].gameObject;
+                            hit_weapon_num = cnt;
+                            break;
+                        }
+                    }
+                    break;
+                case INVENTORY.CHEST:
+                    break;
             }
 
-            //カーソルがあっているスロットのbox
-            for (int cnt = 0; cnt < sloat_box.Length; cnt++)
-            {
-                if (result.gameObject == sloat_box[cnt].gameObject)
-                {
-                    hit_box = sloat_box[cnt].gameObject;
-                    hit_box_num = cnt;
-                    break;
-                }
-            }
-
-            //武器インベントリ
-            for (int cnt = 0; cnt < Player.WeaponInventory.Inventory.Sloat_Box.Length; cnt++)
-            {
-                if (result.gameObject == Player.WeaponInventory.Inventory.Sloat_Box[cnt].gameObject)
-                {
-                    hit_weapon_box = Player.WeaponInventory.Inventory.Sloat_Box[cnt].gameObject;
-                    hit_weapon_num = cnt;
-                    break;
-                }
-            }
         }
     }
 

@@ -74,6 +74,9 @@ public class player : PlayerFunction, IStopObject
     private bool is_pause = false;
 
 
+    public INVENTORY inventory_status = INVENTORY.NON;
+    public ChestInventory chest;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -118,6 +121,7 @@ public class player : PlayerFunction, IStopObject
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
+                inventory_status = INVENTORY.ITEM;
                 ItemInventory.InventoryOpenOrClose();
             }
 
@@ -208,14 +212,24 @@ public class player : PlayerFunction, IStopObject
         GameObject item = searchViewArea.GetObjUpdate("item", Item_Distance,0.03f);
 
         if (Input.GetMouseButtonDown(1))
+
         {        
             if (item == null) return;
+
+            if (item.GetComponent<ItemSetting>().iteminfo.id == ITEM_ID.CHEST)
+            {
+                inventory_status = INVENTORY.CHEST;
+                item.GetComponent<ChestInventory>().OpenUI();
+                chest = item.GetComponent<ChestInventory>();
+                return;
+            }
 
             playerSound.PlayPickUp();//SE
 
             //アイテム取得
             //GetComponent<Inventory>().ItemGet(item);
 
+            //アイテム取得処理
             bool all_get_flag = false;
             all_get_flag = ItemInventory.Inventory.AddInventory_PickUP_Item(item.GetComponent<ItemSetting>().iteminfo, WeaponInventory);
 
