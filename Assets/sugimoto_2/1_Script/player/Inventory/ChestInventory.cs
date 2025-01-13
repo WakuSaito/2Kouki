@@ -60,4 +60,10 @@ public class ChestInventory : MonoBehaviour
         ChestUI.SetActive(false);
         Player.inventory_status = INVENTORY.NON;
     }
+
+    void Test()
+    {
+        Inventory.Sloats[0].ItemInfo = new ItemInformation();
+        Inventory.Sloats[0].ItemInfo.id = ITEM_ID.EMERGENCY_PACK;
+    }
 }
