@@ -15,6 +15,14 @@ public class InventorySloat
     public int Sloat_No { get; set; }   //スロットの番号
     public Vector3 Start_Pos { get; set; }
 
+    //コンストラクタ
+    public InventorySloat() { }
+    //武器インベントリ用
+    public InventorySloat(ITEM_TYPE _type, ITEM_ID _id, int _get_num, int _stack_max, Sprite _sprite, GameObject _weapon_obj, Sprite _bullet_sprite)
+    {
+        ItemInfo = new ItemInformation(_type, _id, _get_num, _stack_max, _sprite, _weapon_obj, _bullet_sprite);
+    }
+
     //スロットが空か調べる
     public bool IsEmpty()
     {

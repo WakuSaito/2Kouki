@@ -35,6 +35,7 @@ public class WeaponInventory : MonoBehaviour
 
         //èâä˙ê›íË
         ItemInformation hand = weapon[(int)Sloat_Order.HAND].GetComponent<ItemSetting>().iteminfo;
+
         Inventory.Sloats[(int)Sloat_Order.HAND].ItemInfo = new ItemInformation(hand.type, hand.id, hand.get_num, hand.stack_max, hand.sprite);
         hand = weapon[(int)Sloat_Order.KNIFE].GetComponent<ItemSetting>().iteminfo;
         Inventory.Sloats[(int)Sloat_Order.KNIFE].ItemInfo = new ItemInformation(hand.type, hand.id, hand.get_num, hand.stack_max, hand.sprite);
