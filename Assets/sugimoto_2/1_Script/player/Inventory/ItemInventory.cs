@@ -13,12 +13,12 @@ using UnityEngine.EventSystems;
  ・同じアイテム同士、スタック上限じゃなければスタックする
  */
 
-public enum INVENTORY
-{
-    NON,
-    ITEM,
-    CHEST,
-}
+//public enum INVENTORY
+//{
+//    NON,
+//    ITEM,
+//    CHEST,
+//}
 
 
 public class ItemInventory : MonoBehaviour

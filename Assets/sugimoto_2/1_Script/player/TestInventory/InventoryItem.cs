@@ -8,11 +8,11 @@ public class InventoryItem : MonoBehaviour
     const int GUN_SLOT = 3;
 
     //インベントリの要素
-    InventoryClass Inventory;
-    [SerializeField] int slot_size = 10;
-    [SerializeField] Transform[] sprite_pos;
-    [SerializeField] Transform[] slot_box;
-    [SerializeField] Text[] text;
+    public InventoryClass Inventory;
+    public int slot_size = 10;
+    public Transform[] sprite;
+    public Transform[] slot_box;
+    public Text[] text;
 
     //オブジェクト
     [SerializeField] GameObject item_inventory_obj; //インベントリ
@@ -21,13 +21,13 @@ public class InventoryItem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Inventory = new InventoryClass(slot_size);
+        Inventory = new InventoryClass(slot_size, slot_box);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        Inventory.SetUI(sprite, text);
     }
 
     public bool AddInventory_PickUP_Item(ItemInformation _item, ref WeaponInventory _weapon)//アイテム取得
@@ -96,7 +96,7 @@ public class InventoryItem : MonoBehaviour
         //アイテムをインベントリに
         for (int sloat = 0; sloat < Inventory.Slots.Length; sloat++)
         {
-            if (Inventory.Slots[sloat].CanAdd_PickUPItem(_item))
+            if (Inventory.Slots[sloat].Can_Add_Slot(_item))
             {
                 int remaining_num = Inventory.Slots[sloat].Add_PickUPItem(_item);
 

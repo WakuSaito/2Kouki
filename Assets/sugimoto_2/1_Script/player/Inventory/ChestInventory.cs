@@ -10,11 +10,13 @@ using UnityEngine.UI;
 
 public class ChestInventory : MonoBehaviour
 {
+    public InventoryClass InventoryClass;
+
     public InventoryTest Inventory;
-    [SerializeField] int sloat_size = 10;
-    [SerializeField] Transform[] sprite_pos;
-    [SerializeField] Text[] text;
-    [SerializeField] Transform[] sloat_box;
+    public int sloat_size = 10;
+    public Transform[] sprite_pos;
+    public Text[] text;
+    public Transform[] slot_box;
 
     [SerializeField] Sprite test_sprite;
 
@@ -29,7 +31,7 @@ public class ChestInventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Inventory = new InventoryTest(sloat_size, sloat_box);
+        Inventory = new InventoryTest(sloat_size, slot_box);
         Player = player_obj.GetComponent<player>();
         Inventory.Sloats[0].ItemInfo = new ItemInformation(ITEM_TYPE.FOOD,ITEM_ID.FOOD_1,1,1, test_sprite);
 

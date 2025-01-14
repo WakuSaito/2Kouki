@@ -14,11 +14,12 @@ public class WeaponInventory : MonoBehaviour
         SAVE_1,
         SAVE_2,
     }
+    public InventoryClass InventoryClass;
 
     public InventoryTest Inventory;
     public int sloat_size = 4;
     [SerializeField] Transform[] sprite_pos;
-    [SerializeField] Transform[] sloat_box;
+    public Transform[] sloat_box;
     [SerializeField] Transform frame_pos;
     [SerializeField] Transform gun_parent;
 

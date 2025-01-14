@@ -11,25 +11,30 @@ using UnityEngine;
 public class SlotClass
 {
     public ItemInformation ItemInfo;
-    public Vector2 Slot_pos;
     public int SlotNo;
+    public Transform SlotBox;
 
-    public bool Empty()//スロットが空か調べる
+    //空か調べる
+    public bool CheckEmpty()
     {
+        //中身がない
         if (ItemInfo == null) return true;
+        //獲得可能数がゼロ
         if (ItemInfo.get_num == 0) return true;
 
         return false;
     }
 
-    public bool CanAdd_PickUPItem(ItemInformation _item)
+    //アイテム情報
+    public bool Can_Add_Slot(ItemInformation _item)
     {
+        //中身がない
         if (ItemInfo == null) return true;
+        //IDが同じ&&アイテム数が上限より少ない
         if (ItemInfo.id == _item.id && ItemInfo.get_num < ItemInfo.stack_max) return true;
 
         return false;
     }
-
 
     public int Add_PickUPItem(ItemInformation _item)
     {
