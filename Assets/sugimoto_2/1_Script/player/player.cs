@@ -70,6 +70,8 @@ public class player : PlayerFunction, IStopObject
     public WeaponInventory WeaponInventory;
     public GameObject WeponInventory_obj;
 
+    InventoryItem InventoryItem;
+
     //ポーズ用停止フラグ
     private bool is_pause = false;
 
@@ -83,6 +85,8 @@ public class player : PlayerFunction, IStopObject
         //インベントリ
         ItemInventory = obj.GetComponent<ItemInventory>();
         WeaponInventory = WeponInventory_obj.GetComponent<WeaponInventory>();
+
+        InventoryItem = GetComponent<InventoryItem>();
 
         //コンポーネント取得
         Inventory = GetComponent<Inventory>();
@@ -231,7 +235,8 @@ public class player : PlayerFunction, IStopObject
 
             //アイテム取得処理
             bool all_get_flag = false;
-            all_get_flag = ItemInventory.Inventory.AddInventory_PickUP_Item(item.GetComponent<ItemSetting>().iteminfo, WeaponInventory);
+            //all_get_flag = ItemInventory.Inventory.AddInventory_PickUP_Item(item.GetComponent<ItemSetting>().iteminfo, WeaponInventory);
+            all_get_flag = InventoryItem.AddInventory_PickUP_Item(item.GetComponent<ItemSetting>().iteminfo,ref WeaponInventory);
 
             ITEM_ID id = item.GetComponent<ItemSetting>().iteminfo.id;
 

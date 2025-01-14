@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class InventoryItem : MonoBehaviour
 {
     const int GUN_SLOT = 3;
+
+    //インベントリマネージャー
+    inventoryManager mInventoryManager;
 
     //インベントリの要素
     public InventoryClass Inventory;
@@ -15,19 +19,29 @@ public class InventoryItem : MonoBehaviour
     public Text[] text;
 
     //オブジェクト
+    [SerializeField] GameObject mInventoryManagerObj;
     [SerializeField] GameObject item_inventory_obj; //インベントリ
-    [SerializeField] GameObject player_obj; 
+    [SerializeField] GameObject mFoodGageObj; //インベントリ
+    [SerializeField] GameObject mHpGageObj; //インベントリ
 
     // Start is called before the first frame update
     void Start()
     {
         Inventory = new InventoryClass(slot_size, slot_box);
+        mInventoryManager = mInventoryManagerObj.GetComponent<inventoryManager>();
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// アップデート
+    /// アイテムインベントリの操作
+    /// UIの変更
+    /// </summary>
     void Update()
     {
-        Inventory.SetUI(sprite, text);
+        if (mInventoryManager.inventory_state == INVENTORY.ITEM)
+        {
+            Inventory.SetUI(sprite, text);
+        }
     }
 
     public bool AddInventory_PickUP_Item(ItemInformation _item, ref WeaponInventory _weapon)//アイテム取得
@@ -44,54 +58,54 @@ public class InventoryItem : MonoBehaviour
          */
 
         //種類が武器の場合
-        if (_item.type == ITEM_TYPE.WEAPON)
-        {
-            //武器インベントリに銃がない場合
-            if (_weapon.Inventory.Sloats[GUN_SLOT].ItemInfo == null)
-            {
-                //銃をインベントリに入れる
-                _weapon.Inventory.Sloats[GUN_SLOT].ItemInfo = new ItemInformation(_item);
+        //if (_item.type == ITEM_TYPE.WEAPON)
+        //{
+        //    //武器インベントリに銃がない場合
+        //    if (_weapon.Inventory.Sloats[GUN_SLOT].ItemInfo == null)
+        //    {
+        //        //銃をインベントリに入れる
+        //        _weapon.Inventory.Sloats[GUN_SLOT].ItemInfo = new ItemInformation(_item);
 
-                //武器をプレイヤーの子にしておく
-                _weapon.WeaponGet(_item.weaponitem_info.weapon_obj);
+        //        //武器をプレイヤーの子にしておく
+        //        _weapon.WeaponGet(_item.weaponitem_info.weapon_obj);
 
-                return false;
-            }
-            //アイテムインベントリにあるか調べる
-            else
-            {
-                //インベントリに入れれるか調べる
-                bool in_flag = true;
+        //        return false;
+        //    }
+        //    //アイテムインベントリにあるか調べる
+        //    else
+        //    {
+        //        //インベントリに入れれるか調べる
+        //        bool in_flag = true;
 
-                //武器インベントリと同じIDか調べる
-                if (_weapon.Inventory.Sloats[GUN_SLOT].ItemInfo.id == _item.id)
-                {
-                    in_flag = false;
-                }
+        //        //武器インベントリと同じIDか調べる
+        //        if (_weapon.Inventory.Sloats[GUN_SLOT].ItemInfo.id == _item.id)
+        //        {
+        //            in_flag = false;
+        //        }
 
-                //インベントリの中身と比べる
-                for (int sloat = 0; sloat < Inventory.Slots.Length; sloat++)
-                {
-                    if (Inventory.Slots[sloat].ItemInfo != null && Inventory.Slots[sloat].ItemInfo.id == _item.id)
-                    {
-                        in_flag = false;
-                        break;
-                    }
-                }
+        //        //インベントリの中身と比べる
+        //        for (int sloat = 0; sloat < Inventory.Slots.Length; sloat++)
+        //        {
+        //            if (Inventory.Slots[sloat].ItemInfo != null && Inventory.Slots[sloat].ItemInfo.id == _item.id)
+        //            {
+        //                in_flag = false;
+        //                break;
+        //            }
+        //        }
 
-                //インベントリに入れれなければ弾丸に変更
-                if (!in_flag)
-                {
-                    //アイテム情報を弾丸に変更
-                    _item.BulletInfo();
-                }
-                else
-                {
-                    //武器をプレイヤーの子にしておく
-                    _weapon.WeaponGet(_item.weaponitem_info.weapon_obj);
-                }
-            }
-        }
+        //        //インベントリに入れれなければ弾丸に変更
+        //        if (!in_flag)
+        //        {
+        //            //アイテム情報を弾丸に変更
+        //            _item.BulletInfo();
+        //        }
+        //        else
+        //        {
+        //            //武器をプレイヤーの子にしておく
+        //            _weapon.WeaponGet(_item.weaponitem_info.weapon_obj);
+        //        }
+        //    }
+        //}
 
         //アイテムをインベントリに
         for (int sloat = 0; sloat < Inventory.Slots.Length; sloat++)
@@ -115,4 +129,64 @@ public class InventoryItem : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// ゲージ回復
+    /// 食料ゲージ、体力ゲージを回復させる
+    /// </summary>
+    public void Recovery_Gage()
+    {
+        //カーソルのあっているオブジェクトを取得
+        foreach (RaycastResult result in mInventoryManager.HitResult())
+        {
+            for (int slot = 0; slot < slot_size; slot++)
+            {
+                if (result.gameObject == sprite[slot].gameObject)
+                {
+                    ITEM_ID id = Inventory.Slots[slot].ItemInfo.id;
+
+                    if (id >= ITEM_ID.FOOD_1 && id <= ITEM_ID.EMERGENCY_PACK)
+                    {
+                        int recovery_num = Inventory.Slots[slot].ItemInfo.recoveryitem_info.recovery_num;
+
+                        //食料
+                        {
+                            if (id >= ITEM_ID.FOOD_1 && id <= ITEM_ID.FOOD_4)
+                            {
+                                mFoodGageObj.GetComponent<Gauge>().Increase_Gauge(recovery_num);
+                                //playerSound.PlayEat();//SE
+                            }
+                            if (id >= ITEM_ID.DRINK_1 && id <= ITEM_ID.DRINK_2)
+                            {
+                                mFoodGageObj.GetComponent<Gauge>().Increase_Gauge(recovery_num);
+                                //playerSound.PlayDrink();//SE
+                            }
+                        }
+
+                        //体力
+                        {
+                            if (id >= ITEM_ID.EMERGENCY_PACK)
+                            {
+                                mHpGageObj.GetComponent<Gauge>().Increase_Gauge(recovery_num);
+                                //playerSound.PlayHeal();//SE
+                            }
+                        }
+                        //アイテム消費
+                        UseItem(slot);
+                    }
+
+                    return;
+                }
+            }
+        }
+    }
+
+    void UseItem(int _slot)
+    {
+        Inventory.Slots[_slot].ItemInfo.get_num--;
+        
+        if (Inventory.Slots[_slot].CheckEmpty())
+        {
+            Inventory.Slots[_slot].initializationSlot();
+        }
+    }
 }

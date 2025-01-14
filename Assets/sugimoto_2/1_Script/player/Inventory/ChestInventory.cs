@@ -31,9 +31,9 @@ public class ChestInventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Inventory = new InventoryTest(sloat_size, slot_box);
-        Player = player_obj.GetComponent<player>();
-        Inventory.Sloats[0].ItemInfo = new ItemInformation(ITEM_TYPE.FOOD,ITEM_ID.FOOD_1,1,1, test_sprite);
+        //Inventory = new InventoryTest(sloat_size, slot_box);
+        //Player = player_obj.GetComponent<player>();
+        //Inventory.Sloats[0].ItemInfo = new ItemInformation(ITEM_TYPE.FOOD,ITEM_ID.FOOD_1,1,1, test_sprite);
 
         //ItemInventory = ItemInventoryUI.GetComponent<ItemInventory>();
     }
@@ -41,14 +41,14 @@ public class ChestInventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Player.inventory_status == INVENTORY.CHEST)
-        {
-            Inventory.SetUI();
-            if (Input.GetKeyDown(KeyCode.E)/* || Input.GetKeyDown(KeyCode.Escape)*/)
-            {
-                CloseUI();
-            }
-        }
+        //if (Player.inventory_status == INVENTORY.CHEST)
+        //{
+        //    Inventory.SetUI();
+        //    if (Input.GetKeyDown(KeyCode.E)/* || Input.GetKeyDown(KeyCode.Escape)*/)
+        //    {
+        //        CloseUI();
+        //    }
+        //}
     }
 
     public void OpenUI()
