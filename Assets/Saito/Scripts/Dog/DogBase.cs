@@ -8,6 +8,7 @@ using UnityEngine;
 public abstract class DogBase : MonoBehaviour
 {
     /// <summary>
+    /// ‰Šúİ’è
     /// ‰Šúİ’è—p‚Ì‹¤’Êˆ—
     /// </summary>
     public abstract void SetUpDog();

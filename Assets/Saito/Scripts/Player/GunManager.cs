@@ -5,90 +5,90 @@ using System;
 
 public class GunManager : MonoBehaviour, IWeapon
 {
-    [SerializeField] private string soundType;//サウンドの種類（武器種）
-    [SerializeField] private Transform muzzleTransform; //銃口位置
+    [SerializeField] private string mSoundType;//サウンドの種類（武器種）
+    [SerializeField] private Transform mMuzzleTransform; //銃口位置
 
-    [SerializeField] private GameObject bulletLine;         //弾道
-    [SerializeField] private GameObject muzzleFlashPrefab;  //マズルフラッシュ用エフェクト
-    [SerializeField] private GameObject bulletHitPrefab;    //着弾エフェクト
+    [SerializeField] private GameObject mBulletLine;         //弾道
+    [SerializeField] private GameObject mMuzzleFlashPrefab;  //マズルフラッシュ用エフェクト
+    [SerializeField] private GameObject mBulletHitPrefab;    //着弾エフェクト
 
-    [SerializeField] private int magazineSize = 10;//弾の容量
-    [SerializeField] private int oneShotBulletAmount = 1; //一発で発射される量
-    [SerializeField] private float bulletSpread = 0.03f;  //弾ブレ
-    [SerializeField] private float bulletDistance = 20.0f;//弾の飛距離
-    [SerializeField] private float rapidSpeed = 1.0f; //連射速度
-    [SerializeField] private bool isCanRapid = false; //連射可能か
-    [SerializeField] private float reloadSpeed = 2.8f;//リロード速度
+    [SerializeField] private int mMagazineSize = 10;//弾の容量
+    [SerializeField] private int mOneShotBulletAmount = 1; //一発で発射される量
+    [SerializeField] private float mBulletSpread = 0.03f;  //弾ブレ
+    [SerializeField] private float mBulletDistance = 20.0f;//弾の飛距離
+    [SerializeField] private float mRapidSpeed = 1.0f; //連射速度
+    [SerializeField] private bool mIsCanRapid = false; //連射可能か
+    [SerializeField] private float mReloadSpeed = 2.8f;//リロード速度
 
-    [SerializeField] private int bulletDamage = 5;  //弾が敵に与えるダメージ
+    [SerializeField] private int mBulletDamage = 5;  //弾が敵に与えるダメージ
 
     //プレイヤーが持った時に代入
     public GameObject hand_player_obj = null;
-    bool set_player_flag = false;
+    bool mSetPlayerFlag = false;
 
-    private int currentMagazineAmount;//現在のマガジンの弾数
+    private int mCurrentMagazineAmount;//現在のマガジンの弾数
 
-    protected bool isShotCooldown = false;//発砲クールタイム中か
-    protected bool isReload = false;  //リロード中か
+    protected bool mIsShotCooldown = false;//発砲クールタイム中か
+    protected bool mIsReload = false;  //リロード中か
 
-    GameObject cameraObj;
-    protected Inventory inventory;
-    protected ItemInventory iteminventory;
+    GameObject mCameraObj;
+    protected Inventory mInventory;
+    protected ItemInventory mIteminventory;
     //サウンド再生用
-    private GunSound gunSound;
-    protected Animator anim;
+    private GunSound mGunSound;
+    protected Animator mAnimator;
 
 
     private void Awake()
     {
-        currentMagazineAmount = magazineSize;
+        mCurrentMagazineAmount = mMagazineSize;
 
-        cameraObj = Camera.main.gameObject;
-        anim = GetComponent<Animator>();
+        mCameraObj = Camera.main.gameObject;
+        mAnimator = GetComponent<Animator>();
 
-        gunSound = GetComponent<GunSound>();
+        mGunSound = GetComponent<GunSound>();
     }
 
     private void Update()
     {
-        if (hand_player_obj != null && !set_player_flag)
+        if (hand_player_obj != null && !mSetPlayerFlag)
         {
-            inventory = hand_player_obj.GetComponent<Inventory>();
-            iteminventory = hand_player_obj.GetComponent<player>().ItemInventory;
-            set_player_flag = true;
+            mInventory = hand_player_obj.GetComponent<Inventory>();
+            mIteminventory = hand_player_obj.GetComponent<player>().ItemInventory;
+            mSetPlayerFlag = true;
         }
     }
 
     public int GetMagazineSize()
     {
-        return magazineSize;
+        return mMagazineSize;
     }
 
     public int GetCurrentMagazine()
     {
-        return currentMagazineAmount;
+        return mCurrentMagazineAmount;
     }
 
     public virtual void Reload()
     {
-        if (isShotCooldown) return;
-        if (isReload) return;
+        if (mIsShotCooldown) return;
+        if (mIsReload) return;
         //ピストルの弾丸が最大数じゃなければreload可能
-        if (currentMagazineAmount >= magazineSize) return;
+        if (mCurrentMagazineAmount >= mMagazineSize) return;
 
-        if (inventory == null)
+        if (mInventory == null)
         {
-            anim.SetBool("Reload", true);  //reload
-            isReload = true;
-            Invoke(nameof(ReroadFin), reloadSpeed);
+            mAnimator.SetBool("Reload", true);  //reload
+            mIsReload = true;
+            Invoke(nameof(ReroadFin), mReloadSpeed);
             return;
         }
 
-        if (iteminventory.CheckInBullet())
+        if (mIteminventory.CheckInBullet())
         {
-            anim.SetBool("Reload", true);  //reload
-            isReload = true;
-            Invoke(nameof(ReroadFin), reloadSpeed);
+            mAnimator.SetBool("Reload", true);  //reload
+            mIsReload = true;
+            Invoke(nameof(ReroadFin), mReloadSpeed);
             return;
         }
 
@@ -107,38 +107,38 @@ public class GunManager : MonoBehaviour, IWeapon
 
     void ReroadFin()
     {
-        anim.SetBool("Reload", false);  //reload
-        isReload = false;
+        mAnimator.SetBool("Reload", false);  //reload
+        mIsReload = false;
 
         //ピストルに入る弾丸数を調べる
-        int emptyAmount = HowManyCanLoaded();
+        int empty_amount = HowManyCanLoaded();
 
-        AddBullet(emptyAmount);
+        AddBullet(empty_amount);
     }
 
     public virtual void StopReload()
     {
         if (IsInvoking(nameof(ReroadFin)))
         {
-            isReload = false;
-            anim.SetBool("Reload", false);  //reload
+            mIsReload = false;
+            mAnimator.SetBool("Reload", false);  //reload
             CancelInvoke(nameof(ReroadFin));
         }
     }
 
     public void AddBullet(int _amount)
     {
-        int addAmount = _amount;
+        int add_amount = _amount;
         //最大は超えないように
-        if (addAmount > magazineSize - currentMagazineAmount)
-            addAmount = magazineSize - currentMagazineAmount;
+        if (add_amount > mMagazineSize - mCurrentMagazineAmount)
+            add_amount = mMagazineSize - mCurrentMagazineAmount;
 
-        if (inventory == null) {
-            currentMagazineAmount += addAmount;
+        if (mInventory == null) {
+            mCurrentMagazineAmount += add_amount;
             return;
         }
 
-        currentMagazineAmount+=iteminventory.SubBullet(_amount);
+        mCurrentMagazineAmount += mIteminventory.SubBullet(_amount);
 
         //for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
         //{
@@ -171,27 +171,27 @@ public class GunManager : MonoBehaviour, IWeapon
     public int HowManyCanLoaded()
     {
         //マガジンに入る弾数計算
-        int canLoadedAmount = magazineSize - currentMagazineAmount;
+        int can_loaded_amount = mMagazineSize - mCurrentMagazineAmount;
 
-        if (inventory == null) return canLoadedAmount;
+        if (mInventory == null) return can_loaded_amount;
 
         for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
         {
             //インベントリに弾丸があるか
-            if (inventory.item_type_id[i] != (int)ID.ITEM_ID.BULLET) continue;
+            if (mInventory.item_type_id[i] != (int)ID.ITEM_ID.BULLET) continue;
 
-            for (int cnt = 0; cnt < canLoadedAmount; cnt++)
+            for (int cnt = 0; cnt < can_loaded_amount; cnt++)
             {
                 //インベントリに弾がある場合
-                if (inventory.item_num[i] != 0)
-                    canLoadedAmount--; 
+                if (mInventory.item_num[i] != 0)
+                    can_loaded_amount--; 
                 //弾が無い場合
                 else          
                     break;
             }
         }
 
-        return canLoadedAmount;
+        return can_loaded_amount;
     }
 
     /// <summary>
@@ -199,13 +199,13 @@ public class GunManager : MonoBehaviour, IWeapon
     /// </summary>
     public void PullTriggerDown()
     {
-        if (isShotCooldown) return;
-        if (currentMagazineAmount <= 0)
+        if (mIsShotCooldown) return;
+        if (mCurrentMagazineAmount <= 0)
         {
-            gunSound.PlayBlankShot();//発射失敗音
+            mGunSound.PlayBlankShot();//発射失敗音
             return;
         }
-        if (isReload)
+        if (mIsReload)
         {
             //アニメーション遷移を確定させるため1フレーム遅延実行
             StartCoroutine(DelayFrameCoroutine(
@@ -223,9 +223,9 @@ public class GunManager : MonoBehaviour, IWeapon
     /// </summary>
     public void PullTrigger()
     {
-        if (isShotCooldown) return;
-        if (!isCanRapid) return;
-        if (currentMagazineAmount <= 0)
+        if (mIsShotCooldown) return;
+        if (!mIsCanRapid) return;
+        if (mCurrentMagazineAmount <= 0)
         {
             return;
         }
@@ -236,19 +236,19 @@ public class GunManager : MonoBehaviour, IWeapon
     private void Shot()
     {
         //同時発射数分繰り返す
-        for (int i = 0; i < oneShotBulletAmount; i++)
+        for (int i = 0; i < mOneShotBulletAmount; i++)
         {
             CreateBullet();
         }
 
-        gunSound.PlayShot(soundType);//発射音
+        mGunSound.PlayShot(mSoundType);//発射音
 
-        anim.SetTrigger("Shot");//アニメーション
+        mAnimator.SetTrigger("Shot");//アニメーション
 
         //クールタイム
-        StartCoroutine(CooldownCoroutine(rapidSpeed));
+        StartCoroutine(CooldownCoroutine(mRapidSpeed));
 
-        currentMagazineAmount--;
+        mCurrentMagazineAmount--;
     }
 
 
@@ -256,22 +256,22 @@ public class GunManager : MonoBehaviour, IWeapon
     private void CreateBullet()
     {
         //ばらつきをランダムに決める
-        float x = UnityEngine.Random.Range(-bulletSpread, bulletSpread);
-        float y = UnityEngine.Random.Range(-bulletSpread, bulletSpread);
+        float x = UnityEngine.Random.Range(-mBulletSpread, mBulletSpread);
+        float y = UnityEngine.Random.Range(-mBulletSpread, mBulletSpread);
 
         //視点ベクトルにばらつきを加算
-        Vector3 gunVec = cameraObj.transform.forward + new Vector3(x, y, 0);
+        Vector3 gun_vec = mCameraObj.transform.forward + new Vector3(x, y, 0);
 
         //当たったオブジェクト情報
         RaycastHit hit = new RaycastHit();
 
         //着弾地点
-        Vector3 bulletHitPos;
+        Vector3 bullet_hit_pos;
 
         //なにかに当たった
-        if (Physics.Raycast(cameraObj.transform.position, gunVec, out hit))
+        if (Physics.Raycast(mCameraObj.transform.position, gun_vec, out hit))
         {
-            bulletHitPos = hit.point;
+            bullet_hit_pos = hit.point;
 
             //アイテムまでの距離を調べる
             float distance = Vector3.Distance(hit.transform.position, transform.position);
@@ -283,11 +283,11 @@ public class GunManager : MonoBehaviour, IWeapon
                 Debug.Log(hit_obj);
                 if (hit_obj.tag == "Body")
                 {
-                    hit_obj.GetComponentInParent<ZombieManager>().DamageBody(hit.point, bulletDamage);
+                    hit_obj.GetComponentInParent<ZombieManager>().DamageBody(hit.point, mBulletDamage);
                 }
                 if (hit_obj.tag == "Head")
                 {
-                    hit_obj.GetComponentInParent<ZombieManager>().DamageHead(hit.point, bulletDamage);
+                    hit_obj.GetComponentInParent<ZombieManager>().DamageHead(hit.point, mBulletDamage);
                 }
             }
         }
@@ -295,13 +295,13 @@ public class GunManager : MonoBehaviour, IWeapon
         else
         {
             //弾丸のベクトルの終点を線の終点にする
-            bulletHitPos = cameraObj.transform.position + (gunVec * bulletDistance);
+            bullet_hit_pos = mCameraObj.transform.position + (gun_vec * mBulletDistance);
         }
 
         //アニメーション後にエフェクトを出したいので1フレーム遅らせる   
         StartCoroutine(DelayFrameCoroutine(
             1, 
-            () => CreateBulletEffect(bulletHitPos)
+            () => CreateBulletEffect(bullet_hit_pos)
         ));
     }
 
@@ -317,62 +317,62 @@ public class GunManager : MonoBehaviour, IWeapon
         _action();
     }
 
-    private void CreateBulletEffect(Vector3 _hitPos)
+    private void CreateBulletEffect(Vector3 _hit_pos)
     {
         //マズルフラッシュ
-        if (muzzleFlashPrefab != null)
+        if (mMuzzleFlashPrefab != null)
         {
-            Instantiate(muzzleFlashPrefab,
-                muzzleTransform.position,
+            Instantiate(mMuzzleFlashPrefab,
+                mMuzzleTransform.position,
                 Quaternion.identity,
                 transform
                 ).transform.localRotation = Quaternion.identity;
         }
 
         //弾道
-        if (bulletLine != null)
+        if (mBulletLine != null)
         {
-        //弾道用のLineRendererを取得（見た目用）
-        LineRenderer lineRend = Instantiate(
-            bulletLine,
-            Vector3.zero,
-            Quaternion.identity
-            ).GetComponent<LineRenderer>();
+            //弾道用のLineRendererを取得（見た目用）
+            LineRenderer line_rend = Instantiate(
+                mBulletLine,
+                Vector3.zero,
+                Quaternion.identity
+                ).GetComponent<LineRenderer>();
 
-        //点の数
-        lineRend.positionCount = 2;
-        //始点の座標指定
-        lineRend.SetPosition(0, muzzleTransform.position);
+            //点の数
+            line_rend.positionCount = 2;
+            //始点の座標指定
+            line_rend.SetPosition(0, mMuzzleTransform.position);
 
-        //当たった場所を線の終点にする
-        lineRend.SetPosition(1, _hitPos);
+            //当たった場所を線の終点にする
+            line_rend.SetPosition(1, _hit_pos);
         }
 
         //着弾
-        if(bulletHitPrefab != null)
+        if(mBulletHitPrefab != null)
         {
             //着弾地点に生成
-            GameObject hitEffect = 
-                Instantiate(bulletHitPrefab,
-                _hitPos,
+            GameObject hit_effect = 
+                Instantiate(mBulletHitPrefab,
+                _hit_pos,
                 Quaternion.identity
                 );
 
             //発射方向に向ける
-            hitEffect.transform.rotation = 
-                Quaternion.LookRotation(muzzleTransform.position - hitEffect.transform.position);
+            hit_effect.transform.rotation = 
+                Quaternion.LookRotation(mMuzzleTransform.position - hit_effect.transform.position);
         }
     }
     
     //クールタイム用コルーチン
     private IEnumerator CooldownCoroutine(float _sec)
     {
-        isShotCooldown = true;
+        mIsShotCooldown = true;
 
         //連射速度分待つ
         yield return new WaitForSeconds(_sec);
 
-        isShotCooldown = false;
+        mIsShotCooldown = false;
     }
 
     //仕舞う
@@ -385,7 +385,7 @@ public class GunManager : MonoBehaviour, IWeapon
     {
         gameObject.SetActive(true);
 
-        isReload = false;
-        isShotCooldown = false;
+        mIsReload = false;
+        mIsShotCooldown = false;
     }
 }
