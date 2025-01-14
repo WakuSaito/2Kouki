@@ -2317,6 +2317,54 @@ MonoBehaviour:
   id: 13
   sprite: {fileID: 21300000, guid: c6cf5c98a4e728f478e0d0f69f8513a5, type: 3}
   bullet_sprite: {fileID: 0}
+--- !u!1 &221996019
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 221996021}
+  - component: {fileID: 221996020}
+  m_Layer: 0
+  m_Name: InventoryManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &221996020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221996019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7626ff851ac57844ba4ebab3be46a7e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player_obj: {fileID: 426849776}
+  chest_inventory:
+  - {fileID: 1084718411}
+  inventory_state: 0
+--- !u!4 &221996021
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221996019}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.046608597, y: 0.5642092, z: 69.86845}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 25
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &223767794
 GameObject:
   m_ObjectHideFlags: 0
@@ -4471,6 +4519,63 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7515109558935918964, guid: 2456a157eac667849aa3a77b9620bb8c, type: 3}
   m_PrefabInstance: {fileID: 220252964}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &426849778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426849776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f53b4a7dafc5e144395739b923aeb887, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sloat_size: 4
+  sprite_pos: []
+  sloat_box: []
+  frame_pos: {fileID: 0}
+  gun_parent: {fileID: 0}
+  weapon: []
+  select_weapon: 0
+--- !u!114 &426849779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426849776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35c3f43ed5dd6cf4f838ee0d65edadb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slot_size: 10
+  sprite: []
+  slot_box:
+  - {fileID: 1021796420}
+  - {fileID: 727625114}
+  - {fileID: 2006314417}
+  - {fileID: 1216790375}
+  - {fileID: 1442520177}
+  - {fileID: 643782931}
+  - {fileID: 877752226}
+  - {fileID: 1739540961}
+  - {fileID: 1621262000}
+  - {fileID: 1924928518}
+  text:
+  - {fileID: 1528686109}
+  - {fileID: 196853428}
+  - {fileID: 915360014}
+  - {fileID: 1333356681}
+  - {fileID: 1879283985}
+  - {fileID: 1980329990}
+  - {fileID: 1366626120}
+  - {fileID: 1041250981}
+  - {fileID: 739590970}
+  - {fileID: 1261280967}
+  item_inventory_obj: {fileID: 1882059923}
+  player_obj: {fileID: 426849776}
 --- !u!1 &430816099
 GameObject:
   m_ObjectHideFlags: 0
@@ -12918,16 +13023,7 @@ MonoBehaviour:
   - {fileID: 1010373130}
   - {fileID: 890039421}
   - {fileID: 1879392877}
-  sloat_box:
-  - {fileID: 967205659}
-  - {fileID: 841010321}
-  - {fileID: 844629613}
-  - {fileID: 1996946824}
-  - {fileID: 209210793}
-  - {fileID: 1569888242}
-  - {fileID: 102336534}
-  - {fileID: 1344693686}
-  - {fileID: 2042799656}
+  slot_box: []
   test_sprite: {fileID: 21300000, guid: 6d2233f0465343b478036afaebbf8f08, type: 3}
   ChestUI: {fileID: 985139832}
   player_obj: {fileID: 426849776}
