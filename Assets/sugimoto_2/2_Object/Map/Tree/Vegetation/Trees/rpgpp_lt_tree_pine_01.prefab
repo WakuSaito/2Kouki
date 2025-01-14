@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4252784401376168}
   - component: {fileID: 33583730029358272}
   - component: {fileID: 23009263249696568}
-  - component: {fileID: 1340415770220096285}
   m_Layer: 0
   m_Name: rpgpp_lt_tree_pine_01
   m_TagString: Untagged
@@ -85,19 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1340415770220096285
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1369031296425274}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3.1087723, y: 5.90808, z: 3.5913942}
-  m_Center: {x: 0.0063667297, y: 5.179486, z: -0.35304582}
 --- !u!1 &7952053802014694084
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,6 +127,6 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.3581344
-  m_Height: 3.6011124
+  m_Height: 5.1146774
   m_Direction: 1
-  m_Center: {x: -0.16228354, y: 0.8580272, z: -0.26672888}
+  m_Center: {x: -0.16228354, y: 1.6148095, z: -0.26672888}

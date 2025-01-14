@@ -5,22 +5,22 @@ using UnityEngine;
 public class KnifeManager : MonoBehaviour
 {
     // 当たり判定処理済みを記録  
-    private Dictionary<int, bool> hitMasters { get; } = new Dictionary<int, bool>();
+    private Dictionary<int, bool> mHitMasters { get; } = new Dictionary<int, bool>();
 
     [SerializeField]//当たり判定
-    Collider col;
+    Collider mCollider;
 
     //コルーチンキャンセル用
-    Coroutine attackCoroutine;
+    Coroutine mAttackCoroutine;
 
     //与えるダメージ
     [SerializeField] 
-    private int attackDamage = 2;
+    private int mAttackDamage = 2;
 
     private void Start()
     {
-        col = gameObject.GetComponent<Collider>();
-        col.enabled = false;
+        mCollider = gameObject.GetComponent<Collider>();
+        mCollider.enabled = false;
     }
 
 
@@ -31,10 +31,10 @@ public class KnifeManager : MonoBehaviour
     {
         Debug.Log("ナイフ攻撃開始");
 
-        if (attackCoroutine != null)
+        if (mAttackCoroutine != null)
             AttackCancel();//再生中のコルーチンがあればキャンセル
 
-        attackCoroutine = StartCoroutine(attack());//コルーチン開始
+        mAttackCoroutine = StartCoroutine(attack());//コルーチン開始
     }
 
     /// <summary>
@@ -43,52 +43,48 @@ public class KnifeManager : MonoBehaviour
     public void AttackCancel()
     {
         //とりあえずコライダーを無効化にする
-        col.enabled = false;
+        mCollider.enabled = false;
 
-        if (attackCoroutine == null) return;
+        if (mAttackCoroutine == null) return;
 
         //コルーチン停止
-        StopCoroutine(attackCoroutine);
+        StopCoroutine(mAttackCoroutine);
 
-        attackCoroutine = null;
+        mAttackCoroutine = null;
     }
 
     IEnumerator attack()
     {
-        hitMasters.Clear(); // リセット
-        col.enabled = true;
+        mHitMasters.Clear(); // リセット
+        mCollider.enabled = true;
 
         yield return new WaitForSeconds(1.3f);
 
-        col.enabled = false;
-        attackCoroutine = null;
+        mCollider.enabled = false;
+        mAttackCoroutine = null;
     }
 
     void OnTriggerEnter(Collider other)
     {
-        string hitTag = other.tag;
+        string hit_tag = other.tag;
         //対象のタグ以外は接触しない
-        if (hitTag != "Body" && hitTag != "Head") return;
+        if (hit_tag != "Body" && hit_tag != "Head") return;
 
         // 追加
         // 攻撃対象部位ならHitZoneが取得できる
-        var hitZone = other.GetComponent<ZombieHitZone>();
-        if (hitZone == null) return;
+        var hit_zone = other.GetComponent<ZombieHitZone>();
+        if (hit_zone == null) return;
 
         // 攻撃対象部位の親のインスタンスIDで重複した攻撃を判定
-        int masterId = hitZone.Master.GetInstanceID();
-        if (hitMasters.ContainsKey(masterId)) return;
-        hitMasters[masterId] = true;
+        int master_id = hit_zone.Master.GetInstanceID();
+        if (mHitMasters.ContainsKey(master_id)) return;
+        mHitMasters[master_id] = true;
 
-        Vector3 hitPos = other.ClosestPointOnBounds(this.transform.position);
+        Vector3 hit_pos = other.ClosestPointOnBounds(transform.position);
 
         Debug.Log("Hit!");
         // ダメージ計算とかこのへんで実装できます
-        hitZone.Master.TakeDamage(hitTag, attackDamage, hitPos);
+        hit_zone.Master.TakeDamage(hit_tag, mAttackDamage, hit_pos);
 
-        // ヒット箇所を計算してエフェクトを表示する（前回から特に変更なし）
-        //Vector3 hitPos = other.ClosestPointOnBounds(col.bounds.center);
-        //GameObject effectIstance = Instantiate(hitEffect, hitPos, Quaternion.identity);
-        //Destroy(effectIstance, 1);
     }
 }

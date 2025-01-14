@@ -8,77 +8,77 @@ public class GunSound : MonoBehaviour
     private const string ASSAULT_STR = "Assault";
     private const string SHOTGUN_STR = "ShotGun";
 
-    private SoundManager soundManager;
-    private AudioSource audioSource;
+    private SoundManager mSoundManager;
+    private AudioSource mAudioSource;
 
     private void Awake()
     {
-        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
-        audioSource = gameObject.GetComponent<AudioSource>();
+        mSoundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        mAudioSource = gameObject.GetComponent<AudioSource>();
     }
 
-    public void PlayShot(string _gunType)
+    public void PlayShot(string _gun_type)
     {
         AudioClip sound;
-        switch (_gunType)
+        switch (_gun_type)
         {
             case PISTOL_STR:
             default:
-                sound = soundManager.pistolShot;
+                sound = mSoundManager.pistolShot;
                 break;
             case ASSAULT_STR:
-                sound = soundManager.assaultShot;
+                sound = mSoundManager.assaultShot;
                 break;
             case SHOTGUN_STR:
-                sound = soundManager.shotgunShot;
+                sound = mSoundManager.shotgunShot;
                 break;
         }
 
-        audioSource.PlayOneShot(sound);
+        mAudioSource.PlayOneShot(sound);
     }
     public void PlayBlankShot()
     {
-        audioSource.PlayOneShot(soundManager.gunBlankShot);
+        mAudioSource.PlayOneShot(mSoundManager.gunBlankShot);
     }
-    public void PlayReloadOut(string _gunType)
+    public void PlayReloadOut(string _gun_type)
     {
         AudioClip sound;
-        switch (_gunType)
+        switch (_gun_type)
         {
             case PISTOL_STR:
             default:
-                sound = soundManager.pistolReloadOut;
+                sound = mSoundManager.pistolReloadOut;
                 break;
             case ASSAULT_STR:
-                sound = soundManager.assaultReloadOut;
+                sound = mSoundManager.assaultReloadOut;
                 break;
         }
 
-        audioSource.PlayOneShot(sound);
+        mAudioSource.PlayOneShot(sound);
     }
-    public void PlayReloadIn(string _gunType)
+    public void PlayReloadIn(string _gun_type)
     {
         AudioClip sound;
-        switch (_gunType)
+        switch (_gun_type)
         {
             case PISTOL_STR:
             default:
-                sound = soundManager.pistolReloadIn;
+                sound = mSoundManager.pistolReloadIn;
                 break;
             case ASSAULT_STR:
-                sound = soundManager.assaultReloadIn;
+                sound = mSoundManager.assaultReloadIn;
                 break;
             case SHOTGUN_STR:
-                sound = soundManager.shotgunBulletIn;
+                sound = mSoundManager.shotgunBulletIn;
                 break;
         }
 
-        audioSource.PlayOneShot(sound);
+        mAudioSource.PlayOneShot(sound);
     }
 
     public void PlayChargingHandle()
     {
-        audioSource.PlayOneShot(soundManager.assaultChargingHandle);
+        mAudioSource.PlayOneShot(mSoundManager.assaultChargingHandle);
     }
 
 }

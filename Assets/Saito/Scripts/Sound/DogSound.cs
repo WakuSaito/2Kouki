@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class DogSound : DogBase
 {
-    private SoundManager soundManager;
-    private AudioSource audioSource;
+    private SoundManager mSoundManager;
+    private AudioSource mAudioSource;
 
     public override void SetUpDog()
     {
-        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
-        audioSource = gameObject.GetComponent<AudioSource>();
+        mSoundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        mAudioSource = gameObject.GetComponent<AudioSource>();
     }
 
     public void PlayFootStep()
     {
-        audioSource.PlayOneShot(soundManager.dogFootStep);
+        mAudioSource.PlayOneShot(mSoundManager.dogFootStep);
     }
     public void PlayAttackBark()
     {
-        audioSource.PlayOneShot(soundManager.dogAttackBark);
+        mAudioSource.PlayOneShot(mSoundManager.dogAttackBark);
     }
     public void PlayDetectBark()
     {
-        audioSource.PlayOneShot(soundManager.dogDetectBark);
+        mAudioSource.PlayOneShot(mSoundManager.dogDetectBark);
     }
 }
