@@ -131,18 +131,8 @@ public class player : PlayerFunction, IStopObject
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                if (m_openInventoryFlag)
-                {
-                    m_openInventoryFlag = false;
-                    m_inventoryManager.inventory_state = INVENTORY.NON;
-                    m_inventoryItem.item_inventory_obj.SetActive(false);
-                }
-                else
-                {
-                    m_openInventoryFlag = true;
-                    inventory_status = INVENTORY.ITEM;
-                    m_inventoryItem.item_inventory_obj.SetActive(true);
-                }
+                m_inventoryManager.inventory_state = INVENTORY.ITEM;
+                m_openInventoryFlag = m_inventoryManager.OpenClose(m_openInventoryFlag, null);
             }
 
             hand_weapon = m_inventoryWeapon.mWeaponSlotObj[(int)m_inventoryWeapon.mSelectSlot];
@@ -238,17 +228,8 @@ public class player : PlayerFunction, IStopObject
 
             if (item.GetComponent<ItemSetting>().iteminfo.id == ITEM_ID.CHEST)
             {
-                if(m_openInventoryFlag)
-                {
-                    m_openInventoryFlag = false;
-                    m_inventoryManager.inventory_state = INVENTORY.NON;
-                    m_inventoryItem.item_inventory_obj.SetActive(false);
-                }
-                else
-                {
-                    m_openInventoryFlag = true;
-                    m_inventoryManager.inventory_state = INVENTORY.CHEST;
-                }
+                m_inventoryManager.inventory_state = INVENTORY.CHEST;
+                m_openInventoryFlag = m_inventoryManager.OpenClose(m_openInventoryFlag, item);
                 return;
             }
 
