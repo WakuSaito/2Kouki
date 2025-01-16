@@ -20,7 +20,7 @@ public class InventoryItem : MonoBehaviour
 
     //オブジェクト
     [SerializeField] GameObject mInventoryManagerObj;
-    [SerializeField] GameObject item_inventory_obj; //インベントリUI
+    public GameObject item_inventory_obj; //インベントリUI
 
     // Start is called before the first frame update
     void Start()
@@ -45,7 +45,7 @@ public class InventoryItem : MonoBehaviour
         }
     }
 
-    public bool AddInventory_PickUP_Item(ItemInformation _item, ref WeaponInventory _weapon)//アイテム取得
+    public bool AddInventory_PickUP_Item(ItemInformation _item, ref InventoryWeapon _weapon)//アイテム取得
     {
         //武器の場合の処理を追加
         /*
@@ -59,54 +59,55 @@ public class InventoryItem : MonoBehaviour
          */
 
         //種類が武器の場合
-        //if (_item.type == ITEM_TYPE.WEAPON)
-        //{
-        //    //武器インベントリに銃がない場合
-        //    if (_weapon.Inventory.Sloats[GUN_SLOT].ItemInfo == null)
-        //    {
-        //        //銃をインベントリに入れる
-        //        _weapon.Inventory.Sloats[GUN_SLOT].ItemInfo = new ItemInformation(_item);
+        if (_item.type == ITEM_TYPE.WEAPON)
+        {
+            //アイテム情報からスロットの位置を取得
+            int slot_num = _weapon.CanWeaponGet(_item.weaponitem_info.weapon_obj);
+            Debug.Log(slot_num);
 
-        //        //武器をプレイヤーの子にしておく
-        //        _weapon.WeaponGet(_item.weaponitem_info.weapon_obj);
+            if (_weapon.mWeaponSlotObj[slot_num] == null)
+            {
+                //武器インベントリに銃がない場合
+                
+                _weapon.WeaponGet(_item.weaponitem_info.weapon_obj);//武器取得
 
-        //        return false;
-        //    }
-        //    //アイテムインベントリにあるか調べる
-        //    else
-        //    {
-        //        //インベントリに入れれるか調べる
-        //        bool in_flag = true;
+                return false;
+            }
+            else
+            {
+                //インベントリに入れれるか調べる
 
-        //        //武器インベントリと同じIDか調べる
-        //        if (_weapon.Inventory.Sloats[GUN_SLOT].ItemInfo.id == _item.id)
-        //        {
-        //            in_flag = false;
-        //        }
+                bool in_flag = true;
 
-        //        //インベントリの中身と比べる
-        //        for (int sloat = 0; sloat < Inventory.Slots.Length; sloat++)
-        //        {
-        //            if (Inventory.Slots[sloat].ItemInfo != null && Inventory.Slots[sloat].ItemInfo.id == _item.id)
-        //            {
-        //                in_flag = false;
-        //                break;
-        //            }
-        //        }
+                //武器インベントリと同じIDか調べる
+                if (_weapon.Inventory.Slots[slot_num].ItemInfo.id == _item.id)
+                {
+                    in_flag = false;
+                }
 
-        //        //インベントリに入れれなければ弾丸に変更
-        //        if (!in_flag)
-        //        {
-        //            //アイテム情報を弾丸に変更
-        //            _item.BulletInfo();
-        //        }
-        //        else
-        //        {
-        //            //武器をプレイヤーの子にしておく
-        //            _weapon.WeaponGet(_item.weaponitem_info.weapon_obj);
-        //        }
-        //    }
-        //}
+                //アイテムインベントリの中身と比べる
+                for (int sloat = 0; sloat < Inventory.Slots.Length; sloat++)
+                {
+                    if (Inventory.Slots[sloat].ItemInfo != null && Inventory.Slots[sloat].ItemInfo.id == _item.id)
+                    {
+                        in_flag = false;
+                        break;
+                    }
+                }
+
+                //インベントリに入れれなければ弾丸に変更
+                if (!in_flag)
+                {
+                    //アイテム情報を弾丸に変更
+                    _item.BulletInfo();
+                }
+                else
+                {
+                    //武器をプレイヤーの子にしておく
+                    _weapon.WeaponGet(_item.weaponitem_info.weapon_obj);
+                }
+            }
+        }
 
         //アイテムをインベントリに
         for (int sloat = 0; sloat < Inventory.Slots.Length; sloat++)

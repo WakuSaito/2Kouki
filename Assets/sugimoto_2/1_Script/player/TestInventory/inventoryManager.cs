@@ -14,11 +14,11 @@ public enum INVENTORY
 public class inventoryManager : MonoBehaviour
 {
     InventoryItem InventoryItem;
-    WeaponInventory WeaponInventory;
+    InventoryWeapon mInventoryWeapon;
     ChestInventory[] ChestInventory;
 
     //定数
-    const int GUN_SLOT = 3;
+    const int GUN_SLOT = 2;
 
     //インベントリ情報を持っているオブジェクト
     public GameObject player_obj;
@@ -46,13 +46,13 @@ public class inventoryManager : MonoBehaviour
     void Start()
     {
         InventoryItem = player_obj.GetComponent<InventoryItem>();
-        WeaponInventory = player_obj.GetComponent<WeaponInventory>();
+        mInventoryWeapon = player_obj.GetComponent<InventoryWeapon>();
 
-        //ChestInventory = new ChestInventory[chest_inventory.Length];
-        //for (int i = 0; i < chest_inventory.Length; i++)
-        //{
-        //    ChestInventory[i] = ChestInventory[i].GetComponent<ChestInventory>();
-        //}
+        ChestInventory = new ChestInventory[chest_inventory.Length];
+        for (int i = 0; i < chest_inventory.Length; i++)
+        {
+            ChestInventory[i] = ChestInventory[i].GetComponent<ChestInventory>();
+        }
     }
 
     // Update is called once per frame
@@ -98,21 +98,21 @@ public class inventoryManager : MonoBehaviour
                 }
 
                 ////チェストインベントリ
-                //for (int j = 0; j < chest_inventory.Length; j++)
-                //{
-                //    for (int i = 0; i < ChestInventory[j].sloat_size; i++)
-                //    {
-                //        if (result.gameObject == ChestInventory[j].sprite_pos[i].gameObject)
-                //        {
-                //            can_catch_slot.sloat_obj = InventoryItem.sprite[i].gameObject;
-                //            can_catch_slot.slot_no = i;
-                //            can_catch_slot.chest_no = j;
-                //            can_catch_slot.slot_inventory = (int)INVENTORY.CHEST;
-                //            break;
-                //        }
-                //    }
-                //    if (can_catch_slot.slot_inventory != (int)INVENTORY.NON) break;
-                //}
+                for (int j = 0; j < chest_inventory.Length; j++)
+                {
+                    for (int i = 0; i < ChestInventory[j].m_sloatSize; i++)
+                    {
+                        if (result.gameObject == ChestInventory[j].m_spriteTrans[i].gameObject)
+                        {
+                            can_catch_slot.sloat_obj = InventoryItem.sprite[i].gameObject;
+                            can_catch_slot.slot_no = i;
+                            can_catch_slot.chest_no = j;
+                            can_catch_slot.slot_inventory = (int)INVENTORY.CHEST;
+                            break;
+                        }
+                    }
+                    if (can_catch_slot.slot_inventory != (int)INVENTORY.NON) break;
+                }
             }
         }
         foreach (RaycastResult result in HitResult())
@@ -131,32 +131,32 @@ public class inventoryManager : MonoBehaviour
                 }
             }
 
-            ////武器インベントリ
-            //if (result.gameObject == WeaponInventory.sloat_box[GUN_SLOT].gameObject)
-            //{
-            //    destination_slot.sloat_obj = WeaponInventory.sloat_box[GUN_SLOT].gameObject;
-            //    destination_slot.slot_no = GUN_SLOT;
-            //    destination_slot.slot_inventory = (int)INVENTORY.WEAPON;
-            //    break;
-            //}
+            //武器インベントリ
+            if (result.gameObject == mInventoryWeapon.slot_box[GUN_SLOT].gameObject)
+            {
+                destination_slot.sloat_obj = mInventoryWeapon.slot_box[GUN_SLOT].gameObject;
+                destination_slot.slot_no = GUN_SLOT;
+                destination_slot.slot_inventory = (int)INVENTORY.WEAPON;
+                break;
+            }
 
-            ////チェストインベントリ
-            //for (int j = 0; j < chest_inventory.Length; j++)
-            //{
-            //    for (int i = 0; i < ChestInventory[j].sloat_size; i++)
-            //    {
-            //        if (result.gameObject == ChestInventory[j].slot_box[i].gameObject)
-            //        {
-            //            destination_slot.sloat_obj = ChestInventory[j].slot_box[i].gameObject;
-            //            destination_slot.slot_no = i;
-            //            destination_slot.chest_no = j;
-            //            destination_slot.slot_inventory = (int)INVENTORY.CHEST;
-            //            break;
-            //        }
-            //    }
+            //チェストインベントリ
+            for (int j = 0; j < chest_inventory.Length; j++)
+            {
+                for (int i = 0; i < ChestInventory[j].m_sloatSize; i++)
+                {
+                    if (result.gameObject == ChestInventory[j].m_slotBoxTrans[i].gameObject)
+                    {
+                        destination_slot.sloat_obj = ChestInventory[j].m_slotBoxTrans[i].gameObject;
+                        destination_slot.slot_no = i;
+                        destination_slot.chest_no = j;
+                        destination_slot.slot_inventory = (int)INVENTORY.CHEST;
+                        break;
+                    }
+                }
 
-            //    if (destination_slot.slot_inventory != (int)INVENTORY.NON) break;
-            //}
+                if (destination_slot.slot_inventory != (int)INVENTORY.NON) break;
+            }
         }
     
     }
@@ -203,8 +203,8 @@ public class inventoryManager : MonoBehaviour
                 {
                     //アイテムを重ねられる場合の処理
                     if (InventoryItem.Inventory.Slots[destination_slot.slot_no].CanAddStackItem(InventoryItem.Inventory.Slots[catch_slot.slot_no]))
-                    {
-                        InventoryItem.Inventory.Slots[destination_slot.slot_no].AddStackItem(ref InventoryItem.Inventory.Slots[catch_slot.slot_no]);
+                    {                      
+                        InventoryItem.Inventory.Slots[destination_slot.slot_no].AddStackItem(ref InventoryItem.Inventory.Slots[catch_slot.slot_no]);//アイテムを重ねる
                     }
                     else
                     {
@@ -214,14 +214,19 @@ public class inventoryManager : MonoBehaviour
                 }
                 else if (destination_slot.slot_inventory == (int)INVENTORY.WEAPON)
                 {
-                    ItemInfoChange(ref InventoryItem.Inventory.Slots[catch_slot.slot_no], ref WeaponInventory.InventoryClass.Slots[destination_slot.slot_no]);
+                    //武器以外は変更不可
+                    if (InventoryItem.Inventory.Slots[catch_slot.slot_no].ItemInfo.type != ITEM_TYPE.WEAPON) return;
+
+                    //武器オブジェクト、アイテム情報入れ替え
+                    mInventoryWeapon.GunObjChenge(InventoryItem.Inventory.Slots[catch_slot.slot_no].ItemInfo);
+                    ItemInfoChange(ref InventoryItem.Inventory.Slots[catch_slot.slot_no], ref mInventoryWeapon.Inventory.Slots[destination_slot.slot_no]);
                 }
                 else if (destination_slot.slot_inventory == (int)INVENTORY.CHEST)
                 {
                     //アイテムを重ねられる場合の処理
 
                     //できない場合の処理
-                    ItemInfoChange(ref InventoryItem.Inventory.Slots[catch_slot.slot_no], ref ChestInventory[destination_slot.chest_no].InventoryClass.Slots[destination_slot.slot_no]);
+                    ItemInfoChange(ref InventoryItem.Inventory.Slots[catch_slot.slot_no], ref ChestInventory[destination_slot.chest_no].m_inventory.Slots[destination_slot.slot_no]);
                 }
 
             }
@@ -279,4 +284,17 @@ public class inventoryManager : MonoBehaviour
         return RayResult;
     }
 
+    public void OpenCloseUI(bool _flag)
+    {
+        switch(inventory_state)
+        {
+            case INVENTORY.ITEM:
+                InventoryItem.item_inventory_obj.SetActive(_flag);
+                break;
+            case INVENTORY.CHEST:
+                InventoryItem.item_inventory_obj.SetActive(_flag);
+
+                break;
+        }
+    }
 }

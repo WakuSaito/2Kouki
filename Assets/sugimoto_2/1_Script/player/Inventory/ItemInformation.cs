@@ -8,6 +8,7 @@ public enum ITEM_TYPE
     FOOD,
     RECOVERY,
     WEAPON,
+    BULLET,   //ëfçﬁ
 }
 
 public enum ITEM_ID
@@ -59,7 +60,8 @@ public class ItemInformation
                 recoveryitem_info = new RecoveryItemInformation(_item.recoveryitem_info.recovery_num);
                 break;
             case ITEM_TYPE.WEAPON:
-                weaponitem_info = new WeaponItemInformation(_item.weaponitem_info.weapon_obj, _item.weaponitem_info.bullet_sprite);
+                weaponitem_info = new WeaponItemInformation(_item.weaponitem_info.weapon_obj
+                    , _item.weaponitem_info.bullet_sprite);
                 break;
             default:
                 break;
@@ -115,7 +117,7 @@ public class ItemInformation
 
     public void BulletInfo()
     {
-        type = ITEM_TYPE.WEAPON;
+        type = ITEM_TYPE.BULLET;
         id = ITEM_ID.BULLET;
         get_num = 10;
         stack_max = 30;
