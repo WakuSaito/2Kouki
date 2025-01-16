@@ -2,13 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ショットガンマネージャークラス
+/// 銃マネージャークラスを元にリロードの方式を変更したいため継承して実装
+/// </summary>
 public class ShotGunManager : GunManager
 {
+    //弾を込める間隔
     private const float BULLET_IN_INTERVAL = 0.6f;
 
+    //リロードキャンセルフラグ
     private bool onCancelReload = false;
 
-
+    /// <summary>
+    /// リロード
+    /// 継承元を上書きし、一つずつ弾を入れるようにする
+    /// </summary>
     public override void Reload()
     {
         if (m_isShotCooldown) return;
@@ -39,7 +48,10 @@ public class ShotGunManager : GunManager
 
     }
 
-    //リロードキャンセル
+    /// <summary>
+    /// リロードキャンセル
+    /// アニメーション遷移とフラグ管理
+    /// </summary>
     public override void StopReload()
     {
         onCancelReload = true;
@@ -47,19 +59,27 @@ public class ShotGunManager : GunManager
         m_animator.SetBool("Reload", false);
     }
 
+    /// <summary>
+    /// 弾込め開始
+    /// Invokeで遅延実行するためのクッション
+    /// </summary>
     public void StartBulletIn()
     {
         StartCoroutine(BulletIn());
     }
 
+    /// <summary>
+    /// 弾込めコルーチン
+    /// 一定間隔ごとに弾を込める
+    /// </summary>
     private IEnumerator BulletIn()
     {
         //リロード可能な弾数取得
         int bulletInNum = HowManyCanLoaded();
-
+        //最大、またはキャンセルされるまで一つずつ弾を入れる
         for (int i = 0; i < bulletInNum; i++)
         {
-            m_animator.SetTrigger("BulletIn");
+            m_animator.SetTrigger("BulletIn");//アニメーション再生
 
             yield return new WaitForSeconds(BULLET_IN_INTERVAL);
 

@@ -3,23 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 時間:分データクラス
+/// 時間:分単位の数値と計算を内蔵するクラス（構造体のような用途）
+/// </summary>
 public class HourMinute
 {
+    //定数
     public const int MAX_HOUR = 24;
     public const int MAX_MINUTE = 60;
 
-    private int hour = 0;
-    private int minute = 0;
+    //数値
+    private int hour = 0;  //時間
+    private int minute = 0;//分
 
+    /// <summary>
+    /// コンストラクタ
+    /// 時間、分を指定し、作成
+    /// </summary>
+    /// <param name="_hour">時間</param>
+    /// <param name="_minute">分</param>
     public HourMinute(int _hour, int _minute)
     {
         AddHour(_hour);
         AddMinute(_minute);
     }
-
+    /// <summary>
+    /// 時間の取得
+    /// </summary>
     public int GetHour() { return hour; }
+    /// <summary>
+    /// 分の取得
+    /// </summary>
     public int GetMinute() { return minute; }
 
+    /// <summary>
+    /// 分の加算
+    /// </summary>
+    /// <param name="_minute">加算する分</param>
+    /// <returns>加算後の分</returns>
     public int AddMinute(int _minute)
     {
         int sumMinute = minute + _minute;
@@ -39,6 +61,11 @@ public class HourMinute
 
         return minute;
     }
+    /// <summary>
+    /// 時間の加算
+    /// </summary>
+    /// <param name="_hour">加算する時間</param>
+    /// <returns>加算後の時間</returns>
     public int AddHour(int _hour)
     {
         int sumHour = hour + _hour;
@@ -56,7 +83,11 @@ public class HourMinute
 
         return hour;
     }
-
+    /// <summary>
+    /// 時間:分の文字型取得
+    /// 数値をstring型に変換し取得
+    /// </summary>
+    /// <returns>"hh:mm"</returns>
     public string GetTimeString()
     {
         string timeString = "";
@@ -74,6 +105,11 @@ public class HourMinute
 }
 
 //時間経過スクリプト　（昼夜の処理など）
+/// <summary>
+/// 時間管理クラス
+/// 時間経過、日光の向き、テキストを扱う
+/// ポーズ時に時間経過を停止したいためIStopObject継承
+/// </summary>
 public class TimeController : MonoBehaviour, IStopObject
 {
     [SerializeField]//太陽光オブジェクト
@@ -110,7 +146,6 @@ public class TimeController : MonoBehaviour, IStopObject
     //経過時間カウント用
     private float m_timeCount = 0;
 
-
     [SerializeField]//日をカウントするテキスト（d日目）
     private GameObject m_dayCountTextObj;
     [SerializeField]//時間をカウントするテキスト（hh:mm）
@@ -128,6 +163,7 @@ public class TimeController : MonoBehaviour, IStopObject
     [SerializeField]
     private bool m_onDebugSunrise = false;
 
+    //数値の計算
     private void Awake()
     {
         //大きすぎないようにする
@@ -159,7 +195,7 @@ public class TimeController : MonoBehaviour, IStopObject
         m_prevFrameHour = m_currentTime.GetHour();
     }
 
-    // Update is called once per frame
+    //時間経過の処理、日光の向き計算、テキストの更新
     void Update()
     {
         //デバッグ用
@@ -235,7 +271,10 @@ public class TimeController : MonoBehaviour, IStopObject
         m_prevFrameHour = m_currentTime.GetHour();  
     }
 
-    //時間を日没に変更
+    /// <summary>
+    /// 時間を日没に変更
+    /// デバッグ用　時間強制変更
+    /// </summary>
     public void ChangeSunset()
     {
         m_isDaylight = false;
@@ -244,7 +283,10 @@ public class TimeController : MonoBehaviour, IStopObject
         if (m_timeCountTextObj != null)
             m_timeCountTextObj.GetComponent<Text>().text = m_currentTime.GetTimeString();//テキスト更新
     }
-    //時間を日の出に変更
+    /// <summary>
+    /// 時間を日の出に変更
+    /// デバッグ用　時間強制変更
+    /// </summary>
     public void ChangeSunrise()
     {
         m_isDaylight = true;
@@ -255,19 +297,25 @@ public class TimeController : MonoBehaviour, IStopObject
     }
 
     /// <summary>
-    /// 昼間かどうかを取得する (昼:true, 夜:false)
+    /// 昼間かどうかを取得する
     /// </summary>
+    /// <returns>昼 : true</returns>
     public bool GetIsDaylight()
     {
         return m_isDaylight;
     }
 
+    /// <summary>
+    /// 現在の時間取得
+    /// </summary>
     public int GetCurrentHour()
     {
         return m_currentTime.GetHour();
     }
 
-    //日数取得
+    /// <summary>
+    /// 現在の日数取得
+    /// </summary>
     public int GetDayCount()
     {
         return m_currentDayCount;
@@ -275,6 +323,7 @@ public class TimeController : MonoBehaviour, IStopObject
 
     /// <summary>
     /// 日没から何分経ったか取得する
+    /// 時間によって補間したいので実装
     /// </summary>
     public int GetMinutesAfterSunset()
     {
@@ -287,6 +336,7 @@ public class TimeController : MonoBehaviour, IStopObject
 
     /// <summary>
     /// 日の出まで何分あるか取得する
+    /// 時間によって補間したいので実装
     /// </summary>
     public int GetMinutesBeforeSunrise()
     {
@@ -296,12 +346,18 @@ public class TimeController : MonoBehaviour, IStopObject
 
         return (m_sunriseHour - hour) * HourMinute.MAX_MINUTE - m_currentTime.GetMinute();
     }
-    //一時停止
+    /// <summary>
+    /// 一時停止
+    /// ポーズ時に停止する
+    /// </summary>
     public void Pause()
     {
         m_isStopPassageTime = true;
     }
-    //再開
+    /// <summary>
+    /// 再開
+    /// ポーズ解除時に停止解除する
+    /// </summary>
     public void Resume()
     {
         m_isStopPassageTime = false;

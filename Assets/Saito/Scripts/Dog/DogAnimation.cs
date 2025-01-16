@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// 犬アニメーションクラス
-/// 犬のアニメーションを呼び出す
+/// 犬のアニメーションを管理する
 /// </summary>
 public class DogAnimation : DogBase
 {
@@ -26,6 +26,7 @@ public class DogAnimation : DogBase
 
     /// <summary>
     /// 初期設定
+    /// アニメーションの初期状態設定
     /// </summary>
     public override void SetUpDog()
     {
@@ -45,8 +46,8 @@ public class DogAnimation : DogBase
     }
 
     /// <summary>
-    /// 立ち止まり
-    /// 
+    /// アイドル状態
+    /// アイドル状態アニメーション再生
     /// </summary>
     public void Idle()
     {
@@ -60,7 +61,7 @@ public class DogAnimation : DogBase
 
     /// <summary>
     /// 歩き
-    /// 
+    /// 歩きアニメーション再生
     /// </summary>
     public void Walk()
     {
@@ -74,6 +75,7 @@ public class DogAnimation : DogBase
 
     /// <summary>
     /// 走り
+    /// 走りアニメーション再生
     /// </summary>
     public void Run()
     {
