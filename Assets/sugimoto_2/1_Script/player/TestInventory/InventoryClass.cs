@@ -19,22 +19,6 @@ public class InventoryClass
         }
     }
 
-    public bool OpenClose(GameObject _inventory_obj ,bool _open_flag)
-    {
-        if (_open_flag)
-        {
-            Screen.lockCursor = true;
-            _inventory_obj.SetActive(true);
-            return true;
-        }
-        else
-        {
-            Screen.lockCursor = false;
-            _inventory_obj.SetActive(false);
-            return false;
-        }
-    }
-
     /// <summary>
     /// UIをセットする
     /// インベントリのスロットのUIを決定

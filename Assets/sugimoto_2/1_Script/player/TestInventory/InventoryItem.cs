@@ -39,7 +39,7 @@ public class InventoryItem : MonoBehaviour
     void Update()
     {
         //アイテムインベントリを開いている間
-        if (mInventoryManager.inventory_state == INVENTORY.ITEM)
+        if (mInventoryManager.inventory_state == INVENTORY.ITEM|| mInventoryManager.inventory_state == INVENTORY.CHEST)
         {
             Inventory.SetUI(sprite, text);//UI更新
         }

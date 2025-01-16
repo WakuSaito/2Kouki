@@ -22,15 +22,14 @@ public class ChestInventory : MonoBehaviour
 
     //オブジェクト
     [SerializeField] GameObject m_PlayerObj;
-    [SerializeField] GameObject m_ChestObj;
-    [SerializeField] GameObject m_ItemInventoryUIObj;
-    [SerializeField] GameObject m_ChestUIObj;
+    [SerializeField] GameObject m_inventoryManagerObj;
+    public GameObject m_ChestUIObj;
 
     // Start is called before the first frame update
     void Start()
     {
         m_inventory = new InventoryClass(m_sloatSize, m_slotBoxTrans);
-        m_inventoryManager = m_ChestObj.GetComponent<inventoryManager>();
+        m_inventoryManager = m_inventoryManagerObj.GetComponent<inventoryManager>();
         m_Player = m_PlayerObj.GetComponent<player>();
     }
 
