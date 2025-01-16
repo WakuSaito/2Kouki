@@ -5,24 +5,24 @@ using UnityEngine;
 public class PhaseTakeItem : TutorialBase
 {
     [SerializeField]//食料オブジェクト
-    private GameObject itemObj;
+    private GameObject m_itemObj;
 
     public override void SetUpPhase()
     {
-        tutorialManager.SetText("食料を手に入れよう");
-        tutorialManager.CreateMarker(itemObj.transform.position);
+        m_tutorialManager.SetText("食料を手に入れよう");
+        m_tutorialManager.CreateMarker(m_itemObj.transform.position);
     }
 
     public override void UpdatePhase()
     {
         //アイテムを取得したら        
-        if(itemObj == null)
-            tutorialManager.NextPhase();//フェーズ移行
+        if(m_itemObj == null)
+            m_tutorialManager.NextPhase();//フェーズ移行
     }
 
     public override void EndPhase()
     {
-        tutorialManager.HideText();
-        tutorialManager.DeleteMarker();
+        m_tutorialManager.HideText();
+        m_tutorialManager.DeleteMarker();
     }
 }

@@ -6,18 +6,18 @@ using System.Linq;
 public class SearchViewArea : MonoBehaviour
 {
     [SerializeField]//対象となる範囲
-    private float mActiveAngle = 20.0f;   
+    private float m_activeAngle = 20.0f;   
 
-    private GameObject mPlayerObj;
-    private GameObject mCameraObj;
+    private GameObject m_playerObj;
+    private GameObject m_cameraObj;
 
     //前回の対象となったオブジェクト　タグごとに管理
     private Dictionary<string, GameObject> mPrevTargetObj = new Dictionary<string, GameObject>();
 
     private void Awake()
     {
-        mPlayerObj = GameObject.FindGameObjectWithTag("Player");
-        mCameraObj = Camera.main.gameObject;
+        m_playerObj = GameObject.FindGameObjectWithTag("Player");
+        m_cameraObj = Camera.main.gameObject;
     }
 
     //視点方向のオブジェクトを取得する（対象とするタグ, 対象とする距離, 中心座標Y調整用）
@@ -26,9 +26,9 @@ public class SearchViewArea : MonoBehaviour
         //全対象タグのオブジェクト
         GameObject[] item_objects = GameObject.FindGameObjectsWithTag(_target_tag);
 
-        Vector3 player_pos = mPlayerObj.transform.position;
-        Vector3 camera_pos = mCameraObj.transform.position;
-        Vector3 eye_dir = mCameraObj.transform.forward;//視点方向ベクトル
+        Vector3 player_pos = m_playerObj.transform.position;
+        Vector3 camera_pos = m_cameraObj.transform.position;
+        Vector3 eye_dir = m_cameraObj.transform.forward;//視点方向ベクトル
 
         List<GameObject> target_items = new List<GameObject>();
 
@@ -59,7 +59,7 @@ public class SearchViewArea : MonoBehaviour
             Vector3 target_pos = nearest_target.transform.position + item_center_add;
 
             //取得したオブジェクトまでと視点の角度が一定以下なら
-            if (Vector3.Angle((target_pos - camera_pos).normalized, eye_dir) <= mActiveAngle)
+            if (Vector3.Angle((target_pos - camera_pos).normalized, eye_dir) <= m_activeAngle)
             {
                 //途中に壁などが無いか調べる
                 RaycastHit hit;

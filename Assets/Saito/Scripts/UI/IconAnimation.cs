@@ -5,51 +5,49 @@ using UnityEngine.UI;
 
 public class IconAnimation : MonoBehaviour
 {
-    enum AnimationType
+    enum ANIM_TYPE
     {
         BLINK,//ì_ñ≈
         UPDOWN,//è„â∫
     }
+    [SerializeField]
+    ANIM_TYPE m_animationType = ANIM_TYPE.BLINK;
 
     [SerializeField]
-    AnimationType animationType = AnimationType.BLINK;
+    Sprite[] m_iconSprites;
 
-    [SerializeField]
-    Sprite[] iconSprites;
+    Image m_image;
 
-    Image image;
-
-    float count = 0;
-    int currentSprite = 0;
+    float m_count = 0;
+    int m_currentSprite = 0;
 
     private void Awake()
     {
-        image = gameObject.GetComponent<Image>();
+        m_image = gameObject.GetComponent<Image>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch (animationType) 
+        switch (m_animationType) 
         {
-            case AnimationType.BLINK:
+            case ANIM_TYPE.BLINK:
 
-                count += Time.deltaTime;
-                if (count > 0.5f)
+                m_count += Time.deltaTime;
+                if (m_count > 0.5f)
                 {
-                    count = 0;
-                    if (currentSprite == 0)
-                        currentSprite = 1;
+                    m_count = 0;
+                    if (m_currentSprite == 0)
+                        m_currentSprite = 1;
                     else
-                        currentSprite = 0;
+                        m_currentSprite = 0;
 
-                    image.sprite = iconSprites[currentSprite];
+                    m_image.sprite = m_iconSprites[m_currentSprite];
                 }
 
                 break;
 
-            case AnimationType.UPDOWN:
-
+            case ANIM_TYPE.UPDOWN:
 
                 break;
         }

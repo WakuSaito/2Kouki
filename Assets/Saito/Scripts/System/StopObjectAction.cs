@@ -24,51 +24,51 @@ public interface IStopObject
 public class StopObjectAction : MonoBehaviour
 {
     [SerializeField]//インベントリ
-    private Inventory inventory;
+    private Inventory m_inventory;
 
     //現在の停止状態
-    private bool currentStopState = false;
+    private bool m_currentStopState = false;
 
     private void Update()
     {
-        bool newStopBool = currentStopState;
+        bool new_stop_bool = m_currentStopState;
 
-        if(inventory != null)
+        if(m_inventory != null)
         {
             //インベントリを開いているとき
-            if(inventory.item_inventory_flag == true)
+            if(m_inventory.item_inventory_flag == true)
             {
-                newStopBool = true;
+                new_stop_bool = true;
             }
             else
             {
-                newStopBool = false;
+                new_stop_bool = false;
             }
         }
         //デバッグ用
         else if (Input.GetKeyDown(KeyCode.P))
         {
-            newStopBool = !currentStopState;
+            new_stop_bool = !m_currentStopState;
         }
 
         //変わらなければ終了
-        if (newStopBool == currentStopState) return;
+        if (new_stop_bool == m_currentStopState) return;
 
         //IStopObjectを全取得
-        var stopInterfaces = InterfaceUtils.FindObjectOfInterfaces<IStopObject>();
+        var stop_inter_faces = InterfaceUtils.FindObjectOfInterfaces<IStopObject>();
 
         //全IStopObjectの停止状態変更する
-        foreach(var stopI in stopInterfaces)
+        foreach(var stopI in stop_inter_faces)
         {
             if (stopI == null) continue;
 
-            if (newStopBool)
+            if (new_stop_bool)
                 stopI.Pause();//一時停止
             else
                 stopI.Resume();//再開
         }
-        Debug.Log("停止状態:" + newStopBool);
-        currentStopState = newStopBool;
+        Debug.Log("停止状態:" + new_stop_bool);
+        m_currentStopState = new_stop_bool;
     }    
 }
 
@@ -84,7 +84,7 @@ public class InterfaceUtils
     /// <returns> 取得したクラス配列 </returns>
     public static T[] FindObjectOfInterfaces<T>() where T : class
     {
-        List<T> findList = new List<T>();
+        List<T> find_list = new List<T>();
 
         // オブジェクトを探索し、リストに格納
         foreach (var component in GameObject.FindObjectsOfType<Component>())
@@ -93,18 +93,18 @@ public class InterfaceUtils
 
             if (obj == null) continue;
 
-            findList.Add(obj);
+            find_list.Add(obj);
         }
 
-        T[] findObjArray = new T[findList.Count];
+        T[] find_obj_array = new T[find_list.Count];
         int count = 0;
 
         // 取得したオブジェクトを指定したインタフェース型配列に格納
-        foreach (T obj in findList)
+        foreach (T obj in find_list)
         {
-            findObjArray[count] = obj;
+            find_obj_array[count] = obj;
             count++;
         }
-        return findObjArray;
+        return find_obj_array;
     }
 }

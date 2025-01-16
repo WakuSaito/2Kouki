@@ -1882,19 +1882,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5daabb7c37008c4491afc0adc4993ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zombieBases:
+  m_zombieBases:
   - {fileID: 6455615091749529718}
-  - {fileID: 7180837758190367735}
   - {fileID: 6455615091749529719}
   - {fileID: 6455615091749529716}
   - {fileID: 1251370930331078492}
-  - {fileID: 8768809644385745461}
-  detectionPlayerRangeMin: 5
-  detectionPlayerRangeMax: 15
-  attackStartRange: 0.3
-  despawnPlayerDistance: 50
-  isTutorialObj: 0
-  meshObj: {fileID: 4193280466009199003}
+  - {fileID: 7180837758190367735}
+  m_detectionPlayerRangeMin: 10
+  m_detectionPlayerRangeMax: 30
+  m_attackStartRange: 2
+  m_despawnPlayerDistance: 120
+  m_isTutorialObj: 0
+  m_meshObj: {fileID: 4193280466009199003}
 --- !u!114 &6455615091749529718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1907,9 +1906,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dcb33eab3d348c4f8a1c23e5e784682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runSpeed: 2
-  walkSpeed: 0.25
-  turnSpeed: 500
+  m_runSpeed: 6
+  m_walkSpeed: 1
+  m_turnSpeed: 1000
 --- !u!114 &6455615091749529719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1922,8 +1921,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd049b56fb533a648bf3dd4b269c66dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 7180837757642941505}
-  damagedEffect: {fileID: 1265039584626568888, guid: f44aa7898dd6ba24181df7a5012d326e, type: 3}
+  m_animator: {fileID: 7180837757642941505}
+  m_damagedEffect: {fileID: 1265039584626568888, guid: f44aa7898dd6ba24181df7a5012d326e, type: 3}
 --- !u!114 &6455615091749529716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1936,8 +1935,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c0325856f6f77245b9b8c169260345e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockBackPower: 1
-  dropItemPrefab: {fileID: 0}
+  m_knockBackPower: 10
+  m_dropItemPrefab: {fileID: 0}
 --- !u!114 &1251370930331078492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1950,7 +1949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21f94a3fb2da1e54bb6d912bc515bb5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 10
+  m_maxHP: 10
 --- !u!114 &-729504131328969680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1963,7 +1962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbfd73b2acde7c340911c8ff7b0ba3a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshObjs:
+  m_meshObjs:
   - {fileID: 4193280466009199003}
 --- !u!1 &7180837758190367733
 GameObject:
@@ -2054,9 +2053,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 393504773cef90c43a7cd7c907ceb787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  col: {fileID: 0}
-  setUpSec: 0.3
-  recoverySec: 1
+  m_col: {fileID: 0}
+  m_setUpSec: 0.3
+  m_recoverySec: 1
 --- !u!1 &9044647564687367262
 GameObject:
   m_ObjectHideFlags: 0

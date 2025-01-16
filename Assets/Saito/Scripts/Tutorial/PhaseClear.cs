@@ -5,25 +5,25 @@ using UnityEngine;
 public class PhaseClear : TutorialBase
 {
     [SerializeField]
-    private TimeController timeController;
+    private TimeController m_timeController;
 
-    private SceneChanger sceneChanger;
+    private SceneChanger m_sceneChanger;
 
-    private SoundManager soundManager;
+    private SoundManager m_soundManager;
 
 
     public override void SetUpPhase()
     {
-        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
-        sceneChanger = GetComponent<SceneChanger>();
+        m_soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        m_sceneChanger = GetComponent<SceneChanger>();
 
-        soundManager.Play2DSE(soundManager.escapeMap);//se
+        m_soundManager.Play2DSE(m_soundManager.escapeMap);//se
 
         //日数保存
-        StaticVariables.liveingDayCount = timeController.GetDayCount();
+        StaticVariables.liveingDayCount = m_timeController.GetDayCount();
 
         //遅らせてシーン移動
-        StartCoroutine(SceneChange(soundManager.escapeMap.length));
+        StartCoroutine(SceneChange(m_soundManager.escapeMap.length));
     }
 
     private IEnumerator SceneChange(float _delay)
@@ -31,7 +31,7 @@ public class PhaseClear : TutorialBase
         Debug.Log("クリア");
         yield return new WaitForSeconds(_delay);
 
-        sceneChanger.LoadResultScene();
+        m_sceneChanger.LoadResultScene();
     }
 
     public override void UpdatePhase()

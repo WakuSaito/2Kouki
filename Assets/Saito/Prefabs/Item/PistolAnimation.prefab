@@ -621,7 +621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbfd73b2acde7c340911c8ff7b0ba3a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshObjs:
+  m_meshObjs:
   - {fileID: 3090918781732281402}
   - {fileID: 2412700019669655568}
   - {fileID: 6704895385601030942}
@@ -665,20 +665,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundType: Pistol
-  muzzleTransform: {fileID: 9178369908925440979}
-  bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
-  muzzleFlashPrefab: {fileID: 100000, guid: 16652ec55bffc364799da4b8bb3bf2eb, type: 3}
-  bulletHitPrefab: {fileID: 100002, guid: 13b4f94b0136a9846b41c2fadd70b343, type: 3}
-  magazineSize: 10
-  oneShotBulletAmount: 1
-  bulletSpread: 0.03
-  bulletDistance: 20
-  rapidSpeed: 0.5
-  isCanRapid: 1
-  reloadSpeed: 2.8
-  bulletDamage: 4
-  hand_player_obj: {fileID: 0}
+  m_soundType: Pistol
+  m_muzzleTransform: {fileID: 9178369908925440979}
+  m_bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
+  m_muzzleFlashPrefab: {fileID: 100000, guid: 16652ec55bffc364799da4b8bb3bf2eb, type: 3}
+  m_bulletHitPrefab: {fileID: 100002, guid: 13b4f94b0136a9846b41c2fadd70b343, type: 3}
+  m_magazineSize: 10
+  m_oneShotBulletAmount: 1
+  m_bulletSpread: 0.03
+  m_bulletDistance: 20
+  m_rapidSpeed: 1
+  m_isCanRapid: 0
+  m_reloadSpeed: 2.8
+  m_bulletDamage: 5
+  m_handPlayerObj: {fileID: 0}
 --- !u!114 &889583203123625858
 MonoBehaviour:
   m_ObjectHideFlags: 0

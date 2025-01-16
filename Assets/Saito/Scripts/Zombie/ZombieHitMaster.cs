@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class ZombieHitMaster : MonoBehaviour
 {
-    ZombieManager zombieManager;
+    ZombieManager m_zombieManager;
 
     private void Awake()
     {
-        zombieManager = GetComponent<ZombieManager>();
+        m_zombieManager = GetComponent<ZombieManager>();
     }
     /// <summary>
     /// ÚG‚µ‚½•”ˆÊ‚Ìƒ^ƒO‚ğ“n‚·
     /// </summary>
-    public void TakeDamage(string _partTag, int _damage, Vector3 _hitpos)
+    public void TakeDamage(string _part_tag, int _damage, Vector3 _hit_pos)
     {
-        if(_partTag=="Body")
+        if(_part_tag == "Body")
         {
-            zombieManager.DamageBody(_hitpos, _damage);
+            m_zombieManager.DamageBody(_hit_pos, _damage);
         }
-        else if(_partTag == "Head")
+        else if(_part_tag == "Head")
         {
-            zombieManager.DamageHead(_hitpos, _damage);
+            m_zombieManager.DamageHead(_hit_pos, _damage);
         }
 
     }

@@ -262,14 +262,14 @@ public class player : PlayerFunction, IStopObject
 
             if (id >= ITEM_ID.PISTOL && id <= ITEM_ID.SHOTGUN)
             {
-                item.GetComponent<GunManager>().hand_player_obj = gameObject;
+                item.GetComponent<GunManager>().m_handPlayerObj = gameObject;
             }
 
             if (all_get_flag)
             {
                 if (id >= ITEM_ID.PISTOL && id <= ITEM_ID.SHOTGUN) 
                 {
-                    item.GetComponent<GunManager>().hand_player_obj = gameObject;
+                    item.GetComponent<GunManager>().m_handPlayerObj = gameObject;
                 }
                 else
                 { 

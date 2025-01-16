@@ -9,29 +9,29 @@ using UnityEngine;
 public class ZombieAttack : ZombieBase
 {
     // 当たり判定処理済みを記録  
-    private Dictionary<int, bool> hitMasters { get; } = new Dictionary<int, bool>();
+    private Dictionary<int, bool> m_hitMasters { get; } = new Dictionary<int, bool>();
 
     [SerializeField]//当たり判定
-    Collider col;
+    Collider m_col;
 
     //コルーチンキャンセル用
-    IEnumerator attackCoroutine;
+    IEnumerator m_attackCoroutine;
 
     [SerializeField]//発生時間
-    private float setUpSec = 0.3f;
+    private float m_setUpSec = 0.3f;
     [SerializeField]//硬直時間
-    private float recoverySec = 1.0f;
+    private float m_recoverySec = 1.0f;
 
     //攻撃中フラグ
-    public bool IsAttack { get; private set; }
+    public bool m_isAttack { get; private set; }
 
     /// <summary>
     /// 初期設定
     /// </summary>
     public override void SetUpZombie()
     {
-        col = gameObject.GetComponent<Collider>();
-        col.enabled = false;
+        m_col = gameObject.GetComponent<Collider>();
+        m_col.enabled = false;
     }
 
     /// <summary>
@@ -40,10 +40,10 @@ public class ZombieAttack : ZombieBase
     public void StartAttack()
     {
         Debug.Log("ゾンビの攻撃");
-        IsAttack = true;
+        m_isAttack = true;
 
-        attackCoroutine = attack();//コルーチン開始
-        StartCoroutine(attackCoroutine);
+        m_attackCoroutine = attack();//コルーチン開始
+        StartCoroutine(m_attackCoroutine);
     }
 
     /// <summary>
@@ -52,63 +52,63 @@ public class ZombieAttack : ZombieBase
     public void AttackCancel()
     {
         //とりあえずコライダーを無効化にする
-        col.enabled = false;
-        IsAttack = false;
+        m_col.enabled = false;
+        m_isAttack = false;
 
-        if (attackCoroutine == null) return;
+        if (m_attackCoroutine == null) return;
 
         //コルーチン停止
-        StopCoroutine(attackCoroutine);
+        StopCoroutine(m_attackCoroutine);
 
-        attackCoroutine = null;
+        m_attackCoroutine = null;
     }
     //一時停止
     public void Pause()
     {
-        if (attackCoroutine == null) return;
+        if (m_attackCoroutine == null) return;
 
-        col.enabled = false;
+        m_col.enabled = false;
 
         //コルーチン停止
-        StopCoroutine(attackCoroutine);
+        StopCoroutine(m_attackCoroutine);
     }
     //再開
     public void Resume()
     {
-        if (IsAttack == false) return;
-        if (attackCoroutine == null) return;
+        if (m_isAttack == false) return;
+        if (m_attackCoroutine == null) return;
 
-        col.enabled = true;
+        m_col.enabled = true;
 
-        StartCoroutine(attackCoroutine);
+        StartCoroutine(m_attackCoroutine);
     }
 
     IEnumerator attack()
     {
-        hitMasters.Clear(); // リセット
-        yield return new WaitForSeconds(setUpSec);
-        col.enabled = true;
-        yield return new WaitForSeconds(recoverySec);
-        col.enabled = false;
-        attackCoroutine = null;
-        IsAttack = false;
+        m_hitMasters.Clear(); // リセット
+        yield return new WaitForSeconds(m_setUpSec);
+        m_col.enabled = true;
+        yield return new WaitForSeconds(m_recoverySec);
+        m_col.enabled = false;
+        m_attackCoroutine = null;
+        m_isAttack = false;
     }
 
     void OnTriggerEnter(Collider other)
     {
         // 追加
         // 攻撃対象部位ならHitZoneが取得できる
-        var hitZone = other.GetComponent<HitZone>();
-        if (hitZone == null) return;
+        var hit_zone = other.GetComponent<HitZone>();
+        if (hit_zone == null) return;
 
         // 攻撃対象部位の親のインスタンスIDで重複した攻撃を判定
-        int masterId = hitZone.Master.GetInstanceID();
-        if (hitMasters.ContainsKey(masterId)) return;
-        hitMasters[masterId] = true;
+        int master_id = hit_zone.Master.GetInstanceID();
+        if (m_hitMasters.ContainsKey(master_id)) return;
+        m_hitMasters[master_id] = true;
 
         Debug.Log("Hit!");
         // ダメージ計算とかこのへんで実装できます
-        hitZone.Master.TakeDamage();
+        hit_zone.Master.TakeDamage();
         // ヒット箇所を計算してエフェクトを表示する（前回から特に変更なし）
         //Vector3 hitPos = other.ClosestPointOnBounds(col.bounds.center);
         //GameObject effectIstance = Instantiate(hitEffect, hitPos, Quaternion.identity);

@@ -18,76 +18,76 @@ public class DogManager : MonoBehaviour, IStopObject
     /// 操作するクラス
     /// </summary>
     [SerializeField]
-    private DogBase[] mDogBases;
+    private DogBase[] m_dogBases;
 
-    private DogMove mDogMove;
-    private DogAnimation mDogAnimation;
-    private DogSound mDogSound;
+    private DogMove m_dogMove;
+    private DogAnimation m_dogAnimation;
+    private DogSound m_dogSound;
 
-    private TargetMark mTargetMark;
+    private TargetMark m_targetMark;
 
     [SerializeField]//噛みついている時間
-    private float mBiteStaySec = 4.0f;
+    private float m_biteStaySec = 4.0f;
 
     [SerializeField]//待機状態になるプレイヤーとの距離
-    private float mStayPlayerDistance = 5.0f;
+    private float m_stayPlayerDistance = 5.0f;
 
     [SerializeField]//探知のクールタイム
-    private float mDetectCooldownSec = 60.0f;
+    private float m_detectCooldownSec = 60.0f;
 
 
     //攻撃対象オブジェクト
-    private GameObject mAttackTargetObj;
+    private GameObject m_attackTargetObj;
     //プレイヤー
-    private GameObject mPlayerObj;
+    private GameObject m_playerObj;
 
     //移動目標座標
-    private Vector3 mTargetPos;
+    private Vector3 m_targetPos;
 
     //移動停止フラグ
-    private bool mOnFreezeMove = false;
+    private bool m_onFreezeMove = false;
 
     //行動停止
     [SerializeField]
-    private bool mIsStopAction = false;
+    private bool m_isStopAction = false;
     //指示を受けないフラグ
-    private bool mIsIgnoreOrder = false;
+    private bool m_isIgnoreOrder = false;
     //探知のクールタイム中
-    private bool mIsDetectCooldown = false;
+    private bool m_isDetectCooldown = false;
 
     //攻撃対象に突進中
-    private bool mIsChargeTarget = false;
+    private bool m_isChargeTarget = false;
     //移動方法を歩行にする
-    private bool mIsMoveTypeWalk = false;
+    private bool m_isMoveTypeWalk = false;
 
     //ポーズ用停止フラグ
-    private bool mIsPause = false;
+    private bool m_isPause = false;
 
     //動作中の遅延動作
-    List<IEnumerator> mInActionDelays = new List<IEnumerator>();
+    List<IEnumerator> m_inActionDelays = new List<IEnumerator>();
 
 
     private void Awake()
     {
         //プレイヤー取得
-        mPlayerObj = GameObject.FindGameObjectWithTag("Player");
+        m_playerObj = GameObject.FindGameObjectWithTag("Player");
 
-        mTargetMark = gameObject.GetComponent<TargetMark>();
+        m_targetMark = gameObject.GetComponent<TargetMark>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        foreach(var dog in mDogBases)
+        foreach(var dog in m_dogBases)
         {
             //各クラスでオーバーライドした初期設定実行
             dog.SetUpDog();
 
             //下記クラスに該当するか確認し代入
             //どうやら違うクラスでTryGetComponentするとnullが代入されるっぽいのでnullチェック
-            if (mDogMove == null) dog.TryGetComponent(out mDogMove);
-            if (mDogAnimation == null) dog.TryGetComponent(out mDogAnimation);
-            if (mDogSound == null) dog.TryGetComponent(out mDogSound);
+            if (m_dogMove == null) dog.TryGetComponent(out m_dogMove);
+            if (m_dogAnimation == null) dog.TryGetComponent(out m_dogAnimation);
+            if (m_dogSound == null) dog.TryGetComponent(out m_dogSound);
         }
 
         RandomTargetPos();
@@ -97,31 +97,31 @@ public class DogManager : MonoBehaviour, IStopObject
     // Update is called once per frame
     void Update()
     {
-        if (mIsStopAction || mIsPause) {
-            mDogMove.StopMove();//移動停止
+        if (m_isStopAction || m_isPause) {
+            m_dogMove.StopMove();//移動停止
             return; 
         }
 
-        if (mIsChargeTarget)//突進
+        if (m_isChargeTarget)//突進
         {
             //攻撃対象が存在しないならreturn
             //攻撃対象が途中でDestroyされた場合の挙動注意
-            if (mAttackTargetObj == null){
-                mIsChargeTarget = false;//突進中断
+            if (m_attackTargetObj == null){
+                m_isChargeTarget = false;//突進中断
                 return;
             }
 
             //attackTargetObjの位置に向かって移動する
-            mDogMove.LookAtPosition(mAttackTargetObj.transform.position);
-            mDogMove.RunFront();//移動
+            m_dogMove.LookAtPosition(m_attackTargetObj.transform.position);
+            m_dogMove.RunFront();//移動
 
-            mDogAnimation.Run();//アニメーション
+            m_dogAnimation.Run();//アニメーション
 
             //攻撃対象に限りなく近づいたら
-            if (GetObjectDistance(mAttackTargetObj) < 0.5f)
+            if (GetObjectDistance(m_attackTargetObj) < 0.5f)
             {
                 //噛みつく
-                BiteZombie(mAttackTargetObj);
+                BiteZombie(m_attackTargetObj);
             }
         }
         else//通常時の移動
@@ -134,69 +134,69 @@ public class DogManager : MonoBehaviour, IStopObject
     private void NomalUpdate()
     {
         //移動先座標がプレイヤーから離れているなら決めなおす
-        float player_target_distance = Vector3.Distance(mPlayerObj.transform.position, mTargetPos);
-        if (player_target_distance > mStayPlayerDistance)
+        float player_target_distance = Vector3.Distance(m_playerObj.transform.position, m_targetPos);
+        if (player_target_distance > m_stayPlayerDistance)
         {
             RandomTargetPos();
-            mOnFreezeMove = false;//停止中でも解除
-            mIsMoveTypeWalk = false;//走るようにする
+            m_onFreezeMove = false;//停止中でも解除
+            m_isMoveTypeWalk = false;//走るようにする
         }
 
-        if (mOnFreezeMove) return;
+        if (m_onFreezeMove) return;
 
         //目標座標までの位置を求める
         Vector3 pos = transform.position;
         pos.y = 0.5f;
         //プレイヤーと自身の距離
-        float player_distance = Vector3.Distance(mPlayerObj.transform.position, pos);
+        float player_distance = Vector3.Distance(m_playerObj.transform.position, pos);
         //距離が遠い場合は指示を受け付けない
-        if (player_distance <= mStayPlayerDistance)
+        if (player_distance <= m_stayPlayerDistance)
         {
-            mIsIgnoreOrder = false;
+            m_isIgnoreOrder = false;
         }
         else
         {
-            mIsIgnoreOrder = true;
+            m_isIgnoreOrder = true;
         }
 
         //ここで移動
-        mDogMove.LookAtPosition(mTargetPos);//向き変更
+        m_dogMove.LookAtPosition(m_targetPos);//向き変更
         //プレイヤーとの距離によって速度変更
-        if (mIsMoveTypeWalk)
+        if (m_isMoveTypeWalk)
         {
-            mDogMove.WalkFront();
-            mDogAnimation.Walk();
+            m_dogMove.WalkFront();
+            m_dogAnimation.Walk();
         }
         else
         {
-            mDogMove.RunFront();
-            mDogAnimation.Run();
+            m_dogMove.RunFront();
+            m_dogAnimation.Run();
         }
 
-        float distance = Vector3.Distance(pos, mTargetPos);
+        float distance = Vector3.Distance(pos, m_targetPos);
         //到着したら
         if (distance < 0.1f)
         {
             //停止
-            mDogMove.StopMove();
-            mDogAnimation.Idle();
+            m_dogMove.StopMove();
+            m_dogAnimation.Idle();
 
             //停止時間をランダムに決める
             //変数は後でクラス変数にする
             float freeze_sec = UnityEngine.Random.Range(2.0f, 5.0f);
 
-            mOnFreezeMove = true;
+            m_onFreezeMove = true;
             //一定時間停止
-            mInActionDelays.Add(
+            m_inActionDelays.Add(
                         DelayRunCoroutine(
                         freeze_sec,
                         () => {
-                            mOnFreezeMove = false;
+                            m_onFreezeMove = false;
                             RandomTargetPos();
-                            mIsMoveTypeWalk = true;
+                            m_isMoveTypeWalk = true;
                         }
                         ));
-            StartCoroutine(mInActionDelays[mInActionDelays.Count - 1]);
+            StartCoroutine(m_inActionDelays[m_inActionDelays.Count - 1]);
         }
     }
 
@@ -221,11 +221,11 @@ public class DogManager : MonoBehaviour, IStopObject
         if (!CanOrderAttack()) return;
         Debug.Log("攻撃指示を受け付けた");
 
-        mIsChargeTarget = true;
+        m_isChargeTarget = true;
 
-        mAttackTargetObj = _obj;//攻撃対象を取得
+        m_attackTargetObj = _obj;//攻撃対象を取得
 
-        mDogSound.PlayAttackBark();//鳴き声
+        m_dogSound.PlayAttackBark();//鳴き声
     }
     /// <summary>
     /// 指示：周囲の探知
@@ -236,38 +236,38 @@ public class DogManager : MonoBehaviour, IStopObject
         Debug.Log("探知開始");
 
         //一定範囲の対象のオブジェクトをマーク
-        mTargetMark.RangeMark();
+        m_targetMark.RangeMark();
 
-        mDogSound.PlayDetectBark();//鳴き声
+        m_dogSound.PlayDetectBark();//鳴き声
 
-        mIsChargeTarget = false;//攻撃はキャンセル
+        m_isChargeTarget = false;//攻撃はキャンセル
 
         //クールタイム
-        mIsDetectCooldown = true;
+        m_isDetectCooldown = true;
 
-        mInActionDelays.Add(
+        m_inActionDelays.Add(
                         DelayRunCoroutine(
-                        mDetectCooldownSec,
+                        m_detectCooldownSec,
                         () => {
-                            mIsDetectCooldown = false;
+                            m_isDetectCooldown = false;
                         }
                         ));
-        StartCoroutine(mInActionDelays[mInActionDelays.Count - 1]);
+        StartCoroutine(m_inActionDelays[m_inActionDelays.Count - 1]);
     }
     //攻撃指示可能か
     public bool CanOrderAttack()
     {
-        if (mIsStopAction) return false;
-        if (mIsIgnoreOrder) return false;
+        if (m_isStopAction) return false;
+        if (m_isIgnoreOrder) return false;
 
         return true;
     }
     //攻撃指示可能か
     public bool CanOrderDetection()
     {
-        if (mIsStopAction) return false;
-        if (mIsIgnoreOrder) return false;
-        if (mIsDetectCooldown) return false;
+        if (m_isStopAction) return false;
+        if (m_isIgnoreOrder) return false;
+        if (m_isDetectCooldown) return false;
 
         return true;
     }
@@ -275,7 +275,7 @@ public class DogManager : MonoBehaviour, IStopObject
     //チュートリアル用のクールタイム監視用
     public bool UsedOrderDetection()
     {
-        return mIsDetectCooldown;
+        return m_isDetectCooldown;
     }
 
     /// <summary>
@@ -287,24 +287,24 @@ public class DogManager : MonoBehaviour, IStopObject
 
         ZombieManager zombie_manager;
         //attackTargetObjからZombieManagerを取得し、FreezePositionを呼び出し
-        mAttackTargetObj.TryGetComponent(out zombie_manager);
+        m_attackTargetObj.TryGetComponent(out zombie_manager);
         if (zombie_manager == null) return;
 
-        zombie_manager.FreezePosition((float)mBiteStaySec);//ゾンビを停止
+        zombie_manager.FreezePosition((float)m_biteStaySec);//ゾンビを停止
 
-        mDogAnimation.Attack();
-        mIsStopAction = true;
-        mIsChargeTarget = false;
+        m_dogAnimation.Attack();
+        m_isStopAction = true;
+        m_isChargeTarget = false;
 
         //一定時間停止
-        mInActionDelays.Add(
+        m_inActionDelays.Add(
                         DelayRunCoroutine(
-                        mBiteStaySec,
+                        m_biteStaySec,
                         () => {
-                            mIsStopAction = false;
+                            m_isStopAction = false;
                         }
                         ));
-        StartCoroutine(mInActionDelays[mInActionDelays.Count - 1]);
+        StartCoroutine(m_inActionDelays[m_inActionDelays.Count - 1]);
     }
 
 
@@ -314,7 +314,7 @@ public class DogManager : MonoBehaviour, IStopObject
     private IEnumerator DelayRunCoroutine(float _wait_sec, Action _action)
     {
         //このコルーチンの情報取得 出来ればリスト追加もここでやりたい
-        IEnumerator this_cor = mInActionDelays[mInActionDelays.Count - 1];
+        IEnumerator this_cor = m_inActionDelays[m_inActionDelays.Count - 1];
 
         //コルーチンを再開しても待機時間情報が消えないようにする
         for (float i = 0; i < _wait_sec; i += 0.1f)
@@ -322,7 +322,7 @@ public class DogManager : MonoBehaviour, IStopObject
 
         _action();
         //終了時にこのコルーチン情報を削除
-        mInActionDelays.Remove(this_cor);
+        m_inActionDelays.Remove(this_cor);
     }
 
 
@@ -331,20 +331,20 @@ public class DogManager : MonoBehaviour, IStopObject
     private void RandomTargetPos()
     {
         //プレイヤーの周囲のランダム位置を求める
-        Vector3 p_pos = mPlayerObj.transform.position;
+        Vector3 p_pos = m_playerObj.transform.position;
         //移動先位置をランダムに決める
-        mTargetPos = UnityEngine.Random.insideUnitCircle * mStayPlayerDistance;
-        mTargetPos.z = mTargetPos.y;//平面上に生成するため入れ替え
-        mTargetPos.y = 0.5f;//y方向は一律にする
+        m_targetPos = UnityEngine.Random.insideUnitCircle * m_stayPlayerDistance;
+        m_targetPos.z = m_targetPos.y;//平面上に生成するため入れ替え
+        m_targetPos.y = 0.5f;//y方向は一律にする
         //アタッチしたオブジェクトを基準にする
-        mTargetPos.x += p_pos.x;
-        mTargetPos.z += p_pos.z;
+        m_targetPos.x += p_pos.x;
+        m_targetPos.z += p_pos.z;
     }
 
     //外部から行動の停止を変える用
     public void OnStopAction(bool _flag)
     {
-        mIsStopAction = _flag;
+        m_isStopAction = _flag;
     }
 
 
@@ -352,10 +352,10 @@ public class DogManager : MonoBehaviour, IStopObject
     //一時停止
     public void Pause()
     {
-        mIsPause = true;
+        m_isPause = true;
 
         //ループ中に要素が変わらないようにクッションを噛ます
-        List<IEnumerator> tmp_list = new List<IEnumerator>(mInActionDelays);
+        List<IEnumerator> tmp_list = new List<IEnumerator>(m_inActionDelays);
         foreach (var cor in tmp_list)
         {
             if (cor == null) continue;
@@ -366,9 +366,9 @@ public class DogManager : MonoBehaviour, IStopObject
     //再開
     public void Resume()
     {
-        mIsPause = false;
+        m_isPause = false;
 
-        List<IEnumerator> tmp_list = new List<IEnumerator>(mInActionDelays);
+        List<IEnumerator> tmp_list = new List<IEnumerator>(m_inActionDelays);
         foreach (var cor in tmp_list)
         {
             if (cor == null) continue;

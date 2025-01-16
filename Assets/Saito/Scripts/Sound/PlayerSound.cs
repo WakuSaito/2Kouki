@@ -4,46 +4,46 @@ using UnityEngine;
 
 public class PlayerSound : MonoBehaviour
 {
-    private SoundManager mSoundManager;
-    private AudioSource mAudioSource;
+    private SoundManager m_soundManager;
+    private AudioSource m_audioSource;
 
     private void Awake()
     {
-        mSoundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
-        mAudioSource = gameObject.GetComponent<AudioSource>();
+        m_soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        m_audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     public void PlayFootStep()
     {
-        AudioClip random_se = mSoundManager.playerFootSteps[Random.Range(0, mSoundManager.playerFootSteps.Length)];
-        mAudioSource.PlayOneShot(random_se);
+        AudioClip random_se = m_soundManager.playerFootSteps[Random.Range(0, m_soundManager.playerFootSteps.Length)];
+        m_audioSource.PlayOneShot(random_se);
     }
     public void PlayPickUp()
     {
-        mAudioSource.PlayOneShot(mSoundManager.playerPickUp);
+        m_audioSource.PlayOneShot(m_soundManager.playerPickUp);
     }
     public void PlayEat()
     {
-        mAudioSource.PlayOneShot(mSoundManager.playerEat);
+        m_audioSource.PlayOneShot(m_soundManager.playerEat);
     }
     public void PlayDrink()
     {
-        mAudioSource.PlayOneShot(mSoundManager.playerDrink);
+        m_audioSource.PlayOneShot(m_soundManager.playerDrink);
     }
     public void PlayHeal()
     {
-        mAudioSource.PlayOneShot(mSoundManager.playerHeal);
+        m_audioSource.PlayOneShot(m_soundManager.playerHeal);
     }
     public void PlayDamage()
     {
-        mAudioSource.PlayOneShot(mSoundManager.playerDamage);
+        m_audioSource.PlayOneShot(m_soundManager.playerDamage);
     }
     public void PlayWhistleAttack()
     {
-        mAudioSource.PlayOneShot(mSoundManager.whistleAttack);
+        m_audioSource.PlayOneShot(m_soundManager.whistleAttack);
     }
     public void PlayWhistleDetect()
     {
-        mAudioSource.PlayOneShot(mSoundManager.whistleDetect);
+        m_audioSource.PlayOneShot(m_soundManager.whistleDetect);
     }
 }

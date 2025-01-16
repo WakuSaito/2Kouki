@@ -6,42 +6,42 @@ using UnityEngine.UI;
 public class PhaseGoTown : TutorialBase
 {
     [SerializeField]//目標の座標
-    private Vector3 TargetPos;
+    private Vector3 m_targetPos;
 
     [SerializeField]//フェードアウト用
-    private GameObject fadeUI;
+    private GameObject m_fadeUI;
 
     [SerializeField]//見た目用ヘリコプターオブジェクト
-    private GameObject helicoptorObj;
+    private GameObject m_helicoptorObj;
 
     public override void SetUpPhase()
     {
-        tutorialManager.SetText("街で装備を整え\nヘリコプターで脱出しよう");
-        tutorialManager.CreateMarker(TargetPos);
+        m_tutorialManager.SetText("街で装備を整え\nヘリコプターで脱出しよう");
+        m_tutorialManager.CreateMarker(m_targetPos);
         //ヘリを表示
-        if(helicoptorObj != null)
-            helicoptorObj.SetActive(true);
+        if(m_helicoptorObj != null)
+            m_helicoptorObj.SetActive(true);
     }
 
     public override void UpdatePhase()
     {
         //プレイヤーと目標座標の距離が一定以下なら
-        float distance = Vector3.Distance(TargetPos, PlayerPos());
+        float distance = Vector3.Distance(m_targetPos, PlayerPos());
         if(distance < 1.0f)
         {
-            fadeUI.SetActive(true);
-            fadeUI.GetComponent<FadeImage>().StartFade();
+            m_fadeUI.SetActive(true);
+            m_fadeUI.GetComponent<FadeImage>().StartFade();
 
 
             //次のフェーズに進める
-            tutorialManager.NextPhase();
+            m_tutorialManager.NextPhase();
         }
     }
 
     public override void EndPhase()
     {
-        tutorialManager.HideText();
-        tutorialManager.DeleteMarker();
+        m_tutorialManager.HideText();
+        m_tutorialManager.DeleteMarker();
     }
     
 }

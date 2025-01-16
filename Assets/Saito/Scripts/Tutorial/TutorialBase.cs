@@ -6,23 +6,23 @@ using UnityEngine.UI;
 public abstract class TutorialBase : MonoBehaviour
 {
     //マネージャクラスを所持しておく
-    protected TutorialManager tutorialManager;
+    protected TutorialManager m_tutorialManager;
 
     //位置を取得するために所持
-    private GameObject playerObj;
+    private GameObject m_playerObj;
 
     private void Awake()
     {
         //マネージャクラス取得
-        tutorialManager = gameObject.GetComponent<TutorialManager>();
+        m_tutorialManager = gameObject.GetComponent<TutorialManager>();
 
-        playerObj = GameObject.FindGameObjectWithTag("Player");
+        m_playerObj = GameObject.FindGameObjectWithTag("Player");
     }
 
     //プレイヤーの位置取得
     protected Vector3 PlayerPos()
     {
-        return playerObj.transform.position;
+        return m_playerObj.transform.position;
     }
 
 

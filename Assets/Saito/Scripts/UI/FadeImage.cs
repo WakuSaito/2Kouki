@@ -6,44 +6,44 @@ using DG.Tweening;
 
 public class FadeImage : MonoBehaviour
 {
-    enum AnimType
+    enum ANIM_TYPE
     {
         FADE_IN,
         FADE_OUT,
     }
 
     [SerializeField]//どのアニメーションを再生するか
-    AnimType animType = AnimType.FADE_IN;
+    ANIM_TYPE m_animType = ANIM_TYPE.FADE_IN;
 
     [SerializeField]//アニメーション秒数
-    float animSec = 1.0f;
+    float m_animSec = 1.0f;
 
     //透過させるためのコンポーネント
-    CanvasGroup canvasGroup;
+    CanvasGroup m_canvasGroup;
 
     [SerializeField]//起動時に自動で動くか
-    private bool onAwake = false;
+    private bool m_onAwake = false;
 
     private void Awake()
     {
-        canvasGroup = gameObject.GetComponent<CanvasGroup>();
+        m_canvasGroup = gameObject.GetComponent<CanvasGroup>();
     }
 
     private void Start()
     {
-        if (onAwake)
+        if (m_onAwake)
             StartFade();
     }
 
     public void StartFade()
     {
-        switch (animType)
+        switch (m_animType)
         {
-            case AnimType.FADE_IN:
+            case ANIM_TYPE.FADE_IN:
                 FadeIn();
                 break;
 
-            case AnimType.FADE_OUT:
+            case ANIM_TYPE.FADE_OUT:
                 FadeOut();
                 break;
         }
@@ -52,17 +52,17 @@ public class FadeImage : MonoBehaviour
     //画像のフェードイン
     private void FadeIn()
     {
-        canvasGroup.alpha = 0f;
+        m_canvasGroup.alpha = 0f;
 
-        canvasGroup.DOFade(endValue: 1f, duration: animSec);
+        m_canvasGroup.DOFade(endValue: 1f, duration: m_animSec);
     }
 
     //画像のフェードアウト
     private void FadeOut()
     {
-        canvasGroup.alpha = 1f;
+        m_canvasGroup.alpha = 1f;
 
-        canvasGroup.DOFade(endValue: 0f, duration: animSec)
+        m_canvasGroup.DOFade(endValue: 0f, duration: m_animSec)
             .OnKill(() => Destroy(gameObject));
     }
 }

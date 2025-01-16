@@ -1728,16 +1728,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a6886d3ccb2114fb4e0ae3658f83a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveUI: {fileID: 3434253281720564815}
-  slotChangeUI: {fileID: 3434253282189004597}
-  pickUpUI: {fileID: 3434253283073904104}
-  attackUI: {fileID: 3434253282988021251}
-  shotUI: {fileID: 3434253281494425636}
-  reloadUI: {fileID: 3434253281741899782}
-  attackOrderUI: {fileID: 3434253283342243113}
-  detectOrderUI: {fileID: 3434253282079855356}
-  useItemUI: {fileID: 3434253282876064471}
-  dogManager: {fileID: 0}
+  m_moveUI: {fileID: 3434253281720564815}
+  m_slotChangeUI: {fileID: 3434253282189004597}
+  m_pickUpUI: {fileID: 3434253283073904104}
+  m_attackUI: {fileID: 3434253282988021251}
+  m_shotUI: {fileID: 3434253281494425636}
+  m_reloadUI: {fileID: 3434253281741899782}
+  m_attackOrderUI: {fileID: 3434253283342243113}
+  m_detectOrderUI: {fileID: 3434253282079855356}
+  m_useItemUI: {fileID: 3434253282876064471}
+  m_dogManager: {fileID: 0}
 --- !u!1 &3434253283057714814
 GameObject:
   m_ObjectHideFlags: 0

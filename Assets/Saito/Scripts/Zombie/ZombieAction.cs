@@ -9,17 +9,17 @@ using UnityEngine;
 public class ZombieAction : ZombieBase
 {
     [SerializeField]//のけぞりの力
-    private float knockBackPower = 10.0f;
+    private float m_knockBackPower = 10.0f;
 
     [SerializeField]//死亡時に生成するオブジェクト
-    private GameObject dropItemPrefab;
+    private GameObject m_dropItemPrefab;
 
-    Rigidbody rb;
+    Rigidbody m_rigidbody;
 
     public override void SetUpZombie()
     {
         //rigidbodyの取得
-        rb = GetComponent<Rigidbody>();
+        m_rigidbody = GetComponent<Rigidbody>();
     }
     
     /// <summary>
@@ -29,7 +29,7 @@ public class ZombieAction : ZombieBase
     {
         Vector3.Normalize(_vec);//正規化
         //のけぞり
-        rb.AddForce(_vec * knockBackPower, ForceMode.Impulse);
+        m_rigidbody.AddForce(_vec * m_knockBackPower, ForceMode.Impulse);
     }
     /// <summary>
     /// 死亡処理
@@ -49,16 +49,16 @@ public class ZombieAction : ZombieBase
     private void ItemDrop()
     {
         //ドロップするアイテムの指定が無ければreturn
-        if (dropItemPrefab == null) return;
+        if (m_dropItemPrefab == null) return;
 
         //とりあえず同じ位置にドロップ
-        Vector3 dropPos = transform.position;
+        Vector3 drop_pos = transform.position;
         //とりあえず埋まらないように
 
         //生成
         Instantiate(
-            dropItemPrefab, 
-            dropPos, 
+            m_dropItemPrefab,
+            drop_pos, 
             Quaternion.identity
             );
     }

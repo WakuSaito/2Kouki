@@ -9,7 +9,7 @@ using UnityEngine;
 public class DogAnimation : DogBase
 {
     [SerializeField]//アニメーター
-    private Animator mAnimator;
+    private Animator m_animator;
 
     //移動アニメーションの種類
     //Managerの方で管理してもいいかも
@@ -41,7 +41,7 @@ public class DogAnimation : DogBase
         mCurrentMoveType = MOVE_TYPE.IDLE;
 
         Debug.Log("dog:Attack");
-        mAnimator.SetTrigger("Attack");
+        m_animator.SetTrigger("Attack");
     }
 
     /// <summary>
@@ -55,7 +55,7 @@ public class DogAnimation : DogBase
         mCurrentMoveType = MOVE_TYPE.IDLE;
 
         Debug.Log("dog:Idle");
-        mAnimator.SetTrigger("Idle");
+        m_animator.SetTrigger("Idle");
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ public class DogAnimation : DogBase
         mCurrentMoveType = MOVE_TYPE.WALK;
 
         Debug.Log("dog:Walk");
-        mAnimator.SetTrigger("Walk");
+        m_animator.SetTrigger("Walk");
     }
 
     /// <summary>
@@ -82,7 +82,7 @@ public class DogAnimation : DogBase
         mCurrentMoveType = MOVE_TYPE.RUN;
 
         Debug.Log("dog:Run");
-        mAnimator.SetTrigger("Run");
+        m_animator.SetTrigger("Run");
     }
 
 }

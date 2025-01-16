@@ -8,74 +8,74 @@ public class CursorAdvisorUI : MonoBehaviour
 {
     //マウス画像コンポーネント
     [SerializeField]
-    private Image mouseImage;
+    private Image m_mouseImage;
 
     //マウス操作指示用画像
     [SerializeField]
-    private Sprite idleMouseSprite;
+    private Sprite m_idleMouseSprite;
     [SerializeField]
-    private Sprite clickMouseSprite;
+    private Sprite m_clickMouseSprite;
 
     //カーソルの移動開始、終了座標
-    private Vector2 startPos;
-    private Vector2 endPos;
+    private Vector2 m_startPos;
+    private Vector2 m_endPos;
 
     [SerializeField]//カーソルが動く時間(何秒で到着するか)
-    private float cursorMoveSec = 1f;
+    private float m_cursorMoveSec = 1f;
 
     //アニメーション中か
-    private bool isMove = false;
+    private bool m_isMove = false;
 
     //dotweenアニメーション用
-    private Sequence sequence;
+    private Sequence m_sequence;
 
     private void Awake()
     {
-        mouseImage.sprite = idleMouseSprite;
+        m_mouseImage.sprite = m_idleMouseSprite;
 
         //座標保存
-        startPos = transform.position;
+        m_startPos = transform.position;
     }
 
 
     public void StartMove()
     {
         //複数回呼ばれないように
-        if (isMove) return;
-        isMove = true;
+        if (m_isMove) return;
+        m_isMove = true;
 
         //Sequenceのインスタンスを作成
-        sequence = DOTween.Sequence();
+        m_sequence = DOTween.Sequence();
 
         //カーソル移動
-        sequence.Append(transform.DOMove(endPos, cursorMoveSec).SetEase(Ease.InOutQuad));
-        sequence.AppendInterval(0.5f);
+        m_sequence.Append(transform.DOMove(m_endPos, m_cursorMoveSec).SetEase(Ease.InOutQuad));
+        m_sequence.AppendInterval(0.5f);
         //クリック
-        sequence.AppendCallback(() => mouseImage.sprite = clickMouseSprite);//クリック画像に変える
-        sequence.AppendInterval(0.5f);
-        sequence.AppendCallback(() => mouseImage.sprite = idleMouseSprite);//画像を戻す
-        sequence.AppendInterval(0.5f);
+        m_sequence.AppendCallback(() => m_mouseImage.sprite = m_clickMouseSprite);//クリック画像に変える
+        m_sequence.AppendInterval(0.5f);
+        m_sequence.AppendCallback(() => m_mouseImage.sprite = m_idleMouseSprite);//画像を戻す
+        m_sequence.AppendInterval(0.5f);
 
         //ループさせて実行
-        sequence.Play().SetLoops(-1, LoopType.Restart)
-            .OnKill(()=> { 
-                mouseImage.sprite = idleMouseSprite;
-                transform.position = startPos;
+        m_sequence.Play().SetLoops(-1, LoopType.Restart)
+            .OnKill(()=> {
+                m_mouseImage.sprite = m_idleMouseSprite;
+                transform.position = m_startPos;
             });
     }
 
 
     public void StopMove()
     {
-        if (!isMove) return;
-        isMove = false;
+        if (!m_isMove) return;
+        m_isMove = false;
 
-        sequence.Kill();
+        m_sequence.Kill();
     }
 
     public void SetEndPos(Vector2 _pos)
     {
-        endPos = _pos;
+        m_endPos = _pos;
     }
 
 }

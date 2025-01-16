@@ -7,11 +7,11 @@ public class HitZone : MonoBehaviour
     /// <summary>
     /// 親スクリプト公開
     /// </summary>
-    public HitMaster Master => master;
-    HitMaster master;
+    public HitMaster Master => m_master;
+    HitMaster m_master;
 
     void Start()
     {
-        master = GetComponentInParent<HitMaster>();
+        m_master = GetComponentInParent<HitMaster>();
     }
 }

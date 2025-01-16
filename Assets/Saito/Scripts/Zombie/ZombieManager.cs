@@ -24,74 +24,75 @@ public class ZombieManager : MonoBehaviour, IStopObject
     /// 操作するクラス
     /// </summary>
     [SerializeField]
-    private ZombieBase[] zombieBases;
+    private ZombieBase[] m_zombieBases;
 
-    private ZombieMove zombieMove;
-    private ZombieAttack zombieAttack;
-    private ZombieAnimation zombieAnimation;
-    private ZombieAction zombieAction;
-    private ZombieHP zombieHP;
-    private ZombieSound zombieSound;
+    private ZombieMove m_zombieMove;
+    private ZombieAttack m_zombieAttack;
+    private ZombieAnimation m_zombieAnimation;
+    private ZombieAction m_zombieAction;
+    private ZombieHP m_zombieHP;
+    private ZombieSound m_zombieSound;
 
-    GameObject playerObj;
+    GameObject m_playerObj;
 
     [SerializeField]//プレイヤーの探知範囲
-    float detectionPlayerRangeMin = 10.0f;
+    float m_detectionPlayerRangeMin = 10.0f;
     [SerializeField]
-    float detectionPlayerRangeMax = 30.0f;
+    float m_detectionPlayerRangeMax = 30.0f;
 
     //現在のプレイヤー探知範囲
-    private float currentDetectionRange;
+    private float m_currentDetectionRange;
 
     [SerializeField]//攻撃開始距離
-    float attackStartRange = 2.0f;
+    float m_attackStartRange = 2.0f;
 
     [SerializeField]//このオブジェクトを削除するプレイヤーとの距離
-    float despawnPlayerDistance = 120.0f;
+    float m_despawnPlayerDistance = 120.0f;
 
     //攻撃対象を発見している
-    private bool isFoundTarget = false;
+    private bool m_isFoundTarget = false;
     //ランダムに向きを変えるクールタイム中
-    private bool isChangeDirCoolDown = false;
+    private bool m_isChangeDirCoolDown = false;
     //移動不可フラグ
-    private bool isFreezePos = false;
+    private bool m_isFreezePos = false;
     //死亡済フラグ
-    private bool isDead = false;
+    private bool m_isDead = false;
     //スタンフラグ
-    private bool isStan = false;
+    private bool m_isStan = false;
     //一時停止
-    private bool isStop = false;
+    private bool m_isStop = false;
 
     [SerializeField] //チュートリアル用か
-    private bool isTutorialObj = false;
+    private bool m_isTutorialObj = false;
 
     //スタン処理キャンセル用トークン
-    private IEnumerator stanCoroutine;
+    private IEnumerator m_stanCoroutine;
 
     [SerializeField]//Meshがアタッチされたオブジェクト
-    GameObject meshObj;
+    GameObject m_meshObj;
     //現在の色のアルファ値
-    private float currentAlpha;
+    private float m_currentAlpha;
 
     //動作中の遅延動作
-    List<IEnumerator> inActionDelays = new List<IEnumerator>();
+    List<IEnumerator> m_inActionDelays = new List<IEnumerator>();
 
     private void Awake()
     {
         //プレイヤーオブジェクト取得
-        playerObj = GameObject.FindGameObjectWithTag("Player");
+        m_playerObj = GameObject.FindGameObjectWithTag("Player");
 
         //カラーのアルファ値取得
-        currentAlpha = meshObj.GetComponent<Renderer>().materials[1].color.a;
+        m_currentAlpha = m_meshObj.GetComponent<Renderer>().materials[1].color.a;
 
-        currentDetectionRange = detectionPlayerRangeMin;
+        m_currentDetectionRange = m_detectionPlayerRangeMin;
 
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        foreach(var zombie in zombieBases){
+        foreach(var zombie in m_zombieBases)
+        {
             Debug.Log(zombie);
 
             //各クラスでオーバーライドした初期設定実行
@@ -99,52 +100,52 @@ public class ZombieManager : MonoBehaviour, IStopObject
 
             //下記クラスに該当するか確認し代入
             //どうやら違うクラスでTryGetComponentするとnullが代入されるっぽいのでnullチェック
-            if (zombieMove == null) zombie.TryGetComponent(out zombieMove);
-            if (zombieAttack == null) zombie.TryGetComponent(out zombieAttack);
-            if (zombieAnimation == null) zombie.TryGetComponent(out zombieAnimation);
-            if (zombieAction == null) zombie.TryGetComponent(out zombieAction);
-            if (zombieHP == null) zombie.TryGetComponent(out zombieHP);
-            if (zombieSound == null) zombie.TryGetComponent(out zombieSound);
+            if (m_zombieMove == null) zombie.TryGetComponent(out m_zombieMove);
+            if (m_zombieAttack == null) zombie.TryGetComponent(out m_zombieAttack);
+            if (m_zombieAnimation == null) zombie.TryGetComponent(out m_zombieAnimation);
+            if (m_zombieAction == null) zombie.TryGetComponent(out m_zombieAction);
+            if (m_zombieHP == null) zombie.TryGetComponent(out m_zombieHP);
+            if (m_zombieSound == null) zombie.TryGetComponent(out m_zombieSound);
         }
         
-        Debug.Log("ゾンビ初期体力:"+zombieHP.GetCurrentHP());
+        Debug.Log("ゾンビ初期体力:"+ m_zombieHP.GetCurrentHP());
 
-        if (isTutorialObj)
-            zombieAnimation.Idle();
+        if (m_isTutorialObj)
+            m_zombieAnimation.Idle();
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        if (isStop) return;
-        if (playerObj == null) return;
+        if (m_isStop) return;
+        if (m_playerObj == null) return;
 
         //死亡チェック
-        if (zombieHP.IsDead())
+        if (m_zombieHP.IsDead())
             Dead();
 
-        if (isTutorialObj)
+        if (m_isTutorialObj)
         {
             Attack();//攻撃のみ繰り返す
             return;
         }
 
-        if (isDead) return;//死亡済なら動かさない
-        if (isStan) return;//スタン時は動かさない
+        if (m_isDead) return;//死亡済なら動かさない
+        if (m_isStan) return;//スタン時は動かさない
 
         //座標取得
         Vector3 pos = transform.position;
-        Vector3 playerPos = playerObj.transform.position;
-        pos.y = 0; playerPos.y = 0;//仮でy座標を無視
+        Vector3 player_pos = m_playerObj.transform.position;
+        pos.y = 0; player_pos.y = 0;//仮でy座標を無視
         //プレイヤーとの距離計算
-        float playerDistance = Vector3.Distance(pos, playerPos);
+        float player_distance = Vector3.Distance(pos, player_pos);
 
         //プレイヤーから離れすぎたら動かさない
-        if (playerDistance > despawnPlayerDistance)
+        if (player_distance > m_despawnPlayerDistance)
         {
-            zombieMove.StopMove();
-            zombieAnimation.Idle();//停止モーション
+            m_zombieMove.StopMove();
+            m_zombieAnimation.Idle();//停止モーション
             return;
         }
 
@@ -153,68 +154,68 @@ public class ZombieManager : MonoBehaviour, IStopObject
 
 
         //攻撃対象を見つけているか
-        if (playerDistance < currentDetectionRange)
+        if (player_distance < m_currentDetectionRange)
         {
-            isFoundTarget = true;//発見
+            m_isFoundTarget = true;//発見
         }
         else
         {
-            isFoundTarget = false;
+            m_isFoundTarget = false;
         }
 
         //移動
         {
-            if (isFreezePos || zombieAttack.IsAttack)//停止
+            if (m_isFreezePos || m_zombieAttack.m_isAttack)//停止
             {
                 //プレイヤーの方を向く
-                zombieMove.LookAtPosition(playerPos);
+                m_zombieMove.LookAtPosition(player_pos);
 
-                zombieMove.StopMove();
-                zombieAnimation.Idle();//停止モーション
+                m_zombieMove.StopMove();
+                m_zombieAnimation.Idle();//停止モーション
             }
-            else if (isFoundTarget)
+            else if (m_isFoundTarget)
             {
                 //プレイヤーの方を向く
-                zombieMove.LookAtPosition(playerPos);
+                m_zombieMove.LookAtPosition(player_pos);
 
-                if (playerDistance < attackStartRange)
+                if (player_distance < m_attackStartRange)
                 {
                     //とりあえず近づきすぎないようにした
-                    zombieMove.StopMove();
-                    zombieAnimation.Idle();//停止モーション
+                    m_zombieMove.StopMove();
+                    m_zombieAnimation.Idle();//停止モーション
 
                     Attack();//攻撃
                 }
                 else
                 {
                     //走る
-                    zombieMove.RunFront();
-                    zombieAnimation.Run();//移動モーション
+                    m_zombieMove.RunFront();
+                    m_zombieAnimation.Run();//移動モーション
                 }
 
             }
             else//通常の行動
             {
                 //向き変更
-                if (!isChangeDirCoolDown)
+                if (!m_isChangeDirCoolDown)
                 {
-                    isChangeDirCoolDown = true;//クールタイム中に
-                    inActionDelays.Add(
+                    m_isChangeDirCoolDown = true;//クールタイム中に
+                    m_inActionDelays.Add(
                         DelayRunCoroutine(
                         UnityEngine.Random.Range(4.0f, 8.0f),//次に向きを変えるまでの時間を決める
-                        () => isChangeDirCoolDown = false  //フラグオフ
+                        () => m_isChangeDirCoolDown = false  //フラグオフ
                         ));
-                    StartCoroutine(inActionDelays[inActionDelays.Count - 1]);
+                    StartCoroutine(m_inActionDelays[m_inActionDelays.Count - 1]);
 
                     //ランダムに向きを設定
                     Vector3 direction = new Vector3(0, UnityEngine.Random.Range(-180, 180), 0);
                     //向きを変更
-                    zombieMove.ChangeDirection(Quaternion.Euler(direction));
+                    m_zombieMove.ChangeDirection(Quaternion.Euler(direction));
                 }
 
                 //歩く
-                zombieMove.WalkFront();
-                zombieAnimation.Walk();//移動モーション
+                m_zombieMove.WalkFront();
+                m_zombieAnimation.Walk();//移動モーション
             }
 
         }
@@ -222,43 +223,43 @@ public class ZombieManager : MonoBehaviour, IStopObject
     //攻撃
     private void Attack()
     {
-        if (zombieAttack.IsAttack) return;//クールタイムチェック
-        if (isDead) return;
+        if (m_zombieAttack.m_isAttack) return;//クールタイムチェック
+        if (m_isDead) return;
 
         //攻撃開始
-        zombieAttack.StartAttack();
+        m_zombieAttack.StartAttack();
         //攻撃モーション再生
-        zombieAnimation.Attack();
+        m_zombieAnimation.Attack();
     }
 
     //探知範囲変更
     private void ChangeDetectRange()
     {
         //プレイヤーのスクリプト取得
-        player playerScript = playerObj.GetComponent<player>();
-        if (playerScript == null) return;
+        player player_script = m_playerObj.GetComponent<player>();
+        if (player_script == null) return;
 
         //プレイヤーの体力取得
-        float maxHP = playerScript.hp_num_max;
-        float currentHP = playerScript.hp_num_now;
+        float max_hp = player_script.hp_num_max;
+        float current_hp = player_script.hp_num_now;
 
         //現在の体力の割合取得
-        float currentHPPer = currentHP / maxHP;
+        float current_hp_per = current_hp / max_hp;
 
         //現在の体力割合から探知範囲を補間で計算
-        currentDetectionRange = detectionPlayerRangeMin * currentHPPer + 
-            detectionPlayerRangeMax * (1.0f - currentHPPer);
+        m_currentDetectionRange = m_detectionPlayerRangeMin * current_hp_per +
+            m_detectionPlayerRangeMax * (1.0f - current_hp_per);
     }
 
     /// <summary>
     /// 体にダメージを受けた
     /// </summary>
     //被弾地点からアニメーションを変更させる用
-    public void DamageBody(Vector3 _hitPos, int _damage)
+    public void DamageBody(Vector3 _hit_pos, int _damage)
     {
         Debug.Log("Body");
 
-        Vector3 vec = _hitPos - transform.position;
+        Vector3 vec = _hit_pos - transform.position;
 
         Vector3 axis = Vector3.Cross(transform.forward, vec);
 
@@ -273,9 +274,9 @@ public class ZombieManager : MonoBehaviour, IStopObject
             //zombieAnimation.DamageHitRight();
         }
         //エフェクト表示
-        zombieAnimation.DamagedEffect(_hitPos);
+        m_zombieAnimation.DamagedEffect(_hit_pos);
 
-        zombieHP.Damage(_damage);//ダメージ
+        m_zombieHP.Damage(_damage);//ダメージ
 
         Stan(0.1f);//スタン
     }
@@ -286,26 +287,26 @@ public class ZombieManager : MonoBehaviour, IStopObject
     {
         Debug.Log("Head");
 
-        zombieAttack.AttackCancel();//攻撃処理のキャンセル
+        m_zombieAttack.AttackCancel();//攻撃処理のキャンセル
 
-        zombieHP.Damage(_damage * 2);//ダメージ
+        m_zombieHP.Damage(_damage * 2);//ダメージ
 
-        zombieAnimation.DamageHitRight();
+        m_zombieAnimation.DamageHitRight();
 
         Stan(0.3f);//スタン
     }
-    public void DamageHead(Vector3 _hitPos, int _damage)
+    public void DamageHead(Vector3 _hit_pos, int _damage)
     {
         Debug.Log("Head");
-        
-        zombieAttack.AttackCancel();//攻撃処理のキャンセル
 
-        zombieHP.Damage(_damage * 2);//ダメージ
+        m_zombieAttack.AttackCancel();//攻撃処理のキャンセル
+
+        m_zombieHP.Damage(_damage * 2);//ダメージ
 
         //アニメーション
-        zombieAnimation.DamageHitRight();
+        m_zombieAnimation.DamageHitRight();
         //エフェクト表示
-        zombieAnimation.DamagedEffect(_hitPos);
+        m_zombieAnimation.DamagedEffect(_hit_pos);
 
         Stan(0.3f);//スタン
     }
@@ -313,34 +314,34 @@ public class ZombieManager : MonoBehaviour, IStopObject
     //一定時間スタン
     private void Stan(float _sec)
     {
-        if (isDead) return;
+        if (m_isDead) return;
 
-        if (isStan && stanCoroutine != null)
+        if (m_isStan && m_stanCoroutine != null)
         {
-            StopCoroutine(stanCoroutine);
-            inActionDelays.Remove(stanCoroutine);
-            stanCoroutine = null;
+            StopCoroutine(m_stanCoroutine);
+            m_inActionDelays.Remove(m_stanCoroutine);
+            m_stanCoroutine = null;
         }
-           // stanCancellTokenSource.Cancel();//現在動いているスタン処理のキャンセル
+        // stanCancellTokenSource.Cancel();//現在動いているスタン処理のキャンセル
 
-        zombieAttack.AttackCancel();//攻撃処理のキャンセル
+        m_zombieAttack.AttackCancel();//攻撃処理のキャンセル
 
         //stanCancellTokenSource = new CancellationTokenSource();
 
-        isStan = true;
+        m_isStan = true;
 
         //移動ベクトルをゼロにする
-        zombieMove.StopMove();
-        zombieAnimation.Idle();//停止モーション
+        m_zombieMove.StopMove();
+        m_zombieAnimation.Idle();//停止モーション
 
 
-        inActionDelays.Add(
+        m_inActionDelays.Add(
             DelayRunCoroutine(
             _sec,
-            () => isStan = false
+            () => m_isStan = false
             ));
-        stanCoroutine = inActionDelays[inActionDelays.Count - 1];
-        StartCoroutine(inActionDelays[inActionDelays.Count - 1]);
+        m_stanCoroutine = m_inActionDelays[m_inActionDelays.Count - 1];
+        StartCoroutine(m_inActionDelays[m_inActionDelays.Count - 1]);
         
     }
 
@@ -350,24 +351,24 @@ public class ZombieManager : MonoBehaviour, IStopObject
     /// </summary>
     private void Dead()
     {
-        if (isDead) return;
+        if (m_isDead) return;
 
-        isDead = true;//別の動作を止めるためにフラグオン
-        isFreezePos = true;//移動停止
+        m_isDead = true;//別の動作を止めるためにフラグオン
+        m_isFreezePos = true;//移動停止
 
-        zombieAnimation.Die();//アニメーション
-        zombieSound.PlayDead();//サウンド
+        m_zombieAnimation.Die();//アニメーション
+        m_zombieSound.PlayDead();//サウンド
         GetComponent<Rigidbody>().velocity = Vector3.zero;//動きを止める
 
         EnableCollider();//コライダー無効化
 
         //アニメーションが終わるころにオブジェクトを消す
-        inActionDelays.Add(
+        m_inActionDelays.Add(
             DelayRunCoroutine(
                     2.5f,//後で定数化したい
-                    () => zombieAction.Dead()//死亡
+                    () => m_zombieAction.Dead()//死亡
                     ));
-        StartCoroutine(inActionDelays[inActionDelays.Count - 1]);
+        StartCoroutine(m_inActionDelays[m_inActionDelays.Count - 1]);
     }
     //コライダー無効化
     private void EnableCollider()
@@ -391,25 +392,25 @@ public class ZombieManager : MonoBehaviour, IStopObject
     public void FreezePosition(float _sec)
     {
         //移動停止フラグオン
-        isFreezePos = true;
+        m_isFreezePos = true;
         //しばらくしたらオフにする
-        inActionDelays.Add(
+        m_inActionDelays.Add(
             DelayRunCoroutine(
                     _sec,
-                    () => isFreezePos = false
+                    () => m_isFreezePos = false
                     ));
-        StartCoroutine(inActionDelays[inActionDelays.Count - 1]);
+        StartCoroutine(m_inActionDelays[m_inActionDelays.Count - 1]);
     }
 
     //色のアルファ値変更
     public void ChangeColorAlpha(float _alpha)
     {
         //色が変わらない場合処理を行わないようにする
-        if (currentAlpha == _alpha) return;
-        currentAlpha = _alpha;
+        if (m_currentAlpha == _alpha) return;
+        m_currentAlpha = _alpha;
 
-        Color currentColor = meshObj.GetComponent<Renderer>().materials[1].color;
-        meshObj.GetComponent<Renderer>().materials[1].color = new Color(currentColor.r,currentColor.g,currentColor.b,_alpha);
+        Color current_color = m_meshObj.GetComponent<Renderer>().materials[1].color;
+        m_meshObj.GetComponent<Renderer>().materials[1].color = new Color(current_color.r, current_color.g, current_color.b,_alpha);
     }
 
     /// <summary>
@@ -418,7 +419,7 @@ public class ZombieManager : MonoBehaviour, IStopObject
     private IEnumerator DelayRunCoroutine(float _wait_sec, Action _action)
     {
         //このコルーチンの情報取得 出来ればリスト追加もここでやりたい
-        IEnumerator thisCor = inActionDelays[inActionDelays.Count - 1];
+        IEnumerator this_coroutine = m_inActionDelays[m_inActionDelays.Count - 1];
 
         //コルーチンを再開しても待機時間情報が消えないようにする
         for (float i = 0; i < _wait_sec; i += 0.1f)
@@ -426,20 +427,20 @@ public class ZombieManager : MonoBehaviour, IStopObject
 
         _action();
         //終了時にこのコルーチン情報を削除
-        inActionDelays.Remove(thisCor);
+        m_inActionDelays.Remove(this_coroutine);
     }
 
     //インターフェースでの停止処理用
     //一時停止
     public void Pause()
     {
-        isStop = true;
+        m_isStop = true;
 
-        zombieAttack.Pause();
+        m_zombieAttack.Pause();
 
         //ループ中に要素が変わらないようにクッションを噛ます
-        List<IEnumerator> tmpList = new List<IEnumerator>(inActionDelays);
-        foreach(var cor in tmpList)
+        List<IEnumerator> tmp_list = new List<IEnumerator>(m_inActionDelays);
+        foreach(var cor in tmp_list)
         {
             if (cor == null) continue;
 
@@ -450,12 +451,12 @@ public class ZombieManager : MonoBehaviour, IStopObject
     //再開
     public void Resume()
     {
-        isStop = false;
+        m_isStop = false;
 
-        zombieAttack.Resume();
+        m_zombieAttack.Resume();
 
-        List<IEnumerator> tmpList = new List<IEnumerator>(inActionDelays);
-        foreach (var cor in tmpList)
+        List<IEnumerator> tmp_list = new List<IEnumerator>(m_inActionDelays);
+        foreach (var cor in tmp_list)
         {
             if (cor == null) continue;
 
