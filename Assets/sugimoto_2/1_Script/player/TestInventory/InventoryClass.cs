@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// スロットクラス
+/// アイテムの情報を保存
+/// </summary>
 public class InventoryClass
 {
     public SlotClass[] Slots { get; set; } //スロット情報
