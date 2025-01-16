@@ -67,12 +67,12 @@ public class ItemInventory : MonoBehaviour
 
         if (item_inventory_flag)
         {
-            CheckInventoryItem();
-            ItemCatch();
-            Inventory.SetUI();
+            //CheckInventoryItem();
+            //ItemCatch();
+            //Inventory.SetUI();
         }
 
-        switch(Player.inventory_status)
+        switch (Player.inventory_status)
         {
             case INVENTORY.NON:
                 break;
@@ -86,7 +86,7 @@ public class ItemInventory : MonoBehaviour
     public void InventoryOpenOrClose()
     {
         //インベントリ開閉
-        if(item_inventory_flag)
+        if (item_inventory_flag)
         {
             Screen.lockCursor = true;
             item_inventory_flag = false;
@@ -101,58 +101,58 @@ public class ItemInventory : MonoBehaviour
 
     }
 
-    public void CheckInventoryItem()    //カーソルのあっているアイテムを調べる
-    {
-        select_item = null;
-        hit_box = null;
-        hit_weapon_box = null;
+    //public void CheckInventoryItem()    //カーソルのあっているアイテムを調べる
+    //{
+    //    select_item = null;
+    //    hit_box = null;
+    //    hit_weapon_box = null;
 
-        foreach (RaycastResult result in Inventory.HitResult())
-        {
-            switch(Player.inventory_status)
-            {
-                case INVENTORY.NON:
-                    break;
-                case INVENTORY.ITEM:
-                    //カーソルがあっているアイテム
-                    for (int cnt = 0; cnt < sloat_box.Length; cnt++)
-                    {
-                        if (result.gameObject == sloat_box[cnt].GetChild(0).gameObject)
-                        {
-                            select_item = result.gameObject;
-                            select_sloat_num = cnt;
-                            break;
-                        }
-                    }
+    //    foreach (RaycastResult result in Inventory.HitResult())
+    //    {
+    //        switch (Player.inventory_status)
+    //        {
+    //            case INVENTORY.NON:
+    //                break;
+    //            case INVENTORY.ITEM:
+    //                //カーソルがあっているアイテム
+    //                for (int cnt = 0; cnt < sloat_box.Length; cnt++)
+    //                {
+    //                    if (result.gameObject == sloat_box[cnt].GetChild(0).gameObject)
+    //                    {
+    //                        select_item = result.gameObject;
+    //                        select_sloat_num = cnt;
+    //                        break;
+    //                    }
+    //                }
 
-                    //カーソルがあっているスロットのbox
-                    for (int cnt = 0; cnt < sloat_box.Length; cnt++)
-                    {
-                        if (result.gameObject == sloat_box[cnt].gameObject)
-                        {
-                            hit_box = sloat_box[cnt].gameObject;
-                            hit_box_num = cnt;
-                            break;
-                        }
-                    }
+    //                //カーソルがあっているスロットのbox
+    //                for (int cnt = 0; cnt < sloat_box.Length; cnt++)
+    //                {
+    //                    if (result.gameObject == sloat_box[cnt].gameObject)
+    //                    {
+    //                        hit_box = sloat_box[cnt].gameObject;
+    //                        hit_box_num = cnt;
+    //                        break;
+    //                    }
+    //                }
 
-                    //武器インベントリ
-                    for (int cnt = 0; cnt < Player.WeaponInventory.Inventory.Sloat_Box.Length; cnt++)
-                    {
-                        if (result.gameObject == Player.WeaponInventory.Inventory.Sloat_Box[cnt].gameObject)
-                        {
-                            hit_weapon_box = Player.WeaponInventory.Inventory.Sloat_Box[cnt].gameObject;
-                            hit_weapon_num = cnt;
-                            break;
-                        }
-                    }
-                    break;
-                case INVENTORY.CHEST:
-                    break;
-            }
+    //                //武器インベントリ
+    //                for (int cnt = 0; cnt < Player.WeaponInventory.Inventory.Sloat_Box.Length; cnt++)
+    //                {
+    //                    if (result.gameObject == Player.WeaponInventory.Inventory.Sloat_Box[cnt].gameObject)
+    //                    {
+    //                        hit_weapon_box = Player.WeaponInventory.Inventory.Sloat_Box[cnt].gameObject;
+    //                        hit_weapon_num = cnt;
+    //                        break;
+    //                    }
+    //                }
+    //                break;
+    //            case INVENTORY.CHEST:
+    //                break;
+    //        }
 
-        }
-    }
+    //    }
+    //}
 
     public void Recovery_Gage()
     {
@@ -194,7 +194,7 @@ public class ItemInventory : MonoBehaviour
 
     public bool CheckInBullet()
     {
-        for (int sloat = 0; sloat < sloat_size; sloat++) 
+        for (int sloat = 0; sloat < sloat_size; sloat++)
         {
             if (Inventory.Sloats[sloat].ItemInfo == null) continue;
 
@@ -243,90 +243,90 @@ public class ItemInventory : MonoBehaviour
         return _amount - addAmount;
     }
 
-    void ItemCatch()
-    {
-        //つかんだオブジェクトを保存
-        if (Input.GetMouseButtonDown(0) && select_item != null)
-        {
-            catch_obj = select_item;
-            catch_sloat_num = select_sloat_num;
-        }
+    //void ItemCatch()
+    //{
+    //    //つかんだオブジェクトを保存
+    //    if (Input.GetMouseButtonDown(0) && select_item != null)
+    //    {
+    //        catch_obj = select_item;
+    //        catch_sloat_num = select_sloat_num;
+    //    }
 
-        if (catch_obj == null) return;
+    //    if (catch_obj == null) return;
 
-        Debug.Log(catch_obj);
+    //    Debug.Log(catch_obj);
 
-        if (Input.GetMouseButton(0)) 
-        {
-            catch_obj.transform.position = Input.mousePosition;
-        }
-        else
-        {
-            if (hit_weapon_box != null)
-            {
-                if (Inventory.Sloats[catch_sloat_num].ItemInfo.id >= ITEM_ID.PISTOL && Inventory.Sloats[catch_sloat_num].ItemInfo.id <= ITEM_ID.SHOTGUN)
-                {
-                    //現在の銃を非表示
-                    Player.WeaponInventory.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN].ItemInfo.weaponitem_info.weapon_obj.SetActive(false);
-                    //スロットの中身を入れ替える
-                    Inventory.ItemSloatChange(Player.WeaponInventory, catch_sloat_num);
-                    //掴んでいるオブジェクトの位置を当たった武器スロットの位置へ
-                    catch_obj.transform.position = hit_weapon_box.transform.position;
-                    //入れ替えた武器を表示
-                    Player.WeaponInventory.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN].ItemInfo.weaponitem_info.weapon_obj.SetActive(true);
-                    //武器インベントリの武器を入れ替えた武器に変更
-                    Player.WeaponInventory.weapon[(int)WeaponInventory.Sloat_Order.GUN] = Player.WeaponInventory.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN].ItemInfo.weaponitem_info.weapon_obj;
-                    //catch_obj = Player.WeaponInventory.Inventory.Sloat_Box[(int)WeaponInventory.Sloat_Order.GUN].GetChild(0).gameObject;
-                    catch_obj.transform.position = sloat_box[catch_sloat_num].position;
-                }
-                else
-                {
-                    catch_obj.transform.position = sloat_box[catch_sloat_num].position;
-                }
+    //    if (Input.GetMouseButton(0))
+    //    {
+    //        catch_obj.transform.position = Input.mousePosition;
+    //    }
+    //    else
+    //    {
+    //        if (hit_weapon_box != null)
+    //        {
+    //            if (Inventory.Sloats[catch_sloat_num].ItemInfo.id >= ITEM_ID.PISTOL && Inventory.Sloats[catch_sloat_num].ItemInfo.id <= ITEM_ID.SHOTGUN)
+    //            {
+    //                //現在の銃を非表示
+    //                Player.WeaponInventory.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN].ItemInfo.weaponitem_info.weapon_obj.SetActive(false);
+    //                //スロットの中身を入れ替える
+    //                Inventory.ItemSloatChange(Player.WeaponInventory, catch_sloat_num);
+    //                //掴んでいるオブジェクトの位置を当たった武器スロットの位置へ
+    //                catch_obj.transform.position = hit_weapon_box.transform.position;
+    //                //入れ替えた武器を表示
+    //                Player.WeaponInventory.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN].ItemInfo.weaponitem_info.weapon_obj.SetActive(true);
+    //                //武器インベントリの武器を入れ替えた武器に変更
+    //                Player.WeaponInventory.weapon[(int)WeaponInventory.Sloat_Order.GUN] = Player.WeaponInventory.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN].ItemInfo.weaponitem_info.weapon_obj;
+    //                //catch_obj = Player.WeaponInventory.Inventory.Sloat_Box[(int)WeaponInventory.Sloat_Order.GUN].GetChild(0).gameObject;
+    //                catch_obj.transform.position = sloat_box[catch_sloat_num].position;
+    //            }
+    //            else
+    //            {
+    //                catch_obj.transform.position = sloat_box[catch_sloat_num].position;
+    //            }
 
-                hit_weapon_box = null;
-            }
-            if (hit_box != null)
-            {
-                //移動先を調べる
-                //入れたい場所のスロットが空
-                if (Inventory.Sloats[hit_box_num].ItemInfo == null)
-                {
-                    Debug.Log("a1");
-                    //中身を入れ替える
-                    Inventory.ItemSloatChange(catch_sloat_num, hit_box_num);
-                    //設置
-                    catch_obj.transform.position
-                        = sloat_box[catch_sloat_num].transform.position;
-                    //移動前のスロット初期化
-                    Inventory.Sloats[catch_sloat_num].CrearSloat();
-                }
-                else
-                {
-                    //スロットアイテム＋スロットアイテム
-                    if (Inventory.AddSloatSloatInventory(catch_sloat_num, hit_box_num))
-                    {
-                        Debug.Log("a2");
+    //            hit_weapon_box = null;
+    //        }
+    //        if (hit_box != null)
+    //        {
+    //            //移動先を調べる
+    //            //入れたい場所のスロットが空
+    //            if (Inventory.Sloats[hit_box_num].ItemInfo == null)
+    //            {
+    //                Debug.Log("a1");
+    //                //中身を入れ替える
+    //                Inventory.ItemSloatChange(catch_sloat_num, hit_box_num);
+    //                //設置
+    //                catch_obj.transform.position
+    //                    = sloat_box[catch_sloat_num].transform.position;
+    //                //移動前のスロット初期化
+    //                Inventory.Sloats[catch_sloat_num].CrearSloat();
+    //            }
+    //            else
+    //            {
+    //                //スロットアイテム＋スロットアイテム
+    //                if (Inventory.AddSloatSloatInventory(catch_sloat_num, hit_box_num))
+    //                {
+    //                    Debug.Log("a2");
 
-                        //設置
-                        catch_obj.transform.position = sloat_box[hit_box_num].transform.position;
-                    }
-                    else
-                    {
-                        catch_obj.transform.position = Inventory.Sloat_Box[catch_sloat_num].position;
-                    }
-                }
+    //                    //設置
+    //                    catch_obj.transform.position = sloat_box[hit_box_num].transform.position;
+    //                }
+    //                else
+    //                {
+    //                    catch_obj.transform.position = Inventory.Sloat_Box[catch_sloat_num].position;
+    //                }
+    //            }
 
-                hit_box = null;
-                catch_obj = null;
-            }
+    //            hit_box = null;
+    //            catch_obj = null;
+    //        }
 
-            if (catch_obj != null) 
-            {
-                //元の位置に戻す
-                catch_obj.transform.position = sloat_box[catch_sloat_num].transform.position;
-                catch_obj = null;
-            }
-        }
-    }
+    //        if (catch_obj != null)
+    //        {
+    //            //元の位置に戻す
+    //            catch_obj.transform.position = sloat_box[catch_sloat_num].transform.position;
+    //            catch_obj = null;
+    //        }
+    //    }
+    //}
 }

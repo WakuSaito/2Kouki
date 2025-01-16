@@ -3,8 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum SLOT_ORDER
+{
+    HAND,
+    KNIFE,
+    GUN,
+    DOG,
+}
+
 public class InventoryWeapon : MonoBehaviour
 {
+    const int OTHER_GUN_TYPE_NUM = 2;
+
     //インベントリマネージャー
     inventoryManager mInventoryManager;
 
@@ -13,21 +23,16 @@ public class InventoryWeapon : MonoBehaviour
     public int slot_size = 4;
     public Transform[] sprite;
     public Transform[] slot_box;
-    public Text[] text;
 
     //オブジェクト
     [SerializeField] GameObject mInventoryManagerObj;
     [SerializeField] GameObject mWeapon_inventory_UI_obj; //インベントリUI
-    [SerializeField] GameObject[] mWeaponSlotObj;
+    public GameObject[] mWeaponSlotObj;
     [SerializeField] Transform mFrame;
+    [SerializeField] GameObject mWeaponParent;                 //銃の親オブジェクト
+    [SerializeField] GameObject[] m_saveOtherGun = new GameObject[OTHER_GUN_TYPE_NUM];
 
-    public enum SLOT_ORDER
-    {
-        HAND,
-        KNIFE,
-        GUN,
-        DOG,
-    }
+
 
     public SLOT_ORDER mSelectSlot = SLOT_ORDER.HAND;
     Color mColorAlphaHalf = new Color(1.0f, 1.0f, 1.0f, 0.5f);//半透明
@@ -49,12 +54,15 @@ public class InventoryWeapon : MonoBehaviour
     void Update()
     {
         SetUI(sprite);
+        SetWeapon();
     }
 
     void ItemSlotSet()
     {
         for (int i = 0; i < mWeaponSlotObj.Length; i++)
         {
+            if (mWeaponSlotObj[i] == null) continue;
+
             ITEM_ID id = mWeaponSlotObj[i].GetComponent<ItemSetting>().iteminfo.id;
 
             //アイテムIDによって情報を入れるスロットが異なる
@@ -84,20 +92,20 @@ public class InventoryWeapon : MonoBehaviour
         float mouse_wheel = Input.GetAxis("Mouse ScrollWheel");
 
         //マウスホイールに動きがあったら変更
-        if (Mathf.Abs(mouse_wheel) != 0)
-        {
-            //現在の武器非表示
-            mWeaponSlotObj[(int)mSelectSlot].SetActive(false);
-            sprite[(int)mSelectSlot].GetComponent<Image>().color = mColorAlphaHalf;
-            ////インベントリ表示
-            //display_timer = 0.0f;
-            //display_flag = true;
+        //if (Mathf.Abs(mouse_wheel) != 0)
+        //{
+        //    //現在の武器非表示
+        //    mWeaponSlotObj[(int)mSelectSlot].SetActive(false);
+        //    sprite[(int)mSelectSlot].GetComponent<Image>().color = mColorAlphaHalf;
+        //    ////インベントリ表示
+        //    //display_timer = 0.0f;
+        //    //display_flag = true;
 
-            //if (weapon[(int)select_weapon].GetComponent<ItemInformation>().id == ITEM_ID.PISTOL)
-            //{
-            //    weapon[(int)select_weapon].GetComponent<GunManager>().StopReload();
-            //}
-        }
+        //    //if (weapon[(int)select_weapon].GetComponent<ItemInformation>().id == ITEM_ID.PISTOL)
+        //    //{
+        //    //    weapon[(int)select_weapon].GetComponent<GunManager>().StopReload();
+        //    //}
+        //}
 
         //マウスホイール下回し
         if (mouse_wheel < 0)
@@ -160,13 +168,13 @@ public class InventoryWeapon : MonoBehaviour
             }
         }
         //マウスホイールに動きがあったら変更
-        if (Mathf.Abs(mouse_wheel) != 0)
-        {
-            //持っている武器を変更
-            mWeaponSlotObj[(int)mSelectSlot].SetActive(true);
-            sprite[(int)mSelectSlot].GetComponent<Image>().color = mColorAlphaFull;
-            mFrame.position = slot_box[(int)mSelectSlot].transform.position;
-        }
+        //if (Mathf.Abs(mouse_wheel) != 0)
+        //{
+        //    //持っている武器を変更
+        //    mWeaponSlotObj[(int)mSelectSlot].SetActive(true);
+        //    sprite[(int)mSelectSlot].GetComponent<Image>().color = mColorAlphaFull;
+        //    mFrame.position = slot_box[(int)mSelectSlot].transform.position;
+        //}
         return mWeaponSlotObj[(int)mSelectSlot];
         {
             //武器インベントリ表示非表示
@@ -245,13 +253,73 @@ public class InventoryWeapon : MonoBehaviour
         }
     }
 
+    public int CanWeaponGet(GameObject _item)
+    {
+        ITEM_ID id = _item.GetComponent<ItemSetting>().iteminfo.id;
+
+        //取得する武器は銃と犬用アイテムのみなのでHANDとKNIFEは省略
+        switch (id)
+        {
+            case ITEM_ID.PISTOL:
+            case ITEM_ID.ASSAULT:
+            case ITEM_ID.SHOTGUN:
+                    return (int)SLOT_ORDER.GUN;
+            case ITEM_ID.DOG_DIRECTION:
+                    return (int)SLOT_ORDER.DOG;
+        }
+
+        return -1;
+    }
+
     public void WeaponGet(GameObject _item)
     {
-        if (mWeaponSlotObj[(int)SLOT_ORDER.GUN] == null)
-        {
+        ITEM_ID id = _item.GetComponent<ItemSetting>().iteminfo.id;
 
+        //取得する武器は銃と犬用アイテムのみなのでHANDとKNIFEは省略
+        switch (id)
+        {
+            case ITEM_ID.PISTOL:
+            case ITEM_ID.ASSAULT:
+            case ITEM_ID.SHOTGUN:
+                if (mWeaponSlotObj[(int)SLOT_ORDER.GUN] == null)
+                {
+                    Inventory.Slots[(int)SLOT_ORDER.GUN].ItemInfo = _item.GetComponent<ItemSetting>().iteminfo;
+                    mWeaponSlotObj[(int)SLOT_ORDER.GUN] = _item.GetComponent<ItemSetting>().iteminfo.weaponitem_info.weapon_obj;
+                    //選んでいる武器がHANDの場合拾った武器を選んでいる武器に変更
+                    if (mSelectSlot == SLOT_ORDER.HAND) mSelectSlot = SLOT_ORDER.GUN;
+                }
+                break;
+            case ITEM_ID.DOG_DIRECTION:
+                if (mWeaponSlotObj[(int)SLOT_ORDER.DOG] == null)
+                {
+                    Inventory.Slots[(int)SLOT_ORDER.DOG].ItemInfo = _item.GetComponent<ItemSetting>().iteminfo;
+                    mWeaponSlotObj[(int)SLOT_ORDER.DOG] = _item.GetComponent<ItemSetting>().iteminfo.weaponitem_info.weapon_obj;
+                    //選んでいる武器がHANDの場合拾った武器を選んでいる武器に変更
+                    if (mSelectSlot == SLOT_ORDER.HAND) mSelectSlot = SLOT_ORDER.DOG;
+                }
+                break;
         }
+
+        //当たり判定をOFFにする
+        _item.GetComponent<BoxCollider>().enabled = false;
+        _item.SetActive(false);
+
+        //位置設定
+        ParentChildren(mWeaponParent.gameObject, _item);
+        _item.transform.localRotation = Quaternion.identity;
+        _item.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        _item.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
+
     }
+
+    public void GunObjChenge(ItemInformation _inventoryitem_item)
+    {
+        //今の武器を非表示
+        mWeaponSlotObj[(int)SLOT_ORDER.GUN].SetActive(false);
+        //入れ替えた武器に変更
+        mWeaponSlotObj[(int)SLOT_ORDER.GUN] = _inventoryitem_item.weaponitem_info.weapon_obj;
+    }
+
 
     /// <summary>
     /// UIをセットする
@@ -261,6 +329,7 @@ public class InventoryWeapon : MonoBehaviour
     /// <param name="_sprite">スプライトを入れるトランスフォーム</param>
     public void SetUI(Transform[] _sprite)
     {
+        //スプライト
         for (int slot = 0; slot < slot_size; slot++)
         {
             if (Inventory.Slots[slot].ItemInfo == null)
@@ -280,4 +349,35 @@ public class InventoryWeapon : MonoBehaviour
         }
     }
 
+    public void SetWeapon()
+    {
+        for (int slot = 0; slot < slot_size; slot++)
+        {
+            //アイテム情報がない
+            if (mWeaponSlotObj[slot] == null) continue;
+
+            //選択しているスロットのオブジェクト表示
+            if (slot == (int)mSelectSlot)
+            {
+                mWeaponSlotObj[(int)mSelectSlot].SetActive(true);
+                sprite[(int)mSelectSlot].GetComponent<Image>().color = mColorAlphaFull;
+                mFrame.position = sprite[(int)mSelectSlot].position;
+            }
+            else
+            {
+                //非表示
+
+                mWeaponSlotObj[slot].SetActive(false);
+                sprite[slot].GetComponent<Image>().color = mColorAlphaHalf;
+            }
+        }
+    }
+
+    void ParentChildren(GameObject _parent, GameObject _child)
+    {
+        //親子関係に設定
+
+        _child.transform.parent = _parent.transform;
+        _child.transform.position = _parent.transform.position;
+    }
 }

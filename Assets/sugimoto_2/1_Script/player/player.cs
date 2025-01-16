@@ -7,7 +7,6 @@ using System.Linq;
 
 public class player : PlayerFunction, IStopObject
 {
-    Inventory Inventory;
     Animator Animator;  // アニメーターコンポーネント取得用
     Rigidbody Rigidbody;
 
@@ -66,11 +65,20 @@ public class player : PlayerFunction, IStopObject
 
     //インベントリ
     public ItemInventory ItemInventory;
-    public GameObject obj;
-    public WeaponInventory WeaponInventory;
-    public GameObject WeponInventory_obj;
+    //public GameObject obj;
+    //public WeaponInventory WeaponInventory;
+    //public GameObject WeponInventory_obj;
 
-    InventoryItem InventoryItem;
+    //インベントリ
+    InventoryItem m_inventoryItem;
+    InventoryWeapon m_inventoryWeapon;
+    inventoryManager m_inventoryManager;
+
+    //オブジェクト
+    [SerializeField] GameObject m_inventoryManagerObj;
+
+    //フラグ
+    bool m_openInventoryFlag = false;
 
     //ポーズ用停止フラグ
     private bool is_pause = false;
@@ -83,13 +91,12 @@ public class player : PlayerFunction, IStopObject
     void Start()
     {
         //インベントリ
-        ItemInventory = obj.GetComponent<ItemInventory>();
-        WeaponInventory = WeponInventory_obj.GetComponent<WeaponInventory>();
+        m_inventoryItem = GetComponent<InventoryItem>();
+        m_inventoryWeapon = GetComponent<InventoryWeapon>();
+        m_inventoryManager = m_inventoryManagerObj.GetComponent<inventoryManager>();
 
-        InventoryItem = GetComponent<InventoryItem>();
 
         //コンポーネント取得
-        Inventory = GetComponent<Inventory>();
         Animator = anim_obj.GetComponent<Animator>();
         Rigidbody = GetComponent<Rigidbody>();
 
@@ -119,20 +126,29 @@ public class player : PlayerFunction, IStopObject
             return;
         }
 
-
         //プレイヤーが倒されていない場合
         if (!DowmPlayer())
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                inventory_status = INVENTORY.ITEM;
-                ItemInventory.InventoryOpenOrClose();
+                if (m_openInventoryFlag)
+                {
+                    m_openInventoryFlag = false;
+                    m_inventoryManager.inventory_state = INVENTORY.NON;
+                    m_inventoryItem.item_inventory_obj.SetActive(false);
+                }
+                else
+                {
+                    m_openInventoryFlag = true;
+                    inventory_status = INVENTORY.ITEM;
+                    m_inventoryItem.item_inventory_obj.SetActive(true);
+                }
             }
 
-            hand_weapon = WeaponInventory.weapon[(int)WeaponInventory.select_weapon];
+            hand_weapon = m_inventoryWeapon.mWeaponSlotObj[(int)m_inventoryWeapon.mSelectSlot];
 
             //インベントリ閉じている
-            if (!ItemInventory.item_inventory_flag)
+            if (!m_openInventoryFlag)
             {
                 //ゲージ処理
                 Gauge();
@@ -149,7 +165,7 @@ public class player : PlayerFunction, IStopObject
                 PickUpItem();
 
                 //武器の入れ替え
-                hand_weapon = WeaponInventory.ChangeWeapon();
+                hand_weapon = m_inventoryWeapon.ChangeWeapon();
 
                 //武器別処理
                 AttackWeapon();
@@ -160,7 +176,7 @@ public class player : PlayerFunction, IStopObject
                 //ゲージ回復処理
                 if(Input.GetMouseButtonDown(1))
                 {
-                    ItemInventory.Recovery_Gage();
+                    m_inventoryItem.Recovery_Gage(food_gage, hp_gague);
                 }
 
                 //移動を止める
@@ -222,21 +238,25 @@ public class player : PlayerFunction, IStopObject
 
             if (item.GetComponent<ItemSetting>().iteminfo.id == ITEM_ID.CHEST)
             {
-                inventory_status = INVENTORY.CHEST;
-                item.GetComponent<ChestInventory>().OpenUI();
-                chest = item.GetComponent<ChestInventory>();
+                if(m_openInventoryFlag)
+                {
+                    m_openInventoryFlag = false;
+                    m_inventoryManager.inventory_state = INVENTORY.NON;
+                    m_inventoryItem.item_inventory_obj.SetActive(false);
+                }
+                else
+                {
+                    m_openInventoryFlag = true;
+                    m_inventoryManager.inventory_state = INVENTORY.CHEST;
+                }
                 return;
             }
 
             playerSound.PlayPickUp();//SE
 
             //アイテム取得
-            //GetComponent<Inventory>().ItemGet(item);
-
-            //アイテム取得処理
             bool all_get_flag = false;
-            //all_get_flag = ItemInventory.Inventory.AddInventory_PickUP_Item(item.GetComponent<ItemSetting>().iteminfo, WeaponInventory);
-            all_get_flag = InventoryItem.AddInventory_PickUP_Item(item.GetComponent<ItemSetting>().iteminfo,ref WeaponInventory);
+            all_get_flag = m_inventoryItem.AddInventory_PickUP_Item(item.GetComponent<ItemSetting>().iteminfo,ref m_inventoryWeapon);
 
             ITEM_ID id = item.GetComponent<ItemSetting>().iteminfo.id;
 
@@ -268,14 +288,14 @@ public class player : PlayerFunction, IStopObject
 
         searchViewArea.ResetColor("Zombie");
 
-        switch (WeaponInventory.select_weapon)
+        switch (m_inventoryWeapon.mSelectSlot)
         {
-            case WeaponInventory.Sloat_Order.KNIFE:
+            case SLOT_ORDER.KNIFE:
                 //攻撃、animation処理
                 hand_weapon.GetComponent<knifeAttackAnimetion>().AttackAnimation(camera_obj);
                 break;
             //ピストル
-            case WeaponInventory.Sloat_Order.GUN:
+            case SLOT_ORDER.GUN:
 
                 hand_pistol_flag = true;
 
@@ -304,7 +324,7 @@ public class player : PlayerFunction, IStopObject
 
                 break;
             //犬
-            case WeaponInventory.Sloat_Order.DOG:
+            case SLOT_ORDER.DOG:
 
                 //攻撃するオブジェクト取得
                 GameObject attack_obj = searchViewArea.GetObjUpdate("Zombie", 20f, 0.5f);
