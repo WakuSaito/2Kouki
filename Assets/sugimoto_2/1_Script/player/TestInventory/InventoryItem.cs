@@ -4,31 +4,36 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+
+/// <summary>
+/// アイテムインベントリ
+/// プレイヤーが所持するアイテムのインベントリ
+/// </summary>
 public class InventoryItem : MonoBehaviour
 {
     const int GUN_SLOT = 3;
 
     //インベントリマネージャー
-    inventoryManager mInventoryManager;
+    inventoryManager m_inventoryManager;
 
     //インベントリの要素
-    public InventoryClass Inventory;
-    public int slot_size = 10;
-    public Transform[] sprite;
-    public Transform[] slot_box;
-    public Text[] text;
+    public InventoryClass m_inventory;
+    public int m_slotSize = 10;
+    public Transform[] m_spriteTrans;
+    public Transform[] m_BoxTrans;
+    public Text[] m_Text;
 
     //オブジェクト
-    [SerializeField] GameObject mInventoryManagerObj;
-    public GameObject item_inventory_obj; //インベントリUI
+    [SerializeField] GameObject m_inventoryManagerObj;
+    public GameObject m_itemInventoryObj; //インベントリUI
 
     // Start is called before the first frame update
     void Start()
     {
         //インベントリのインストラクタ作成
-        Inventory = new InventoryClass(slot_size, slot_box);
+        m_inventory = new InventoryClass(m_slotSize, m_BoxTrans);
         //インベントリマネージャー取得
-        mInventoryManager = mInventoryManagerObj.GetComponent<inventoryManager>();
+        m_inventoryManager = m_inventoryManagerObj.GetComponent<inventoryManager>();
     }
 
     /// <summary>
@@ -39,9 +44,9 @@ public class InventoryItem : MonoBehaviour
     void Update()
     {
         //アイテムインベントリを開いている間
-        if (mInventoryManager.inventory_state == INVENTORY.ITEM|| mInventoryManager.inventory_state == INVENTORY.CHEST)
+        if (m_inventoryManager.inventory_state == INVENTORY.ITEM|| m_inventoryManager.inventory_state == INVENTORY.CHEST)
         {
-            Inventory.SetUI(sprite, text);//UI更新
+            m_inventory.SetUI(m_spriteTrans, m_Text);//UI更新
         }
     }
 
@@ -86,9 +91,9 @@ public class InventoryItem : MonoBehaviour
                 }
 
                 //アイテムインベントリの中身と比べる
-                for (int sloat = 0; sloat < Inventory.Slots.Length; sloat++)
+                for (int sloat = 0; sloat < m_inventory.Slots.Length; sloat++)
                 {
-                    if (Inventory.Slots[sloat].ItemInfo != null && Inventory.Slots[sloat].ItemInfo.id == _item.id)
+                    if (m_inventory.Slots[sloat].ItemInfo != null && m_inventory.Slots[sloat].ItemInfo.id == _item.id)
                     {
                         in_flag = false;
                         break;
@@ -110,11 +115,11 @@ public class InventoryItem : MonoBehaviour
         }
 
         //アイテムをインベントリに
-        for (int sloat = 0; sloat < Inventory.Slots.Length; sloat++)
+        for (int sloat = 0; sloat < m_inventory.Slots.Length; sloat++)
         {
-            if (Inventory.Slots[sloat].Can_Add_Slot(_item))
+            if (m_inventory.Slots[sloat].Can_Add_Slot(_item))
             {
-                int remaining_num = Inventory.Slots[sloat].Add_PickUPItem(_item);
+                int remaining_num = m_inventory.Slots[sloat].Add_PickUPItem(_item);
 
                 //すべて追加できた場合
                 if (remaining_num <= 0)
@@ -140,20 +145,20 @@ public class InventoryItem : MonoBehaviour
     public void Recovery_Gage(GameObject _food_gage_obj,GameObject _hp_gage_obj)
     {
         //カーソルのあっているオブジェクトを取得
-        foreach (RaycastResult result in mInventoryManager.HitResult())
+        foreach (RaycastResult result in m_inventoryManager.HitResult())
         {
             //カーソルの当たっているスロットを取得
-            for (int slot = 0; slot < slot_size; slot++)
+            for (int slot = 0; slot < m_slotSize; slot++)
             {
-                if (result.gameObject == sprite[slot].gameObject)
+                if (result.gameObject == m_spriteTrans[slot].gameObject)
                 {
                     //IDを取得
-                    ITEM_ID id = Inventory.Slots[slot].ItemInfo.id;
+                    ITEM_ID id = m_inventory.Slots[slot].ItemInfo.id;
 
                     if (id >= ITEM_ID.FOOD_1 && id <= ITEM_ID.EMERGENCY_PACK)
                     {
                         //回復する値を取得
-                        int recovery_num = Inventory.Slots[slot].ItemInfo.recoveryitem_info.recovery_num;
+                        int recovery_num = m_inventory.Slots[slot].ItemInfo.recoveryitem_info.recovery_num;
 
                         //食料
                         {
@@ -190,12 +195,12 @@ public class InventoryItem : MonoBehaviour
     void UseItem(int _slot)
     {
         //スロットのアイテムの数を減らす
-        Inventory.Slots[_slot].ItemInfo.get_num--;
+        m_inventory.Slots[_slot].ItemInfo.get_num--;
         
         //空になったか調べる
-        if (Inventory.Slots[_slot].CheckEmpty())
+        if (m_inventory.Slots[_slot].CheckEmpty())
         {
-            Inventory.Slots[_slot].initializationSlot();//初期化
+            m_inventory.Slots[_slot].initializationSlot();//初期化
         }
     }
 
@@ -214,23 +219,23 @@ public class InventoryItem : MonoBehaviour
         int add_num = 0;
 
         //インベントリの中身を調べる
-        for (int slot = 0; slot < slot_size; slot++)
+        for (int slot = 0; slot < m_slotSize; slot++)
         {
             //スロットの中身が空なら次のスロットへ
-            if (Inventory.Slots[slot].CheckEmpty()) continue;
+            if (m_inventory.Slots[slot].CheckEmpty()) continue;
 
             //中身が弾丸
-            if (Inventory.Slots[slot].ItemInfo.id == ITEM_ID.BULLET)
+            if (m_inventory.Slots[slot].ItemInfo.id == ITEM_ID.BULLET)
             {
                 //弾丸の数を取得
-                int bullet_num = Inventory.Slots[slot].ItemInfo.get_num;
+                int bullet_num = m_inventory.Slots[slot].ItemInfo.get_num;
 
                 //銃スロットにある銃に入る弾数よりもスロットの弾数のほうが多い
                 //銃に入る弾数入れたら即終了
                 if (bullet_num > addAmount)
                 {
                     //銃スロットにある銃に入る弾数数だけスロットの弾丸を減らす
-                    Inventory.Slots[slot].ItemInfo.get_num -= addAmount;
+                    m_inventory.Slots[slot].ItemInfo.get_num -= addAmount;
                     return addAmount + add_num;//増やした弾数（+add_numいらないかも）
                 }
                 else
@@ -239,16 +244,16 @@ public class InventoryItem : MonoBehaviour
                     //スロットの中身すべて銃に入れたら次のスロットを調べる
 
                     //銃スロットにある銃に入る弾数をスロットの弾数の減らす
-                    addAmount -= Inventory.Slots[slot].ItemInfo.get_num;
+                    addAmount -= m_inventory.Slots[slot].ItemInfo.get_num;
                     //増やした数は弾数をスロットの弾数
-                    add_num += Inventory.Slots[slot].ItemInfo.get_num;
+                    add_num += m_inventory.Slots[slot].ItemInfo.get_num;
                     //スロットの中身を０にする
-                    Inventory.Slots[slot].ItemInfo.get_num = 0;
+                    m_inventory.Slots[slot].ItemInfo.get_num = 0;
 
                     //空になったら
-                    if (Inventory.Slots[slot].CheckEmpty())
+                    if (m_inventory.Slots[slot].CheckEmpty())
                     {
-                        Inventory.Slots[slot].initializationSlot();//初期化
+                        m_inventory.Slots[slot].initializationSlot();//初期化
                     }
                 }
             }
@@ -265,11 +270,11 @@ public class InventoryItem : MonoBehaviour
     /// <returns>あるtrue、ないfalse</returns>
     public bool CheckBullet()
     {
-        for (int slot = 0; slot < slot_size; slot++)
+        for (int slot = 0; slot < m_slotSize; slot++)
         {
-            if (Inventory.Slots[slot].ItemInfo == null) continue;
+            if (m_inventory.Slots[slot].ItemInfo == null) continue;
 
-            if (Inventory.Slots[slot].ItemInfo.id == ITEM_ID.BULLET)
+            if (m_inventory.Slots[slot].ItemInfo.id == ITEM_ID.BULLET)
             {
                 return true;
             }

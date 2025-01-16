@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5003,8 +5003,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c3f43ed5dd6cf4f838ee0d65edadb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slot_size: 10
-  sprite:
+  m_slotSize: 10
+  m_spriteTrans:
   - {fileID: 1742821472}
   - {fileID: 1546955599}
   - {fileID: 594519966}
@@ -5015,7 +5015,7 @@ MonoBehaviour:
   - {fileID: 791559795}
   - {fileID: 1663427597}
   - {fileID: 1738317090}
-  slot_box:
+  m_BoxTrans:
   - {fileID: 1021796420}
   - {fileID: 727625114}
   - {fileID: 2006314417}
@@ -5026,7 +5026,7 @@ MonoBehaviour:
   - {fileID: 1739540961}
   - {fileID: 1621262000}
   - {fileID: 1924928518}
-  text:
+  m_Text:
   - {fileID: 1528686109}
   - {fileID: 196853428}
   - {fileID: 915360014}
@@ -5037,8 +5037,8 @@ MonoBehaviour:
   - {fileID: 1041250981}
   - {fileID: 739590970}
   - {fileID: 1261280967}
-  mInventoryManagerObj: {fileID: 221996019}
-  item_inventory_obj: {fileID: 1882059923}
+  m_inventoryManagerObj: {fileID: 221996019}
+  m_itemInventoryObj: {fileID: 1882059923}
 --- !u!114 &426849781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23826,7 +23826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.392}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.45490196}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -23837,10 +23837,10 @@ MonoBehaviour:
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 1
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1924928520
