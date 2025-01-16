@@ -5,17 +5,17 @@ using UnityEngine;
 public class ObjRespawn : MonoBehaviour
 {
     //スポナーオブジェクト
-    GameObject[] mSpawners;
+    GameObject[] m_spawners;
 
-    player mPlayerScript;
+    player m_playerScript;
 
     private void Awake()
     {
         //アクティブ状態の変更後に取得すると見つからないので
-        mSpawners = GameObject.FindGameObjectsWithTag("Spawner");
+        m_spawners = GameObject.FindGameObjectsWithTag("Spawner");
 
         //プレイヤースクリプト取得
-        mPlayerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<player>();
+        m_playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<player>();
     }
 
     // Update is called once per frame
@@ -33,7 +33,7 @@ public class ObjRespawn : MonoBehaviour
     public void Respawn()
     {
         //全スポナー有効化
-        foreach(var obj in mSpawners)
+        foreach(var obj in m_spawners)
         {
             obj.SetActive(true);
         }
@@ -53,9 +53,9 @@ public class ObjRespawn : MonoBehaviour
 
         Debug.Log("休息");
 
-        if (mPlayerScript == null) return;
+        if (m_playerScript == null) return;
 
         //休息
-        mPlayerScript.TakeRest(0.7f, 0.3f);
+        m_playerScript.TakeRest(0.7f, 0.3f);
     }
 }

@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8f871d5b7a5c244db2210efb8554bd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  changePos: {x: 550, y: 300}
+  m_changePos: {x: 0, y: 0}
 --- !u!114 &1278805137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,16 +226,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd7d14afba9cc2646877dc49cda86b15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  directionalLightObj: {fileID: 0}
-  sunriseHour: 6
-  sunsetHour: 20
-  startTimeHour: 8
-  cycle1HourSec: 30
-  dayCountTextObj: {fileID: 1278805135}
-  timeCountTextObj: {fileID: 646657108}
-  isStopPassageTime: 0
-  onDebugSunset: 0
-  onDebugSunrise: 0
+  m_directionalLightObj: {fileID: 0}
+  m_sunriseHour: 6
+  m_sunsetHour: 20
+  m_startTimeHour: 8
+  m_cycle1HourSec: 30
+  m_dayCountTextObj: {fileID: 1278805135}
+  m_timeCountTextObj: {fileID: 646657108}
+  m_isStopPassageTime: 0
+  m_onDebugSunset: 0
+  m_onDebugSunrise: 0
 --- !u!114 &6306344655950652675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,8 +248,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a826adbd9d38440949988a81149111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeController: {fileID: 0}
-  dayCameraFarMax: 25
-  nightCameraFarMin: 15
-  minOfMinutesAfterSunset: 60
-  maxOfMinutesBeforeSunrise: 60
+  m_timeController: {fileID: 0}
+  m_dayCameraFarMax: 25
+  m_nightCameraFarMin: 15
+  m_minOfMinutesAfterSunset: 60
+  m_maxOfMinutesBeforeSunrise: 60

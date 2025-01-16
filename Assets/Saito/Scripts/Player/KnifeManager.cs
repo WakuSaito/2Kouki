@@ -5,22 +5,22 @@ using UnityEngine;
 public class KnifeManager : MonoBehaviour
 {
     // 当たり判定処理済みを記録  
-    private Dictionary<int, bool> mHitMasters { get; } = new Dictionary<int, bool>();
+    private Dictionary<int, bool> m_hitMasters { get; } = new Dictionary<int, bool>();
 
     [SerializeField]//当たり判定
-    Collider mCollider;
+    Collider m_collider;
 
     //コルーチンキャンセル用
-    Coroutine mAttackCoroutine;
+    Coroutine m_attackCoroutine;
 
     //与えるダメージ
     [SerializeField] 
-    private int mAttackDamage = 2;
+    private int m_attackDamage = 2;
 
     private void Start()
     {
-        mCollider = gameObject.GetComponent<Collider>();
-        mCollider.enabled = false;
+        m_collider = gameObject.GetComponent<Collider>();
+        m_collider.enabled = false;
     }
 
 
@@ -31,10 +31,10 @@ public class KnifeManager : MonoBehaviour
     {
         Debug.Log("ナイフ攻撃開始");
 
-        if (mAttackCoroutine != null)
+        if (m_attackCoroutine != null)
             AttackCancel();//再生中のコルーチンがあればキャンセル
 
-        mAttackCoroutine = StartCoroutine(attack());//コルーチン開始
+        m_attackCoroutine = StartCoroutine(attack());//コルーチン開始
     }
 
     /// <summary>
@@ -43,25 +43,25 @@ public class KnifeManager : MonoBehaviour
     public void AttackCancel()
     {
         //とりあえずコライダーを無効化にする
-        mCollider.enabled = false;
+        m_collider.enabled = false;
 
-        if (mAttackCoroutine == null) return;
+        if (m_attackCoroutine == null) return;
 
         //コルーチン停止
-        StopCoroutine(mAttackCoroutine);
+        StopCoroutine(m_attackCoroutine);
 
-        mAttackCoroutine = null;
+        m_attackCoroutine = null;
     }
 
     IEnumerator attack()
     {
-        mHitMasters.Clear(); // リセット
-        mCollider.enabled = true;
+        m_hitMasters.Clear(); // リセット
+        m_collider.enabled = true;
 
         yield return new WaitForSeconds(1.3f);
 
-        mCollider.enabled = false;
-        mAttackCoroutine = null;
+        m_collider.enabled = false;
+        m_attackCoroutine = null;
     }
 
     void OnTriggerEnter(Collider other)
@@ -77,14 +77,14 @@ public class KnifeManager : MonoBehaviour
 
         // 攻撃対象部位の親のインスタンスIDで重複した攻撃を判定
         int master_id = hit_zone.Master.GetInstanceID();
-        if (mHitMasters.ContainsKey(master_id)) return;
-        mHitMasters[master_id] = true;
+        if (m_hitMasters.ContainsKey(master_id)) return;
+        m_hitMasters[master_id] = true;
 
         Vector3 hit_pos = other.ClosestPointOnBounds(transform.position);
 
         Debug.Log("Hit!");
         // ダメージ計算とかこのへんで実装できます
-        hit_zone.Master.TakeDamage(hit_tag, mAttackDamage, hit_pos);
+        hit_zone.Master.TakeDamage(hit_tag, m_attackDamage, hit_pos);
 
     }
 }

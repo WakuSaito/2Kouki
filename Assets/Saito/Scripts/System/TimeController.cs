@@ -77,86 +77,86 @@ public class HourMinute
 public class TimeController : MonoBehaviour, IStopObject
 {
     [SerializeField]//太陽光オブジェクト
-    private GameObject directionalLightObj;
+    private GameObject m_directionalLightObj;
 
     [SerializeField]//日の出時間
-    private int sunriseHour = 6;
+    private int m_sunriseHour = 6;
     [SerializeField]//日没時間
-    private int sunsetHour = 20;
+    private int m_sunsetHour = 20;
 
     [SerializeField]//開始時の時間
-    private int startTimeHour = 8;
+    private int m_startTimeHour = 8;
 
     //昼間の長さ
-    private float daylightLengthSec;
+    private float m_daylightLengthSec;
     //夜の長さ
-    private float nightLengthSec;
+    private float m_nightLengthSec;
 
     //ゲーム内1日の秒数
-    private float cycle1DaySec;
+    private float m_cycle1DaySec;
     [SerializeField]//ゲーム内1時間の秒数 ゲーム中に変更するとバグが発生する
-    private float cycle1HourSec = 30;
+    private float m_cycle1HourSec = 30;
     //ゲーム内1分の秒数
-    private float cycle1minuteSec;
+    private float m_cycle1minuteSec;
 
     //現在のゲーム内時間
-    private HourMinute currentTime;
+    private HourMinute m_currentTime;
     //現在のゲーム内日数
-    private int currentDayCount = 1;
+    private int m_currentDayCount = 1;
 
     //前フレームのゲーム内時間
-    private int prevFrameHour;
+    private int m_prevFrameHour;
 
     //経過時間カウント用
-    private float timeCount = 0;
+    private float m_timeCount = 0;
 
 
     [SerializeField]//日をカウントするテキスト（d日目）
-    private GameObject dayCountTextObj;
+    private GameObject m_dayCountTextObj;
     [SerializeField]//時間をカウントするテキスト（hh:mm）
-    private GameObject timeCountTextObj;
+    private GameObject m_timeCountTextObj;
 
     [SerializeField]//時間の経過を止める
-    private bool isStopPassageTime = false;
+    private bool m_isStopPassageTime = false;
 
     //昼間フラグ
-    private bool isDaylight;
+    private bool m_isDaylight;
 
     //デバッグ用時間切り替え
     [SerializeField]
-    private bool onDebugSunset = false;
+    private bool m_onDebugSunset = false;
     [SerializeField]
-    private bool onDebugSunrise = false;
+    private bool m_onDebugSunrise = false;
 
     private void Awake()
     {
         //大きすぎないようにする
-        sunriseHour %= HourMinute.MAX_HOUR;
-        sunsetHour %= HourMinute.MAX_HOUR;
-        startTimeHour %= HourMinute.MAX_HOUR;
+        m_sunriseHour %= HourMinute.MAX_HOUR;
+        m_sunsetHour %= HourMinute.MAX_HOUR;
+        m_startTimeHour %= HourMinute.MAX_HOUR;
 
         //昼の長さ（秒）計算
-        int tmp = sunsetHour - sunriseHour;
+        int tmp = m_sunsetHour - m_sunriseHour;
         if (tmp < 0)
             tmp += HourMinute.MAX_HOUR;
-        daylightLengthSec = tmp * cycle1HourSec;
+        m_daylightLengthSec = tmp * m_cycle1HourSec;
         //夜の長さ（秒）計算
-        nightLengthSec = (HourMinute.MAX_HOUR * cycle1HourSec) - daylightLengthSec;
+        m_nightLengthSec = (HourMinute.MAX_HOUR * m_cycle1HourSec) - m_daylightLengthSec;
 
         //開始時間計算
-        int startTmp = startTimeHour - sunriseHour;
+        int startTmp = m_startTimeHour - m_sunriseHour;
         if (startTmp < 0)
             startTmp += HourMinute.MAX_HOUR;
-        timeCount = startTmp * cycle1HourSec;
+        m_timeCount = startTmp * m_cycle1HourSec;
 
         //ゲーム内1日の秒数計算
-        cycle1DaySec = cycle1HourSec * HourMinute.MAX_HOUR;
+        m_cycle1DaySec = m_cycle1HourSec * HourMinute.MAX_HOUR;
         //ゲーム内1日の秒数計算
-        cycle1minuteSec = cycle1HourSec / HourMinute.MAX_MINUTE;
+        m_cycle1minuteSec = m_cycle1HourSec / HourMinute.MAX_MINUTE;
 
         //時刻設定
-        currentTime = new HourMinute(startTimeHour, 0);
-        prevFrameHour = currentTime.GetHour();
+        m_currentTime = new HourMinute(m_startTimeHour, 0);
+        m_prevFrameHour = m_currentTime.GetHour();
     }
 
     // Update is called once per frame
@@ -164,94 +164,94 @@ public class TimeController : MonoBehaviour, IStopObject
     {
         //デバッグ用
         {
-            if (onDebugSunrise)
+            if (m_onDebugSunrise)
             {
                 ChangeSunrise();
-                onDebugSunrise = false;
+                m_onDebugSunrise = false;
             }
-            if (onDebugSunset)
+            if (m_onDebugSunset)
             {
                 ChangeSunset();
-                onDebugSunset = false;
+                m_onDebugSunset = false;
             }
         }
 
-        if (isStopPassageTime) return;      
+        if (m_isStopPassageTime) return;
 
         //時間計測
-        timeCount += Time.deltaTime;
+        m_timeCount += Time.deltaTime;
 
         //一定値を超えないように
-        if (timeCount >= cycle1DaySec)
+        if (m_timeCount >= m_cycle1DaySec)
         {
-            timeCount -= cycle1DaySec;
+            m_timeCount -= m_cycle1DaySec;
         }
 
         //太陽光の角度
         float sunRotate;
         //昼間
-        if (timeCount < daylightLengthSec)
+        if (m_timeCount < m_daylightLengthSec)
         {
             //昼の経過時間の割合
-            float daylightTimePer = timeCount / daylightLengthSec;
+            float daylightTimePer = m_timeCount / m_daylightLengthSec;
 
             sunRotate = 180.0f * daylightTimePer;
             //昼夜状態保存
-            isDaylight = true;
+            m_isDaylight = true;
         }
         //夜間
         else
         {
             //夜の経過時間の割合
-            float nightTimePer = (timeCount - daylightLengthSec) / nightLengthSec;
+            float nightTimePer = (m_timeCount - m_daylightLengthSec) / m_nightLengthSec;
 
             sunRotate = 180.0f * (1.0f - nightTimePer) + 360.0f * nightTimePer;
             //昼夜状態保存
-            isDaylight = false;
+            m_isDaylight = false;
         }
 
         //太陽光の角度変更
-        directionalLightObj.transform.localRotation = Quaternion.AngleAxis(sunRotate, Vector3.right);
+        m_directionalLightObj.transform.localRotation = Quaternion.AngleAxis(sunRotate, Vector3.right);
 
         //ゲーム内時間更新
-        currentTime = new HourMinute(sunriseHour, 0);
-        currentTime.AddMinute((int)(timeCount / cycle1minuteSec));
-        if(timeCountTextObj != null)
-            timeCountTextObj.GetComponent<Text>().text = currentTime.GetTimeString();//テキスト更新
+        m_currentTime = new HourMinute(m_sunriseHour, 0);
+        m_currentTime.AddMinute((int)(m_timeCount / m_cycle1minuteSec));
+        if(m_timeCountTextObj != null)
+            m_timeCountTextObj.GetComponent<Text>().text = m_currentTime.GetTimeString();//テキスト更新
 
         //0時になったタイミングで動作
-        if (prevFrameHour > currentTime.GetHour())
+        if (m_prevFrameHour > m_currentTime.GetHour())
         {
             //日数を増やす
-            currentDayCount++;
-            if (dayCountTextObj != null)
+            m_currentDayCount++;
+            if (m_dayCountTextObj != null)
             {
                 //dayCountTextObj.GetComponent<Text>().text = currentDayCount + "日目";//テキスト更新
-                dayCountTextObj.GetComponent<DayCountUI>().ChangeDay(currentDayCount);
+                m_dayCountTextObj.GetComponent<DayCountUI>().ChangeDay(m_currentDayCount);
             }
         }
 
         //時間保存
-        prevFrameHour = currentTime.GetHour();  
+        m_prevFrameHour = m_currentTime.GetHour();  
     }
 
     //時間を日没に変更
     public void ChangeSunset()
     {
-        isDaylight = false;
-        timeCount = daylightLengthSec;
-        directionalLightObj.transform.localRotation = Quaternion.AngleAxis(180, Vector3.right);
-        if (timeCountTextObj != null)
-            timeCountTextObj.GetComponent<Text>().text = currentTime.GetTimeString();//テキスト更新
+        m_isDaylight = false;
+        m_timeCount = m_daylightLengthSec;
+        m_directionalLightObj.transform.localRotation = Quaternion.AngleAxis(180, Vector3.right);
+        if (m_timeCountTextObj != null)
+            m_timeCountTextObj.GetComponent<Text>().text = m_currentTime.GetTimeString();//テキスト更新
     }
     //時間を日の出に変更
     public void ChangeSunrise()
     {
-        isDaylight = true;
-        timeCount = 0;
-        directionalLightObj.transform.localRotation = Quaternion.AngleAxis(0, Vector3.right);
-        if (timeCountTextObj != null)
-            timeCountTextObj.GetComponent<Text>().text = currentTime.GetTimeString();//テキスト更新
+        m_isDaylight = true;
+        m_timeCount = 0;
+        m_directionalLightObj.transform.localRotation = Quaternion.AngleAxis(0, Vector3.right);
+        if (m_timeCountTextObj != null)
+            m_timeCountTextObj.GetComponent<Text>().text = m_currentTime.GetTimeString();//テキスト更新
     }
 
     /// <summary>
@@ -259,18 +259,18 @@ public class TimeController : MonoBehaviour, IStopObject
     /// </summary>
     public bool GetIsDaylight()
     {
-        return isDaylight;
+        return m_isDaylight;
     }
 
     public int GetCurrentHour()
     {
-        return currentTime.GetHour();
+        return m_currentTime.GetHour();
     }
 
     //日数取得
     public int GetDayCount()
     {
-        return currentDayCount;
+        return m_currentDayCount;
     }
 
     /// <summary>
@@ -278,11 +278,11 @@ public class TimeController : MonoBehaviour, IStopObject
     /// </summary>
     public int GetMinutesAfterSunset()
     {
-        int hour = currentTime.GetHour();
-        if (hour < sunsetHour)
+        int hour = m_currentTime.GetHour();
+        if (hour < m_sunsetHour)
             hour += HourMinute.MAX_HOUR;
 
-        return (hour - sunsetHour) * HourMinute.MAX_MINUTE + currentTime.GetMinute();
+        return (hour - m_sunsetHour) * HourMinute.MAX_MINUTE + m_currentTime.GetMinute();
     }
 
     /// <summary>
@@ -290,20 +290,20 @@ public class TimeController : MonoBehaviour, IStopObject
     /// </summary>
     public int GetMinutesBeforeSunrise()
     {
-        int hour = currentTime.GetHour();
-        if (hour >= sunriseHour)
+        int hour = m_currentTime.GetHour();
+        if (hour >= m_sunriseHour)
             hour -= HourMinute.MAX_HOUR;
 
-        return (sunriseHour - hour) * HourMinute.MAX_MINUTE - currentTime.GetMinute();
+        return (m_sunriseHour - hour) * HourMinute.MAX_MINUTE - m_currentTime.GetMinute();
     }
     //一時停止
     public void Pause()
     {
-        isStopPassageTime = true;
+        m_isStopPassageTime = true;
     }
     //再開
     public void Resume()
     {
-        isStopPassageTime = false;
+        m_isStopPassageTime = false;
     }
 }

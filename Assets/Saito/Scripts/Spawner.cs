@@ -5,48 +5,48 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField]//生成させるプレハブ
-    GameObject[] spawnObjPrefab;
+    GameObject[] m_spawnObjPrefab;
     [SerializeField]//プレハブ生成される確率（重み）
-    int[] spawnObjProbability;
+    int[] m_spawnObjProbability;
 
     [SerializeField]//生成するオブジェクトのy座標
-    float spawnPosY = 1.0f;
+    float m_spawnPosY = 1.0f;
 
     [SerializeField]//生成するオブジェクトの当たり判定のサイズの半分(円にしてもいい)
-    Vector3 halfColliderSize = new Vector3(0.5f,0.5f,0.5f);
+    Vector3 m_halfColliderSize = new Vector3(0.5f,0.5f,0.5f);
 
     [SerializeField]//1度に生成する量
-    int spawnQuantityMin = 3;
+    int m_spawnQuantityMin = 3;
     [SerializeField]//1度に生成する量
-    int spawnQuantityMax = 5;
+    int m_spawnQuantityMax = 5;
 
     [SerializeField]//生成する範囲(半径)
-    float spawnAreaRadius = 5.0f;
+    float m_spawnAreaRadius = 5.0f;
 
     [SerializeField]//生成するオブジェクトの親
-    Transform spawnParent;
+    Transform m_spawnParent;
 
     [SerializeField]//生成を開始するプレイヤーとの距離
-    float startSpawnDistance = 100.0f;
+    float m_startSpawnDistance = 100.0f;
 
     // アイテムのインスタンス
-    List<GameObject> items = new List<GameObject>();
+    List<GameObject> m_items = new List<GameObject>();
 
-    private GameObject playerObj;//プレイヤーオブジェクト
+    private GameObject m_playerObj;//プレイヤーオブジェクト
 
     private void Awake()
     {
         //プレイヤー取得
-        playerObj = GameObject.FindGameObjectWithTag("Player");
+        m_playerObj = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void Update()
     {
         //プレイヤーとの距離計算
-        float distance = Vector3.Distance(transform.position, playerObj.transform.position);
+        float distance = Vector3.Distance(transform.position, m_playerObj.transform.position);
 
         //プレイヤーが生成開始範囲に入ったら
-        if(distance < startSpawnDistance)
+        if(distance < m_startSpawnDistance)
         {
             //生成
             StartSpawn();
@@ -62,20 +62,20 @@ public class Spawner : MonoBehaviour
     //生成開始
     public void StartSpawn()
     {
-        if (spawnObjPrefab == null) return;
+        if (m_spawnObjPrefab == null) return;
         //オブジェクトの数より確率の数が少ない
-        if (spawnObjPrefab.Length > spawnObjProbability.Length) return;
+        if (m_spawnObjPrefab.Length > m_spawnObjProbability.Length) return;
 
-        items.Clear();//配列リセット
+        m_items.Clear();//配列リセット
 
         //生成する数を決める
-        int quantity = Random.Range(spawnQuantityMin, spawnQuantityMax + 1);
+        int quantity = Random.Range(m_spawnQuantityMin, m_spawnQuantityMax + 1);
 
         //確率関連
-        int probMax = 0;
-        for(int i=0;i< spawnObjPrefab.Length;i++)
+        int prob_max = 0;
+        for(int i=0;i< m_spawnObjPrefab.Length;i++)
         {
-            probMax += spawnObjProbability[i];
+            prob_max += m_spawnObjProbability[i];
         }
 
         //複数生成する
@@ -85,25 +85,25 @@ public class Spawner : MonoBehaviour
             for (int n = 0; n < 10; n++) 
             {
                 //生成位置をランダムに決める
-                Vector3 spawn_pos = Random.insideUnitCircle * spawnAreaRadius;
+                Vector3 spawn_pos = Random.insideUnitCircle * m_spawnAreaRadius;
                 spawn_pos.z = spawn_pos.y;//平面上に生成するため入れ替え
-                spawn_pos.y = spawnPosY;//y方向は一律にする
+                spawn_pos.y = m_spawnPosY;//y方向は一律にする
                 //アタッチしたオブジェクトを基準にする
                 spawn_pos.x += transform.position.x;
                 spawn_pos.z += transform.position.z;
 
                 //当たり判定が他のものと重ならないとき
                 //第4引数で判定しないレイヤーを設定可
-                if (!Physics.CheckBox(spawn_pos, halfColliderSize))
+                if (!Physics.CheckBox(spawn_pos, m_halfColliderSize))
                 {
                     //確率から生成するオブジェクト決め
-                    int randNum = Random.Range(0, probMax) + 1;
+                    int rand_num = Random.Range(0, prob_max) + 1;
                     int tmp = 0;
                     int num = 0;
-                    for (int j = 0; j < spawnObjPrefab.Length; j++)
+                    for (int j = 0; j < m_spawnObjPrefab.Length; j++)
                     {
-                        tmp += spawnObjProbability[j];
-                        if(randNum <= tmp)
+                        tmp += m_spawnObjProbability[j];
+                        if(rand_num <= tmp)
                         {
                             num = j;
                             break;
@@ -111,11 +111,11 @@ public class Spawner : MonoBehaviour
                     }
 
 
-                    if (spawnParent == null)
+                    if (m_spawnParent == null)
                     {
                         //アイテムをインスタンス化
-                        items.Add(Instantiate(
-                            spawnObjPrefab[num],
+                        m_items.Add(Instantiate(
+                            m_spawnObjPrefab[num],
                             spawn_pos,
                             Quaternion.identity
                             ));
@@ -125,11 +125,11 @@ public class Spawner : MonoBehaviour
                     else//親を指定
                     {
                         //アイテムをインスタンス化
-                        items.Add(Instantiate(
-                            spawnObjPrefab[num],
+                        m_items.Add(Instantiate(
+                            m_spawnObjPrefab[num],
                             spawn_pos,
                             Quaternion.identity,
-                            spawnParent
+                            m_spawnParent
                             ));
 
                         break;

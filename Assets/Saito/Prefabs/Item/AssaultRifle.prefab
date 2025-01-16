@@ -525,20 +525,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundType: Assault
-  muzzleTransform: {fileID: 3287404946531418576}
-  bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
-  muzzleFlashPrefab: {fileID: 100000, guid: 16652ec55bffc364799da4b8bb3bf2eb, type: 3}
-  bulletHitPrefab: {fileID: 100002, guid: 13b4f94b0136a9846b41c2fadd70b343, type: 3}
-  magazineSize: 30
-  oneShotBulletAmount: 1
-  bulletSpread: 0.02
-  bulletDistance: 20
-  rapidSpeed: 0.1
-  isCanRapid: 1
-  reloadSpeed: 2.8
-  bulletDamage: 7
-  hand_player_obj: {fileID: 0}
+  m_soundType: Assault
+  m_muzzleTransform: {fileID: 3287404946531418576}
+  m_bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
+  m_muzzleFlashPrefab: {fileID: 100000, guid: 16652ec55bffc364799da4b8bb3bf2eb, type: 3}
+  m_bulletHitPrefab: {fileID: 100002, guid: 13b4f94b0136a9846b41c2fadd70b343, type: 3}
+  m_magazineSize: 30
+  m_oneShotBulletAmount: 1
+  m_bulletSpread: 0.03
+  m_bulletDistance: 20
+  m_rapidSpeed: 0.2
+  m_isCanRapid: 1
+  m_reloadSpeed: 2.8
+  m_bulletDamage: 6
+  m_handPlayerObj: {fileID: 0}
 --- !u!114 &9222050635444262974
 MonoBehaviour:
   m_ObjectHideFlags: 0

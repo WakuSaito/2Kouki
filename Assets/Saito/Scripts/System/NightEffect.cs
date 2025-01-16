@@ -5,53 +5,53 @@ using UnityEngine;
 public class NightEffect : MonoBehaviour
 {
     [SerializeField]
-    TimeController mTimeController;
+    TimeController m_timeController;
 
     [SerializeField]//描画距離の最大（昼間）
-    float mDayCameraFarMax = 25.0f;
+    float m_dayCameraFarMax = 25.0f;
     [SerializeField]//描画距離の最小（夜間）
-    float mNightCameraFarMin = 15.0f;
+    float m_nightCameraFarMin = 15.0f;
 
     [SerializeField, Header("日没から何分で描画距離を最小にするか")]
-    int mMinOfMinutesAfterSunset = 60;
+    int m_minOfMinutesAfterSunset = 60;
 
     [SerializeField, Header("日の出まで何分時点から描画距離を広げていくか")]
-    int mMaxOfMinutesBeforeSunrise = 60;
+    int m_maxOfMinutesBeforeSunrise = 60;
 
     private void Awake()
     {
         //インスペクターでの指定が無ければ同じオブジェクトから取得
-        if (mTimeController == null)
-            mTimeController = gameObject.GetComponent<TimeController>();       
+        if (m_timeController == null)
+            m_timeController = gameObject.GetComponent<TimeController>();       
     }
 
     private void Update()
     {
         //昼間
-        if(mTimeController.GetIsDaylight())
+        if(m_timeController.GetIsDaylight())
         {
-            Camera.main.farClipPlane = mDayCameraFarMax;
+            Camera.main.farClipPlane = m_dayCameraFarMax;
         }
         //夜間
         else
         {
             //日没から何分か
-            int minutes_after_sunset = mTimeController.GetMinutesAfterSunset();
+            int minutes_after_sunset = m_timeController.GetMinutesAfterSunset();
             //日の出まで何分か
-            int minutes_before_sunrise = mTimeController.GetMinutesBeforeSunrise();
+            int minutes_before_sunrise = m_timeController.GetMinutesBeforeSunrise();
 
             //暗さの割合
             float darkness_per;
 
             //暗くなり始める
-            if (minutes_after_sunset < mMinOfMinutesAfterSunset)
+            if (minutes_after_sunset < m_minOfMinutesAfterSunset)
             {
-                darkness_per = (float)minutes_after_sunset / mMinOfMinutesAfterSunset;
+                darkness_per = (float)minutes_after_sunset / m_minOfMinutesAfterSunset;
             }
             //明るくなり始める
-            else if(minutes_before_sunrise < mMaxOfMinutesBeforeSunrise)
+            else if(minutes_before_sunrise < m_maxOfMinutesBeforeSunrise)
             {
-                darkness_per = (float)minutes_before_sunrise / mMinOfMinutesAfterSunset;
+                darkness_per = (float)minutes_before_sunrise / m_minOfMinutesAfterSunset;
             }
             //真夜中
             else
@@ -60,7 +60,7 @@ public class NightEffect : MonoBehaviour
             }
 
             //描画距離を補完し代入
-            Camera.main.farClipPlane = mDayCameraFarMax * (1.0f - darkness_per) + mNightCameraFarMin * darkness_per;
+            Camera.main.farClipPlane = m_dayCameraFarMax * (1.0f - darkness_per) + m_nightCameraFarMin * darkness_per;
         }
     }
 }

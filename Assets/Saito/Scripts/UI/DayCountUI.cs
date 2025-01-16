@@ -6,31 +6,31 @@ using DG.Tweening;
 
 public class DayCountUI : MonoBehaviour
 {
-    Text dayText;
+    Text m_dayText;
 
     [SerializeField]
-    Vector2 changePos;
+    Vector2 m_changePos;
 
-    Vector3 defaultScale;
+    Vector3 m_defaultScale;
 
-    float moveSec = 0.8f;
+    float m_moveSec = 0.8f;
 
     private void Awake()
     {
-        dayText = GetComponent<Text>();
+        m_dayText = GetComponent<Text>();
 
-        defaultScale = transform.localScale;
+        m_defaultScale = transform.localScale;
     }
 
-    public void ChangeDay(int _dayCount)
+    public void ChangeDay(int _day_count)
     {
         //Sequenceのインスタンスを作成
         Sequence sequence = DOTween.Sequence();
 
-        sequence.Append(transform.DOMove(changePos, moveSec).SetEase(Ease.InOutQuad));
-        sequence.Join(transform.DOScale(defaultScale * 3f, moveSec));
+        sequence.Append(transform.DOMove(m_changePos, m_moveSec).SetEase(Ease.InOutQuad));
+        sequence.Join(transform.DOScale(m_defaultScale * 3f, m_moveSec));
         sequence.AppendInterval(0.4f);
-        sequence.AppendCallback(()=> dayText.text = _dayCount + "日目");//テキスト更新
+        sequence.AppendCallback(()=> m_dayText.text = _day_count + "日目");//テキスト更新
 
         sequence.Play().SetLoops(2, LoopType.Yoyo);
 

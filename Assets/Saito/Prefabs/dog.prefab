@@ -648,15 +648,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d2f73b6f93b99a4d86bb7eb9400e70d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dogBases:
-  - {fileID: 1745869519410043631}
-  - {fileID: 1745869519410043627}
-  - {fileID: 4923473189086609622}
-  biteStaySec: 4
-  stayPlayerDistance: 5
-  detectRange: 30
-  detectCooldownSec: 60
-  isStopAction: 0
+  m_dogBases: []
+  m_biteStaySec: 4
+  m_stayPlayerDistance: 5
+  m_detectCooldownSec: 60
+  m_isStopAction: 0
 --- !u!114 &1745869519410043631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -669,9 +665,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d98ba73bc75da454fb7074c3c66a559f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runSpeed: 6
-  walkSpeed: 3
-  turnSpeed: 1000
+  m_runSpeed: 6
+  m_walkSpeed: 3
+  m_turnSpeed: 1000
 --- !u!114 &1745869519410043627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -684,7 +680,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74472c98228a35c41a079e9360084048, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1512077811412323190}
+  m_animator: {fileID: 1512077811412323190}
 --- !u!114 &6513576538095451527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -697,12 +693,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3714ef09700b53b45acb125a2b79db21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  markPrefab: {fileID: 4469385919023190781, guid: 6596ee907b4a7294eaa0e1ada93194bd, type: 3}
-  targetDistance: 40
-  markTargetTags:
-  - Zombie
+  m_markPrefab: {fileID: 4469385919023190781, guid: 6596ee907b4a7294eaa0e1ada93194bd, type: 3}
+  m_targetDistance: 40
+  m_markTargetTags:
   - item
-  zombieCenterY: 2
+  - Zombie
+  m_zombieCenterY: 2
 --- !u!114 &4923473189086609622
 MonoBehaviour:
   m_ObjectHideFlags: 0

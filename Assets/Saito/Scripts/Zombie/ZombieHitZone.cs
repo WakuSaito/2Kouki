@@ -7,11 +7,11 @@ public class ZombieHitZone : MonoBehaviour
     /// <summary>
     /// 親スクリプト公開
     /// </summary>
-    public ZombieHitMaster Master => master;
-    ZombieHitMaster master;
+    public ZombieHitMaster Master => m_master;
+    ZombieHitMaster m_master;
 
     void Start()
     {
-        master = GetComponentInParent<ZombieHitMaster>();
+        m_master = GetComponentInParent<ZombieHitMaster>();
     }
 }

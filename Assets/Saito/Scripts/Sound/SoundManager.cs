@@ -81,76 +81,60 @@ public class SoundManager : MonoBehaviour
     [SerializeField] 
     public AudioClip nomalBGM;  
 
-    private AudioClip nextBGM;
-    private float changeBGMSpeed;
-    private float maxVolume;
-    private float currentVolume;
+    private AudioClip m_nextBGM;
+    private float m_changeBGMSpeed;
+    private float m_maxVolume;
+    private float m_currentVolume;
 
-    private bool isFadeOut = false;
-    private bool isFadeIn = false;
+    private bool m_isFadeOut = false;
+    private bool m_isFadeIn = false;
 
-    //デバッグ用
-    [SerializeField]
-    private AudioClip[] debugPlaySounds;
-    AudioSource audioSource;
+    AudioSource m_audioSource;
+
     private void Awake()
     {
-        audioSource = gameObject.GetComponent<AudioSource>();
-        maxVolume = audioSource.volume;
-        currentVolume = maxVolume;
+        m_audioSource = gameObject.GetComponent<AudioSource>();
+        m_maxVolume = m_audioSource.volume;
+        m_currentVolume = m_maxVolume;
     }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Keypad0))
+        if(m_isFadeOut)
         {
-            audioSource.PlayOneShot(debugPlaySounds[0]);
-        }
-        if(Input.GetKeyDown(KeyCode.Keypad1))
-        {
-            audioSource.PlayOneShot(debugPlaySounds[1]);
-        }
-        if(Input.GetKeyDown(KeyCode.Keypad2))
-        {
-            audioSource.PlayOneShot(debugPlaySounds[2]);
-        }
-
-
-        if(isFadeOut)
-        {
-            currentVolume -= changeBGMSpeed * Time.deltaTime;
-            if (currentVolume <= 0)
+            m_currentVolume -= m_changeBGMSpeed * Time.deltaTime;
+            if (m_currentVolume <= 0)
             {
-                isFadeOut = false;
-                currentVolume = 0;
+                m_isFadeOut = false;
+                m_currentVolume = 0;
 
-                audioSource.clip = nextBGM;
-                nextBGM = null;
+                m_audioSource.clip = m_nextBGM;
+                m_nextBGM = null;
             }
         }
-        else if(isFadeIn)
+        else if(m_isFadeIn)
         {
-            currentVolume += changeBGMSpeed * Time.deltaTime;
-            if (currentVolume >= maxVolume)
+            m_currentVolume += m_changeBGMSpeed * Time.deltaTime;
+            if (m_currentVolume >= m_maxVolume)
             {
-                isFadeIn = false;
-                currentVolume = maxVolume;
+                m_isFadeIn = false;
+                m_currentVolume = m_maxVolume;
             }
         }
 
-        audioSource.volume = currentVolume;
+        m_audioSource.volume = m_currentVolume;
     }
 
     public void ChangeBGM(AudioClip _bgm, float _speed)
     {
-        nextBGM = _bgm;
-        changeBGMSpeed = _speed;
-        isFadeOut = true;
-        isFadeIn = true;
+        m_nextBGM = _bgm;
+        m_changeBGMSpeed = _speed;
+        m_isFadeOut = true;
+        m_isFadeIn = true;
     }
 
     public void Play2DSE(AudioClip _se)
     {
-        audioSource.PlayOneShot(_se);
+        m_audioSource.PlayOneShot(_se);
     }
 
 }

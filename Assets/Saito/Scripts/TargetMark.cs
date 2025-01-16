@@ -6,34 +6,34 @@ using UnityEngine;
 public class TargetMark : MonoBehaviour
 {
     [SerializeField] //位置を保存するためのオブジェクト
-    private GameObject markPrefab;
+    private GameObject m_markPrefab;
 
     [SerializeField] //判定を行う対象との距離
-    private float targetDistance = 40.0f;
+    private float m_targetDistance = 40.0f;
 
     [SerializeField] //マークするオブジェクトのタグ
-    private string[] markTargetTags;
+    private string[] m_markTargetTags;
 
     [SerializeField]//ゾンビのY方向の中心（足元からの距離）
-    private float zombieCenterY = 2.0f;
+    private float m_zombieCenterY = 2.0f;
 
 
     //条件にあうオブジェクトをマークする
     public void RangeMark()
     {
-        foreach(var tagName in markTargetTags)
+        foreach(var tag_name in m_markTargetTags)
         {
             //対象のタグが付いた全オブジェクト
-            GameObject[] tagObjects = GameObject.FindGameObjectsWithTag(tagName);
+            GameObject[] tag_objs = GameObject.FindGameObjectsWithTag(tag_name);
 
             //距離が一定以下のオブジェクトのみ判定
-            foreach (var obj in tagObjects)
+            foreach (var obj in tag_objs)
             {
-                if (Vector3.Distance(transform.position, obj.transform.position) > targetDistance) continue;
+                if (Vector3.Distance(transform.position, obj.transform.position) > m_targetDistance) continue;
 
-                Vector3 markPos = obj.transform.position + Vector3.up * zombieCenterY;
+                Vector3 mark_pos = obj.transform.position + Vector3.up * m_zombieCenterY;
                 //全ゾンビにマーカーを置く
-                Instantiate(markPrefab, markPos, Quaternion.identity);
+                Instantiate(m_markPrefab, mark_pos, Quaternion.identity);
             }
 
         }

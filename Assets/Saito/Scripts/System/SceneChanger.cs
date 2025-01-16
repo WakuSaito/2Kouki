@@ -13,15 +13,15 @@ public class StaticVariables
 public class SceneChanger : MonoBehaviour
 {
     [SerializeField]//sound
-    private SoundManager mSoundManager;
+    private SoundManager m_soundManager;
 
     //ボタンで呼び出したいシーン切り替え
     //ロードシーンをはさんでもいいかも
     public void LoadNextSceneAsync()
     {
-        mSoundManager.Play2DSE(mSoundManager.pushButton);
-        mSoundManager.ChangeBGM(null, 0.6f);//BGMフェードアウト
-        StartCoroutine(LoadSceneAsync("MainGame", mSoundManager.pushButton.length));
+        m_soundManager.Play2DSE(m_soundManager.pushButton);
+        m_soundManager.ChangeBGM(null, 0.6f);//BGMフェードアウト
+        StartCoroutine(LoadSceneAsync("MainGame", m_soundManager.pushButton.length));
     }
 
     public void LoadResultScene()

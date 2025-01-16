@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 5916604297082954690}
   m_Layer: 0
   m_Name: ItemSetPos_1_2
-  m_TagString: Untagged
+  m_TagString: ItemSpawnPos
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1004,7 +1004,7 @@ GameObject:
   - component: {fileID: 3038848712619617271}
   m_Layer: 0
   m_Name: ItemSetPos_1_1
-  m_TagString: Untagged
+  m_TagString: ItemSpawnPos
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1215,7 +1215,7 @@ GameObject:
   - component: {fileID: 8129512289858260581}
   m_Layer: 0
   m_Name: ItemSetPos_1_3
-  m_TagString: Untagged
+  m_TagString: ItemSpawnPos
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

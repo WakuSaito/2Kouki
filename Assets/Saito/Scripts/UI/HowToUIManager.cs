@@ -5,95 +5,95 @@ using UnityEngine;
 public class HowToUIManager : MonoBehaviour
 {
     [SerializeField]//移動
-    private GameObject moveUI;
+    private GameObject m_moveUI;
     [SerializeField]//武器切り替え
-    private GameObject slotChangeUI;
+    private GameObject m_slotChangeUI;
     [SerializeField]//拾う 拾えるアイテムがある時に中央に配置してもいいかも
-    private GameObject pickUpUI;
+    private GameObject m_pickUpUI;
 
     [SerializeField]//攻撃（ナイフ）
-    private GameObject attackUI;
+    private GameObject m_attackUI;
 
     [SerializeField]//発砲
-    private GameObject shotUI;
+    private GameObject m_shotUI;
     [SerializeField]//リロード
-    private GameObject reloadUI;
+    private GameObject m_reloadUI;
 
     [SerializeField]//攻撃指示
-    private GameObject attackOrderUI;
+    private GameObject m_attackOrderUI;
     [SerializeField]//探知指示
-    private GameObject detectOrderUI;
+    private GameObject m_detectOrderUI;
 
     [SerializeField]//アイテム使用
-    private GameObject useItemUI;
+    private GameObject m_useItemUI;
 
-    private Inventory inventory;
+    private Inventory m_inventory;
     [SerializeField]//犬の指示が可能か調べる用
-    private DogManager dogManager;
+    private DogManager m_dogManager;
 
-    private bool isOpenBag = false;
-    private Inventory.WEAPON_ID gripWeaponID;
+    private bool m_isOpenBag = false;
+    private Inventory.WEAPON_ID m_gripWeaponID;
 
     private void Awake()
     {
-        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+        m_inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
     }
 
     private void Update()
     {
-        if (inventory == null) return;
+        if (m_inventory == null) return;
 
         //状態が変わっていなければ
-        if (isOpenBag == inventory.item_inventory_flag &&
-            gripWeaponID == inventory.hand_weapon) return;
+        if (m_isOpenBag == m_inventory.item_inventory_flag &&
+            m_gripWeaponID == m_inventory.hand_weapon) return;
 
         //バッグが開いているか取得
-        isOpenBag = inventory.item_inventory_flag;
-        gripWeaponID = inventory.hand_weapon;
+        m_isOpenBag = m_inventory.item_inventory_flag;
+        m_gripWeaponID = m_inventory.hand_weapon;
 
         HideUI();//全て非表示
 
         //バッグを開いている場合
-        if (isOpenBag)
+        if (m_isOpenBag)
         {
-            useItemUI.SetActive(true);
+            m_useItemUI.SetActive(true);
         }
         //閉じている場合
         else
         {
-            moveUI.SetActive(true);
-            slotChangeUI.SetActive(true);
-            pickUpUI.SetActive(true);
+            m_moveUI.SetActive(true);
+            m_slotChangeUI.SetActive(true);
+            m_pickUpUI.SetActive(true);
 
-            switch (inventory.hand_weapon)
+            switch (m_inventory.hand_weapon)
             {
                 case Inventory.WEAPON_ID.KNIFE:
-                    attackUI.SetActive(true);
+                    m_attackUI.SetActive(true);
                     break;
                 case Inventory.WEAPON_ID.PISTOL:
-                    shotUI.SetActive(true);
-                    reloadUI.SetActive(true);
+                    m_shotUI.SetActive(true);
+                    m_reloadUI.SetActive(true);
                     break;
                 case Inventory.WEAPON_ID.DOG:
-                    attackOrderUI.SetActive(true);
-                    detectOrderUI.SetActive(true);
+                    m_attackOrderUI.SetActive(true);
+                    m_detectOrderUI.SetActive(true);
                     break;
             }
         }
 
 
-        if (dogManager == null) return;
+        if (m_dogManager == null) return;
 
         //犬が行動可能かによってUIの透明度変更
-        if(dogManager.CanOrderAttack())
-            attackOrderUI.GetComponent<CanvasGroup>().alpha = 1f;
+        if(m_dogManager.CanOrderAttack())
+            m_attackOrderUI.GetComponent<CanvasGroup>().alpha = 1f;
         else
-            attackOrderUI.GetComponent<CanvasGroup>().alpha = 0.5f;
+            m_attackOrderUI.GetComponent<CanvasGroup>().alpha = 0.5f;
 
-        if (dogManager.CanOrderDetection())
-            detectOrderUI.GetComponent<CanvasGroup>().alpha = 1f;
+        if (m_dogManager.CanOrderDetection())
+            m_detectOrderUI.GetComponent<CanvasGroup>().alpha = 1f;
         else
-            detectOrderUI.GetComponent<CanvasGroup>().alpha = 0.5f;
+            m_detectOrderUI.GetComponent<CanvasGroup>().alpha = 0.5f;
 
 
     }
@@ -101,14 +101,14 @@ public class HowToUIManager : MonoBehaviour
     //全て非表示にする
     private void HideUI()
     {
-        moveUI.SetActive(false);
-        slotChangeUI.SetActive(false);
-        pickUpUI.SetActive(false);
-        attackUI.SetActive(false);
-        shotUI.SetActive(false);
-        reloadUI.SetActive(false);
-        attackOrderUI.SetActive(false);
-        detectOrderUI.SetActive(false);
-        useItemUI.SetActive(false);
+        m_moveUI.SetActive(false);
+        m_slotChangeUI.SetActive(false);
+        m_pickUpUI.SetActive(false);
+        m_attackUI.SetActive(false);
+        m_shotUI.SetActive(false);
+        m_reloadUI.SetActive(false);
+        m_attackOrderUI.SetActive(false);
+        m_detectOrderUI.SetActive(false);
+        m_useItemUI.SetActive(false);
     }
 }

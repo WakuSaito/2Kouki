@@ -355,7 +355,7 @@ public class Inventory : ID
 
                 //“–‚½‚è”»’è‚ðOFF‚É‚·‚é
                 _item.GetComponent<BoxCollider>().enabled = false;
-                _item.GetComponent<GunManager>().hand_player_obj = gameObject;
+                _item.GetComponent<GunManager>().m_handPlayerObj = gameObject;
                 //tag‚ðweapon‚É
                 _item.tag = "weapon";
 

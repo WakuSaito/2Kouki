@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 2298748910788607212}
   m_Layer: 0
   m_Name: house_3_2
-  m_TagString: Untagged
+  m_TagString: ItemSpawnPos
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -641,7 +641,7 @@ GameObject:
   - component: {fileID: 6159940192908355386}
   m_Layer: 0
   m_Name: ItemPos_3_4
-  m_TagString: Untagged
+  m_TagString: ItemSpawnPos
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -807,7 +807,7 @@ GameObject:
   - component: {fileID: 5355705041197684143}
   m_Layer: 0
   m_Name: ItemPos_3_3
-  m_TagString: Untagged
+  m_TagString: ItemSpawnPos
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -943,7 +943,7 @@ GameObject:
   - component: {fileID: 7036473011472580311}
   m_Layer: 0
   m_Name: ItemPos _3_2
-  m_TagString: Untagged
+  m_TagString: ItemSpawnPos
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1202,7 +1202,7 @@ GameObject:
   - component: {fileID: 5050540048476214602}
   m_Layer: 0
   m_Name: ItemPos_3_1
-  m_TagString: Untagged
+  m_TagString: ItemSpawnPos
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

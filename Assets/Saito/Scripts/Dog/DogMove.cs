@@ -5,31 +5,31 @@ using UnityEngine;
 public class DogMove : DogBase
 {
     [SerializeField]//走る速度
-    float mRunSpeed = 6.0f;
+    float m_runSpeed = 6.0f;
     [SerializeField]//歩く速度
-    float mWalkSpeed = 3.0f;
+    float m_walkSpeed = 3.0f;
 
     [SerializeField]//振り向き速度
-    float mTurnSpeed = 1000;
+    float m_turnSpeed = 1000;
 
     //目標とする向き
-    Quaternion mTargetRotation;
+    Quaternion m_targetRotation;
 
-    Rigidbody mRigidbody;
+    Rigidbody m_rigidbody;
 
     //初期設定
     public override void SetUpDog()
     {
         //rigidbodyの取得
-        mRigidbody = GetComponent<Rigidbody>();
-        mTargetRotation = transform.rotation;
+        m_rigidbody = GetComponent<Rigidbody>();
+        m_targetRotation = transform.rotation;
     }
 
     private void Update()
     {
         //あまりManager以外でUpdateを使いたくないが、補間するため実装
         //向きを補間
-        var qua = Quaternion.RotateTowards(transform.rotation, mTargetRotation, mTurnSpeed * Time.deltaTime);
+        var qua = Quaternion.RotateTowards(transform.rotation, m_targetRotation, m_turnSpeed * Time.deltaTime);
 
         //y軸以外を無視
         qua.x = 0.0f; qua.z = 0.0f;
@@ -42,7 +42,7 @@ public class DogMove : DogBase
     /// </summary>
     public void ChangeDirection(Quaternion _qua)
     {
-        mTargetRotation = _qua;//目標の向きを設定
+        m_targetRotation = _qua;//目標の向きを設定
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public class DogMove : DogBase
         Vector3.Normalize(vec);
 
         //移動ベクトル更新
-        mRigidbody.velocity = new Vector3(vec.x * mRunSpeed, mRigidbody.velocity.y, vec.z * mRunSpeed);
+        m_rigidbody.velocity = new Vector3(vec.x * m_runSpeed, m_rigidbody.velocity.y, vec.z * m_runSpeed);
     }
 
     /// <summary>
@@ -90,7 +90,7 @@ public class DogMove : DogBase
         Vector3.Normalize(vec);
 
         //移動ベクトル更新
-        mRigidbody.velocity = new Vector3(vec.x * mWalkSpeed, mRigidbody.velocity.y, vec.z * mWalkSpeed);
+        m_rigidbody.velocity = new Vector3(vec.x * m_walkSpeed, m_rigidbody.velocity.y, vec.z * m_walkSpeed);
     }
 
     /// <summary>
@@ -99,6 +99,6 @@ public class DogMove : DogBase
     public void StopMove()
     {
         //移動ベクトルを0にする
-        mRigidbody.velocity = new Vector3(0, mRigidbody.velocity.y, 0);
+        m_rigidbody.velocity = new Vector3(0, m_rigidbody.velocity.y, 0);
     }
 }

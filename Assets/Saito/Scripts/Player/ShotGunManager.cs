@@ -11,17 +11,17 @@ public class ShotGunManager : GunManager
 
     public override void Reload()
     {
-        if (mIsShotCooldown) return;
-        if (mIsReload) return;
+        if (m_isShotCooldown) return;
+        if (m_isReload) return;
         //ピストルの弾丸が最大数じゃなければreload可能
         if (GetCurrentMagazine() >= GetMagazineSize()) return;
 
         onCancelReload = false;//キャンセル状態リセット
 
-        if (mInventory == null)
+        if (m_inventory == null)
         {
-            mAnimator.SetBool("Reload", true);  //reload
-            mIsReload = true;
+            m_animator.SetBool("Reload", true);  //reload
+            m_isReload = true;
             Invoke(nameof(StartBulletIn), 0.22f);
             return;
         }
@@ -29,10 +29,10 @@ public class ShotGunManager : GunManager
         for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
         {
             //インベントリに弾丸があるか
-            if (mInventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
+            if (m_inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
             {
-                mAnimator.SetBool("Reload", true);  //reload
-                mIsReload = true;
+                m_animator.SetBool("Reload", true);  //reload
+                m_isReload = true;
                 Invoke(nameof(StartBulletIn), 0.22f);
             }
         }
@@ -43,8 +43,8 @@ public class ShotGunManager : GunManager
     public override void StopReload()
     {
         onCancelReload = true;
-        mIsReload = false;
-        mAnimator.SetBool("Reload", false);
+        m_isReload = false;
+        m_animator.SetBool("Reload", false);
     }
 
     public void StartBulletIn()
@@ -59,7 +59,7 @@ public class ShotGunManager : GunManager
 
         for (int i = 0; i < bulletInNum; i++)
         {
-            mAnimator.SetTrigger("BulletIn");
+            m_animator.SetTrigger("BulletIn");
 
             yield return new WaitForSeconds(BULLET_IN_INTERVAL);
 
@@ -70,8 +70,8 @@ public class ShotGunManager : GunManager
         }
 
         //リロード終了
-        mAnimator.SetBool("Reload", false);
-        mIsReload = false;
+        m_animator.SetBool("Reload", false);
+        m_isReload = false;
     }
 
 }

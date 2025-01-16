@@ -12,32 +12,32 @@ using UnityEngine.UI;
 public class TutorialManager : MonoBehaviour
 {
     //現在の進行度（チュートリアルの）
-    private int currentPhase = 0;
+    private int m_currentPhase = 0;
 
     [SerializeField]//指示用テキスト
-    private Text tutorialText;
+    private Text m_tutorialText;
 
     [SerializeField]//位置指示用マーカー
-    private GameObject markerPrefab;
+    private GameObject m_markerPrefab;
 
-    private GameObject markerObj;
+    private GameObject m_markerObj;
 
     //チュートリアルをフェーズごとに分けたスクリプト
     [SerializeField]
-    private TutorialBase[] tutorialBases;
+    private TutorialBase[] m_tutorialBases;
 
     private void Start()
     {
         //開始時のスクリプト呼び出し
-        tutorialBases[currentPhase].SetUpPhase();
+        m_tutorialBases[m_currentPhase].SetUpPhase();
     }
 
     private void Update()
     {
-        if (currentPhase >= tutorialBases.Length) return;
+        if (m_currentPhase >= m_tutorialBases.Length) return;
 
         //現在のフェーズのスクリプト処理呼び出し
-        tutorialBases[currentPhase].UpdatePhase();
+        m_tutorialBases[m_currentPhase].UpdatePhase();
 
     }
 
@@ -45,13 +45,13 @@ public class TutorialManager : MonoBehaviour
     {
         Debug.Log("チュートリアルのフェーズ移行");
         //終了処理呼び出し
-        tutorialBases[currentPhase].EndPhase();
+        m_tutorialBases[m_currentPhase].EndPhase();
 
-        currentPhase++;
-        if (currentPhase >= tutorialBases.Length) return;
+        m_currentPhase++;
+        if (m_currentPhase >= m_tutorialBases.Length) return;
 
         //開始時のスクリプト呼び出し
-        tutorialBases[currentPhase].SetUpPhase();
+        m_tutorialBases[m_currentPhase].SetUpPhase();
     }
 
     /// <summary>
@@ -59,8 +59,8 @@ public class TutorialManager : MonoBehaviour
     /// </summary>
     public void SetText(string _str)
     {
-        if (tutorialText == null) return;
-        tutorialText.text = _str;
+        if (m_tutorialText == null) return;
+        m_tutorialText.text = _str;
 
         //普段見えないようにしたい
     }
@@ -69,8 +69,8 @@ public class TutorialManager : MonoBehaviour
     /// </summary>
     public void HideText()
     {
-        if (tutorialText == null) return;
-        tutorialText.text = "";//とりあえずテキストの中身を上書き
+        if (m_tutorialText == null) return;
+        m_tutorialText.text = "";//とりあえずテキストの中身を上書き
     }
 
     /// <summary>
@@ -78,22 +78,22 @@ public class TutorialManager : MonoBehaviour
     /// </summary>
     public void CreateMarker(Vector3 _pos)
     {
-        if (markerPrefab == null) return;
+        if (m_markerPrefab == null) return;
 
         //既に設置してあるマーカー削除
         DeleteMarker();
 
-        markerObj = Instantiate(markerPrefab, _pos, Quaternion.identity);
+        m_markerObj = Instantiate(m_markerPrefab, _pos, Quaternion.identity);
     }
     /// <summary>
     /// マーカー削除
     /// </summary>
     public void DeleteMarker()
     {
-        if (markerObj == null) return;
+        if (m_markerObj == null) return;
         //マーカー削除
-        markerObj.GetComponent<Marker>().StartDelete();
-        markerObj = null;
+        m_markerObj.GetComponent<Marker>().StartDelete();
+        m_markerObj = null;
     }
 
     //カメラを特定の場所にスライド移動できるようにしたい

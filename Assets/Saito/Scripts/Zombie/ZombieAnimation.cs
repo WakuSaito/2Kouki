@@ -7,17 +7,14 @@ using UnityEngine;
 /// </summary>
 public class ZombieAnimation : ZombieBase
 {
-    //アニメーターをつけているオブジェクト
-    private GameObject animatorObj;
-
     [SerializeField]//アニメーター
-    private Animator animator;
+    private Animator m_animator;
 
     [SerializeField]//ヒダメージエフェクト
-    private GameObject damagedEffect;
+    private GameObject m_damagedEffect;
 
     //移動アニメーションの種類
-    enum MoveType
+    enum MOVE_TYPE
     { 
         IDLE,
         WALK,
@@ -26,59 +23,56 @@ public class ZombieAnimation : ZombieBase
     }
 
     //現在の移動アニメーション
-    MoveType currentMoveType;
+    MOVE_TYPE m_currentMoveType;
 
     /// <summary>
     /// 初期設定
     /// </summary>
     public override void SetUpZombie()
     {
-        //アニメーターをアタッチしているオブジェクト取得
-        animatorObj = animator.gameObject;
-
-        currentMoveType = MoveType.WALK;
+        m_currentMoveType = MOVE_TYPE.WALK;
     }
 
     public void Attack()
     {
         Debug.Log("zombie:Attack");
-        animator.SetTrigger("Attack");
+        m_animator.SetTrigger("Attack");
     }
 
     public void Walk()
     {
         //死亡後に起き上がらないように
-        if (currentMoveType == MoveType.DIE) return;
+        if (m_currentMoveType == MOVE_TYPE.DIE) return;
         //同じアニメーションを複数呼び出ししないように
-        if (currentMoveType == MoveType.WALK) return;
-        currentMoveType = MoveType.WALK;
+        if (m_currentMoveType == MOVE_TYPE.WALK) return;
+        m_currentMoveType = MOVE_TYPE.WALK;
 
         Debug.Log("zombie:Walk");
-        animator.SetTrigger("Walk");
+        m_animator.SetTrigger("Walk");
     }
 
     public void Idle()
     {
         //死亡後に起き上がらないように
-        if (currentMoveType == MoveType.DIE) return;
+        if (m_currentMoveType == MOVE_TYPE.DIE) return;
         //同じアニメーションを複数呼び出ししないように
-        if (currentMoveType == MoveType.IDLE) return;
-        currentMoveType = MoveType.IDLE;
+        if (m_currentMoveType == MOVE_TYPE.IDLE) return;
+        m_currentMoveType = MOVE_TYPE.IDLE;
 
         Debug.Log("zombie:Idle");
-        animator.SetTrigger("Idle");
+        m_animator.SetTrigger("Idle");
     }
 
     public void Run()
     {
         //死亡後に起き上がらないように
-        if (currentMoveType == MoveType.DIE) return;
+        if (m_currentMoveType == MOVE_TYPE.DIE) return;
         //同じアニメーションを複数呼び出ししないように
-        if (currentMoveType == MoveType.RUN) return;
-        currentMoveType = MoveType.RUN;
+        if (m_currentMoveType == MOVE_TYPE.RUN) return;
+        m_currentMoveType = MOVE_TYPE.RUN;
 
         Debug.Log("zombie:Run");
-        animator.SetTrigger("Run");
+        m_animator.SetTrigger("Run");
     }
 
     //被ダメージモーション
@@ -86,41 +80,41 @@ public class ZombieAnimation : ZombieBase
     public void DamageHitLeft()
     {
         //死亡後に起き上がらないように
-        if (currentMoveType == MoveType.DIE) return;
-        currentMoveType = MoveType.IDLE;
+        if (m_currentMoveType == MOVE_TYPE.DIE) return;
+        m_currentMoveType = MOVE_TYPE.IDLE;
 
-        animator.SetTrigger("DamageL");
+        m_animator.SetTrigger("DamageL");
     }
     public void DamageHitRight()
     {
         //死亡後に起き上がらないように
-        if (currentMoveType == MoveType.DIE) return;
-        currentMoveType = MoveType.IDLE;
+        if (m_currentMoveType == MOVE_TYPE.DIE) return;
+        m_currentMoveType = MOVE_TYPE.IDLE;
 
-        animator.SetTrigger("DamageR");
+        m_animator.SetTrigger("DamageR");
     }
 
 
     public void Die()
     {
         //同じアニメーションを複数呼び出ししないように
-        if (currentMoveType == MoveType.DIE) return;
-        currentMoveType = MoveType.DIE;
+        if (m_currentMoveType == MOVE_TYPE.DIE) return;
+        m_currentMoveType = MOVE_TYPE.DIE;
 
         Debug.Log("zombie:Die");
-        animator.SetTrigger("Die");
+        m_animator.SetTrigger("Die");
     }
 
     //ダメージパーティクル表示(ダメージを受けた位置)
-    public void DamagedEffect(Vector3 _damagedPlace)
+    public void DamagedEffect(Vector3 _damaged_place)
     {
-        if (damagedEffect == null) return;
+        if (m_damagedEffect == null) return;
 
         //外側に向けたい
-        Vector3 vec = _damagedPlace - transform.position;
+        Vector3 vec = _damaged_place - transform.position;
 
-        GameObject effect = Instantiate(damagedEffect, 
-            _damagedPlace, 
+        GameObject effect = Instantiate(m_damagedEffect,
+            _damaged_place, 
             Quaternion.identity
             );
     }

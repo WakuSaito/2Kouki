@@ -4,31 +4,31 @@ using UnityEngine;
 
 public class ZombieSound : ZombieBase
 {
-    private SoundManager mSoundManager;
-    private AudioSource mAudioSource;
+    private SoundManager m_soundManager;
+    private AudioSource m_audioSource;
 
     public override void SetUpZombie()
     {
-        mSoundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
-        mAudioSource = gameObject.GetComponent<AudioSource>();
+        m_soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        m_audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     public void PlayFootStep()
     {
-        AudioClip random_se = mSoundManager.zombieFootStep[Random.Range(0, mSoundManager.zombieFootStep.Length)];
-        mAudioSource.PlayOneShot(random_se);
+        AudioClip random_se = m_soundManager.zombieFootStep[Random.Range(0, m_soundManager.zombieFootStep.Length)];
+        m_audioSource.PlayOneShot(random_se);
     }
     public void PlayVoice()
     {
-        mAudioSource.PlayOneShot(mSoundManager.zombieVoice);
+        m_audioSource.PlayOneShot(m_soundManager.zombieVoice);
     }
     public void PlayDamage()
     {
-        mAudioSource.PlayOneShot(mSoundManager.zombieDamage);
+        m_audioSource.PlayOneShot(m_soundManager.zombieDamage);
     }
     public void PlayDead()
     {
-        mAudioSource.PlayOneShot(mSoundManager.zombieDead);
+        m_audioSource.PlayOneShot(m_soundManager.zombieDead);
     }
 
 }

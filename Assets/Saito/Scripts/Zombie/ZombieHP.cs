@@ -5,17 +5,17 @@ using UnityEngine;
 public class ZombieHP : ZombieBase
 {
     //最大体力
-    [SerializeField] private int maxHP = 10;
+    [SerializeField] private int m_maxHP = 10;
 
     //現在の体力
-    private int currentHP;
+    private int m_currentHP;
 
     //死亡フラグ
-    private bool isDead = false;
+    private bool m_isDead = false;
 
     public override void SetUpZombie()
     {
-        currentHP = maxHP;
+        m_currentHP = m_maxHP;
     }
 
     /// <summary>
@@ -27,30 +27,30 @@ public class ZombieHP : ZombieBase
 
         Debug.Log("ゾンビにダメージ:" + _damage);
 
-        if(currentHP - _damage <= 0)
+        if(m_currentHP - _damage <= 0)
         {
-            currentHP = 0;
-            isDead = true;
+            m_currentHP = 0;
+            m_isDead = true;
         }
         else
         {
-            currentHP -= _damage;
+            m_currentHP -= _damage;
         }
 
-        Debug.Log("ゾンビのHP:" + currentHP);
+        Debug.Log("ゾンビのHP:" + m_currentHP);
     }
 
     //ゲッター
     public bool IsDead()
     {
-        return isDead;
+        return m_isDead;
     }
     public int GetCurrentHP()
     {
-        return currentHP;
+        return m_currentHP;
     }
     public int GetMaxHP()
     {
-        return maxHP;
+        return m_maxHP;
     }
 }
