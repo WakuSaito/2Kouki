@@ -648,7 +648,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d2f73b6f93b99a4d86bb7eb9400e70d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_dogBases: []
+  m_dogBases:
+  - {fileID: 1745869519410043631}
+  - {fileID: 1745869519410043627}
+  - {fileID: 4923473189086609622}
   m_biteStaySec: 4
   m_stayPlayerDistance: 5
   m_detectCooldownSec: 60

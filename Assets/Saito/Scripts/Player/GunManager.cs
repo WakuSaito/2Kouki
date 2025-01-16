@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// 銃マネージャークラス
+/// インスペクターで変数を設定することで様々な銃種に対応出来る
+/// 手に持つアイテムなのでIWeaponを継承　インベントリ関連の仕様が変更されている場合必要無くなるかも
+/// </summary>
 public class GunManager : MonoBehaviour, IWeapon
 {
     [SerializeField] private string m_soundType;//サウンドの種類（武器種）
@@ -22,7 +27,7 @@ public class GunManager : MonoBehaviour, IWeapon
 
     [SerializeField] private int m_bulletDamage = 5;  //弾が敵に与えるダメージ
 
-    //プレイヤーが持った時に代入
+    //プレイヤーが持った時に代入 インベントリの参照用？
     public GameObject m_handPlayerObj = null;
     bool m_setPlayerFlag = false;
 
@@ -39,13 +44,13 @@ public class GunManager : MonoBehaviour, IWeapon
     protected Animator m_animator;
 
 
+    //初期設定　コンポーネント取得
     private void Awake()
     {
         m_currentMagazineAmount = m_magazineSize;
 
         m_cameraObj = Camera.main.gameObject;
         m_animator = GetComponent<Animator>();
-
         m_gunSound = GetComponent<GunSound>();
     }
 

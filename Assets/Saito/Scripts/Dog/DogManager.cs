@@ -11,6 +11,8 @@ using System;
 
 /// <summary>
 /// 犬マネージャークラス
+/// 犬ベースクラスを継承しているスクリプトの管理
+/// ポーズ時に停止するため、IStopObjectを継承
 /// </summary>
 public class DogManager : MonoBehaviour, IStopObject
 {
@@ -67,6 +69,7 @@ public class DogManager : MonoBehaviour, IStopObject
     List<IEnumerator> m_inActionDelays = new List<IEnumerator>();
 
 
+    //コンポーネントの取得
     private void Awake()
     {
         //プレイヤー取得
@@ -75,7 +78,7 @@ public class DogManager : MonoBehaviour, IStopObject
         m_targetMark = gameObject.GetComponent<TargetMark>();
     }
 
-    // Start is called before the first frame update
+    //DogBaseを継承したクラスの取得と移動先決定
     void Start()
     {
         foreach(var dog in m_dogBases)
@@ -90,11 +93,11 @@ public class DogManager : MonoBehaviour, IStopObject
             if (m_dogSound == null) dog.TryGetComponent(out m_dogSound);
         }
 
-        RandomTargetPos();
+        RandomTargetPos();//移動先設定
     }
 
 
-    // Update is called once per frame
+    // 状態によってアクションを決めるメインループ
     void Update()
     {
         if (m_isStopAction || m_isPause) {
@@ -126,19 +129,22 @@ public class DogManager : MonoBehaviour, IStopObject
         }
         else//通常時の移動
         {
-            NomalUpdate();
+            NomalMoveUpdate();
         }
     }
 
-    //通常行動用の仮関数
-    private void NomalUpdate()
+    /// <summary>
+    /// 通常時移動
+    /// 通常時の移動を決める関数
+    /// </summary>
+    private void NomalMoveUpdate()
     {
         //移動先座標がプレイヤーから離れているなら決めなおす
         float player_target_distance = Vector3.Distance(m_playerObj.transform.position, m_targetPos);
         if (player_target_distance > m_stayPlayerDistance)
         {
-            RandomTargetPos();
-            m_onFreezeMove = false;//停止中でも解除
+            RandomTargetPos();//移動先決め
+            m_onFreezeMove = false;  //停止中でも解除
             m_isMoveTypeWalk = false;//走るようにする
         }
 
@@ -214,37 +220,40 @@ public class DogManager : MonoBehaviour, IStopObject
     }
 
     /// <summary>
-    /// 攻撃指示を受けたとき
+    /// 攻撃指示の受け付け
+    /// プレイヤー側で呼び出し、攻撃を開始する
     /// </summary>
-    public void OrderAttack(GameObject _obj)//zombieの子のパーツが渡されたとき動かない可能性アリ
+    /// <param name="_target_obj">攻撃対象オブジェクト</param>
+    public void OrderAttack(GameObject _target_obj)
     {
+        //攻撃可能か調べる
         if (!CanOrderAttack()) return;
         Debug.Log("攻撃指示を受け付けた");
 
-        m_isChargeTarget = true;
-
-        m_attackTargetObj = _obj;//攻撃対象を取得
+        m_isChargeTarget = true;//攻撃状態に
+        m_attackTargetObj = _target_obj;//攻撃対象を保存
 
         m_dogSound.PlayAttackBark();//鳴き声
     }
     /// <summary>
-    /// 指示：周囲の探知
+    /// 探知指示の受け付け
+    /// プレイヤー側で呼び出し、探知を開始する
     /// </summary>
     public void OrderDetection()
     {
+        //探知が可能か調べる
         if (!CanOrderDetection()) return;
         Debug.Log("探知開始");
 
-        //一定範囲の対象のオブジェクトをマーク
+        //一定範囲の対象のオブジェクトをマークする
         m_targetMark.RangeMark();
+
+        m_isChargeTarget = false;//攻撃はキャンセル      
 
         m_dogSound.PlayDetectBark();//鳴き声
 
-        m_isChargeTarget = false;//攻撃はキャンセル
-
-        //クールタイム
+        //一定時間クールタイム
         m_isDetectCooldown = true;
-
         m_inActionDelays.Add(
                         DelayRunCoroutine(
                         m_detectCooldownSec,
@@ -254,7 +263,11 @@ public class DogManager : MonoBehaviour, IStopObject
                         ));
         StartCoroutine(m_inActionDelays[m_inActionDelays.Count - 1]);
     }
-    //攻撃指示可能か
+    /// <summary>
+    /// 攻撃指示の受け付けが可能か
+    /// 受け付け可能な場合可視化したいためUI関連のクラスでも参照
+    /// </summary>
+    /// <returns>行動可能 : true</returns>
     public bool CanOrderAttack()
     {
         if (m_isStopAction) return false;
@@ -262,7 +275,11 @@ public class DogManager : MonoBehaviour, IStopObject
 
         return true;
     }
-    //攻撃指示可能か
+    /// <summary>
+    /// 探知指示の受け付けが可能か
+    /// 受け付け可能な場合可視化したいためUI関連のクラスでも参照
+    /// </summary>
+    /// <returns>行動可能 : true</returns>
     public bool CanOrderDetection()
     {
         if (m_isStopAction) return false;
@@ -271,32 +288,36 @@ public class DogManager : MonoBehaviour, IStopObject
 
         return true;
     }
-
-    //チュートリアル用のクールタイム監視用
+    /// <summary>
+    /// 探知を受け付けたか
+    /// チュートリアル用のクールタイム監視用
+    /// </summary>
     public bool UsedOrderDetection()
     {
         return m_isDetectCooldown;
     }
 
     /// <summary>
-    /// ゾンビに噛みつく
+    /// ゾンビに噛みつき
+    /// 攻撃中に使用　ゾンビ側の停止関数を呼び出す
     /// </summary>
+    /// <param name="_zombie_obj">噛みつくゾンビ</param>
     private void BiteZombie(GameObject _zombie_obj)
     {
         Debug.Log("ゾンビに噛みつき");
 
+        //attackTargetObjからZombieManagerを取得
         ZombieManager zombie_manager;
-        //attackTargetObjからZombieManagerを取得し、FreezePositionを呼び出し
         m_attackTargetObj.TryGetComponent(out zombie_manager);
         if (zombie_manager == null) return;
 
         zombie_manager.FreezePosition((float)m_biteStaySec);//ゾンビを停止
 
-        m_dogAnimation.Attack();
-        m_isStopAction = true;
-        m_isChargeTarget = false;
+        m_dogAnimation.Attack(); //アニメーション再生
+        m_isChargeTarget = false;//攻撃終了
 
-        //一定時間停止
+        //一定時間行動停止
+        m_isStopAction = true;
         m_inActionDelays.Add(
                         DelayRunCoroutine(
                         m_biteStaySec,
@@ -307,17 +328,19 @@ public class DogManager : MonoBehaviour, IStopObject
         StartCoroutine(m_inActionDelays[m_inActionDelays.Count - 1]);
     }
 
-
     /// <summary>
-    /// 遅らせてActionを実行するコルーチン
+    /// 遅延実行するコルーチン
+    /// ラムダ式で指定した処理を一定時間後に実行
     /// </summary>
-    private IEnumerator DelayRunCoroutine(float _wait_sec, Action _action)
+    /// <param name="_delay_sec">待機時間</param>
+    /// <param name="_action">実行する処理</param>
+    private IEnumerator DelayRunCoroutine(float _delay_sec, Action _action)
     {
         //このコルーチンの情報取得 出来ればリスト追加もここでやりたい
         IEnumerator this_cor = m_inActionDelays[m_inActionDelays.Count - 1];
 
         //コルーチンを再開しても待機時間情報が消えないようにする
-        for (float i = 0; i < _wait_sec; i += 0.1f)
+        for (float i = 0; i < _delay_sec; i += 0.1f)
             yield return new WaitForSeconds(0.1f);
 
         _action();
@@ -325,9 +348,10 @@ public class DogManager : MonoBehaviour, IStopObject
         m_inActionDelays.Remove(this_cor);
     }
 
-
-
-    //プレイヤー一定範囲のランダム位置を目標座標に設定する
+    /// <summary>
+    /// 移動先座標をランダムに決める
+    /// プレイヤーの周囲一定範囲内のランダム位置を目標座標に設定する
+    /// </summary>
     private void RandomTargetPos()
     {
         //プレイヤーの周囲のランダム位置を求める
@@ -341,15 +365,21 @@ public class DogManager : MonoBehaviour, IStopObject
         m_targetPos.z += p_pos.z;
     }
 
-    //外部から行動の停止を変える用
+    /// <summary>
+    /// 行動停止の切り替え
+    /// 外部から行動停止状態を変える用
+    /// </summary>
+    /// <param name="_flag">停止 : true</param>
     public void OnStopAction(bool _flag)
     {
         m_isStopAction = _flag;
     }
 
 
-    //インターフェースでの停止処理用
-    //一時停止
+    /// <summary>
+    /// 一時停止
+    /// インターフェースでの停止処理用
+    /// </summary>
     public void Pause()
     {
         m_isPause = true;
@@ -363,7 +393,11 @@ public class DogManager : MonoBehaviour, IStopObject
             StopCoroutine(cor);
         }
     }
-    //再開
+
+    /// <summary>
+    /// 再開
+    /// インターフェースでの停止解除用
+    /// </summary>
     public void Resume()
     {
         m_isPause = false;

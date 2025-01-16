@@ -674,7 +674,7 @@ MonoBehaviour:
   m_oneShotBulletAmount: 1
   m_bulletSpread: 0.03
   m_bulletDistance: 20
-  m_rapidSpeed: 1
+  m_rapidSpeed: 0.4
   m_isCanRapid: 0
   m_reloadSpeed: 2.8
   m_bulletDamage: 5

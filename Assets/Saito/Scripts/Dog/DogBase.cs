@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 犬用の抽象クラス
+/// 犬ベースクラス
+/// マネージャークラスで管理するスクリプトで継承する
 /// </summary>
 public abstract class DogBase : MonoBehaviour
 {

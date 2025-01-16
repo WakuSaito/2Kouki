@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 夜のエフェクトクラス
+/// 昼夜によって描画距離を変更
+/// </summary>
 public class NightEffect : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField]//時間管理クラス
     TimeController m_timeController;
 
     [SerializeField]//描画距離の最大（昼間）
@@ -18,6 +22,7 @@ public class NightEffect : MonoBehaviour
     [SerializeField, Header("日の出まで何分時点から描画距離を広げていくか")]
     int m_maxOfMinutesBeforeSunrise = 60;
 
+    //コンポーネント取得
     private void Awake()
     {
         //インスペクターでの指定が無ければ同じオブジェクトから取得
@@ -25,6 +30,7 @@ public class NightEffect : MonoBehaviour
             m_timeController = gameObject.GetComponent<TimeController>();       
     }
 
+    //時間帯によってカメラの描画距離を変更する
     private void Update()
     {
         //昼間

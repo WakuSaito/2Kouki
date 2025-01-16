@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// 犬移動クラス
+/// 犬の移動や回転を管理し実行する
+/// </summary>
 public class DogMove : DogBase
 {
     [SerializeField]//走る速度
@@ -18,6 +23,7 @@ public class DogMove : DogBase
     Rigidbody m_rigidbody;
 
     //初期設定
+    //コンポーネント、初期状態の取得
     public override void SetUpDog()
     {
         //rigidbodyの取得
@@ -25,9 +31,9 @@ public class DogMove : DogBase
         m_targetRotation = transform.rotation;
     }
 
+    // Manager以外でUpdateを使いたくないが、回転を補間するため実装
     private void Update()
     {
-        //あまりManager以外でUpdateを使いたくないが、補間するため実装
         //向きを補間
         var qua = Quaternion.RotateTowards(transform.rotation, m_targetRotation, m_turnSpeed * Time.deltaTime);
 
@@ -38,16 +44,20 @@ public class DogMove : DogBase
     }
 
     /// <summary>
-    /// 指定向きに変更
+    /// 向きの決定
+    /// 実際の回転はUpdateで実行する
     /// </summary>
+    /// <param name="_qua">向く方向</param>
     public void ChangeDirection(Quaternion _qua)
     {
         m_targetRotation = _qua;//目標の向きを設定
     }
 
     /// <summary>
-    /// 指定した座標に向きを変更
+    /// 指定した座標を向く
+    /// 注視したい座標から角度を計算し向きを決める
     /// </summary>
+    /// ///<param name="_target_pos">注視する座標</param>
     public void LookAtPosition(Vector3 _target_pos)
     {
         //座標の取得
@@ -67,6 +77,7 @@ public class DogMove : DogBase
 
     /// <summary>
     /// 前方に走る
+    /// Rigidbodyのベクトルを設定する
     /// </summary>
     public void RunFront()
     {
@@ -81,6 +92,7 @@ public class DogMove : DogBase
 
     /// <summary>
     /// 前方に歩く
+    /// Rigidbodyのベクトルを設定する
     /// </summary>
     public void WalkFront()
     {
@@ -95,6 +107,7 @@ public class DogMove : DogBase
 
     /// <summary>
     /// 移動停止
+    /// Rigidbodyのベクトルを0にする
     /// </summary>
     public void StopMove()
     {

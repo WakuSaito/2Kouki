@@ -12,6 +12,8 @@ public class ColorChanger : MonoBehaviour
 
     private void Awake()
     {
+        if (m_meshObjs.Length == 0) return;
+
         //カラーのアルファ値取得
         m_currentAlpha = m_meshObjs[0].GetComponent<Renderer>().materials[1].color.a;
     }
@@ -19,6 +21,8 @@ public class ColorChanger : MonoBehaviour
     //色のアルファ値変更
     public void ChangeColorAlpha(float _alpha)
     {
+        if (m_meshObjs.Length == 0) return;
+
         //色が変わらない場合処理を行わないようにする
         if (m_currentAlpha == _alpha) return;
         m_currentAlpha = _alpha;

@@ -90,9 +90,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 914202b555464dc40866940140bec5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animType: 1
-  animSec: 1
-  onAwake: 1
+  m_animType: 0
+  m_animSec: 1
+  m_onAwake: 0
 --- !u!225 &8185239229116224999
 CanvasGroup:
   m_ObjectHideFlags: 0

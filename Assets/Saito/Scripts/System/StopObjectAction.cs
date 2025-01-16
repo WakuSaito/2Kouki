@@ -2,25 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//現在の停止案
-//インタフェースを実装し、止めたいスクリプトで実装する
-//singltonクラスを実装し、止めたいスクリプト側で状態を監視する 今のところこれ系がよさそう　ただsingletonじゃなくていいかも
-//停止させたいクラス名を羅列し、enabled=falseにする（現状の形だとバグが出やすい）
 
+/// <summary>
+/// 停止オブジェクトインターフェース
+/// ポーズ時に停止するオブジェクトが継承するインターフェース
+/// </summary>
 public interface IStopObject
 {
     /// <summary>
     /// 一時停止
+    /// ポーズ開始時に呼び出される
     /// </summary>
     public void Pause();
 
     /// <summary>
     /// 再開
+    /// ポーズ解除時に呼び出されル
     /// </summary>
     public void Resume();
 }
 
-
+/// <summary>
+/// オブジェクト停止実行クラス
+/// インベントリを監視し、IStopObjectを継承するオブジェクトの一時停止、再開を行う
+/// </summary>
 public class StopObjectAction : MonoBehaviour
 {
     [SerializeField]//インベントリ
@@ -29,6 +34,8 @@ public class StopObjectAction : MonoBehaviour
     //現在の停止状態
     private bool m_currentStopState = false;
 
+
+    //インベントリの開閉を監視、オブジェクトの停止状態を変更する
     private void Update()
     {
         bool new_stop_bool = m_currentStopState;
@@ -73,7 +80,7 @@ public class StopObjectAction : MonoBehaviour
 }
 
 /// <summary>
-/// Interface便利クラス
+/// Interface用補助クラス
 /// </summary>
 public class InterfaceUtils
 {
@@ -84,7 +91,7 @@ public class InterfaceUtils
     /// <returns> 取得したクラス配列 </returns>
     public static T[] FindObjectOfInterfaces<T>() where T : class
     {
-        List<T> find_list = new List<T>();
+        List<T> find_list = new List<T>();//探索したインターフェース格納用
 
         // オブジェクトを探索し、リストに格納
         foreach (var component in GameObject.FindObjectsOfType<Component>())
@@ -96,15 +103,16 @@ public class InterfaceUtils
             find_list.Add(obj);
         }
 
-        T[] find_obj_array = new T[find_list.Count];
+        //リストを配列にコピーする
+        T[] find_obj_array = new T[find_list.Count];//戻り値用配列
         int count = 0;
-
         // 取得したオブジェクトを指定したインタフェース型配列に格納
         foreach (T obj in find_list)
         {
             find_obj_array[count] = obj;
             count++;
         }
+
         return find_obj_array;
     }
 }

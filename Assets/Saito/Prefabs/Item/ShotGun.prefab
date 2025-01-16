@@ -62,6 +62,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 8b711b51c34109c419828422d4fcbec5, type: 2}
+  - {fileID: 2100000, guid: f1a55bac68c6d0f448e9db7588ff0aae, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -145,6 +146,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 8b711b51c34109c419828422d4fcbec5, type: 2}
+  - {fileID: 2100000, guid: f1a55bac68c6d0f448e9db7588ff0aae, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -228,6 +230,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 8b711b51c34109c419828422d4fcbec5, type: 2}
+  - {fileID: 2100000, guid: f1a55bac68c6d0f448e9db7588ff0aae, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -342,6 +345,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 8b711b51c34109c419828422d4fcbec5, type: 2}
+  - {fileID: 2100000, guid: f1a55bac68c6d0f448e9db7588ff0aae, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -522,6 +526,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 8b711b51c34109c419828422d4fcbec5, type: 2}
+  - {fileID: 2100000, guid: f1a55bac68c6d0f448e9db7588ff0aae, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -605,6 +610,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 8b711b51c34109c419828422d4fcbec5, type: 2}
+  - {fileID: 2100000, guid: f1a55bac68c6d0f448e9db7588ff0aae, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -674,6 +680,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1093118115373217902}
   - component: {fileID: 534952111863178652}
+  - component: {fileID: -6937324173028766882}
   - component: {fileID: 3726238810557516915}
   - component: {fileID: 3726238810557516912}
   - component: {fileID: 5509424055497663506}
@@ -716,6 +723,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.3320427, z: 1.4965458}
   m_Center: {x: 0, y: -0.06602132, z: -0.07289553}
+--- !u!114 &-6937324173028766882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8378753725653323951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbfd73b2acde7c340911c8ff7b0ba3a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_meshObjs:
+  - {fileID: 219303866686610019}
+  - {fileID: 5182873721347391706}
+  - {fileID: 5786785586483088365}
+  - {fileID: 6309271940904912041}
+  - {fileID: 786819045037414067}
+  - {fileID: 1056518369168939289}
 --- !u!114 &3726238810557516915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -734,8 +760,8 @@ MonoBehaviour:
   m_muzzleFlashPrefab: {fileID: 100000, guid: d279e320492cf864295f12460ac6faf1, type: 3}
   m_bulletHitPrefab: {fileID: 100002, guid: 13b4f94b0136a9846b41c2fadd70b343, type: 3}
   m_magazineSize: 6
-  m_oneShotBulletAmount: 6
-  m_bulletSpread: 0.3
+  m_oneShotBulletAmount: 8
+  m_bulletSpread: 0.05
   m_bulletDistance: 20
   m_rapidSpeed: 1
   m_isCanRapid: 0
