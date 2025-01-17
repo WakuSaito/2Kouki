@@ -110,4 +110,16 @@ public class DogMove : DogBase
         //移動ベクトルを0にする
         m_rigidbody.velocity = new Vector3(0, m_rigidbody.velocity.y, 0);
     }
+
+    /// <summary>
+    /// ワープ
+    /// 特定の位置にワープさせる
+    /// 壁に阻まれたりして移動不可になった場合に使う
+    /// </summary>
+    /// <param name="_pos">移動先座標</param>
+    public void Warp(Vector3 _pos)
+    {
+        StopMove();//移動を止める
+        transform.position = _pos;
+    }
 }
