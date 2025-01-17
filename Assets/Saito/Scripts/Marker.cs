@@ -3,33 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// <para>マーカークラス</para>
+/// この位置に合うようにしてUIを表示させる
+/// </summary>
 public class Marker : MonoBehaviour
 {
     private Transform m_canvas;
     private Camera m_cameraObj;
 
     //画面に表示するマーカーUI
-    [SerializeField] 
-    GameObject m_markUIPrefab;
+    [SerializeField] GameObject m_markUIPrefab;
     //距離表示用のテキスト
     GameObject m_distanceTextUI;
 
     //生成されて削除されるまでの時間（０以下で削除されない）
-    [SerializeField] 
-    float m_destroySec = 3.0f;
+    [SerializeField] float m_destroySec = 3.0f;
     //フェードアウトの速度
-    [SerializeField]
-    float m_fadeOutSpeed = 1.0f;
+    [SerializeField] float m_fadeOutSpeed = 1.0f;
 
     //生成したオブジェクト保存用
     private GameObject m_markUI;
 
     //削除フラグ
     private bool m_onDelete = false;
+    //現在のアルファ値
+    private float m_currentAlpha;
 
-    private float m_currentAlpha; 
+    private void Awake()
+    {
+        m_canvas = GameObject.Find("Canvas").transform;
+        m_cameraObj = Camera.main;
+    }
 
-    // Start is called before the first frame update
+    //マーカーUIの生成と初期設定
     void Start()
     {
         //削除までの時間が0以下なら削除しない
@@ -37,15 +44,11 @@ public class Marker : MonoBehaviour
             //一定時間後削除
             StartCoroutine(DerayDestroy());
 
-        m_canvas = GameObject.Find("Canvas").transform;
-        m_cameraObj = Camera.main;
-
         //UI生成
         m_markUI = Instantiate(m_markUIPrefab, m_canvas);
-        //テキスト取得
+        //マーカーの子にあるテキスト取得
         m_distanceTextUI = m_markUI.transform.GetChild(0).gameObject;
-
-        //アルファ値取得
+        //UIの初期アルファ値取得
         m_currentAlpha = m_markUI.GetComponent<Image>().color.a;
 
         //このオブジェクトの位置をCanvas用に変換し、UIの位置を変更
@@ -54,7 +57,7 @@ public class Marker : MonoBehaviour
         m_markUI.transform.localPosition = local_position;
     }
 
-    //Update is called once per frame
+    //マーカーUIが常にこの位置に合うように座標を更新する
     void Update()
     {
         //カメラまでのベクトル
@@ -108,34 +111,50 @@ public class Marker : MonoBehaviour
         }
     }
 
-    //一定時間後削除
+    /// <summary>
+    /// 一定時間後削除
+    /// このオブジェクト生成後、一定時間後に削除開始する
+    /// </summary>
     private IEnumerator DerayDestroy()
     {
         yield return new WaitForSeconds(m_destroySec);
 
-        m_onDelete = true;//削除フラグ
+        StartDelete();//削除開始
     }
-    //強制削除
+    /// <summary>
+    /// 削除開始
+    /// 任意のタイミングで他のスクリプトから削除できる
+    /// </summary>
     public void StartDelete()
     {
-        m_onDelete = true;
+        m_onDelete = true;//削除フラグ
     }
 
+    /// <summary>
+    /// カメラとの距離取得
+    /// </summary>
     private float GetCameraDistance()
     {
         return Vector3.Distance(transform.position, m_cameraObj.transform.position);
     }
 
-    //スクリーン座標をキャンバス座標に変換
-    private Vector2 GetCanvasLocalPosition(Vector2 _screen_pos)
-    {
-        return m_canvas.transform.InverseTransformPoint(_screen_pos);
-    }
-    //ワールド座標をスクリーン座標（カメラ基準の座標）に変換
+    /// <summary>
+    /// ワールド座標をスクリーン座標（カメラ基準の座標）に変換
+    /// </summary>
+    /// <param name="_world_pos">ワールド座標</param>
+    /// <returns>スクリーン座標</returns>
     private Vector2 GetScreenPosition(Vector3 _world_pos)
     {
         return RectTransformUtility.WorldToScreenPoint(m_cameraObj, _world_pos);
     }
-
+    /// <summary>
+    /// スクリーン座標をキャンバス座標に変換
+    /// </summary>
+    /// <param name="_screen_pos">スクリーン座標</param>
+    /// <returns>キャンバス座標</returns>
+    private Vector2 GetCanvasLocalPosition(Vector2 _screen_pos)
+    {
+        return m_canvas.transform.InverseTransformPoint(_screen_pos);
+    }
 }
     

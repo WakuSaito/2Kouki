@@ -2,23 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//条件に合うオブジェクトにマークを付けるスクリプト
+/// <summary>
+/// ターゲットマーククラス
+/// インスペクタで指定した条件のオブジェクトにマーク（UI）を付ける
+/// </summary>
 public class TargetMark : MonoBehaviour
 {
-    [SerializeField] //位置を保存するためのオブジェクト
-    private GameObject m_markPrefab;
+    //位置を保存するためのオブジェクト
+    [SerializeField] private GameObject m_markPrefab;
 
-    [SerializeField] //判定を行う対象との距離
-    private float m_targetDistance = 40.0f;
+    //判定を行う対象との距離
+    [SerializeField] private float m_targetDistance = 40.0f;
+    //マークするオブジェクトのタグ
+    [SerializeField] private string[] m_markTargetTags;
 
-    [SerializeField] //マークするオブジェクトのタグ
-    private string[] m_markTargetTags;
+    //対象オブジェクトのY方向の中心（足元からの距離）
+    [SerializeField] private float m_targetCenterY = 2.0f;
 
-    [SerializeField]//ゾンビのY方向の中心（足元からの距離）
-    private float m_zombieCenterY = 2.0f;
-
-
-    //条件にあうオブジェクトをマークする
+    /// <summary>
+    /// 範囲マーク
+    /// 一定範囲の対象タグオブジェクトにマークを付ける
+    /// </summary>
     public void RangeMark()
     {
         foreach(var tag_name in m_markTargetTags)
@@ -31,8 +35,9 @@ public class TargetMark : MonoBehaviour
             {
                 if (Vector3.Distance(transform.position, obj.transform.position) > m_targetDistance) continue;
 
-                Vector3 mark_pos = obj.transform.position + Vector3.up * m_zombieCenterY;
-                //全ゾンビにマーカーを置く
+                //Y位置調整
+                Vector3 mark_pos = obj.transform.position + Vector3.up * m_targetCenterY;
+                //全対象にマーカーを置く
                 Instantiate(m_markPrefab, mark_pos, Quaternion.identity);
             }
 

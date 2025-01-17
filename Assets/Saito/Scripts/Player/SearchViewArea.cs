@@ -9,8 +9,8 @@ using System.Linq;
 /// </summary>
 public class SearchViewArea : MonoBehaviour
 {
-    [SerializeField]//対象となる範囲(上下左右方向)
-    private float m_activeAngle = 20.0f;   
+    //対象となる範囲(上下左右方向)
+    [SerializeField] private float m_activeAngle = 20.0f;   
 
     private GameObject m_playerObj;//プレイヤー
     private GameObject m_cameraObj;//視点カメラ
