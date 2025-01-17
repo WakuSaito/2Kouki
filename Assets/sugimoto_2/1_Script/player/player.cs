@@ -77,6 +77,9 @@ public class player : PlayerFunction, IStopObject
     //オブジェクト
     [SerializeField] GameObject m_inventoryManagerObj;
 
+    //セーフエリア
+    public bool m_inSafeAreaFlag = true;
+
     //フラグ
     bool m_openInventoryFlag = false;
 

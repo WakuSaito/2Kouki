@@ -15,6 +15,7 @@ TagManager:
   - ItemSetter
   - RestPoint
   - ItemSpawnPos
+  - SafeArea
   layers:
   - Default
   - TransparentFX
