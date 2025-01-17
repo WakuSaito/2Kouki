@@ -31,6 +31,7 @@ public class inventoryManager : MonoBehaviour
     SELECT_SLOAT can_catch_slot;     //掴むことが可能なスロットの情報
     SELECT_SLOAT catch_slot;         //掴んでいるスロットの情報
     SELECT_SLOAT destination_slot;   //移動先のスロット情報
+    GameObject m_backObj;               //移動先が背景
 
     /// <summary>
     /// どのスロットを選択しているのかを保存
@@ -229,6 +230,15 @@ public class inventoryManager : MonoBehaviour
             }
             SlotInfoInitialization(ref catch_slot);
         }
+    }
+
+    /// <summary>
+    /// アイテムを落とす
+    /// アイテムインベントリのみの機能
+    /// </summary>
+    public void DropItem()
+    {
+
     }
 
     void MoveItemInfo(ref SlotClass _catch, ref SlotClass _destination)
