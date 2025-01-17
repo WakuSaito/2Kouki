@@ -167,7 +167,7 @@ public class player : PlayerFunction, IStopObject
             else
             {
                 //ゲージ回復処理
-                if(Input.GetMouseButtonDown(1))
+                if (Input.GetMouseButtonDown(1) && m_inSafeAreaFlag)
                 {
                     m_inventoryItem.Recovery_Gage(food_gage, hp_gague);
                 }
