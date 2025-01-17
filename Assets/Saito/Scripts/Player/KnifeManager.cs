@@ -6,16 +6,14 @@ public class KnifeManager : MonoBehaviour
 {
     // 当たり判定処理済みを記録  
     private Dictionary<int, bool> m_hitMasters { get; } = new Dictionary<int, bool>();
+    //当たり判定
+    [SerializeField] Collider m_collider;
 
-    [SerializeField]//当たり判定
-    Collider m_collider;
+    //与えるダメージ
+    [SerializeField] private int m_attackDamage = 2;
 
     //コルーチンキャンセル用
     Coroutine m_attackCoroutine;
-
-    //与えるダメージ
-    [SerializeField] 
-    private int m_attackDamage = 2;
 
     private void Start()
     {

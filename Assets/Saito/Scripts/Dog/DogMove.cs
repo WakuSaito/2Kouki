@@ -8,14 +8,10 @@ using UnityEngine;
 /// 犬の移動や回転を管理し実行する
 /// </summary>
 public class DogMove : DogBase
-{
-    [SerializeField]//走る速度
-    float m_runSpeed = 6.0f;
-    [SerializeField]//歩く速度
-    float m_walkSpeed = 3.0f;
-
-    [SerializeField]//振り向き速度
-    float m_turnSpeed = 1000;
+{   
+    [SerializeField] float m_walkSpeed = 3.0f;//歩く速度    
+    [SerializeField] float m_runSpeed  = 6.0f;//走る速度   
+    [SerializeField] float m_turnSpeed = 1000f;//振り向き速度
 
     //目標とする向き
     Quaternion m_targetRotation;

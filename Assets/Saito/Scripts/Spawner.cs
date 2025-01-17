@@ -2,32 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>スポナークラス</para>
+/// プレイヤーが近づいたとき、特定のオブジェクトをスポーンさせる
+/// </summary>
 public class Spawner : MonoBehaviour
 {
-    [SerializeField]//生成させるプレハブ
-    GameObject[] m_spawnObjPrefab;
-    [SerializeField]//プレハブ生成される確率（重み）
-    int[] m_spawnObjProbability;
+    //生成させるプレハブ
+    [SerializeField] GameObject[] m_spawnObjPrefab;
+    //プレハブが生成されるそれぞれの確率（重み）
+    [SerializeField] int[] m_spawnObjProbability;
 
-    [SerializeField]//生成するオブジェクトのy座標
-    float m_spawnPosY = 1.0f;
+    //1度に生成する数
+    [SerializeField] int m_spawnQuantityMin = 3;//最大
+    [SerializeField] int m_spawnQuantityMax = 5;//最小
 
-    [SerializeField]//生成するオブジェクトの当たり判定のサイズの半分(円にしてもいい)
-    Vector3 m_halfColliderSize = new Vector3(0.5f,0.5f,0.5f);
+    //生成するオブジェクトのy座標
+    [SerializeField] float m_spawnPosY = 1.0f;
 
-    [SerializeField]//1度に生成する量
-    int m_spawnQuantityMin = 3;
-    [SerializeField]//1度に生成する量
-    int m_spawnQuantityMax = 5;
+    //生成するオブジェクトの当たり判定のサイズの半分(円にしてもいい)
+    [SerializeField] Vector3 m_halfColliderSize = new Vector3(0.5f,0.5f,0.5f);
+    //生成する範囲(半径)
+    [SerializeField] float m_spawnAreaRadius = 5.0f;
 
-    [SerializeField]//生成する範囲(半径)
-    float m_spawnAreaRadius = 5.0f;
+    //生成するオブジェクトの親
+    [SerializeField] Transform m_spawnParent;
 
-    [SerializeField]//生成するオブジェクトの親
-    Transform m_spawnParent;
-
-    [SerializeField]//生成を開始するプレイヤーとの距離
-    float m_startSpawnDistance = 100.0f;
+    //生成を開始するプレイヤーとの距離
+    [SerializeField] float m_startSpawnDistance = 100.0f;
 
     // アイテムのインスタンス
     List<GameObject> m_items = new List<GameObject>();
@@ -40,6 +42,7 @@ public class Spawner : MonoBehaviour
         m_playerObj = GameObject.FindGameObjectWithTag("Player");
     }
 
+    //プレイヤーが近づいたら生成開始
     private void Update()
     {
         //プレイヤーとの距離計算
@@ -58,8 +61,10 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    //何種類かをランダムで生成できるようにしたい
-    //生成開始
+    /// <summary>
+    /// 生成開始
+    /// インスペクタで指定した条件で、重ならないようにオブジェクトを生成する
+    /// </summary>
     public void StartSpawn()
     {
         if (m_spawnObjPrefab == null) return;

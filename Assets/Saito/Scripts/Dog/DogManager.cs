@@ -19,8 +19,7 @@ public class DogManager : MonoBehaviour, IStopObject
     /// <summary>
     /// 操作するクラス
     /// </summary>
-    [SerializeField]
-    private DogBase[] m_dogBases;
+    [SerializeField] private DogBase[] m_dogBases;
 
     private DogMove m_dogMove;
     private DogAnimation m_dogAnimation;
@@ -28,15 +27,13 @@ public class DogManager : MonoBehaviour, IStopObject
 
     private TargetMark m_targetMark;
 
-    [SerializeField]//噛みついている時間
-    private float m_biteStaySec = 4.0f;
+    //噛みついている時間
+    [SerializeField] private float m_biteStaySec = 4.0f;
+    //探知のクールタイム
+    [SerializeField] private float m_detectCooldownSec = 60.0f;
 
-    [SerializeField]//待機状態になるプレイヤーとの距離
-    private float m_stayPlayerDistance = 5.0f;
-
-    [SerializeField]//探知のクールタイム
-    private float m_detectCooldownSec = 60.0f;
-
+    //待機状態になるプレイヤーとの距離
+    [SerializeField] private float m_stayPlayerDistance = 5.0f;
 
     //攻撃対象オブジェクト
     private GameObject m_attackTargetObj;
@@ -49,9 +46,8 @@ public class DogManager : MonoBehaviour, IStopObject
     //移動停止フラグ
     private bool m_onFreezeMove = false;
 
-    //行動停止
-    [SerializeField]
-    private bool m_isStopAction = false;
+    //行動停止 初期状態設定可
+    [SerializeField] private bool m_isStopAction = false;
     //指示を受けないフラグ
     private bool m_isIgnoreOrder = false;
     //探知のクールタイム中
