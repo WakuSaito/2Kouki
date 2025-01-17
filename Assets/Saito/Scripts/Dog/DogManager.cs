@@ -64,6 +64,10 @@ public class DogManager : MonoBehaviour, IStopObject
     //動作中の遅延動作
     List<IEnumerator> m_inActionDelays = new List<IEnumerator>();
 
+    //セーフエリアで待機する場所
+    [SerializeField] private Vector3 m_safeAreaStayPos;
+    //セーフエリア内の挙動を実行しているか
+    bool m_isSafeAreaUpdate = false;
 
     //コンポーネントの取得
     private void Awake()
@@ -123,15 +127,60 @@ public class DogManager : MonoBehaviour, IStopObject
                 BiteZombie(m_attackTargetObj);
             }
         }
-        else//通常時の移動
+        else
         {
-            NomalMoveUpdate();
+            //if(プレイヤーがセーフエリア内)
+            if(m_playerObj.GetComponent<player>().m_inSafeAreaFlag)
+            {
+                SafeAreaUpdate();
+            }
+            else
+            {
+                if(m_isSafeAreaUpdate == true)
+                {
+                    //セーフエリアコルーチンキャンセル
+
+                    m_isSafeAreaUpdate = false;
+                }
+
+                NomalMoveUpdate();//通常時の移動
+            }
         }
     }
 
     /// <summary>
+    /// セーフエリアでの行動
+    /// プレイヤーがセーフエリア内にいる時の挙動
+    /// </summary>
+    private void SafeAreaUpdate()
+    {
+        if(m_isSafeAreaUpdate == false)
+        {
+            m_isSafeAreaUpdate = true;
+
+            //一定時間後に所定の位置にワープ
+            //セーフエリアから出たときキャンセルしないといけない
+            m_inActionDelays.Add(
+                        DelayRunCoroutine(
+                        2.0f,//仮
+                        () => {
+                            m_dogMove.Warp(m_safeAreaStayPos);//ワープさせる
+                            m_dogMove.ChangeDirection(Quaternion.identity);//向きを変える//仮
+                            m_dogAnimation.Idle();
+                        }
+                        ));
+            StartCoroutine(m_inActionDelays[m_inActionDelays.Count - 1]);
+        }
+
+        //セーフエリア所定位置に移動 この辺DogMoveにまとめた方が良さそう
+        m_dogMove.LookAtPosition(m_safeAreaStayPos);
+        m_dogMove.RunFront();
+    }
+
+    /// <summary>
     /// 通常時移動
-    /// 通常時の移動を決める関数
+    /// 通常時の移動を決める
+    /// プレイヤーが範囲内、範囲外で関数を分けたい
     /// </summary>
     private void NomalMoveUpdate()
     {
@@ -439,4 +488,20 @@ public class DogManager : MonoBehaviour, IStopObject
 指示は一つの関数の引数で指定するのがいいのでは
 現在の行動を他から参照できるようにしたい
 
+/
+攻撃処理
+
+プレイヤーがセーフエリア内
+　何秒かで指定位置に向かう
+　上が実行し終わったら指定位置、指定向きでワープし座る
+
+プレイヤーが範囲内
+　基本止まる
+　一定時間この状態が続いたら、範囲内を自由に動く
+
+プレイヤーが範囲外
+　プレイヤーに向かう
+　もし離れすぎたら
+　　プレイヤーの背後にワープ
+/
  */
