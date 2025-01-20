@@ -8,6 +8,7 @@ public class DestoryRigitbody : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.tag != "Player")
         if (rigidbody != null) 
         {
             Destroy(rigidbody);
