@@ -13,7 +13,7 @@ public enum INVENTORY
 
 public class inventoryManager : MonoBehaviour
 {
-    InventoryItem InventoryItem;
+    InventoryItem m_inventoryItem;
     InventoryWeapon mInventoryWeapon;
     ChestInventory[] ChestInventory;
 
@@ -24,6 +24,7 @@ public class inventoryManager : MonoBehaviour
     public GameObject player_obj;
     public GameObject[] chest_inventory;
     public GameObject m_openChestObj = null;
+
     //インベントリの状態(閉じている、どのインベントリを開いているか)
     public INVENTORY inventory_state = INVENTORY.NON;
 
@@ -31,7 +32,12 @@ public class inventoryManager : MonoBehaviour
     SELECT_SLOAT can_catch_slot;     //掴むことが可能なスロットの情報
     SELECT_SLOAT catch_slot;         //掴んでいるスロットの情報
     SELECT_SLOAT destination_slot;   //移動先のスロット情報
-    GameObject m_backObj;               //移動先が背景
+    [SerializeField] GameObject m_backObj;               //移動先が背景
+
+    //描画順番を変更するためのオブジェクト
+    [SerializeField] GameObject m_catchItemParent;
+    //ドロップアイテム(ITEM_IDの順に並べる)
+    [SerializeField] GameObject[] m_dropItemObj;
 
     /// <summary>
     /// どのスロットを選択しているのかを保存
@@ -47,7 +53,7 @@ public class inventoryManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InventoryItem = player_obj.GetComponent<InventoryItem>();
+        m_inventoryItem = player_obj.GetComponent<InventoryItem>();
         mInventoryWeapon = player_obj.GetComponent<InventoryWeapon>();
 
         ChestInventory = new ChestInventory[chest_inventory.Length];
@@ -79,11 +85,11 @@ public class inventoryManager : MonoBehaviour
             if (can_catch_slot.slot_inventory == (int)INVENTORY.NON)
             {
                 //アイテムインベントリ
-                for (int i = 0; i < InventoryItem.m_slotSize; i++)
+                for (int i = 0; i < m_inventoryItem.m_slotSize; i++)
                 {
-                    if (result.gameObject == InventoryItem.m_spriteTrans[i].gameObject)
+                    if (result.gameObject == m_inventoryItem.m_spriteTrans[i].gameObject)
                     {
-                        can_catch_slot.sloat_obj = InventoryItem.m_spriteTrans[i].gameObject;
+                        can_catch_slot.sloat_obj = m_inventoryItem.m_spriteTrans[i].gameObject;
                         can_catch_slot.slot_no = i;
                         can_catch_slot.slot_inventory = (int)INVENTORY.ITEM;
                         break;
@@ -112,14 +118,12 @@ public class inventoryManager : MonoBehaviour
         }
         foreach (RaycastResult result in HitResult())
         {
-            //アイテムをつかんでいる
-
             //アイテムインベントリ
-            for (int i = 0; i < InventoryItem.m_slotSize; i++)
+            for (int i = 0; i < m_inventoryItem.m_slotSize; i++)
             {
-                if (result.gameObject == InventoryItem.m_BoxTrans[i].gameObject)
+                if (result.gameObject == m_inventoryItem.m_BoxTrans[i].gameObject)
                 {
-                    destination_slot.sloat_obj = InventoryItem.m_BoxTrans[i].gameObject;
+                    destination_slot.sloat_obj = m_inventoryItem.m_BoxTrans[i].gameObject;
                     destination_slot.slot_no = i;
                     destination_slot.slot_inventory = (int)INVENTORY.ITEM;
                     break;
@@ -152,6 +156,15 @@ public class inventoryManager : MonoBehaviour
 
                 if (destination_slot.slot_inventory != (int)INVENTORY.NON) break;
             }
+
+            //移動先がなく、インベントリの背景に当たっていれば背景を入れる
+            if (destination_slot.sloat_obj == null) 
+            {
+                if (result.gameObject == m_backObj)
+                {
+                    destination_slot.sloat_obj = m_backObj;
+                }
+            }
         }
 
     }
@@ -172,7 +185,10 @@ public class inventoryManager : MonoBehaviour
         //左クリックされたら情報を入れる
         if(Input.GetMouseButtonDown(0))
         {
+            if (can_catch_slot.sloat_obj == null) return;
+
             catch_slot = can_catch_slot;
+            ParentChildren(m_catchItemParent, catch_slot.sloat_obj);
         }
 
         //情報がなければ終了
@@ -190,44 +206,58 @@ public class inventoryManager : MonoBehaviour
             //掴んでいるスロットのインベントリがアイテムインベントリ
             if (catch_slot.slot_inventory == (int)INVENTORY.ITEM)
             {
+                //元の親に戻す
+                ParentChildren(m_inventoryItem.m_BoxTrans[catch_slot.slot_no].gameObject, catch_slot.sloat_obj);
+
                 //オブジェクトは元の位置に、情報だけ渡す
-                catch_slot.sloat_obj.transform.position = InventoryItem.m_BoxTrans[catch_slot.slot_no].position;
+                catch_slot.sloat_obj.transform.position = m_inventoryItem.m_BoxTrans[catch_slot.slot_no].position;
+
+                //武器インベントリに持っていったらバグる
+                if (destination_slot.sloat_obj == null)
+                {
+                    DropItem();
+                }
 
                 //移動先
                 if (destination_slot.slot_inventory == (int)INVENTORY.ITEM)
                 {
-                    MoveItemInfo(ref InventoryItem.m_inventory.Slots[catch_slot.slot_no], ref InventoryItem.m_inventory.Slots[destination_slot.slot_no]);
+                    MoveItemInfo(ref m_inventoryItem.m_inventory.Slots[catch_slot.slot_no], ref m_inventoryItem.m_inventory.Slots[destination_slot.slot_no]);
                 }
                 else if (destination_slot.slot_inventory == (int)INVENTORY.WEAPON)
                 {
                     //武器以外は変更不可
-                    if (InventoryItem.m_inventory.Slots[catch_slot.slot_no].ItemInfo.type != ITEM_TYPE.WEAPON) return;
+                    if (m_inventoryItem.m_inventory.Slots[catch_slot.slot_no].ItemInfo.type != ITEM_TYPE.WEAPON) return;
 
                     //武器オブジェクト、アイテム情報入れ替え
-                    mInventoryWeapon.GunObjChenge(InventoryItem.m_inventory.Slots[catch_slot.slot_no].ItemInfo);
-                    ItemInfoChange(ref InventoryItem.m_inventory.Slots[catch_slot.slot_no], ref mInventoryWeapon.Inventory.Slots[destination_slot.slot_no]);
+                    mInventoryWeapon.GunObjChenge(m_inventoryItem.m_inventory.Slots[catch_slot.slot_no].ItemInfo);
+                    ItemInfoChange(ref m_inventoryItem.m_inventory.Slots[catch_slot.slot_no], ref mInventoryWeapon.Inventory.Slots[destination_slot.slot_no]);
                 }
                 else if (destination_slot.slot_inventory == (int)INVENTORY.CHEST)
                 {
-                    MoveItemInfo(ref InventoryItem.m_inventory.Slots[catch_slot.slot_no], ref ChestInventory[destination_slot.chest_no].m_inventory.Slots[destination_slot.slot_no]);
+                    MoveItemInfo(ref m_inventoryItem.m_inventory.Slots[catch_slot.slot_no], ref ChestInventory[destination_slot.chest_no].m_inventory.Slots[destination_slot.slot_no]);
                 }
             }
             //掴んでいるスロットのインベントリがチェストインベントリ
             if (catch_slot.slot_inventory == (int)INVENTORY.CHEST)
             {
+                //元の親に戻す
+                ParentChildren(ChestInventory[catch_slot.chest_no].m_slotBoxTrans[catch_slot.slot_no].gameObject, catch_slot.sloat_obj);
+
                 //オブジェクトは元の位置に、情報だけ渡す
                 catch_slot.sloat_obj.transform.position = ChestInventory[catch_slot.chest_no].m_slotBoxTrans[catch_slot.slot_no].position;
 
                 //移動先
                 if (destination_slot.slot_inventory == (int)INVENTORY.ITEM)
                 {
-                    MoveItemInfo(ref ChestInventory[catch_slot.chest_no].m_inventory.Slots[catch_slot.slot_no], ref InventoryItem.m_inventory.Slots[destination_slot.slot_no]);
+                    MoveItemInfo(ref ChestInventory[catch_slot.chest_no].m_inventory.Slots[catch_slot.slot_no], ref m_inventoryItem.m_inventory.Slots[destination_slot.slot_no]);
                 }
                 else if (destination_slot.slot_inventory == (int)INVENTORY.CHEST)
                 {
                     MoveItemInfo(ref ChestInventory[catch_slot.chest_no].m_inventory.Slots[catch_slot.slot_no], ref ChestInventory[destination_slot.chest_no].m_inventory.Slots[destination_slot.slot_no]);
                 }
             }
+
+            //情報初期化
             SlotInfoInitialization(ref catch_slot);
         }
     }
@@ -238,7 +268,22 @@ public class inventoryManager : MonoBehaviour
     /// </summary>
     public void DropItem()
     {
+        //スロットの中のアイテムID取得
+        ItemInformation iteminfo;
 
+        if (catch_slot.slot_inventory == (int)INVENTORY.ITEM)
+        {
+            //スロットのインベントリ情報取得
+            iteminfo = m_inventoryItem.m_inventory.Slots[catch_slot.slot_no].ItemInfo;
+
+            Vector3 set_pos = player_obj.transform.position;
+            set_pos.y += 0.5f;
+            set_pos += player_obj.transform.forward / 2;
+            GameObject obj = Instantiate(m_dropItemObj[(int)iteminfo.id], set_pos, Quaternion.identity);              //生成
+            obj.GetComponent<ItemSetting>().iteminfo = iteminfo;                        //アイテム情報代入
+            m_inventoryItem.m_inventory.Slots[catch_slot.slot_no].ItemInfo = null;      //アイテム情報削除
+            m_inventoryItem.m_inventory.Slots[catch_slot.slot_no].initializationSlot(); //初期化
+        }
     }
 
     void MoveItemInfo(ref SlotClass _catch, ref SlotClass _destination)
@@ -310,11 +355,11 @@ public class inventoryManager : MonoBehaviour
         {
             if (inventory_state == INVENTORY.ITEM)
             {
-                InventoryItem.m_itemInventoryObj.SetActive(false);
+                m_inventoryItem.m_itemInventoryObj.SetActive(false);
             }
             if(m_openChestObj != null)
             {
-                InventoryItem.m_itemInventoryObj.SetActive(false);
+                m_inventoryItem.m_itemInventoryObj.SetActive(false);
                 m_openChestObj.SetActive(false);
                 m_openChestObj = null;
             }
@@ -326,16 +371,24 @@ public class inventoryManager : MonoBehaviour
         {
             if (inventory_state == INVENTORY.ITEM)
             {
-                InventoryItem.m_itemInventoryObj.SetActive(true);
+                m_inventoryItem.m_itemInventoryObj.SetActive(true);
             }
             if(inventory_state == INVENTORY.CHEST)
             {
-                InventoryItem.m_itemInventoryObj.SetActive(true);
+                m_inventoryItem.m_itemInventoryObj.SetActive(true);
                 _item.GetComponent<ChestInventory>().m_ChestUIObj.SetActive(true);
                 m_openChestObj = _item.GetComponent<ChestInventory>().m_ChestUIObj;
             }
             Screen.lockCursor = false;
             return true;
         }
+    }
+
+    void ParentChildren(GameObject _parent, GameObject _child)
+    {
+        //親子関係に設定
+
+        _child.transform.parent = _parent.transform;
+        _child.transform.position = _parent.transform.position;
     }
 }
