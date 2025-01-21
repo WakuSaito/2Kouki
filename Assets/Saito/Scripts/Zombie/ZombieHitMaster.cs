@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ゾンビ当たり判定マスタークラス
+/// 子のHitZoneから呼び出され、プレイヤーの被ダメージ処理を呼び出す
+/// </summary>
 public class ZombieHitMaster : MonoBehaviour
 {
     ZombieManager m_zombieManager;
@@ -10,8 +14,10 @@ public class ZombieHitMaster : MonoBehaviour
     {
         m_zombieManager = GetComponent<ZombieManager>();
     }
+
     /// <summary>
-    /// 接触した部位のタグを渡す
+    /// <para>ダメージを受けた</para>
+    /// 接触部位ごとの被ダメージ処理を呼ぶ
     /// </summary>
     public void TakeDamage(string _part_tag, int _damage, Vector3 _hit_pos)
     {

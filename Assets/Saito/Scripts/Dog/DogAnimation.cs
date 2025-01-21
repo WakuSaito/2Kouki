@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 犬アニメーションクラス
+/// <para>犬アニメーションクラス</para>
 /// 犬のアニメーションを管理する
 /// </summary>
 public class DogAnimation : DogBase
@@ -11,8 +11,10 @@ public class DogAnimation : DogBase
     [SerializeField]//アニメーター
     private Animator m_animator;
 
-    //移動アニメーションの種類
-    //Managerの方で管理してもいいかも
+    /// <summary>
+    /// 移動アニメーションの種類
+    /// Managerの方で管理してもいいかも
+    /// </summary>
     enum MOVE_TYPE
     {
         IDLE,
@@ -25,7 +27,7 @@ public class DogAnimation : DogBase
 
 
     /// <summary>
-    /// 初期設定
+    /// <para>初期設定</para>
     /// アニメーションの初期状態設定
     /// </summary>
     public override void SetUpDog()
@@ -34,7 +36,7 @@ public class DogAnimation : DogBase
     }
 
     /// <summary>
-    /// アタック
+    /// <para>アタック</para>
     /// 攻撃アニメーション再生
     /// </summary>
     public void Attack()
@@ -46,7 +48,7 @@ public class DogAnimation : DogBase
     }
 
     /// <summary>
-    /// アイドル状態
+    /// <para>アイドル状態</para>
     /// アイドル状態アニメーション再生
     /// </summary>
     public void Idle()
@@ -60,7 +62,7 @@ public class DogAnimation : DogBase
     }
 
     /// <summary>
-    /// 歩き
+    /// <para>歩き</para>
     /// 歩きアニメーション再生
     /// </summary>
     public void Walk()
@@ -74,7 +76,7 @@ public class DogAnimation : DogBase
     }
 
     /// <summary>
-    /// 走り
+    /// <para>走り</para>
     /// 走りアニメーション再生
     /// </summary>
     public void Run()

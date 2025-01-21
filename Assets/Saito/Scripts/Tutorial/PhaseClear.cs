@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>クリアフェイズ</para>
+/// これが呼び出された時点でクリア処理が実行される
+/// </summary>
 public class PhaseClear : TutorialBase
 {
     [SerializeField]

@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 
 /// <summary>
-/// 視点方向の範囲探索
+/// <para>視点方向の範囲探索</para>
 /// 範囲にある指定したタグのオブジェクトの取得と色変更 プレイヤー側で使用
 /// </summary>
 public class SearchViewArea : MonoBehaviour
@@ -26,7 +26,7 @@ public class SearchViewArea : MonoBehaviour
     }
 
     /// <summary>
-    /// 視点方向のオブジェクト取得ループ
+    /// <para>視点方向のオブジェクト取得ループ</para>
     /// 視点方向の範囲にある対象タグオブジェクトから一つを色を変え、取得する
     /// </summary>
     /// <param name="_target_tag">対象とするタグ</param>
@@ -111,7 +111,7 @@ public class SearchViewArea : MonoBehaviour
     }
 
     /// <summary>
-    /// 選択色にする
+    /// <para>選択色にする</para>
     /// 対象のオブジェクトの色を変更する
     /// </summary>
     /// <param name="_target">対象のオブジェクト</param>
@@ -124,7 +124,7 @@ public class SearchViewArea : MonoBehaviour
     }
 
     /// <summary>
-    /// 色のリセット
+    /// <para>色のリセット</para>
     /// 前回の実行で変更されているカラーを元に戻す
     /// </summary>
     /// <param name="_tag">対象のタグ</param>
@@ -140,7 +140,7 @@ public class SearchViewArea : MonoBehaviour
     }
 
     /// <summary>
-    /// 対象の情報保存
+    /// <para>対象の情報保存</para>
     /// 後で色を元に戻すために実行内容を保存する
     /// </summary>
     /// <param name="_tag">探索したタグ</param>

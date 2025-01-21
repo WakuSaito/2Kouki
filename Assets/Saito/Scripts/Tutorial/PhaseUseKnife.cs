@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>ナイフ使用フェイズ</para>
+/// ナイフを使い、ゾンビを倒すフェイズ
+/// 完了時に犬が仲間になる
+/// </summary>
 public class PhaseUseKnife : TutorialBase
 {
     [SerializeField]//自宅の座標

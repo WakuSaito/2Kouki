@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ゾンビ体力クラス
+/// 体力の管理、処理を行う
+/// </summary>
 public class ZombieHP : ZombieBase
 {
     //最大体力

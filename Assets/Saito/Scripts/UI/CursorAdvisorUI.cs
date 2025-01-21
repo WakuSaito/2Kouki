@@ -4,17 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+/// <summary>
+/// <para>カーソル補助UIクラス</para>
+/// マウスカーソルの移動、クリックを促すUI
+/// </summary>
 public class CursorAdvisorUI : MonoBehaviour
 {
     //マウス画像コンポーネント
-    [SerializeField]
-    private Image m_mouseImage;
+    [SerializeField] private Image m_mouseImage;
 
     //マウス操作指示用画像
-    [SerializeField]
-    private Sprite m_idleMouseSprite;
-    [SerializeField]
-    private Sprite m_clickMouseSprite;
+    [SerializeField] private Sprite m_idleMouseSprite;
+    [SerializeField] private Sprite m_clickMouseSprite;
 
     //カーソルの移動開始、終了座標
     private Vector2 m_startPos;
@@ -37,7 +38,10 @@ public class CursorAdvisorUI : MonoBehaviour
         m_startPos = transform.position;
     }
 
-
+    /// <summary>
+    /// <para>移動開始</para>
+    /// DOTweenでループして再生される
+    /// </summary>
     public void StartMove()
     {
         //複数回呼ばれないように
@@ -65,6 +69,9 @@ public class CursorAdvisorUI : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 移動停止
+    /// </summary>
     public void StopMove()
     {
         if (!m_isMove) return;
@@ -73,6 +80,10 @@ public class CursorAdvisorUI : MonoBehaviour
         m_sequence.Kill();
     }
 
+    /// <summary>
+    /// 終了地点設定
+    /// </summary>
+    /// <param name="_pos"></param>
     public void SetEndPos(Vector2 _pos)
     {
         m_endPos = _pos;

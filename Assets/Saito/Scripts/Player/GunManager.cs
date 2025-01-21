@@ -4,8 +4,8 @@ using UnityEngine;
 using System;
 
 /// <summary>
-/// 銃マネージャークラス
-/// インスペクターで変数を設定することで様々な銃種に対応出来る
+/// <para>銃マネージャークラス</para>
+/// <para>インスペクターで変数を設定することで様々な銃種に対応出来る</para>
 /// 手に持つアイテムなのでIWeaponを継承　インベントリ関連の仕様が変更されている場合必要無くなるかも
 /// </summary>
 public class GunManager : MonoBehaviour, IWeapon

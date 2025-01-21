@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>食料使用フェイズ</para>
+/// 消費アイテムの使い方を教える
+/// </summary>
+//食料が場所によって使え無くなった可能性アリ
 public class PhaseEatFood : TutorialBase
 {
     //インベントリスクリプト

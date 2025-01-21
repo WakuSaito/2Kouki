@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 /// <summary>
-/// 犬移動クラス
+/// <para>犬移動クラス</para>
 /// 犬の移動や回転を管理し実行する
 /// </summary>
 public class DogMove : DogBase
@@ -40,7 +40,7 @@ public class DogMove : DogBase
     }
 
     /// <summary>
-    /// 向きの決定
+    /// <para>向きの決定</para>
     /// 実際の回転はUpdateで実行する
     /// </summary>
     /// <param name="_qua">向く方向</param>
@@ -50,7 +50,7 @@ public class DogMove : DogBase
     }
 
     /// <summary>
-    /// 指定した座標を向く
+    /// <para>指定した座標を向く</para>
     /// 注視したい座標から角度を計算し向きを決める
     /// </summary>
     /// ///<param name="_target_pos">注視する座標</param>
@@ -72,7 +72,7 @@ public class DogMove : DogBase
     }
 
     /// <summary>
-    /// 前方に走る
+    /// <para>前方に走る</para>
     /// Rigidbodyのベクトルを設定する
     /// </summary>
     public void RunFront()
@@ -87,7 +87,7 @@ public class DogMove : DogBase
     }
 
     /// <summary>
-    /// 前方に歩く
+    /// <para>前方に歩く</para>
     /// Rigidbodyのベクトルを設定する
     /// </summary>
     public void WalkFront()
@@ -102,7 +102,7 @@ public class DogMove : DogBase
     }
 
     /// <summary>
-    /// 移動停止
+    /// <para>移動停止</para>
     /// Rigidbodyのベクトルを0にする
     /// </summary>
     public void StopMove()
@@ -112,7 +112,7 @@ public class DogMove : DogBase
     }
 
     /// <summary>
-    /// ワープ
+    /// <para>ワープ</para>
     /// 特定の位置にワープさせる
     /// 壁に阻まれたりして移動不可になった場合に使う
     /// </summary>

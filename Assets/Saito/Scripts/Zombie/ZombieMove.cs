@@ -3,26 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ゾンビの移動用クラス
+/// <para>ゾンビ移動クラス</para>
+/// ゾンビの移動、回転を扱う
 /// </summary>
 public class ZombieMove : ZombieBase
 {
-    [SerializeField]//走る速度
-    float m_runSpeed = 6.0f;
-    [SerializeField]//歩く速度
-    float m_walkSpeed = 1.0f;
+    //走る速度
+    [SerializeField] float m_runSpeed = 6.0f;
+    //歩く速度
+    [SerializeField] float m_walkSpeed = 1.0f;
 
-    [SerializeField]//振り向き速度
-    float m_turnSpeed = 1000;
+    //振り向き速度
+    [SerializeField] float m_turnSpeed = 1000;
 
     //目標とする向き
     Quaternion m_targetRotation;
 
     Rigidbody m_rigidbody;
 
-    /// <summary>
-    /// 初期設定
-    /// </summary>
+    //初期設定
+    //コンポーネント取得
     public override void SetUpZombie()
     {
         //rigidbodyの取得
@@ -30,6 +30,7 @@ public class ZombieMove : ZombieBase
         m_targetRotation = transform.rotation;
     }
 
+    //回転の補間に使用
     private void Update()
     {
         //あまりManager以外でUpdateを使いたくないが、補間するため実装
