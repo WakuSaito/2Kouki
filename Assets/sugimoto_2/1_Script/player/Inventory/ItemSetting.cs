@@ -35,7 +35,7 @@ public class ItemSetting : MonoBehaviour
                 break;
             //コンストラクタ(種類、ID、取得可能数、スタック可能数、画像)
             case ITEM_ID.BULLET:
-                iteminfo = new ItemInformation(ITEM_TYPE.WEAPON, id, 10, 30, sprite);
+                iteminfo = new ItemInformation(ITEM_TYPE.BULLET, id, 10, 30, sprite);
                 break;
             case ITEM_ID.PISTOL:
             case ITEM_ID.ASSAULT:

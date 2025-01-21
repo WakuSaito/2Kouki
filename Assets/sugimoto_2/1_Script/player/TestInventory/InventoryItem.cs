@@ -133,8 +133,10 @@ public class InventoryItem : MonoBehaviour
     /// </summary>
     /// <param name="_food_gage_obj">食料ゲージのscriptを持ったオブジェクト</param>
     /// <param name="_hp_gage_obj">体力ゲージのscriptを持ったオブジェクト</param>
-    public void Recovery_Gage(GameObject _food_gage_obj,GameObject _hp_gage_obj)
+    public void Recovery_Gage(GameObject _food_gage_obj,GameObject _hp_gage_obj,bool _area_flag)
     {
+        bool recovery_flag = false;
+
         //カーソルのあっているオブジェクトを取得
         foreach (RaycastResult result in m_inventoryManager.HitResult())
         {
@@ -153,11 +155,23 @@ public class InventoryItem : MonoBehaviour
 
                         //食料
                         {
-                            if (id >= ITEM_ID.FOOD_1 && id <= ITEM_ID.DRINK_2)
+                            if (_area_flag)
                             {
-                                _food_gage_obj.GetComponent<Gauge>().Increase_Gauge(recovery_num);//ゲージを増やす
-                                //playerSound.PlayEat();//SE
+                                if (id >= ITEM_ID.FOOD_1 && id <= ITEM_ID.DRINK_2)
+                                {
+                                    _food_gage_obj.GetComponent<Gauge>().Increase_Gauge(recovery_num);//ゲージを増やす
+                                    recovery_flag = true;
+                                }
                             }
+                            else
+                            {
+                                if (id >= ITEM_ID.DRINK_1 && id <= ITEM_ID.DRINK_2)
+                                {
+                                    _food_gage_obj.GetComponent<Gauge>().Increase_Gauge(recovery_num);//ゲージを増やす
+                                    recovery_flag = true;
+                                }
+                            }
+                            //playerSound.PlayEat();//SE
                         }
 
                         //体力
@@ -165,11 +179,12 @@ public class InventoryItem : MonoBehaviour
                             if (id >= ITEM_ID.EMERGENCY_PACK)
                             {
                                 _hp_gage_obj.GetComponent<Gauge>().Increase_Gauge(recovery_num);//ゲージを増やす
+                                recovery_flag = true;
                                 //playerSound.PlayHeal();//SE
                             }
                         }
                         //アイテム消費
-                        UseItem(slot);
+                        if (recovery_flag) UseItem(slot);
                     }
                     return;
                 }

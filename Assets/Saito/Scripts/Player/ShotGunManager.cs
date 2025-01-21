@@ -37,16 +37,13 @@ public class ShotGunManager : GunManager
         }
 
         /*たぶんいらない*/
-        //for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
-        //{
-        //    //インベントリに弾丸があるか
-        //    if (m_inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
-        //    {
-        //        m_animator.SetBool("Reload", true);  //reload
-        //        m_isReload = true;
-        //        Invoke(nameof(StartBulletIn), 0.22f);
-        //    }
-        //}
+        if (m_inventoryItem.CheckBullet())
+        {
+            //インベントリに弾丸があるか
+            m_animator.SetBool("Reload", true);  //reload
+            m_isReload = true;
+            Invoke(nameof(StartBulletIn), 0.22f);
+        }
 
     }
 
