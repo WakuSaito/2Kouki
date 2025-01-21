@@ -16,6 +16,7 @@ public class inventoryManager : MonoBehaviour
     InventoryItem m_inventoryItem;
     InventoryWeapon mInventoryWeapon;
     ChestInventory[] ChestInventory;
+    player m_player;
 
     //定数
     const int GUN_SLOT = 2;
@@ -23,6 +24,7 @@ public class inventoryManager : MonoBehaviour
     //インベントリ情報を持っているオブジェクト
     public GameObject player_obj;
     public GameObject[] chest_inventory;
+    //開いたチェストオブジェクト
     public GameObject m_openChestObj = null;
 
     //インベントリの状態(閉じている、どのインベントリを開いているか)
@@ -55,6 +57,7 @@ public class inventoryManager : MonoBehaviour
     {
         m_inventoryItem = player_obj.GetComponent<InventoryItem>();
         mInventoryWeapon = player_obj.GetComponent<InventoryWeapon>();
+        m_player = player_obj.GetComponent<player>();
 
         ChestInventory = new ChestInventory[chest_inventory.Length];
         for (int i = 0; i < chest_inventory.Length; i++)
@@ -63,20 +66,61 @@ public class inventoryManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// 各インベントリ操作
+    /// アイテム移動
+    /// UI表示
+    /// </summary>
     void Update()
     {
+        //何かのインベントリが開かれていれば処理
         if (inventory_state!=INVENTORY.NON)
         {
             CheckInventoryItem();
             MoveItem();
         }
+
+        //アイテムインベントリ
+        if (inventory_state == INVENTORY.ITEM)
+        {
+            //アイテムインベントリ通常表示
+            m_inventoryItem.m_inventory.SetUI(m_inventoryItem.m_spriteTrans, m_inventoryItem.m_Text);
+
+            //エリア内なら通常表示、外なら使用できないアイテム表示
+            for (int slot = 0; slot < m_inventoryItem.m_slotSize; slot++)
+            {
+                if (m_inventoryItem.m_inventory.Slots[slot].ItemInfo == null) continue;
+
+                ITEM_ID id = m_inventoryItem.m_inventory.Slots[slot].ItemInfo.id;
+
+                //if使用できないアイテム、elseできるアイテム
+                if (id >= ITEM_ID.FOOD_1 && id <= ITEM_ID.FOOD_4 && !m_player.m_inSafeAreaFlag)
+                {
+                    m_inventoryItem.m_noUseMarkTrans[slot].gameObject.SetActive(true);
+                }
+                else
+                {
+                    m_inventoryItem.m_noUseMarkTrans[slot].gameObject.SetActive(false);
+                }
+            }
+        }
+
+        //チェストインベントリ
+        if (inventory_state == INVENTORY.CHEST)
+        {
+            //開いているチェストのスクリプト取得
+            ChestInventory chest_inventory = m_openChestObj.GetComponent<ChestInventory>();
+
+            //UI通常表示
+            m_inventoryItem.m_inventory.SetUI(m_inventoryItem.m_spriteTrans, m_inventoryItem.m_Text);
+            chest_inventory.m_inventory.SetUI(chest_inventory.m_spriteTrans, chest_inventory.m_Text);
+        }
     }
 
     void CheckInventoryItem()    //カーソルのあっているアイテムを調べる
     {
-        SlotInfoInitialization(ref destination_slot);
-        SlotInfoInitialization(ref can_catch_slot);
+        SlotInfoInitialization(ref destination_slot);   //初期化
+        SlotInfoInitialization(ref can_catch_slot);     //初期化
 
         //掴むアイテムを決定
         foreach (RaycastResult result in HitResult())
@@ -360,7 +404,7 @@ public class inventoryManager : MonoBehaviour
             if(m_openChestObj != null)
             {
                 m_inventoryItem.m_itemInventoryObj.SetActive(false);
-                m_openChestObj.SetActive(false);
+                m_openChestObj.GetComponent<ChestInventory>().m_ChestUIObj.SetActive(false);
                 m_openChestObj = null;
             }
             Screen.lockCursor = true;
@@ -377,7 +421,7 @@ public class inventoryManager : MonoBehaviour
             {
                 m_inventoryItem.m_itemInventoryObj.SetActive(true);
                 _item.GetComponent<ChestInventory>().m_ChestUIObj.SetActive(true);
-                m_openChestObj = _item.GetComponent<ChestInventory>().m_ChestUIObj;
+                m_openChestObj = _item;
             }
             Screen.lockCursor = false;
             return true;

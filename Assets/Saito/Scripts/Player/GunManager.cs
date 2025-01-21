@@ -37,8 +37,9 @@ public class GunManager : MonoBehaviour, IWeapon
     protected bool m_isReload = false;  //リロード中か
 
     GameObject m_cameraObj;
-    protected Inventory m_inventory;
-    protected ItemInventory m_itemInventory;
+    //protected Inventory m_inventory;
+    //protected ItemInventory m_itemInventory;
+    protected InventoryItem m_inventoryItem;
     //サウンド再生用
     private GunSound m_gunSound;
     protected Animator m_animator;
@@ -58,8 +59,8 @@ public class GunManager : MonoBehaviour, IWeapon
     {
         if (m_handPlayerObj != null && !m_setPlayerFlag)
         {
-            m_inventory = m_handPlayerObj.GetComponent<Inventory>();
-            m_itemInventory = m_handPlayerObj.GetComponent<player>().ItemInventory;
+            //m_inventory = m_handPlayerObj.GetComponent<Inventory>();
+            m_inventoryItem = m_handPlayerObj.GetComponent<InventoryItem>();
             m_setPlayerFlag = true;
         }
     }
@@ -81,7 +82,7 @@ public class GunManager : MonoBehaviour, IWeapon
         //ピストルの弾丸が最大数じゃなければreload可能
         if (m_currentMagazineAmount >= m_magazineSize) return;
 
-        if (m_inventory == null)
+        if (m_inventoryItem == null)
         {
             m_animator.SetBool("Reload", true);  //reload
             m_isReload = true;
@@ -89,7 +90,7 @@ public class GunManager : MonoBehaviour, IWeapon
             return;
         }
 
-        if (m_itemInventory.CheckInBullet())
+        if (m_inventoryItem.CheckBullet())
         {
             m_animator.SetBool("Reload", true);  //reload
             m_isReload = true;
@@ -97,6 +98,7 @@ public class GunManager : MonoBehaviour, IWeapon
             return;
         }
 
+        /*たぶんいらない*/
         //for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
         //{
         //    //インベントリに弾丸があるか
@@ -138,38 +140,12 @@ public class GunManager : MonoBehaviour, IWeapon
         if (add_amount > m_magazineSize - m_currentMagazineAmount)
             add_amount = m_magazineSize - m_currentMagazineAmount;
 
-        if (m_inventory == null) {
+        if (m_inventoryItem == null) {
             m_currentMagazineAmount += add_amount;
             return;
         }
 
-        m_currentMagazineAmount += m_itemInventory.SubBullet(_amount);
-
-        //for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
-        //{
-        //    //インベントリに弾丸があるか
-        //    if (inventory.item_type_id[i] != (int)ID.ITEM_ID.BULLET) continue;
-
-        //    for (int cnt = 0; cnt < addAmount; cnt++)
-        //    {
-        //        if (inventory.item_num[i] == 0)
-        //        {
-        //            //インベントリにあった弾丸の残りが0になったらidも初期化する
-        //            inventory.item_type_id[i] = -1;
-        //            break;
-        //        }
-        //        else
-        //        {
-        //            //下の関数にまとめて欲しい
-        //            inventory.item_num[i]--;
-        //            //インベントリの中身も減らす 複数減らせるようにしてほしい
-        //            inventory.ReduceInventory(i);
-
-        //            currentMagazineAmount++;
-        //            addAmount--;
-        //        }
-        //    }
-        //}
+        m_currentMagazineAmount += m_inventoryItem.UseBullet(_amount);
     }
 
     //後何発弾を入れられるか
@@ -178,23 +154,24 @@ public class GunManager : MonoBehaviour, IWeapon
         //マガジンに入る弾数計算
         int can_loaded_amount = m_magazineSize - m_currentMagazineAmount;
 
-        if (m_inventory == null) return can_loaded_amount;
+        if (m_inventoryItem == null) return can_loaded_amount;
 
-        for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
-        {
-            //インベントリに弾丸があるか
-            if (m_inventory.item_type_id[i] != (int)ID.ITEM_ID.BULLET) continue;
+        /*たぶんいらない*/
+        //for (int i = 0; i < m_inventoryItem.m_slotSize; i++)
+        //{
+        //    //インベントリに弾丸があるか
+        //    if (m_inventoryItem.item_type_id[i] != (int)ID.ITEM_ID.BULLET) continue;
 
-            for (int cnt = 0; cnt < can_loaded_amount; cnt++)
-            {
-                //インベントリに弾がある場合
-                if (m_inventory.item_num[i] != 0)
-                    can_loaded_amount--; 
-                //弾が無い場合
-                else          
-                    break;
-            }
-        }
+        //    for (int cnt = 0; cnt < can_loaded_amount; cnt++)
+        //    {
+        //        //インベントリに弾がある場合
+        //        if (m_inventoryItem.item_num[i] != 0)
+        //            can_loaded_amount--; 
+        //        //弾が無い場合
+        //        else          
+        //            break;
+        //    }
+        //}
 
         return can_loaded_amount;
     }

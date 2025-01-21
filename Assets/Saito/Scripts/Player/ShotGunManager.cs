@@ -27,7 +27,8 @@ public class ShotGunManager : GunManager
 
         onCancelReload = false;//キャンセル状態リセット
 
-        if (m_inventory == null)
+        //if (m_inventory == null)
+        if (m_inventoryItem == null)
         {
             m_animator.SetBool("Reload", true);  //reload
             m_isReload = true;
@@ -35,16 +36,17 @@ public class ShotGunManager : GunManager
             return;
         }
 
-        for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
-        {
-            //インベントリに弾丸があるか
-            if (m_inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
-            {
-                m_animator.SetBool("Reload", true);  //reload
-                m_isReload = true;
-                Invoke(nameof(StartBulletIn), 0.22f);
-            }
-        }
+        /*たぶんいらない*/
+        //for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
+        //{
+        //    //インベントリに弾丸があるか
+        //    if (m_inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
+        //    {
+        //        m_animator.SetBool("Reload", true);  //reload
+        //        m_isReload = true;
+        //        Invoke(nameof(StartBulletIn), 0.22f);
+        //    }
+        //}
 
     }
 

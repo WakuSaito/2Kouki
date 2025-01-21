@@ -21,33 +21,24 @@ public class InventoryItem : MonoBehaviour
     public int m_slotSize = 10;
     public Transform[] m_spriteTrans;
     public Transform[] m_BoxTrans;
+    public Transform[] m_noUseMarkTrans;
     public Text[] m_Text;
 
     //オブジェクト
     [SerializeField] GameObject m_inventoryManagerObj;
     public GameObject m_itemInventoryObj; //インベントリUI
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// スタート関数
+    /// インベントリクラス作成
+    /// インベントリマネージャー取得
+    /// </summary>
     void Start()
     {
         //インベントリのインストラクタ作成
         m_inventory = new InventoryClass(m_slotSize, m_BoxTrans);
         //インベントリマネージャー取得
         m_inventoryManager = m_inventoryManagerObj.GetComponent<inventoryManager>();
-    }
-
-    /// <summary>
-    /// アップデート
-    /// アイテムインベントリの操作
-    /// UIの変更
-    /// </summary>
-    void Update()
-    {
-        //アイテムインベントリを開いている間
-        if (m_inventoryManager.inventory_state == INVENTORY.ITEM|| m_inventoryManager.inventory_state == INVENTORY.CHEST)
-        {
-            m_inventory.SetUI(m_spriteTrans, m_Text);//UI更新
-        }
     }
 
     public bool AddInventory_PickUP_Item(ItemInformation _item, ref InventoryWeapon _weapon)//アイテム取得
