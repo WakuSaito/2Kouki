@@ -7,11 +7,11 @@ using UnityEngine;
 /// </summary>
 public class ZombieAnimation : ZombieBase
 {
-    [SerializeField]//アニメーター
-    private Animator m_animator;
+    //アニメーター
+    [SerializeField] private Animator m_animator;
 
-    [SerializeField]//ヒダメージエフェクト
-    private GameObject m_damagedEffect;
+    //被ダメージエフェクト
+    [SerializeField] private GameObject m_damagedEffect;
 
     //移動アニメーションの種類
     enum MOVE_TYPE
@@ -33,12 +33,17 @@ public class ZombieAnimation : ZombieBase
         m_currentMoveType = MOVE_TYPE.WALK;
     }
 
+    /// <summary>
+    /// 攻撃アニメーション再生
+    /// </summary>
     public void Attack()
     {
         Debug.Log("zombie:Attack");
         m_animator.SetTrigger("Attack");
     }
-
+    /// <summary>
+    /// 歩行アニメーション再生
+    /// </summary>
     public void Walk()
     {
         //死亡後に起き上がらないように
@@ -50,7 +55,9 @@ public class ZombieAnimation : ZombieBase
         Debug.Log("zombie:Walk");
         m_animator.SetTrigger("Walk");
     }
-
+    /// <summary>
+    /// アイドル時アニメーション再生
+    /// </summary>
     public void Idle()
     {
         //死亡後に起き上がらないように
@@ -62,7 +69,9 @@ public class ZombieAnimation : ZombieBase
         Debug.Log("zombie:Idle");
         m_animator.SetTrigger("Idle");
     }
-
+    /// <summary>
+    /// 走りアニメーション再生
+    /// </summary>
     public void Run()
     {
         //死亡後に起き上がらないように
@@ -77,6 +86,9 @@ public class ZombieAnimation : ZombieBase
 
     //被ダメージモーション
     //左右によって変更
+    /// <summary>
+    /// 被ダメージアニメーション(左)再生
+    /// </summary>
     public void DamageHitLeft()
     {
         //死亡後に起き上がらないように
@@ -85,6 +97,9 @@ public class ZombieAnimation : ZombieBase
 
         m_animator.SetTrigger("DamageL");
     }
+    /// <summary>
+    /// 被ダメージアニメーション(右)再生
+    /// </summary>
     public void DamageHitRight()
     {
         //死亡後に起き上がらないように
@@ -94,7 +109,9 @@ public class ZombieAnimation : ZombieBase
         m_animator.SetTrigger("DamageR");
     }
 
-
+    /// <summary>
+    /// 死亡アニメーション再生
+    /// </summary>
     public void Die()
     {
         //同じアニメーションを複数呼び出ししないように
@@ -105,13 +122,17 @@ public class ZombieAnimation : ZombieBase
         m_animator.SetTrigger("Die");
     }
 
-    //ダメージパーティクル表示(ダメージを受けた位置)
+    /// <summary>
+    /// ダメージエフェクト
+    /// 被ダメージ位置にエフェクトを生成
+    /// </summary>
+    /// <param name="_damaged_place">ダメージを受けた位置</param>
     public void DamagedEffect(Vector3 _damaged_place)
     {
         if (m_damagedEffect == null) return;
 
         //外側に向けたい
-        Vector3 vec = _damaged_place - transform.position;
+        //Vector3 vec = _damaged_place - transform.position;
 
         GameObject effect = Instantiate(m_damagedEffect,
             _damaged_place, 

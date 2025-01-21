@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 夜のエフェクトクラス
+/// <para>夜のエフェクトクラス</para>
 /// 昼夜によって描画距離を変更
 /// </summary>
 public class NightEffect : MonoBehaviour

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ゾンビの攻撃クラス
+/// <para>ゾンビの攻撃クラス</para>
 /// 攻撃判定にアタッチする
 /// </summary>
 public class ZombieAttack : ZombieBase
@@ -42,7 +42,7 @@ public class ZombieAttack : ZombieBase
         Debug.Log("ゾンビの攻撃");
         m_isAttack = true;
 
-        m_attackCoroutine = attack();//コルーチン開始
+        m_attackCoroutine = Attack();//コルーチン開始
         StartCoroutine(m_attackCoroutine);
     }
 
@@ -82,8 +82,11 @@ public class ZombieAttack : ZombieBase
 
         StartCoroutine(m_attackCoroutine);
     }
-
-    IEnumerator attack()
+    /// <summary>
+    /// <para>攻撃コルーチン</para>
+    /// 攻撃判定の有効、無効化など
+    /// </summary>
+    IEnumerator Attack()
     {
         m_hitMasters.Clear(); // リセット
         yield return new WaitForSeconds(m_setUpSec);
@@ -94,6 +97,7 @@ public class ZombieAttack : ZombieBase
         m_isAttack = false;
     }
 
+    //攻撃判定にプレイヤーが当たった時にダメージを与える
     void OnTriggerEnter(Collider other)
     {
         // 追加

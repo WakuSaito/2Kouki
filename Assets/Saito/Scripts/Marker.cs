@@ -112,7 +112,7 @@ public class Marker : MonoBehaviour
     }
 
     /// <summary>
-    /// 一定時間後削除
+    /// <para>一定時間後削除</para>
     /// このオブジェクト生成後、一定時間後に削除開始する
     /// </summary>
     private IEnumerator DerayDestroy()
@@ -122,7 +122,7 @@ public class Marker : MonoBehaviour
         StartDelete();//削除開始
     }
     /// <summary>
-    /// 削除開始
+    /// <para>削除開始</para>
     /// 任意のタイミングで他のスクリプトから削除できる
     /// </summary>
     public void StartDelete()

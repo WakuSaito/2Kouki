@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// <para>探知使用フェイズ</para>
+/// 探知の使い方を覚えてもらう
+/// </summary>
 public class PhaseUseDetection : TutorialBase
 {
     [SerializeField]//武器切り替えを促すUI

@@ -45,7 +45,7 @@ public class Knife : MonoBehaviour
                 }
                 if (hit_obj.tag == "Head")
                 {
-                    hit_obj.GetComponentInParent<ZombieManager>().DamageHead(2);
+                   // hit_obj.GetComponentInParent<ZombieManager>().DamageHead(2);
                 }
             }
         }

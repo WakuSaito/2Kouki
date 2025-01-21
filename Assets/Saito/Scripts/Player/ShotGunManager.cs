@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ショットガンマネージャークラス
+/// <para>ショットガンマネージャークラス</para>
 /// 銃マネージャークラスを元にリロードの方式を変更したいため継承して実装
 /// </summary>
 public class ShotGunManager : GunManager
@@ -15,7 +15,7 @@ public class ShotGunManager : GunManager
     private bool onCancelReload = false;
 
     /// <summary>
-    /// リロード
+    /// <para>リロード</para>
     /// 継承元を上書きし、一つずつ弾を入れるようにする
     /// </summary>
     public override void Reload()
@@ -51,7 +51,7 @@ public class ShotGunManager : GunManager
     }
 
     /// <summary>
-    /// リロードキャンセル
+    /// <para>リロードキャンセル</para>
     /// アニメーション遷移とフラグ管理
     /// </summary>
     public override void StopReload()
@@ -62,7 +62,7 @@ public class ShotGunManager : GunManager
     }
 
     /// <summary>
-    /// 弾込め開始
+    /// <para>弾込め開始</para>
     /// Invokeで遅延実行するためのクッション
     /// </summary>
     public void StartBulletIn()
@@ -71,7 +71,7 @@ public class ShotGunManager : GunManager
     }
 
     /// <summary>
-    /// 弾込めコルーチン
+    /// <para>弾込めコルーチン</para>
     /// 一定間隔ごとに弾を込める
     /// </summary>
     private IEnumerator BulletIn()

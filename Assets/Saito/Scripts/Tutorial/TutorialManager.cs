@@ -9,22 +9,24 @@ using UnityEngine.UI;
 //[RequireComponent(typeof(PhaseUseKnife))]
 //[RequireComponent(typeof(PhaseExploreHouse))]
 
+/// <summary>
+/// チュートリアル管理クラス
+/// TutorialBaseを継承したクラスを順番に実行する
+/// </summary>
 public class TutorialManager : MonoBehaviour
 {
     //現在の進行度（チュートリアルの）
     private int m_currentPhase = 0;
 
-    [SerializeField]//指示用テキスト
-    private Text m_tutorialText;
-
-    [SerializeField]//位置指示用マーカー
-    private GameObject m_markerPrefab;
+    //指示用テキスト
+    [SerializeField] private Text m_tutorialText;
+    //位置指示用マーカー
+    [SerializeField] private GameObject m_markerPrefab;
 
     private GameObject m_markerObj;
 
     //チュートリアルをフェーズごとに分けたスクリプト
-    [SerializeField]
-    private TutorialBase[] m_tutorialBases;
+    [SerializeField] private TutorialBase[] m_tutorialBases;
 
     private void Start()
     {
@@ -38,9 +40,12 @@ public class TutorialManager : MonoBehaviour
 
         //現在のフェーズのスクリプト処理呼び出し
         m_tutorialBases[m_currentPhase].UpdatePhase();
-
     }
 
+    /// <summary>
+    /// フェーズ移行
+    /// 順に並んだチュートリアル処理を次に進める
+    /// </summary>
     public void NextPhase()
     {
         Debug.Log("チュートリアルのフェーズ移行");
@@ -55,7 +60,8 @@ public class TutorialManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 指定したテキストの表示
+    /// テキストの表示
+    /// チュートリアル用テキストを表示する
     /// </summary>
     public void SetText(string _str)
     {
@@ -65,7 +71,7 @@ public class TutorialManager : MonoBehaviour
         //普段見えないようにしたい
     }
     /// <summary>
-    /// テキストを非表示にする
+    /// テキストの非表示
     /// </summary>
     public void HideText()
     {
@@ -74,6 +80,7 @@ public class TutorialManager : MonoBehaviour
     }
 
     /// <summary>
+    /// マーカー作成
     /// 指定した座標にマーカー設置
     /// </summary>
     public void CreateMarker(Vector3 _pos)

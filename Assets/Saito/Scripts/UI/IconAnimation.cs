@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// <para>アイコンアニメーションクラス</para>
+/// アイコンを点滅させたりする
+/// </summary>
 public class IconAnimation : MonoBehaviour
 {
     enum ANIM_TYPE
@@ -26,7 +30,7 @@ public class IconAnimation : MonoBehaviour
         m_image = gameObject.GetComponent<Image>();
     }
 
-    // Update is called once per frame
+    // 状態によってアニメーションを実行する
     void Update()
     {
         switch (m_animationType) 

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// スタティック変数クラス
+/// <para>スタティック変数クラス</para>
 /// シーン間で持ち越ししたい変数用
 /// </summary>
 public class StaticVariables
@@ -16,7 +16,7 @@ public class StaticVariables
 }
 
 /// <summary>
-/// シーン移行クラス
+/// <para>シーン移行クラス</para>
 /// シーンの切り替えとゲーム終了を管理する
 /// </summary>
 public class SceneChanger : MonoBehaviour
@@ -25,7 +25,7 @@ public class SceneChanger : MonoBehaviour
     private SoundManager m_soundManager;
 
     /// <summary>
-    /// メインシーンに移行
+    /// <para>メインシーンに移行</para>
     /// ボタンで呼び出したいシーン切り替え 名前
     /// ロードシーンをはさんでもいいかも
     /// </summary>
@@ -60,7 +60,7 @@ public class SceneChanger : MonoBehaviour
     }
 
     /// <summary>
-    /// シーン切り替えコルーチン
+    /// <para>シーン切り替えコルーチン</para>
     /// ロード完了まで待つ
     /// </summary>
     /// <param name="_scene_name">移行先のシーン名</param>

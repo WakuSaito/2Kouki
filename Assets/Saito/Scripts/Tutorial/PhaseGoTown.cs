@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// g‚Á‚Ä‚È‚³‚»‚¤
+/// </summary>
 public class PhaseGoTown : TutorialBase
 {
     [SerializeField]//–Ú•W‚ÌÀ•W

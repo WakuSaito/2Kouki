@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+/// <summary>
+/// <para>フェード画像クラス</para>
+/// 画像のフェードイン、アウトを行う
+/// </summary>
 public class FadeImage : MonoBehaviour
 {
     enum ANIM_TYPE
@@ -12,29 +16,32 @@ public class FadeImage : MonoBehaviour
         FADE_OUT,
     }
 
-    [SerializeField]//どのアニメーションを再生するか
-    ANIM_TYPE m_animType = ANIM_TYPE.FADE_IN;
+    //どのアニメーションを再生するか
+    [SerializeField] ANIM_TYPE m_animType = ANIM_TYPE.FADE_IN;
 
-    [SerializeField]//アニメーション秒数
-    float m_animSec = 1.0f;
+    //アニメーション秒数
+    [SerializeField] float m_animSec = 1.0f;
 
     //透過させるためのコンポーネント
     CanvasGroup m_canvasGroup;
 
-    [SerializeField]//起動時に自動で動くか
-    private bool m_onAwake = false;
+    //起動時に自動で動くか
+    [SerializeField] private bool m_onAwake = false;
 
     private void Awake()
     {
         m_canvasGroup = gameObject.GetComponent<CanvasGroup>();
     }
-
+    
     private void Start()
     {
         if (m_onAwake)
             StartFade();
     }
 
+    /// <summary>
+    /// フェードの開始
+    /// </summary>
     public void StartFade()
     {
         switch (m_animType)
@@ -49,7 +56,9 @@ public class FadeImage : MonoBehaviour
         }
     }
 
-    //画像のフェードイン
+    /// <summary>
+    /// 画像のフェードイン
+    /// </summary>
     private void FadeIn()
     {
         m_canvasGroup.alpha = 0f;
@@ -57,7 +66,9 @@ public class FadeImage : MonoBehaviour
         m_canvasGroup.DOFade(endValue: 1f, duration: m_animSec);
     }
 
-    //画像のフェードアウト
+    /// <summary>
+    /// 画像のフェードアウト
+    /// </summary>
     private void FadeOut()
     {
         m_canvasGroup.alpha = 1f;

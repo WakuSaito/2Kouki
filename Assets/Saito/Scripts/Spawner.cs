@@ -62,7 +62,7 @@ public class Spawner : MonoBehaviour
     }
 
     /// <summary>
-    /// 生成開始
+    /// <para>生成開始</para>
     /// インスペクタで指定した条件で、重ならないようにオブジェクトを生成する
     /// </summary>
     public void StartSpawn()

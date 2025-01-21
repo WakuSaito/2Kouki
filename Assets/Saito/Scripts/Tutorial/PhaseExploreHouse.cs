@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>家探索フェイズ</para>
+/// 探索を覚えてもらう
+/// </summary>
 public class PhaseExploreHouse : TutorialBase
 {
     [SerializeField]//目標の座標

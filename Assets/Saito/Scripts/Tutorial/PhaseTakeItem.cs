@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>アイテムを拾うフェイズ</para>
+/// アイテムの拾い方を覚えてもらう
+/// </summary>
 public class PhaseTakeItem : TutorialBase
 {
     [SerializeField]//食料オブジェクト

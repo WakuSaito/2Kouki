@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>操作説明UI管理クラス</para>
+/// 状態によって操作説明の表示を変更する
+/// </summary>
 public class HowToUIManager : MonoBehaviour
 {
     [SerializeField]//移動
@@ -39,6 +43,8 @@ public class HowToUIManager : MonoBehaviour
         m_inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
     }
 
+    //インベントリ、犬の状態によって表示を変える
+    //インベントリの形が変わったので変更する必要があるかも
     private void Update()
     {
         if (m_inventory == null) return;
@@ -94,11 +100,11 @@ public class HowToUIManager : MonoBehaviour
             m_detectOrderUI.GetComponent<CanvasGroup>().alpha = 1f;
         else
             m_detectOrderUI.GetComponent<CanvasGroup>().alpha = 0.5f;
-
-
     }
 
-    //全て非表示にする
+    /// <summary>
+    /// UIの一括非表示
+    /// </summary>
     private void HideUI()
     {
         m_moveUI.SetActive(false);

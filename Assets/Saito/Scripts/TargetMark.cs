@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ターゲットマーククラス
+/// <para>ターゲットマーククラス</para>
 /// インスペクタで指定した条件のオブジェクトにマーク（UI）を付ける
 /// </summary>
 public class TargetMark : MonoBehaviour
@@ -20,7 +20,7 @@ public class TargetMark : MonoBehaviour
     [SerializeField] private float m_targetCenterY = 2.0f;
 
     /// <summary>
-    /// 範囲マーク
+    /// <para>範囲マーク</para>
     /// 一定範囲の対象タグオブジェクトにマークを付ける
     /// </summary>
     public void RangeMark()

@@ -655,6 +655,7 @@ MonoBehaviour:
   m_biteStaySec: 4
   m_detectCooldownSec: 60
   m_stayPlayerDistance: 3
+  m_chasePlayerDistanceMin: 1
   m_isStopAction: 0
   m_safeAreaStayPos: {x: 0, y: 0, z: 0}
 --- !u!114 &1745869519410043631
@@ -669,8 +670,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d98ba73bc75da454fb7074c3c66a559f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_walkSpeed: 3
-  m_runSpeed: 6
+  m_walkSpeed: 1
+  m_runSpeed: 4
   m_turnSpeed: 1000
 --- !u!114 &1745869519410043627
 MonoBehaviour:

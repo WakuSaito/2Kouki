@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>ヘリコプターに向かうフェイズ</para>
+/// 脱出の目的地に向かわせる
+/// </summary>
 public class PhaseGoHelicopter : TutorialBase
 {
     [SerializeField]//目標の座標

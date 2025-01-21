@@ -2,84 +2,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>サウンド管理クラス</para>
+/// 音声ファイルをインスペクターで指定し、他クラスで再生出来る
+/// </summary>
+// なお変数名を変更するとサウンドを指定しなおさなければいけないため手を付けていない
 public class SoundManager : MonoBehaviour
 {
     //プレイヤー
-    [SerializeField] //足音
-    public AudioClip[] playerFootSteps;
-    [SerializeField] //被ダメージ
-    public AudioClip playerDamage;
-    [SerializeField] //ナイフを振る
-    public AudioClip playerKnifeSwing;
-    [SerializeField] //拾う
-    public AudioClip playerPickUp;
-    [SerializeField] //食べる
-    public AudioClip playerEat;
-    [SerializeField] //飲む
-    public AudioClip playerDrink;
-    [SerializeField] //回復
-    public AudioClip playerHeal;
+    [SerializeField] public AudioClip[] playerFootSteps;//足音
+    [SerializeField] public AudioClip playerDamage;     //被ダメージ
+    [SerializeField] public AudioClip playerKnifeSwing; //ナイフを振る
+    [SerializeField] public AudioClip playerPickUp;//拾う
+    [SerializeField] public AudioClip playerEat;   //食べる
+    [SerializeField] public AudioClip playerDrink; //飲む
+    [SerializeField] public AudioClip playerHeal;  //回復
 
     //銃
-    [SerializeField] //空撃ち
-    public AudioClip gunBlankShot;
-    [SerializeField] //発砲
-    public AudioClip pistolShot;
-    [SerializeField] //リロード（マガジン取り出し）
-    public AudioClip pistolReloadOut;
-    [SerializeField] //リロード（マガジン入れ）
-    public AudioClip pistolReloadIn;
-    [SerializeField] //発砲
-    public AudioClip assaultShot;
-    [SerializeField] //リロード（マガジン取り出し）
-    public AudioClip assaultReloadOut;
-    [SerializeField] //リロード（マガジン入れ）
-    public AudioClip assaultReloadIn;
-    [SerializeField] //チャージングハンドルを引く
-    public AudioClip assaultChargingHandle;
-    [SerializeField] //発砲
-    public AudioClip shotgunShot;
-    [SerializeField] //弾込め
-    public AudioClip shotgunBulletIn;
+    [SerializeField] public AudioClip gunBlankShot;//空撃ち
+    [SerializeField] public AudioClip pistolShot;  //発砲
+    [SerializeField] public AudioClip pistolReloadOut;//リロード（マガジン取り出し）
+    [SerializeField] public AudioClip pistolReloadIn; //リロード（マガジン入れ）
+    [SerializeField] public AudioClip assaultShot;     //発砲
+    [SerializeField] public AudioClip assaultReloadOut;//リロード（マガジン取り出し）
+    [SerializeField] public AudioClip assaultReloadIn; //リロード（マガジン入れ）
+    [SerializeField] public AudioClip assaultChargingHandle;//チャージングハンドルを引く
+    [SerializeField] public AudioClip shotgunShot;    //発砲
+    [SerializeField] public AudioClip shotgunBulletIn;//弾込め
 
-    [SerializeField] //攻撃指示
-    public AudioClip whistleAttack;
-    [SerializeField] //探知指示
-    public AudioClip whistleDetect;
+    [SerializeField] public AudioClip whistleAttack;//攻撃指示
+    [SerializeField] public AudioClip whistleDetect;//探知指示
 
     //ゾンビ
-    [SerializeField] //足音
-    public AudioClip[] zombieFootStep;
-    [SerializeField] //呻き
-    public AudioClip zombieVoice;
-    [SerializeField] //被ダメージ
-    public AudioClip zombieDamage;
-    [SerializeField] //死亡
-    public AudioClip zombieDead;
+    [SerializeField] public AudioClip[] zombieFootStep;//足音
+    [SerializeField] public AudioClip zombieVoice; //呻き
+    [SerializeField] public AudioClip zombieDamage;//被ダメージ
+    [SerializeField] public AudioClip zombieDead;  //死亡
 
     //犬
-    [SerializeField] //足音
-    public AudioClip dogFootStep;
-    [SerializeField] //攻撃時の吠え
-    public AudioClip dogAttackBark;
-    [SerializeField] //探知時の吠え
-    public AudioClip dogDetectBark;
+    [SerializeField] public AudioClip dogFootStep;  //足音
+    [SerializeField] public AudioClip dogAttackBark;//攻撃時の吠え
+    [SerializeField] public AudioClip dogDetectBark;//探知時の吠え
 
     //システム
-    [SerializeField] //ボタン押下
-    public AudioClip pushButton;
-    [SerializeField] //脱出時
-    public AudioClip escapeMap;
-    [SerializeField] //インベントリ表示
-    public AudioClip inventoryOpen;
-    [SerializeField] //インベントリ非表示
-    public AudioClip inventoryClose;
+    [SerializeField] public AudioClip pushButton;//ボタン押下
+    [SerializeField] public AudioClip escapeMap; //脱出時
+    [SerializeField] public AudioClip inventoryOpen; //インベントリ表示
+    [SerializeField] public AudioClip inventoryClose;//インベントリ非表示
 
     //BGM
-    [SerializeField]
-    public AudioClip titleBGM;
-    [SerializeField] 
-    public AudioClip nomalBGM;  
+    [SerializeField] public AudioClip titleBGM;//タイトル
+    [SerializeField] public AudioClip nomalBGM;//メイン
 
     private AudioClip m_nextBGM;
     private float m_changeBGMSpeed;
@@ -91,12 +64,15 @@ public class SoundManager : MonoBehaviour
 
     AudioSource m_audioSource;
 
+    //コンポーネント、音量取得　
     private void Awake()
     {
         m_audioSource = gameObject.GetComponent<AudioSource>();
         m_maxVolume = m_audioSource.volume;
         m_currentVolume = m_maxVolume;
     }
+
+    //BGMの自然な切り替え実行
     private void Update()
     {
         if(m_isFadeOut)
@@ -124,6 +100,12 @@ public class SoundManager : MonoBehaviour
         m_audioSource.volume = m_currentVolume;
     }
 
+    /// <summary>
+    /// BGM切り替え
+    /// 自然にBGMを切り替える
+    /// </summary>
+    /// <param name="_bgm">切り替え後のBGM</param>
+    /// <param name="_speed">切り替わる速度</param>
     public void ChangeBGM(AudioClip _bgm, float _speed)
     {
         m_nextBGM = _bgm;
@@ -132,6 +114,11 @@ public class SoundManager : MonoBehaviour
         m_isFadeIn = true;
     }
 
+    /// <summary>
+    /// 2DSEの再生
+    /// 立体音響を無視したSE再生
+    /// </summary>
+    /// <param name="_se">再生するSE</param>
     public void Play2DSE(AudioClip _se)
     {
         m_audioSource.PlayOneShot(_se);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 弾道エフェクトクラス
+/// <para>弾道エフェクトクラス</para>
 /// エフェクトにアタッチする　次第にフェードアウトする
 /// </summary>
 public class BulletLineEffect : MonoBehaviour

@@ -12,8 +12,8 @@ public class ColorChanger : MonoBehaviour
     //現在の色のアルファ値
     private float m_currentAlpha;
 
-    [SerializeField]//Meshがアタッチされたオブジェクト
-    GameObject[] m_meshObjs;
+    //Meshがアタッチされたオブジェクト
+    [SerializeField] GameObject[] m_meshObjs;
 
     //最初のカラーのアルファ値保存
     private void Awake()
@@ -25,7 +25,7 @@ public class ColorChanger : MonoBehaviour
     }
 
     /// <summary>
-    /// 色のアルファ値変更
+    /// <para>色のアルファ値変更</para>
     /// マテリアルのカラーの透明度を変更する
     /// </summary>
     /// <param name="_alpha">アルファ値(透明度)</param>

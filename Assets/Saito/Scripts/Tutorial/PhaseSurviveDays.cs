@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>生き残らせるフェイズ</para>
+/// 生存日数が3日になるまで自由行動させる
+/// </summary>
 public class PhaseSurviveDays : TutorialBase
 {
     TimeController m_timeController;

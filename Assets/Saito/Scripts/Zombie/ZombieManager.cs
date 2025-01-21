@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 
 /// <summary>
-/// ゾンビの管理クラス
+/// <para>ゾンビの管理クラス</para>
 /// ZombieBaseを継承したクラスを扱う
 /// </summary>
 public class ZombieManager : MonoBehaviour, IStopObject
@@ -23,8 +23,7 @@ public class ZombieManager : MonoBehaviour, IStopObject
     /// <summary>
     /// 操作するクラス
     /// </summary>
-    [SerializeField]
-    private ZombieBase[] m_zombieBases;
+    [SerializeField] private ZombieBase[] m_zombieBases;
 
     private ZombieMove m_zombieMove;
     private ZombieAttack m_zombieAttack;
@@ -35,19 +34,18 @@ public class ZombieManager : MonoBehaviour, IStopObject
 
     GameObject m_playerObj;
 
-    [SerializeField]//プレイヤーの探知範囲
-    float m_detectionPlayerRangeMin = 10.0f;
-    [SerializeField]
-    float m_detectionPlayerRangeMax = 30.0f;
+    //プレイヤーの探知範囲
+    [SerializeField] float m_detectionPlayerRangeMin = 10.0f;//最小
+    [SerializeField] float m_detectionPlayerRangeMax = 30.0f;//最大
 
     //現在のプレイヤー探知範囲
     private float m_currentDetectionRange;
 
-    [SerializeField]//攻撃開始距離
-    float m_attackStartRange = 2.0f;
+    //攻撃開始距離
+    [SerializeField] float m_attackStartRange = 2.0f;
 
-    [SerializeField]//このオブジェクトを削除するプレイヤーとの距離
-    float m_despawnPlayerDistance = 120.0f;
+    //このオブジェクトを削除するプレイヤーとの距離
+    [SerializeField] float m_despawnPlayerDistance = 120.0f;
 
     //攻撃対象を発見している
     private bool m_isFoundTarget = false;
@@ -62,33 +60,28 @@ public class ZombieManager : MonoBehaviour, IStopObject
     //一時停止
     private bool m_isStop = false;
 
-    [SerializeField] //チュートリアル用か
-    private bool m_isTutorialObj = false;
+    //チュートリアル用オブジェクトか
+    [SerializeField] private bool m_isTutorialObj = false;
 
     //スタン処理キャンセル用トークン
     private IEnumerator m_stanCoroutine;
 
-    [SerializeField]//Meshがアタッチされたオブジェクト
-    GameObject m_meshObj;
-    //現在の色のアルファ値
-    private float m_currentAlpha;
+    //Meshがアタッチされたオブジェクト
+    [SerializeField] GameObject m_meshObj;
 
     //動作中の遅延動作
     List<IEnumerator> m_inActionDelays = new List<IEnumerator>();
 
+    //オブジェクトの取得
     private void Awake()
     {
         //プレイヤーオブジェクト取得
         m_playerObj = GameObject.FindGameObjectWithTag("Player");
 
-        //カラーのアルファ値取得
-        m_currentAlpha = m_meshObj.GetComponent<Renderer>().materials[1].color.a;
-
         m_currentDetectionRange = m_detectionPlayerRangeMin;
-
     }
 
-    // Start is called before the first frame update
+    //ゾンビベースを継承したクラスの取得と初期設定
     void Start()
     {
         foreach(var zombie in m_zombieBases)
@@ -115,7 +108,7 @@ public class ZombieManager : MonoBehaviour, IStopObject
     }
 
 
-    // Update is called once per frame
+    //行動パターンを決めるメインループ
     void Update()
     {
         if (m_isStop) return;
@@ -220,7 +213,10 @@ public class ZombieManager : MonoBehaviour, IStopObject
 
         }
     }
-    //攻撃
+    /// <summary>
+    /// <para>攻撃</para>
+    /// フラグチェックと関数呼び出し
+    /// </summary>
     private void Attack()
     {
         if (m_zombieAttack.m_isAttack) return;//クールタイムチェック
@@ -232,7 +228,10 @@ public class ZombieManager : MonoBehaviour, IStopObject
         m_zombieAnimation.Attack();
     }
 
-    //探知範囲変更
+    /// <summary>
+    /// 探知範囲の変更
+    /// プレイヤーの体力が低いほどプレイヤーを見つけやすくなる
+    /// </summary>
     private void ChangeDetectRange()
     {
         //プレイヤーのスクリプト取得
@@ -252,9 +251,11 @@ public class ZombieManager : MonoBehaviour, IStopObject
     }
 
     /// <summary>
-    /// 体にダメージを受けた
+    /// <para>体にダメージを受ける</para>
+    /// ダメージ計算とアニメーション等の再生
     /// </summary>
-    //被弾地点からアニメーションを変更させる用
+    /// <param name="_hit_pos">被弾地点 (アニメーション用)</param>
+    /// <param name="_damage">ダメージ量</param>
     public void DamageBody(Vector3 _hit_pos, int _damage)
     {
         Debug.Log("Body");
@@ -281,20 +282,11 @@ public class ZombieManager : MonoBehaviour, IStopObject
         Stan(0.1f);//スタン
     }
     /// <summary>
-    /// 頭にダメージを受けた
+    /// </para>頭にダメージを受けた</para>
+    /// ダメージ計算とアニメーション等再生
     /// </summary>
-    public void DamageHead(int _damage)
-    {
-        Debug.Log("Head");
-
-        m_zombieAttack.AttackCancel();//攻撃処理のキャンセル
-
-        m_zombieHP.Damage(_damage * 2);//ダメージ
-
-        m_zombieAnimation.DamageHitRight();
-
-        Stan(0.3f);//スタン
-    }
+    /// <param name="_hit_pos">被弾地点 (アニメーション用)</param>
+    /// <param name="_damage">ダメージ量</param>
     public void DamageHead(Vector3 _hit_pos, int _damage)
     {
         Debug.Log("Head");
@@ -311,22 +303,24 @@ public class ZombieManager : MonoBehaviour, IStopObject
         Stan(0.3f);//スタン
     }
 
-    //一定時間スタン
+    /// <summary>
+    /// <para>スタン</para>
+    /// 一定時間行動不可になる
+    /// </summary>
+    /// <param name="_sec">スタンする秒数</param>
     private void Stan(float _sec)
     {
         if (m_isDead) return;
 
+        //現在動作中のスタンコルーチンをキャンセル
         if (m_isStan && m_stanCoroutine != null)
         {
             StopCoroutine(m_stanCoroutine);
             m_inActionDelays.Remove(m_stanCoroutine);
             m_stanCoroutine = null;
         }
-        // stanCancellTokenSource.Cancel();//現在動いているスタン処理のキャンセル
 
         m_zombieAttack.AttackCancel();//攻撃処理のキャンセル
-
-        //stanCancellTokenSource = new CancellationTokenSource();
 
         m_isStan = true;
 
@@ -347,7 +341,8 @@ public class ZombieManager : MonoBehaviour, IStopObject
 
 
     /// <summary>
-    /// 死亡処理
+    /// <para>死亡処理</para>
+    /// 当たり判定を消し、アニメーション再生
     /// </summary>
     private void Dead()
     {
@@ -370,7 +365,9 @@ public class ZombieManager : MonoBehaviour, IStopObject
                     ));
         StartCoroutine(m_inActionDelays[m_inActionDelays.Count - 1]);
     }
-    //コライダー無効化
+    /// <summary>
+    /// コライダー無効化
+    /// </summary>
     private void EnableCollider()
     {
         //全ての子オブジェクトのコライダー取得
@@ -385,10 +382,10 @@ public class ZombieManager : MonoBehaviour, IStopObject
     }
 
     /// <summary>
-    /// 移動不可状態にする
-    /// (停止する時間)
-    /// 犬側で呼び出してね
+    /// </para>移動不可状態にする</para>
+    /// 犬側で呼び出す
     /// </summary>
+    /// <param name="_sec">停止する秒数</param>
     public void FreezePosition(float _sec)
     {
         //移動停止フラグオン
@@ -402,20 +399,13 @@ public class ZombieManager : MonoBehaviour, IStopObject
         StartCoroutine(m_inActionDelays[m_inActionDelays.Count - 1]);
     }
 
-    //色のアルファ値変更
-    public void ChangeColorAlpha(float _alpha)
-    {
-        //色が変わらない場合処理を行わないようにする
-        if (m_currentAlpha == _alpha) return;
-        m_currentAlpha = _alpha;
-
-        Color current_color = m_meshObj.GetComponent<Renderer>().materials[1].color;
-        m_meshObj.GetComponent<Renderer>().materials[1].color = new Color(current_color.r, current_color.g, current_color.b,_alpha);
-    }
 
     /// <summary>
     /// 遅らせてActionを実行するコルーチン
+    /// キャンセル可
     /// </summary>
+    /// <param name="_wait_sec">遅延秒数</param>
+    /// <param name="_action">遅延後実行する処理</param>
     private IEnumerator DelayRunCoroutine(float _wait_sec, Action _action)
     {
         //このコルーチンの情報取得 出来ればリスト追加もここでやりたい
@@ -430,8 +420,10 @@ public class ZombieManager : MonoBehaviour, IStopObject
         m_inActionDelays.Remove(this_coroutine);
     }
 
-    //インターフェースでの停止処理用
-    //一時停止
+    /// <summary>
+    /// <para>一時停止</para>
+    /// インターフェースでの停止処理用
+    /// </summary>
     public void Pause()
     {
         m_isStop = true;
@@ -448,7 +440,10 @@ public class ZombieManager : MonoBehaviour, IStopObject
         }
         
     }
-    //再開
+    /// <summary>
+    /// <para>再開</para>
+    /// インターフェースでの停止解除処理用
+    /// </summary>
     public void Resume()
     {
         m_isStop = false;

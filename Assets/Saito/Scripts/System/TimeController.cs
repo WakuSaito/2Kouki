@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// 時間:分データクラス
-/// 時間:分単位の数値と計算を内蔵するクラス（構造体のような用途）
+/// <para>時間,分データクラス</para>
+/// 時間,分単位の数値と計算を内蔵するクラス（構造体のような用途）
 /// </summary>
 public class HourMinute
 {
@@ -18,7 +18,7 @@ public class HourMinute
     private int minute = 0;//分
 
     /// <summary>
-    /// コンストラクタ
+    /// <para>コンストラクタ</para>
     /// 時間、分を指定し、作成
     /// </summary>
     /// <param name="_hour">時間</param>
@@ -84,7 +84,7 @@ public class HourMinute
         return hour;
     }
     /// <summary>
-    /// 時間:分の文字型取得
+    /// <para>時間:分の文字型取得</para>
     /// 数値をstring型に変換し取得
     /// </summary>
     /// <returns>"hh:mm"</returns>
@@ -106,8 +106,8 @@ public class HourMinute
 
 //時間経過スクリプト　（昼夜の処理など）
 /// <summary>
-/// 時間管理クラス
-/// 時間経過、日光の向き、テキストを扱う
+/// <para>時間管理クラス</para>
+/// <para>時間経過、日光の向き、テキストを扱う</para>
 /// ポーズ時に時間経過を停止したいためIStopObject継承
 /// </summary>
 public class TimeController : MonoBehaviour, IStopObject
@@ -272,7 +272,7 @@ public class TimeController : MonoBehaviour, IStopObject
     }
 
     /// <summary>
-    /// 時間を日没に変更
+    /// <para>時間を日没に変更</para>
     /// デバッグ用　時間強制変更
     /// </summary>
     public void ChangeSunset()
@@ -284,7 +284,7 @@ public class TimeController : MonoBehaviour, IStopObject
             m_timeCountTextObj.GetComponent<Text>().text = m_currentTime.GetTimeString();//テキスト更新
     }
     /// <summary>
-    /// 時間を日の出に変更
+    /// <para>時間を日の出に変更</para>
     /// デバッグ用　時間強制変更
     /// </summary>
     public void ChangeSunrise()
@@ -322,7 +322,7 @@ public class TimeController : MonoBehaviour, IStopObject
     }
 
     /// <summary>
-    /// 日没から何分経ったか取得する
+    /// <para>日没から何分経ったか取得する</para>
     /// 時間によって補間したいので実装
     /// </summary>
     public int GetMinutesAfterSunset()
@@ -335,7 +335,7 @@ public class TimeController : MonoBehaviour, IStopObject
     }
 
     /// <summary>
-    /// 日の出まで何分あるか取得する
+    /// <para>日の出まで何分あるか取得する</para>
     /// 時間によって補間したいので実装
     /// </summary>
     public int GetMinutesBeforeSunrise()
@@ -347,7 +347,7 @@ public class TimeController : MonoBehaviour, IStopObject
         return (m_sunriseHour - hour) * HourMinute.MAX_MINUTE - m_currentTime.GetMinute();
     }
     /// <summary>
-    /// 一時停止
+    /// <para>一時停止</para>
     /// ポーズ時に停止する
     /// </summary>
     public void Pause()
@@ -355,7 +355,7 @@ public class TimeController : MonoBehaviour, IStopObject
         m_isStopPassageTime = true;
     }
     /// <summary>
-    /// 再開
+    /// <para>再開</para>
     /// ポーズ解除時に停止解除する
     /// </summary>
     public void Resume()

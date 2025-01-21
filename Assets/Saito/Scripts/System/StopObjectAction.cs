@@ -4,26 +4,26 @@ using UnityEngine;
 
 
 /// <summary>
-/// 停止オブジェクトインターフェース
+/// <para>停止オブジェクトインターフェース</para>
 /// ポーズ時に停止するオブジェクトが継承するインターフェース
 /// </summary>
 public interface IStopObject
 {
     /// <summary>
-    /// 一時停止
+    /// <para>一時停止</para>
     /// ポーズ開始時に呼び出される
     /// </summary>
     public void Pause();
 
     /// <summary>
-    /// 再開
+    /// <para>再開</para>
     /// ポーズ解除時に呼び出されル
     /// </summary>
     public void Resume();
 }
 
 /// <summary>
-/// オブジェクト停止実行クラス
+/// <para>オブジェクト停止実行クラス</para>
 /// インベントリを監視し、IStopObjectを継承するオブジェクトの一時停止、再開を行う
 /// </summary>
 public class StopObjectAction : MonoBehaviour
@@ -85,7 +85,7 @@ public class StopObjectAction : MonoBehaviour
 public class InterfaceUtils
 {
     /// <summary>
-    /// 特定のインタフェースがアタッチされたオブジェクトを見つける
+    /// <para>特定のインタフェースがアタッチされたオブジェクトを見つける</para>
     /// </summary>
     /// <typeparam name="T"> 探索するインタフェース </typeparam>
     /// <returns> 取得したクラス配列 </returns>

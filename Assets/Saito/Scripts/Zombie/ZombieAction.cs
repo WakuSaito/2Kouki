@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ゾンビの行動
+/// <para>ゾンビの行動</para>
 /// クラス名は変更したほうがいいかも
 /// </summary>
 public class ZombieAction : ZombieBase

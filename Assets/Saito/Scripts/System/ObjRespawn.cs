@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// オブジェクトの再生成
+/// ベッドでの処理　クラス名は良くないかも
+/// </summary>
 public class ObjRespawn : MonoBehaviour
 {
     //スポナーオブジェクト
@@ -9,6 +13,7 @@ public class ObjRespawn : MonoBehaviour
 
     player m_playerScript;
 
+    //オブジェクトの取得
     private void Awake()
     {
         //アクティブ状態の変更後に取得すると見つからないので
@@ -18,7 +23,7 @@ public class ObjRespawn : MonoBehaviour
         m_playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<player>();
     }
 
-    // Update is called once per frame
+    // デバッグ用
     void Update()
     {
         //デバッグ用
@@ -30,6 +35,9 @@ public class ObjRespawn : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 再生成の実行
+    /// </summary>
     public void Respawn()
     {
         //全スポナー有効化
@@ -46,7 +54,9 @@ public class ObjRespawn : MonoBehaviour
         }
     }
 
-    //プレイヤーを休息させる
+    /// <summary>
+    /// プレイヤーを休息させる
+    /// </summary>
     public void RestPlayer()
     {
         Respawn();

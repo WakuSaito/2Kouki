@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ナイフ管理クラス
+/// ナイフでの攻撃処理を行う
+/// </summary>
 public class KnifeManager : MonoBehaviour
 {
     // 当たり判定処理済みを記録  
@@ -15,12 +19,12 @@ public class KnifeManager : MonoBehaviour
     //コルーチンキャンセル用
     Coroutine m_attackCoroutine;
 
+    //当たり判定無効化
     private void Start()
     {
         m_collider = gameObject.GetComponent<Collider>();
         m_collider.enabled = false;
     }
-
 
     /// <summary>
     /// 攻撃開始
@@ -32,11 +36,11 @@ public class KnifeManager : MonoBehaviour
         if (m_attackCoroutine != null)
             AttackCancel();//再生中のコルーチンがあればキャンセル
 
-        m_attackCoroutine = StartCoroutine(attack());//コルーチン開始
+        m_attackCoroutine = StartCoroutine(Attack());//コルーチン開始
     }
 
     /// <summary>
-    /// 攻撃キャンセル用
+    /// 攻撃キャンセル
     /// </summary>
     public void AttackCancel()
     {
@@ -51,7 +55,11 @@ public class KnifeManager : MonoBehaviour
         m_attackCoroutine = null;
     }
 
-    IEnumerator attack()
+    /// <summary>
+    /// <para>攻撃コルーチン</para>
+    /// 当たり判定の状態変更
+    /// </summary>
+    IEnumerator Attack()
     {
         m_hitMasters.Clear(); // リセット
         m_collider.enabled = true;
@@ -62,6 +70,7 @@ public class KnifeManager : MonoBehaviour
         m_attackCoroutine = null;
     }
 
+    //ゾンビに当たった時にダメージを与える
     void OnTriggerEnter(Collider other)
     {
         string hit_tag = other.tag;
