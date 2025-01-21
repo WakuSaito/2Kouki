@@ -66,8 +66,20 @@ public class DogManager : MonoBehaviour, IStopObject
 
     //セーフエリアで待機する場所
     [SerializeField] private Vector3 m_safeAreaStayPos;
-    //セーフエリア内の挙動を実行しているか
-    bool m_isSafeAreaUpdate = false;
+
+    /// <summary>
+    /// 移動ループの種類
+    /// </summary>
+    enum MOVE_UPDATE_TYPE
+    {
+        STAY,
+        CHASE,
+        SAFE_AREA,
+        CHARGE,
+        NULL
+    }
+    //前回実行された移動アップデート
+    MOVE_UPDATE_TYPE m_prevMoveUpdateType = MOVE_UPDATE_TYPE.NULL;
 
     //コンポーネントの取得
     private void Awake()
@@ -100,16 +112,24 @@ public class DogManager : MonoBehaviour, IStopObject
     // 状態によってアクションを決めるメインループ
     void Update()
     {
-        if (m_isStopAction || m_isPause) {
+        if (m_isStopAction || m_isPause)
+        {
             m_dogMove.StopMove();//移動停止
-            return; 
+            return;
         }
 
-        if (m_isChargeTarget)//突進
+        //プレイヤーとの距離
+        float player_distance = Vector3.Distance(m_playerObj.transform.position, transform.position);
+
+        //移動タイプを決める
+        if (m_isChargeTarget)
         {
+            //突進
+
             //攻撃対象が存在しないならreturn
             //攻撃対象が途中でDestroyされた場合の挙動注意
-            if (m_attackTargetObj == null){
+            if (m_attackTargetObj == null)
+            {
                 m_isChargeTarget = false;//突進中断
                 return;
             }
@@ -127,25 +147,25 @@ public class DogManager : MonoBehaviour, IStopObject
                 BiteZombie(m_attackTargetObj);
             }
         }
+        else if (false)//m_playerObj.GetComponent<player>().m_inSafeAreaFlag)
+        {
+            //プレイヤーがセーフエリア内
+            SafeAreaUpdate();
+            m_prevMoveUpdateType = MOVE_UPDATE_TYPE.SAFE_AREA;
+        }
+        else if (player_distance >= m_stayPlayerDistance)
+        {
+            //プレイヤーと一定以上離れている
+            ChasePlayerUpdate();
+            m_prevMoveUpdateType = MOVE_UPDATE_TYPE.CHASE;
+        }
         else
         {
-            //if(プレイヤーがセーフエリア内)
-            if(m_playerObj.GetComponent<player>().m_inSafeAreaFlag)
-            {
-                SafeAreaUpdate();
-            }
-            else
-            {
-                if(m_isSafeAreaUpdate == true)
-                {
-                    //セーフエリアコルーチンキャンセル
-
-                    m_isSafeAreaUpdate = false;
-                }
-
-                NomalMoveUpdate();//通常時の移動
-            }
+            //待機時
+            StayUpdate();
+            m_prevMoveUpdateType = MOVE_UPDATE_TYPE.STAY;
         }
+
     }
 
     /// <summary>
@@ -154,12 +174,11 @@ public class DogManager : MonoBehaviour, IStopObject
     /// </summary>
     private void SafeAreaUpdate()
     {
-        if(m_isSafeAreaUpdate == false)
+        //連続実行でない
+        if(m_prevMoveUpdateType != MOVE_UPDATE_TYPE.SAFE_AREA)
         {
-            m_isSafeAreaUpdate = true;
-
             //一定時間後に所定の位置にワープ
-            //セーフエリアから出たときキャンセルしないといけない
+            //セーフエリアから出たときキャンセルしないといけない lerpでもよさげ
             m_inActionDelays.Add(
                         DelayRunCoroutine(
                         2.0f,//仮
@@ -175,81 +194,73 @@ public class DogManager : MonoBehaviour, IStopObject
         //セーフエリア所定位置に移動 この辺DogMoveにまとめた方が良さそう
         m_dogMove.LookAtPosition(m_safeAreaStayPos);
         m_dogMove.RunFront();
+        m_dogAnimation.Run();
     }
 
     /// <summary>
-    /// 通常時移動
-    /// 通常時の移動を決める
-    /// プレイヤーが範囲内、範囲外で関数を分けたい
+    /// プレイヤー追跡ループ
+    /// プレイヤーを追うように移動する 離れすぎたらワープする
     /// </summary>
-    private void NomalMoveUpdate()
+    private void ChasePlayerUpdate()
     {
-        //移動先座標がプレイヤーから離れているなら決めなおす
-        float player_target_distance = Vector3.Distance(m_playerObj.transform.position, m_targetPos);
-        if (player_target_distance > m_stayPlayerDistance)
+        //プレイヤーとの距離
+        float player_distance = Vector3.Distance(m_playerObj.transform.position, transform.position);
+        if(player_distance >= 35.0f)//プレイヤーとの距離が一定以上
         {
-            RandomTargetPos();//移動先決め
-            m_onFreezeMove = false;  //停止中でも解除
-            m_isMoveTypeWalk = false;//走るようにする
+            Vector3 player_behind_pos = m_playerObj.transform.position - m_playerObj.transform.forward * -1.0f;
+
+            m_dogMove.Warp(player_behind_pos);//ワープさせる
+        }
+        //目標地点設定
+        m_targetPos = m_playerObj.transform.position;
+      
+        m_dogMove.LookAtPosition(m_targetPos);//向き変更
+        m_dogMove.RunFront();//移動
+        m_dogAnimation.Run();//アニメーション設定
+    }
+
+    /// <summary>
+    /// 待機時ループ
+    /// 平常時の行動　基本停止でたまにプレイヤーの周囲をうろつく
+    /// </summary>
+    private void StayUpdate()
+    {
+        //連続実行でない
+        if(m_prevMoveUpdateType != MOVE_UPDATE_TYPE.STAY)
+        {
+            m_targetPos = transform.position;
+            m_onFreezeMove = false;
         }
 
         if (m_onFreezeMove) return;
-
-        //目標座標までの位置を求める
-        Vector3 pos = transform.position;
-        pos.y = 0.5f;
-        //プレイヤーと自身の距離
-        float player_distance = Vector3.Distance(m_playerObj.transform.position, pos);
-        //距離が遠い場合は指示を受け付けない
-        if (player_distance <= m_stayPlayerDistance)
+        //目標地点に到着
+        if (Vector3.Distance(m_targetPos, transform.position) <= 0.1f)
         {
-            m_isIgnoreOrder = false;
-        }
-        else
-        {
-            m_isIgnoreOrder = true;
-        }
-
-        //ここで移動
-        m_dogMove.LookAtPosition(m_targetPos);//向き変更
-        //プレイヤーとの距離によって速度変更
-        if (m_isMoveTypeWalk)
-        {
-            m_dogMove.WalkFront();
-            m_dogAnimation.Walk();
-        }
-        else
-        {
-            m_dogMove.RunFront();
-            m_dogAnimation.Run();
-        }
-
-        float distance = Vector3.Distance(pos, m_targetPos);
-        //到着したら
-        if (distance < 0.1f)
-        {
-            //停止
+            //移動停止
             m_dogMove.StopMove();
             m_dogAnimation.Idle();
-
             //停止時間をランダムに決める
-            //変数は後でクラス変数にする
             float freeze_sec = UnityEngine.Random.Range(2.0f, 5.0f);
-
+            //一定時間停止 別のループ時キャンセルしたい
             m_onFreezeMove = true;
-            //一定時間停止
             m_inActionDelays.Add(
                         DelayRunCoroutine(
                         freeze_sec,
                         () => {
                             m_onFreezeMove = false;
-                            RandomTargetPos();
-                            m_isMoveTypeWalk = true;
+                            RandomTargetPos();//移動先決め
                         }
                         ));
             StartCoroutine(m_inActionDelays[m_inActionDelays.Count - 1]);
         }
+        else
+        {
+            m_dogMove.LookAtPosition(m_targetPos);//向き変更
+            m_dogMove.WalkFront();//移動
+            m_dogAnimation.Walk();
+        }
     }
+
 
     /// <summary>
     /// 対象のオブジェクトとの距離を求める
@@ -455,7 +466,83 @@ public class DogManager : MonoBehaviour, IStopObject
             StartCoroutine(cor);
         }
     }
+    /// <summary>
+    /// 通常時移動
+    /// 通常時の移動を決める
+    /// プレイヤーが範囲内、範囲外で関数を分けたい
+    /// </summary>
+    private void NomalMoveUpdate()
+    {
+        //移動先座標がプレイヤーから離れているなら決めなおす
+        float player_target_distance = Vector3.Distance(m_playerObj.transform.position, m_targetPos);
+        if (player_target_distance > m_stayPlayerDistance)
+        {
+            RandomTargetPos();//移動先決め
+            m_onFreezeMove = false;  //停止中でも解除
+            m_isMoveTypeWalk = false;//走るようにする
+        }
+
+        if (m_onFreezeMove) return;
+
+        //目標座標までの位置を求める
+        Vector3 pos = transform.position;
+        pos.y = 0.5f;
+        //プレイヤーと自身の距離
+        float player_distance = Vector3.Distance(m_playerObj.transform.position, pos);
+        //距離が遠い場合は指示を受け付けない
+        if (player_distance <= m_stayPlayerDistance)
+        {
+            m_isIgnoreOrder = false;
+        }
+        else
+        {
+            m_isIgnoreOrder = true;
+        }
+
+        //ここで移動
+        m_dogMove.LookAtPosition(m_targetPos);//向き変更
+        //プレイヤーとの距離によって速度変更
+        if (m_isMoveTypeWalk)
+        {
+            m_dogMove.WalkFront();
+            m_dogAnimation.Walk();
+        }
+        else
+        {
+            m_dogMove.RunFront();
+            m_dogAnimation.Run();
+        }
+
+        float distance = Vector3.Distance(pos, m_targetPos);
+        //到着したら
+        if (distance < 0.1f)
+        {
+            //停止
+            m_dogMove.StopMove();
+            m_dogAnimation.Idle();
+
+            //停止時間をランダムに決める
+            //変数は後でクラス変数にする
+            float freeze_sec = UnityEngine.Random.Range(2.0f, 5.0f);
+
+            m_onFreezeMove = true;
+            //一定時間停止
+            m_inActionDelays.Add(
+                        DelayRunCoroutine(
+                        freeze_sec,
+                        () => {
+                            m_onFreezeMove = false;
+                            RandomTargetPos();
+                            m_isMoveTypeWalk = true;
+                        }
+                        ));
+            StartCoroutine(m_inActionDelays[m_inActionDelays.Count - 1]);
+        }
+    }
+
 }
+
+
 
 /*
 ・待機時の通常行動
