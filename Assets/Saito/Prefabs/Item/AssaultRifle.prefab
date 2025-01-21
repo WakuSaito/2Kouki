@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 382705189385652362}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Assault
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 240497223031144146}
   - component: {fileID: 4056503978158985579}
   - component: {fileID: 6540912199544505744}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Weapon_02_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4197603381247416357}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: LHandPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4197603381932390086}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: RHandPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 4415094468111937055}
   - component: {fileID: 473313241758126823}
   - component: {fileID: 2498549484871522969}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Weapon_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -274,7 +274,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3287404946531418576}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: attack_pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 843353438824939663}
   - component: {fileID: 479166257249784622}
   - component: {fileID: 4998900846906189839}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Weapon_02_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -391,7 +391,7 @@ GameObject:
   - component: {fileID: 4009285722102318362}
   - component: {fileID: 5924062751703425834}
   - component: {fileID: 6520426374282475515}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Weapon_02_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -481,7 +481,9 @@ GameObject:
   - component: {fileID: 4221279662715029483}
   - component: {fileID: 3411093974194398693}
   - component: {fileID: 9222050635444262969}
-  m_Layer: 2
+  - component: {fileID: -6947733371276523413}
+  - component: {fileID: -4097631656657124328}
+  m_Layer: 0
   m_Name: AssaultRifle
   m_TagString: item
   m_Icon: {fileID: 0}
@@ -512,7 +514,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6675762946346505919}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.08, y: 0.109058, z: 0.37921295}
@@ -599,8 +601,8 @@ MonoBehaviour:
       weapon_obj: {fileID: 0}
       bullet_sprite: {fileID: 0}
   id: 10
-  sprite: {fileID: 21300000, guid: d6db8613f28ba7b4382ad23e5e9acae9, type: 3}
-  bullet_sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 2b66e5d065ea30b4cb922bc1f0f9f253, type: 3}
+  bullet_sprite: {fileID: 21300000, guid: 6fdfb8f4dc13c3d48ba52b9d66fa66f9, type: 3}
 --- !u!114 &4221279662715029483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -731,6 +733,34 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-6947733371276523413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6675762946346505919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29735b8ea96c1a44981dfad4cc914b5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!54 &-4097631656657124328
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6675762946346505919}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &6975305910890176977
 GameObject:
   m_ObjectHideFlags: 0
@@ -742,7 +772,7 @@ GameObject:
   - component: {fileID: 8464270962982093066}
   - component: {fileID: 4880139694654815265}
   - component: {fileID: 5135562257495883248}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Weapon_02_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -824,7 +854,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7009689993015206349}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Weapon_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -864,7 +894,7 @@ GameObject:
   - component: {fileID: 7052971336534652159}
   - component: {fileID: 3407602493959741006}
   - component: {fileID: 3938628720426467303}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Weapon_02_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -948,7 +978,7 @@ GameObject:
   - component: {fileID: 6009690610176287412}
   - component: {fileID: 3834388681773340916}
   - component: {fileID: 4325656626573208059}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Weapon_02_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
