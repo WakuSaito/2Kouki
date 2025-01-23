@@ -16,6 +16,7 @@ TagManager:
   - RestPoint
   - ItemSpawnPos
   - SafeArea
+  - Ground
   layers:
   - Default
   - TransparentFX

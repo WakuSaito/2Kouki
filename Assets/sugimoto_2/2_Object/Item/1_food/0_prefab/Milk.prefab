@@ -128,6 +128,7 @@ MonoBehaviour:
   id: 5
   sprite: {fileID: 21300000, guid: eb82aaa24149fae4680f6f3e608c24ea, type: 3}
   bullet_sprite: {fileID: 0}
+  drop_flag: 0
 --- !u!114 &8702424119559098740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,8 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbfd73b2acde7c340911c8ff7b0ba3a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshObjs:
-  - {fileID: 8662258556512106578}
+  m_meshObjs: []
 --- !u!54 &-6410265452982269847
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8662258556512106578}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29735b8ea96c1a44981dfad4cc914b5c, type: 3}
   m_Name: 

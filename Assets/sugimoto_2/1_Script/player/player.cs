@@ -88,7 +88,7 @@ public class player : PlayerFunction, IStopObject
 
 
     public INVENTORY inventory_status = INVENTORY.NON;
-    public ChestInventory chest;
+    public InventoryChest chest;
 
     // Start is called before the first frame update
     void Start()

@@ -115,6 +115,7 @@ MonoBehaviour:
   id: 3
   sprite: {fileID: 21300000, guid: 5c044ac8711de6d409abc527c1809519, type: 3}
   bullet_sprite: {fileID: 0}
+  drop_flag: 0
 --- !u!114 &3465519895387706719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,8 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbfd73b2acde7c340911c8ff7b0ba3a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshObjs:
-  - {fileID: 1519537717051864}
+  m_meshObjs: []
 --- !u!65 &6468216064341285401
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1519537717051864}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29735b8ea96c1a44981dfad4cc914b5c, type: 3}
   m_Name: 

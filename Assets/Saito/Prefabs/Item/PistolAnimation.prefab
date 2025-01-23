@@ -707,6 +707,7 @@ MonoBehaviour:
   id: 9
   sprite: {fileID: 21300000, guid: d6db8613f28ba7b4382ad23e5e9acae9, type: 3}
   bullet_sprite: {fileID: 0}
+  drop_flag: 0
 --- !u!114 &476129112872709208
 MonoBehaviour:
   m_ObjectHideFlags: 0

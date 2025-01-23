@@ -9,6 +9,9 @@ public class ItemSetting : MonoBehaviour
     [SerializeField] Sprite sprite;
     [SerializeField] Sprite bullet_sprite;
 
+    public bool drop_flag = false;
+    float delete_timer = 0.0f;
+
     //Start is called before the first frame update
     void Awake()
     {
@@ -48,4 +51,17 @@ public class ItemSetting : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        //アイテムドロップされたら時間経過で消す
+        if(drop_flag)
+        {
+            delete_timer += Time.deltaTime;
+
+            if (delete_timer >= 10)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
 }
