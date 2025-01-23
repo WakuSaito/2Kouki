@@ -8,7 +8,7 @@ using UnityEngine.UI;
  ・アイテム保存
  */
 
-public class ChestInventory : MonoBehaviour
+public class InventoryChest : MonoBehaviour
 {
     public InventoryClass m_inventory;
 

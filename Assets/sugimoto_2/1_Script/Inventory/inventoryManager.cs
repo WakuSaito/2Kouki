@@ -15,7 +15,7 @@ public class inventoryManager : MonoBehaviour
 {
     InventoryItem m_inventoryItem;
     InventoryWeapon mInventoryWeapon;
-    ChestInventory[] ChestInventory;
+    InventoryChest[] ChestInventory;
     player m_player;
 
     //定数
@@ -40,6 +40,7 @@ public class inventoryManager : MonoBehaviour
     [SerializeField] GameObject m_catchItemParent;
     //ドロップアイテム(ITEM_IDの順に並べる)
     [SerializeField] GameObject[] m_dropItemObj;
+    [SerializeField] GameObject m_dropItemsParent;
 
     /// <summary>
     /// どのスロットを選択しているのかを保存
@@ -59,10 +60,10 @@ public class inventoryManager : MonoBehaviour
         mInventoryWeapon = player_obj.GetComponent<InventoryWeapon>();
         m_player = player_obj.GetComponent<player>();
 
-        ChestInventory = new ChestInventory[chest_inventory.Length];
+        ChestInventory = new InventoryChest[chest_inventory.Length];
         for (int i = 0; i < chest_inventory.Length; i++)
         {
-            ChestInventory[i] = chest_inventory[i].GetComponent<ChestInventory>();
+            ChestInventory[i] = chest_inventory[i].GetComponent<InventoryChest>();
         }
     }
 
@@ -109,7 +110,7 @@ public class inventoryManager : MonoBehaviour
         if (inventory_state == INVENTORY.CHEST)
         {
             //開いているチェストのスクリプト取得
-            ChestInventory chest_inventory = m_openChestObj.GetComponent<ChestInventory>();
+            InventoryChest chest_inventory = m_openChestObj.GetComponent<InventoryChest>();
 
             //UI通常表示
             m_inventoryItem.m_inventory.SetUI(m_inventoryItem.m_spriteTrans, m_inventoryItem.m_Text);
@@ -234,6 +235,8 @@ public class inventoryManager : MonoBehaviour
             ParentChildren(m_catchItemParent, catch_slot.sloat_obj);
         }
 
+        if (catch_slot.sloat_obj == null) return;
+
         //左クリック長押しの間マウスに追従
         if (Input.GetMouseButton(0))
         {
@@ -324,21 +327,27 @@ public class inventoryManager : MonoBehaviour
             Vector3 set_pos = player_obj.transform.position;
             set_pos.y += 0.5f;
             set_pos += player_obj.transform.forward / 2;
-
             //武器以外は生成
             if (iteminfo.id >= ITEM_ID.FOOD_1 && iteminfo.id <= ITEM_ID.BULLET)
             {
                 GameObject obj = Instantiate(m_dropItemObj[(int)iteminfo.id], set_pos, Quaternion.identity);              //生成
                 obj.GetComponent<ItemSetting>().iteminfo = iteminfo;                        //アイテム情報代入
+                ParentChildren(m_dropItemsParent, obj);
+                obj.transform.position = set_pos;
+                obj.GetComponent<ItemSetting>().drop_flag = true;
             }
             //武器の場合はプレイヤーが所持しているオブジェクトを落とす
             if (iteminfo.id >= ITEM_ID.PISTOL && iteminfo.id <= ITEM_ID.SHOTGUN)
             {
-                iteminfo.weaponitem_info.weapon_obj.transform.parent = null;
-                iteminfo.weaponitem_info.weapon_obj.SetActive(true);
-                iteminfo.weaponitem_info.weapon_obj.GetComponent<BoxCollider>().enabled = true;
-                iteminfo.weaponitem_info.weapon_obj.GetComponent<DestoryRigitbody>().enabled = true;
-                iteminfo.weaponitem_info.weapon_obj.AddComponent<Rigidbody>();
+                GameObject weapon_obj = iteminfo.weaponitem_info.weapon_obj;
+                weapon_obj.GetComponent<ItemSetting>().drop_flag = true;
+                ParentChildren(m_dropItemsParent, weapon_obj);
+                weapon_obj.transform.position = set_pos;
+                weapon_obj.SetActive(true);
+                weapon_obj.GetComponent<BoxCollider>().enabled = true;
+                weapon_obj.GetComponent<DestoryRigitbody>().enabled = true;
+                weapon_obj.AddComponent<Rigidbody>();
+                weapon_obj.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);//スケールをもとの大きさに
             }
 
             m_inventoryItem.m_inventory.Slots[catch_slot.slot_no].ItemInfo = null;      //アイテム情報削除
@@ -420,7 +429,7 @@ public class inventoryManager : MonoBehaviour
             if(m_openChestObj != null)
             {
                 m_inventoryItem.m_itemInventoryObj.SetActive(false);
-                m_openChestObj.GetComponent<ChestInventory>().m_ChestUIObj.SetActive(false);
+                m_openChestObj.GetComponent<InventoryChest>().m_ChestUIObj.SetActive(false);
                 m_openChestObj = null;
             }
             Screen.lockCursor = true;
@@ -436,7 +445,7 @@ public class inventoryManager : MonoBehaviour
             if(inventory_state == INVENTORY.CHEST)
             {
                 m_inventoryItem.m_itemInventoryObj.SetActive(true);
-                _item.GetComponent<ChestInventory>().m_ChestUIObj.SetActive(true);
+                _item.GetComponent<InventoryChest>().m_ChestUIObj.SetActive(true);
                 m_openChestObj = _item;
             }
             Screen.lockCursor = false;
