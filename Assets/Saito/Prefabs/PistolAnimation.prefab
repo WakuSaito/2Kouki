@@ -15,10 +15,8 @@ GameObject:
   - component: {fileID: 4015882846722963802}
   - component: {fileID: 5310888901425078669}
   - component: {fileID: -7030460275609341895}
-  - component: {fileID: -859788800303554964}
   - component: {fileID: -4206066852683355499}
   - component: {fileID: 499531563277782226}
-  - component: {fileID: -3567027696008891565}
   m_Layer: 0
   m_Name: PistolAnimation
   m_TagString: item
@@ -33,7 +31,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1116967373663445176}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.27059805, y: 0.6532815, z: 0.27059805, w: 0.6532815}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -102,7 +100,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.05, y: 0.08, z: 0.125}
+  m_Size: {x: 0.015, y: 0.08, z: 0.125}
   m_Center: {x: 0, y: 0.01, z: 0.035}
 --- !u!114 &5310888901425078669
 MonoBehaviour:
@@ -116,11 +114,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf6965b6be38d44904f0fe2210c825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_soundType: 
-  m_muzzleTransform: {fileID: 0}
+  m_soundType: Pistol
+  m_muzzleTransform: {fileID: 1002887157445120487}
   m_bulletLine: {fileID: 3308062552743117139, guid: 9427f5b7df983864294f84d129679dfe, type: 3}
-  m_muzzleFlashPrefab: {fileID: 0}
-  m_bulletHitPrefab: {fileID: 0}
+  m_muzzleFlashPrefab: {fileID: 100000, guid: 16652ec55bffc364799da4b8bb3bf2eb, type: 3}
+  m_bulletHitPrefab: {fileID: 100002, guid: 13b4f94b0136a9846b41c2fadd70b343, type: 3}
   m_magazineSize: 10
   m_oneShotBulletAmount: 1
   m_bulletSpread: 0.03
@@ -157,18 +155,6 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: d6db8613f28ba7b4382ad23e5e9acae9, type: 3}
   bullet_sprite: {fileID: 21300000, guid: 6fdfb8f4dc13c3d48ba52b9d66fa66f9, type: 3}
   drop_flag: 0
---- !u!114 &-859788800303554964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1116967373663445176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55b9641e9add0844d8bdefe1affed77b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &-4206066852683355499
 AudioSource:
   m_ObjectHideFlags: 0
@@ -281,18 +267,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &-3567027696008891565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1116967373663445176}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29735b8ea96c1a44981dfad4cc914b5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2269822468481854767
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,7 +757,7 @@ Transform:
   m_GameObject: {fileID: 8993933545655076488}
   m_LocalRotation: {x: -0, y: 7.2759567e-12, z: 8.716313e-16, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7047080177673280482}

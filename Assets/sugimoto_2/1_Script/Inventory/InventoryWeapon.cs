@@ -16,7 +16,7 @@ public class InventoryWeapon : MonoBehaviour
     const int OTHER_GUN_TYPE_NUM = 2;
 
     //インベントリマネージャー
-    inventoryManager mInventoryManager;
+    InventoryManager mInventoryManager;
 
     //インベントリの要素
     public InventoryClass Inventory;
@@ -44,7 +44,7 @@ public class InventoryWeapon : MonoBehaviour
         //インベントリのインストラクタ作成
         Inventory = new InventoryClass(slot_size, slot_box);
         //インベントリマネージャー取得
-        mInventoryManager = mInventoryManagerObj.GetComponent<inventoryManager>();
+        mInventoryManager = mInventoryManagerObj.GetComponent<InventoryManager>();
 
         //mWeaponSlotObjにあるオブジェクトの情報をスロットに入れる
         ItemSlotSet();
@@ -225,15 +225,9 @@ public class InventoryWeapon : MonoBehaviour
                 break;
         }
 
-        //当たり判定をOFFにする
-        _item.GetComponent<BoxCollider>().enabled = false;
-        _item.SetActive(false);
-
-        //位置設定
+        //武器取得の際の設定
         ParentChildren(mWeaponParent.gameObject, _item);
-        _item.transform.localRotation = Quaternion.identity;
-        _item.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
-        _item.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
+        _item.GetComponent<GunManager>().GetItemSetting();
 
     }
 

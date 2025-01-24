@@ -76,6 +76,8 @@ public class WeaponInventory : MonoBehaviour
 
         //“–‚½‚è”»’è‚ğOFF‚É‚·‚é
         _item.GetComponent<BoxCollider>().enabled = false;
+        _item.GetComponent<Rigidbody>().isKinematic = true;
+        _item.GetComponent<ItemSetting>().drop_flag = false;
         _item.SetActive(false);
 
         //transformİ’è
