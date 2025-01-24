@@ -54,13 +54,20 @@ public class ItemSetting : MonoBehaviour
     private void Update()
     {
         //アイテムドロップされたら時間経過で消す
-        if(drop_flag)
+        if (drop_flag)
         {
             delete_timer += Time.deltaTime;
 
             if (delete_timer >= 10)
             {
                 Destroy(gameObject);
+            }
+        }
+        else
+        {
+            if (delete_timer > 0)
+            {
+                delete_timer = 0;
             }
         }
     }

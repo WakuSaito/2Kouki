@@ -36,7 +36,6 @@ public class ShotGunManager : GunManager
             return;
         }
 
-        /*‚½‚Ô‚ñ‚¢‚ç‚È‚¢*/
         if (m_inventoryItem.CheckBullet())
         {
             //ƒCƒ“ƒxƒ“ƒgƒŠ‚É’eŠÛ‚ª‚ ‚é‚©

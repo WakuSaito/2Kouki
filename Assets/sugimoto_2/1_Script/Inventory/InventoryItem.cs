@@ -14,7 +14,7 @@ public class InventoryItem : MonoBehaviour
     const int GUN_SLOT = 3;
 
     //インベントリマネージャー
-    inventoryManager m_inventoryManager;
+    InventoryManager m_inventoryManager;
 
     //インベントリの要素
     public InventoryClass m_inventory;
@@ -28,6 +28,9 @@ public class InventoryItem : MonoBehaviour
     [SerializeField] GameObject m_inventoryManagerObj;
     public GameObject m_itemInventoryObj; //インベントリUI
 
+    [SerializeField]//サウンド用
+    private PlayerSound m_playerSound;
+
     /// <summary>
     /// スタート関数
     /// インベントリクラス作成
@@ -38,7 +41,7 @@ public class InventoryItem : MonoBehaviour
         //インベントリのインストラクタ作成
         m_inventory = new InventoryClass(m_slotSize, m_BoxTrans);
         //インベントリマネージャー取得
-        m_inventoryManager = m_inventoryManagerObj.GetComponent<inventoryManager>();
+        m_inventoryManager = m_inventoryManagerObj.GetComponent<InventoryManager>();
     }
 
     public bool AddInventory_PickUP_Item(ItemInformation _item, ref InventoryWeapon _weapon)//アイテム取得
@@ -59,7 +62,6 @@ public class InventoryItem : MonoBehaviour
         {
             //アイテム情報からスロットの位置を取得
             int slot_num = _weapon.CanWeaponGet(_item.weaponitem_info.weapon_obj);
-            Debug.Log(slot_num);
 
             if (_weapon.mWeaponSlotObj[slot_num] == null)
             {
@@ -161,6 +163,7 @@ public class InventoryItem : MonoBehaviour
                                 {
                                     _food_gage_obj.GetComponent<Gauge>().Increase_Gauge(recovery_num);//ゲージを増やす
                                     recovery_flag = true;
+                                    m_playerSound.PlayEat();//SE
                                 }
                             }
                             else
@@ -169,9 +172,10 @@ public class InventoryItem : MonoBehaviour
                                 {
                                     _food_gage_obj.GetComponent<Gauge>().Increase_Gauge(recovery_num);//ゲージを増やす
                                     recovery_flag = true;
+                                    m_playerSound.PlayEat();//SE
                                 }
                             }
-                            //playerSound.PlayEat();//SE
+                            
                         }
 
                         //体力
@@ -180,7 +184,7 @@ public class InventoryItem : MonoBehaviour
                             {
                                 _hp_gage_obj.GetComponent<Gauge>().Increase_Gauge(recovery_num);//ゲージを増やす
                                 recovery_flag = true;
-                                //playerSound.PlayHeal();//SE
+                                m_playerSound.PlayHeal();//SE
                             }
                         }
                         //アイテム消費
@@ -268,6 +272,8 @@ public class InventoryItem : MonoBehaviour
 
         return _amount - addAmount;//増やした弾数
     }
+
+
 
     /// <summary>
     /// インベントリに弾丸があるか調べる

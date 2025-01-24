@@ -65,14 +65,11 @@ public class player : PlayerFunction, IStopObject
 
     //インベントリ
     public ItemInventory ItemInventory;
-    //public GameObject obj;
-    //public WeaponInventory WeaponInventory;
-    //public GameObject WeponInventory_obj;
 
     //インベントリ
     InventoryItem m_inventoryItem;
     InventoryWeapon m_inventoryWeapon;
-    inventoryManager m_inventoryManager;
+    InventoryManager m_inventoryManager;
 
     //オブジェクト
     [SerializeField] GameObject m_inventoryManagerObj;
@@ -96,7 +93,7 @@ public class player : PlayerFunction, IStopObject
         //インベントリ
         m_inventoryItem = GetComponent<InventoryItem>();
         m_inventoryWeapon = GetComponent<InventoryWeapon>();
-        m_inventoryManager = m_inventoryManagerObj.GetComponent<inventoryManager>();
+        m_inventoryManager = m_inventoryManagerObj.GetComponent<InventoryManager>();
 
 
         //コンポーネント取得
@@ -134,7 +131,7 @@ public class player : PlayerFunction, IStopObject
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                m_inventoryManager.inventory_state = INVENTORY.ITEM;
+                m_inventoryManager.m_inventoryState = INVENTORY.ITEM;
                 m_openInventoryFlag = m_inventoryManager.OpenClose(m_openInventoryFlag, null);
             }
 
@@ -231,7 +228,7 @@ public class player : PlayerFunction, IStopObject
 
             if (item.GetComponent<ItemSetting>().iteminfo.id == ITEM_ID.CHEST)
             {
-                m_inventoryManager.inventory_state = INVENTORY.CHEST;
+                m_inventoryManager.m_inventoryState = INVENTORY.CHEST;
                 m_openInventoryFlag = m_inventoryManager.OpenClose(m_openInventoryFlag, item);
                 return;
             }

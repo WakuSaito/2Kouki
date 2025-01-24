@@ -90,6 +90,7 @@ public class GunManager : MonoBehaviour, IWeapon
             return;
         }
 
+        //インベントリに弾丸があればリロード開始
         if (m_inventoryItem.CheckBullet())
         {
             m_animator.SetBool("Reload", true);  //reload
@@ -156,22 +157,24 @@ public class GunManager : MonoBehaviour, IWeapon
 
         if (m_inventoryItem == null) return can_loaded_amount;
 
-        /*たぶんいらない*/
-        //for (int i = 0; i < m_inventoryItem.m_slotSize; i++)
-        //{
-        //    //インベントリに弾丸があるか
-        //    if (m_inventoryItem.item_type_id[i] != (int)ID.ITEM_ID.BULLET) continue;
 
-        //    for (int cnt = 0; cnt < can_loaded_amount; cnt++)
-        //    {
-        //        //インベントリに弾がある場合
-        //        if (m_inventoryItem.item_num[i] != 0)
-        //            can_loaded_amount--; 
-        //        //弾が無い場合
-        //        else          
-        //            break;
-        //    }
-        //}
+        //
+        for (int i = 0; i < m_inventoryItem.m_slotSize; i++)
+        {
+            //インベントリに弾丸があるか
+            if (m_inventoryItem.m_inventory.Slots[i].ItemInfo == null) continue;
+            if (m_inventoryItem.m_inventory.Slots[i].ItemInfo.id != ITEM_ID.BULLET) continue;
+
+            for (int cnt = 0; cnt < can_loaded_amount; cnt++)
+            {
+                //インベントリに弾がある場合
+                if (m_inventoryItem.m_inventory.Slots[i].ItemInfo.get_num > 0)
+                    can_loaded_amount--;
+                //弾が無い場合
+                else
+                    break;
+            }
+        }
 
         return can_loaded_amount;
     }
@@ -369,5 +372,37 @@ public class GunManager : MonoBehaviour, IWeapon
 
         m_isReload = false;
         m_isShotCooldown = false;
+    }
+
+    /// <summary>
+    /// アイテムを落とすときの設定
+    /// オブジェクト表示、コライダーON、固定解除、スケール・向き調整
+    /// </summary>
+    public void DropItemSetting()
+    {
+        gameObject.SetActive(true);//表示
+        GetComponent<ItemSetting>().drop_flag = true;//アイテムdrop
+        GetComponent<BoxCollider>().enabled = true;//コライダーON
+        GetComponent<Rigidbody>().isKinematic = false;//固定解除
+        transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);//スケールをもとの大きさに
+        transform.Rotate(new Vector3(0, 90, 45));//向きを調整
+    }
+
+    /// <summary>
+    /// アイテム取得した時の設定
+    /// コライダーOFF、固定する
+    /// </summary>
+    public void GetItemSetting()
+    {
+        //コンポーネント設定
+        gameObject.SetActive(false);
+        GetComponent<ItemSetting>().drop_flag = false;//アイテムdrop
+        GetComponent<BoxCollider>().enabled = false;//コライダーOFF
+        GetComponent<Rigidbody>().isKinematic = true;//固定解除（UseGravityのほうがいいかも？）
+
+        //位置設定
+        transform.localRotation = Quaternion.identity;
+        transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
     }
 }

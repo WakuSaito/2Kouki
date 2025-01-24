@@ -3,38 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// インベントリ関連に使用
+/// インベントリの状態/アイテム移動
+/// </summary>
 public enum INVENTORY
 {
-    NON,
-    ITEM,
-    CHEST,
-    WEAPON,
+    NON,    //何もない
+    ITEM,   //アイテムインベントリ
+    CHEST,  //チェストインベントリ
+    WEAPON, //武器インベントリ
 }
 
-public class inventoryManager : MonoBehaviour
+public class InventoryManager : MonoBehaviour
 {
+    //各種インベントリ
     InventoryItem m_inventoryItem;
     InventoryWeapon mInventoryWeapon;
-    InventoryChest[] ChestInventory;
+    InventoryChest[] m_chestInventory;
     player m_player;
 
     //定数
-    const int GUN_SLOT = 2;
+    const int GUN_SLOT = 2; //武器スロットの位置
 
-    //インベントリ情報を持っているオブジェクト
-    public GameObject player_obj;
-    public GameObject[] chest_inventory;
-    //開いたチェストオブジェクト
-    public GameObject m_openChestObj = null;
-
-    //インベントリの状態(閉じている、どのインベントリを開いているか)
-    public INVENTORY inventory_state = INVENTORY.NON;
-
-    //アイテム移動
-    SELECT_SLOAT can_catch_slot;     //掴むことが可能なスロットの情報
-    SELECT_SLOAT catch_slot;         //掴んでいるスロットの情報
-    SELECT_SLOAT destination_slot;   //移動先のスロット情報
-    [SerializeField] GameObject m_backObj;               //移動先が背景
+    /*オブジェクト*/
+    /// <summary>チェストオブジェクト</summary>
+    public GameObject[] m_chestObj;
+    /// <summary>プレイヤーオブジェクト</summary>
+    [SerializeField] GameObject m_playerObj;
+    /// <summary>開けているチェストオブジェクト</summary>
+    GameObject m_openChestObj = null;
 
     //描画順番を変更するためのオブジェクト
     [SerializeField] GameObject m_catchItemParent;
@@ -42,28 +40,40 @@ public class inventoryManager : MonoBehaviour
     [SerializeField] GameObject[] m_dropItemObj;
     [SerializeField] GameObject m_dropItemsParent;
 
-    /// <summary>
-    /// どのスロットを選択しているのかを保存
-    /// </summary>
+    /// <summary>インベントリの状態</summary>
+    public INVENTORY m_inventoryState = INVENTORY.NON;
+
+    //アイテム移動
+    SELECT_SLOAT can_catch_slot;     //掴むことが可能なスロットの情報
+    SELECT_SLOAT catch_slot;         //掴んでいるスロットの情報
+    SELECT_SLOAT destination_slot;   //移動先のスロット情報
+    [SerializeField] GameObject m_backObj;               //移動先が背景
+
+
+    /// <summary>どのスロットを選択しているのかを保存</summary>
     struct SELECT_SLOAT
     {
-        public GameObject sloat_obj;   //掴むオブジェクト
-        public int slot_no;            //スロットの位置
-        public int slot_inventory;     //どのインベントリのスロットか
-        public int chest_no;           //どのチェストか
+        /// <summary>選択しているオブジェクト</summary>
+        public GameObject m_selectObj;
+        /// <summary>スロットのNumber</summary>
+        public int m_slotNum;
+        /// <summary>どのインベントリのスロットか</summary>
+        public int m_selectInventory;
+        /// <summary>どのチェストか</summary>
+        public int m_chestNum;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        m_inventoryItem = player_obj.GetComponent<InventoryItem>();
-        mInventoryWeapon = player_obj.GetComponent<InventoryWeapon>();
-        m_player = player_obj.GetComponent<player>();
+        m_inventoryItem = m_playerObj.GetComponent<InventoryItem>();
+        mInventoryWeapon = m_playerObj.GetComponent<InventoryWeapon>();
+        m_player = m_playerObj.GetComponent<player>();
 
-        ChestInventory = new InventoryChest[chest_inventory.Length];
-        for (int i = 0; i < chest_inventory.Length; i++)
+        m_chestInventory = new InventoryChest[m_chestObj.Length];
+        for (int i = 0; i < m_chestObj.Length; i++)
         {
-            ChestInventory[i] = chest_inventory[i].GetComponent<InventoryChest>();
+            m_chestInventory[i] = m_chestObj[i].GetComponent<InventoryChest>();
         }
     }
 
@@ -75,14 +85,14 @@ public class inventoryManager : MonoBehaviour
     void Update()
     {
         //何かのインベントリが開かれていれば処理
-        if (inventory_state!=INVENTORY.NON)
+        if (m_inventoryState != INVENTORY.NON)
         {
             CheckInventoryItem();
             MoveItem();
         }
 
         //アイテムインベントリ
-        if (inventory_state == INVENTORY.ITEM)
+        if (m_inventoryState == INVENTORY.ITEM)
         {
             //アイテムインベントリ通常表示
             m_inventoryItem.m_inventory.SetUI(m_inventoryItem.m_spriteTrans, m_inventoryItem.m_Text);
@@ -107,7 +117,7 @@ public class inventoryManager : MonoBehaviour
         }
 
         //チェストインベントリ
-        if (inventory_state == INVENTORY.CHEST)
+        if (m_inventoryState == INVENTORY.CHEST)
         {
             //開いているチェストのスクリプト取得
             InventoryChest chest_inventory = m_openChestObj.GetComponent<InventoryChest>();
@@ -127,37 +137,37 @@ public class inventoryManager : MonoBehaviour
         foreach (RaycastResult result in HitResult())
         {
             //アイテムをつかんでいない
-            if (can_catch_slot.slot_inventory == (int)INVENTORY.NON)
+            if (can_catch_slot.m_selectInventory == (int)INVENTORY.NON)
             {
                 //アイテムインベントリ
                 for (int i = 0; i < m_inventoryItem.m_slotSize; i++)
                 {
                     if (result.gameObject == m_inventoryItem.m_spriteTrans[i].gameObject)
                     {
-                        can_catch_slot.sloat_obj = m_inventoryItem.m_spriteTrans[i].gameObject;
-                        can_catch_slot.slot_no = i;
-                        can_catch_slot.slot_inventory = (int)INVENTORY.ITEM;
+                        can_catch_slot.m_selectObj = m_inventoryItem.m_spriteTrans[i].gameObject;
+                        can_catch_slot.m_slotNum = i;
+                        can_catch_slot.m_selectInventory = (int)INVENTORY.ITEM;
                         break;
                     }
                 }
 
 
                 //チェストインベントリ
-                for (int j = 0; j < chest_inventory.Length; j++)
+                for (int j = 0; j < m_chestObj.Length; j++)
                 {
-                    for (int i = 0; i < ChestInventory[j].m_sloatSize; i++)
+                    for (int i = 0; i < m_chestInventory[j].m_sloatSize; i++)
                     {
-                        if (result.gameObject == ChestInventory[j].m_spriteTrans[i].gameObject)
+                        if (result.gameObject == m_chestInventory[j].m_spriteTrans[i].gameObject)
                         {
-                            can_catch_slot.sloat_obj = ChestInventory[j].m_spriteTrans[i].gameObject;
-                            can_catch_slot.slot_no = i;
-                            can_catch_slot.chest_no = j;
-                            can_catch_slot.slot_inventory = (int)INVENTORY.CHEST;
-                            Debug.Log(can_catch_slot.sloat_obj);
+                            can_catch_slot.m_selectObj = m_chestInventory[j].m_spriteTrans[i].gameObject;
+                            can_catch_slot.m_slotNum = i;
+                            can_catch_slot.m_chestNum = j;
+                            can_catch_slot.m_selectInventory = (int)INVENTORY.CHEST;
+                            Debug.Log(can_catch_slot.m_selectObj);
                             break;
                         }
                     }
-                    if (can_catch_slot.slot_inventory != (int)INVENTORY.NON) break;
+                    if (can_catch_slot.m_selectInventory != (int)INVENTORY.NON) break;
                 }
             }
         }
@@ -168,9 +178,9 @@ public class inventoryManager : MonoBehaviour
             {
                 if (result.gameObject == m_inventoryItem.m_BoxTrans[i].gameObject)
                 {
-                    destination_slot.sloat_obj = m_inventoryItem.m_BoxTrans[i].gameObject;
-                    destination_slot.slot_no = i;
-                    destination_slot.slot_inventory = (int)INVENTORY.ITEM;
+                    destination_slot.m_selectObj = m_inventoryItem.m_BoxTrans[i].gameObject;
+                    destination_slot.m_slotNum = i;
+                    destination_slot.m_selectInventory = (int)INVENTORY.ITEM;
                     break;
                 }
             }
@@ -178,36 +188,36 @@ public class inventoryManager : MonoBehaviour
             //武器インベントリ
             if (result.gameObject == mInventoryWeapon.slot_box[GUN_SLOT].gameObject)
             {
-                destination_slot.sloat_obj = mInventoryWeapon.slot_box[GUN_SLOT].gameObject;
-                destination_slot.slot_no = GUN_SLOT;
-                destination_slot.slot_inventory = (int)INVENTORY.WEAPON;
+                destination_slot.m_selectObj = mInventoryWeapon.slot_box[GUN_SLOT].gameObject;
+                destination_slot.m_slotNum = GUN_SLOT;
+                destination_slot.m_selectInventory = (int)INVENTORY.WEAPON;
                 break;
             }
 
             //チェストインベントリ
-            for (int j = 0; j < chest_inventory.Length; j++)
+            for (int j = 0; j < m_chestObj.Length; j++)
             {
-                for (int i = 0; i < ChestInventory[j].m_sloatSize; i++)
+                for (int i = 0; i < m_chestInventory[j].m_sloatSize; i++)
                 {
-                    if (result.gameObject == ChestInventory[j].m_slotBoxTrans[i].gameObject)
+                    if (result.gameObject == m_chestInventory[j].m_slotBoxTrans[i].gameObject)
                     {
-                        destination_slot.sloat_obj = ChestInventory[j].m_slotBoxTrans[i].gameObject;
-                        destination_slot.slot_no = i;
-                        destination_slot.chest_no = j;
-                        destination_slot.slot_inventory = (int)INVENTORY.CHEST;
+                        destination_slot.m_selectObj = m_chestInventory[j].m_slotBoxTrans[i].gameObject;
+                        destination_slot.m_slotNum = i;
+                        destination_slot.m_chestNum = j;
+                        destination_slot.m_selectInventory = (int)INVENTORY.CHEST;
                         break;
                     }
                 }
 
-                if (destination_slot.slot_inventory != (int)INVENTORY.NON) break;
+                if (destination_slot.m_selectInventory != (int)INVENTORY.NON) break;
             }
 
             //移動先がなく、インベントリの背景に当たっていれば背景を入れる
-            if (destination_slot.sloat_obj == null) 
+            if (destination_slot.m_selectObj == null) 
             {
                 if (result.gameObject == m_backObj)
                 {
-                    destination_slot.sloat_obj = m_backObj;
+                    destination_slot.m_selectObj = m_backObj;
                 }
             }
         }
@@ -230,83 +240,82 @@ public class inventoryManager : MonoBehaviour
         //左クリックされたら情報を入れる
         if(Input.GetMouseButtonDown(0))
         {
-            if (can_catch_slot.sloat_obj == null) return;
+            if (can_catch_slot.m_selectObj == null) return;
             catch_slot = can_catch_slot;
-            ParentChildren(m_catchItemParent, catch_slot.sloat_obj);
+            ParentChildren(m_catchItemParent, catch_slot.m_selectObj);
         }
 
-        if (catch_slot.sloat_obj == null) return;
+        if (catch_slot.m_selectObj == null) return;
 
         //左クリック長押しの間マウスに追従
         if (Input.GetMouseButton(0))
         {
-            catch_slot.sloat_obj.transform.position = Input.mousePosition;
+            catch_slot.m_selectObj.transform.position = Input.mousePosition;
         }
         if(Input.GetMouseButtonUp(0))
         {
             Debug.Log("1");
 
             //クリックが離されていたら
-            if (catch_slot.sloat_obj == null) return;
+            if (catch_slot.m_selectObj == null) return;
 
             //掴んでいるスロットのインベントリがアイテムインベントリ
-            if (catch_slot.slot_inventory == (int)INVENTORY.ITEM)
+            if (catch_slot.m_selectInventory == (int)INVENTORY.ITEM)
             {
                 //元の親に戻す
-                ParentChildren(m_inventoryItem.m_BoxTrans[catch_slot.slot_no].gameObject, catch_slot.sloat_obj);
+                ParentChildren(m_inventoryItem.m_BoxTrans[catch_slot.m_slotNum].gameObject, catch_slot.m_selectObj);
 
                 //オブジェクトは元の位置に、情報だけ渡す
-                catch_slot.sloat_obj.transform.position = m_inventoryItem.m_BoxTrans[catch_slot.slot_no].position;
+                catch_slot.m_selectObj.transform.position = m_inventoryItem.m_BoxTrans[catch_slot.m_slotNum].position;
 
                 //移動先
-                if (destination_slot.slot_inventory == (int)INVENTORY.ITEM)
+                if (destination_slot.m_selectInventory == (int)INVENTORY.ITEM)
                 {
-                    MoveItemInfo(ref m_inventoryItem.m_inventory.Slots[catch_slot.slot_no], ref m_inventoryItem.m_inventory.Slots[destination_slot.slot_no]);
+                    MoveItemInfo(ref m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum], ref m_inventoryItem.m_inventory.Slots[destination_slot.m_slotNum]);
                 }
-                else if (destination_slot.slot_inventory == (int)INVENTORY.WEAPON)
+                else if (destination_slot.m_selectInventory == (int)INVENTORY.WEAPON)
                 {
                     //武器以外は変更不可
-                    if (m_inventoryItem.m_inventory.Slots[catch_slot.slot_no].ItemInfo.type != ITEM_TYPE.WEAPON) return;
+                    if (m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum].ItemInfo.type != ITEM_TYPE.WEAPON) return;
 
                     //武器オブジェクト、アイテム情報入れ替え
-                    mInventoryWeapon.GunObjChenge(m_inventoryItem.m_inventory.Slots[catch_slot.slot_no].ItemInfo);
-                    ItemInfoChange(ref m_inventoryItem.m_inventory.Slots[catch_slot.slot_no], ref mInventoryWeapon.Inventory.Slots[destination_slot.slot_no]);
+                    mInventoryWeapon.GunObjChenge(m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum].ItemInfo);
+                    ItemInfoChange(ref m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum], ref mInventoryWeapon.Inventory.Slots[destination_slot.m_slotNum]);
                 }
-                else if (destination_slot.slot_inventory == (int)INVENTORY.CHEST)
+                else if (destination_slot.m_selectInventory == (int)INVENTORY.CHEST)
                 {
-                    MoveItemInfo(ref m_inventoryItem.m_inventory.Slots[catch_slot.slot_no], ref ChestInventory[destination_slot.chest_no].m_inventory.Slots[destination_slot.slot_no]);
+                    MoveItemInfo(ref m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum], ref m_chestInventory[destination_slot.m_chestNum].m_inventory.Slots[destination_slot.m_slotNum]);
                 }
-                else if (destination_slot.sloat_obj != m_backObj)
+                else if (destination_slot.m_selectObj != m_backObj)
                 {
                     DropItem();
                 }
 
             }
-            else if (catch_slot.slot_inventory == (int)INVENTORY.CHEST)
+            else if (catch_slot.m_selectInventory == (int)INVENTORY.CHEST)
             {
                 //掴んでいるスロットのインベントリがチェストインベントリ
 
                 //元の親に戻す
-                ParentChildren(ChestInventory[catch_slot.chest_no].m_slotBoxTrans[catch_slot.slot_no].gameObject, catch_slot.sloat_obj);
+                ParentChildren(m_chestInventory[catch_slot.m_chestNum].m_slotBoxTrans[catch_slot.m_slotNum].gameObject, catch_slot.m_selectObj);
 
                 //オブジェクトは元の位置に、情報だけ渡す
-                catch_slot.sloat_obj.transform.position = ChestInventory[catch_slot.chest_no].m_slotBoxTrans[catch_slot.slot_no].position;
+                catch_slot.m_selectObj.transform.position = m_chestInventory[catch_slot.m_chestNum].m_slotBoxTrans[catch_slot.m_slotNum].position;
 
                 //移動先
-                if (destination_slot.slot_inventory == (int)INVENTORY.ITEM)
+                if (destination_slot.m_selectInventory == (int)INVENTORY.ITEM)
                 {
-                    MoveItemInfo(ref ChestInventory[catch_slot.chest_no].m_inventory.Slots[catch_slot.slot_no], ref m_inventoryItem.m_inventory.Slots[destination_slot.slot_no]);
+                    MoveItemInfo(ref m_chestInventory[catch_slot.m_chestNum].m_inventory.Slots[catch_slot.m_slotNum], ref m_inventoryItem.m_inventory.Slots[destination_slot.m_slotNum]);
                 }
-                else if (destination_slot.slot_inventory == (int)INVENTORY.CHEST)
+                else if (destination_slot.m_selectInventory == (int)INVENTORY.CHEST)
                 {
-                    MoveItemInfo(ref ChestInventory[catch_slot.chest_no].m_inventory.Slots[catch_slot.slot_no], ref ChestInventory[destination_slot.chest_no].m_inventory.Slots[destination_slot.slot_no]);
+                    MoveItemInfo(ref m_chestInventory[catch_slot.m_chestNum].m_inventory.Slots[catch_slot.m_slotNum], ref m_chestInventory[destination_slot.m_chestNum].m_inventory.Slots[destination_slot.m_slotNum]);
                 }
             }
 
 
             //情報初期化
             SlotInfoInitialization(ref catch_slot);
-            Debug.Log(catch_slot.sloat_obj);
         }
     }
 
@@ -319,14 +328,14 @@ public class inventoryManager : MonoBehaviour
         //スロットの中のアイテムID取得
         ItemInformation iteminfo;
 
-        if (catch_slot.slot_inventory == (int)INVENTORY.ITEM)
+        if (catch_slot.m_selectInventory == (int)INVENTORY.ITEM)
         {
             //スロットのインベントリ情報取得
-            iteminfo = m_inventoryItem.m_inventory.Slots[catch_slot.slot_no].ItemInfo;
+            iteminfo = m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum].ItemInfo;
 
-            Vector3 set_pos = player_obj.transform.position;
+            Vector3 set_pos = m_playerObj.transform.position;
             set_pos.y += 0.5f;
-            set_pos += player_obj.transform.forward / 2;
+            set_pos += m_playerObj.transform.forward / 2;
             //武器以外は生成
             if (iteminfo.id >= ITEM_ID.FOOD_1 && iteminfo.id <= ITEM_ID.BULLET)
             {
@@ -340,18 +349,15 @@ public class inventoryManager : MonoBehaviour
             if (iteminfo.id >= ITEM_ID.PISTOL && iteminfo.id <= ITEM_ID.SHOTGUN)
             {
                 GameObject weapon_obj = iteminfo.weaponitem_info.weapon_obj;
-                weapon_obj.GetComponent<ItemSetting>().drop_flag = true;
+                weapon_obj.GetComponent<ItemSetting>().iteminfo = iteminfo;                        //アイテム情報代入
                 ParentChildren(m_dropItemsParent, weapon_obj);
                 weapon_obj.transform.position = set_pos;
-                weapon_obj.SetActive(true);
-                weapon_obj.GetComponent<BoxCollider>().enabled = true;
-                weapon_obj.GetComponent<DestoryRigitbody>().enabled = true;
-                weapon_obj.AddComponent<Rigidbody>();
-                weapon_obj.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);//スケールをもとの大きさに
+                weapon_obj.GetComponent<GunManager>().DropItemSetting();
+                Debug.Log(iteminfo.get_num);
             }
 
-            m_inventoryItem.m_inventory.Slots[catch_slot.slot_no].ItemInfo = null;      //アイテム情報削除
-            m_inventoryItem.m_inventory.Slots[catch_slot.slot_no].initializationSlot(); //初期化
+            m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum].ItemInfo = null;      //アイテム情報削除
+            m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum].initializationSlot(); //初期化
         }
     }
 
@@ -390,10 +396,10 @@ public class inventoryManager : MonoBehaviour
     void SlotInfoInitialization(ref SELECT_SLOAT _slot)
     {
         //初期化
-        _slot.sloat_obj = null;
-        _slot.slot_inventory = (int)INVENTORY.NON;
-        _slot.slot_no = -1;
-        _slot.chest_no = -1;
+        _slot.m_selectObj = null;
+        _slot.m_selectInventory = (int)INVENTORY.NON;
+        _slot.m_slotNum = -1;
+        _slot.m_chestNum = -1;
     }
 
     /// <summary>
@@ -422,27 +428,55 @@ public class inventoryManager : MonoBehaviour
     {
         if(_flag)
         {
-            if (inventory_state == INVENTORY.ITEM)
+            if (m_inventoryState == INVENTORY.ITEM)
             {
                 m_inventoryItem.m_itemInventoryObj.SetActive(false);
+
+                if (catch_slot.m_selectObj != null)
+                {
+                    //元の親に戻す
+                    ParentChildren(m_inventoryItem.m_BoxTrans[catch_slot.m_slotNum].gameObject, catch_slot.m_selectObj);
+                    //オブジェクトは元の位置に、情報だけ渡す
+                    catch_slot.m_selectObj.transform.position = m_inventoryItem.m_BoxTrans[catch_slot.m_slotNum].position;
+                }
             }
-            if(m_openChestObj != null)
+            if (m_openChestObj != null)
             {
                 m_inventoryItem.m_itemInventoryObj.SetActive(false);
                 m_openChestObj.GetComponent<InventoryChest>().m_ChestUIObj.SetActive(false);
                 m_openChestObj = null;
+
+                if (catch_slot.m_selectObj != null)
+                {
+                    if (catch_slot.m_selectInventory == (int)INVENTORY.ITEM)
+                    {
+                        //元の親に戻す
+                        ParentChildren(m_inventoryItem.m_BoxTrans[catch_slot.m_slotNum].gameObject, catch_slot.m_selectObj);
+                        //オブジェクトは元の位置に、情報だけ渡す
+                        catch_slot.m_selectObj.transform.position = m_inventoryItem.m_BoxTrans[catch_slot.m_slotNum].position;
+                    }
+                    if (catch_slot.m_selectInventory == (int)INVENTORY.CHEST)
+                    {
+                        //元の親に戻す
+                        ParentChildren(m_chestInventory[catch_slot.m_chestNum].m_slotBoxTrans[catch_slot.m_slotNum].gameObject, catch_slot.m_selectObj);
+                        //オブジェクトは元の位置に、情報だけ渡す
+                        catch_slot.m_selectObj.transform.position = m_chestInventory[catch_slot.m_chestNum].m_slotBoxTrans[catch_slot.m_slotNum].position;
+                    }
+
+                }
+
             }
             Screen.lockCursor = true;
-            inventory_state = INVENTORY.NON;
+            m_inventoryState = INVENTORY.NON;
             return false;
         }
         else
         {
-            if (inventory_state == INVENTORY.ITEM)
+            if (m_inventoryState == INVENTORY.ITEM)
             {
                 m_inventoryItem.m_itemInventoryObj.SetActive(true);
             }
-            if(inventory_state == INVENTORY.CHEST)
+            if(m_inventoryState == INVENTORY.CHEST)
             {
                 m_inventoryItem.m_itemInventoryObj.SetActive(true);
                 _item.GetComponent<InventoryChest>().m_ChestUIObj.SetActive(true);
