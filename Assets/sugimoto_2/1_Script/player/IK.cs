@@ -27,7 +27,7 @@ public class IK : MonoBehaviour
 
     void OnAnimatorIK()
     {
-        switch (player.GetComponent<InventoryWeapon>().mSelectSlot)
+        switch (player.GetComponent<InventoryWeapon>().m_selectSlot)
         {
             case SLOT_ORDER.GUN:
                 onIK = true;
@@ -46,7 +46,7 @@ public class IK : MonoBehaviour
         if (!onIK) return;
 
 
-        if (player.GetComponent<InventoryWeapon>().mSelectSlot == SLOT_ORDER.GUN)
+        if (player.GetComponent<InventoryWeapon>().m_selectSlot == SLOT_ORDER.GUN)
         {
             if (handR != null)
             {
@@ -63,7 +63,7 @@ public class IK : MonoBehaviour
                 animator.SetIKRotation(AvatarIKGoal.LeftHand, handL.rotation);
             }
         }
-        else if (player.GetComponent<InventoryWeapon>().mSelectSlot == SLOT_ORDER.KNIFE)
+        else if (player.GetComponent<InventoryWeapon>().m_selectSlot == SLOT_ORDER.KNIFE)
         {
             if (knife_hand_R != null)
             {

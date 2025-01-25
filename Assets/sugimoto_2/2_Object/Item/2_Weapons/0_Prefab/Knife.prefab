@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4572209091562166899}
   - component: {fileID: 4334149842990899120}
   m_Layer: 0
-  m_Name: Knife_01
+  m_Name: Knife
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,7 +120,9 @@ MonoBehaviour:
     recoveryitem_info:
       recovery_num: 0
     weaponitem_info:
-      bullet_num: 0
       weapon_obj: {fileID: 0}
-  id: 0
+      bullet_sprite: {fileID: 0}
+  id: 13
   sprite: {fileID: 21300000, guid: c6cf5c98a4e728f478e0d0f69f8513a5, type: 3}
+  bullet_sprite: {fileID: 0}
+  drop_flag: 0

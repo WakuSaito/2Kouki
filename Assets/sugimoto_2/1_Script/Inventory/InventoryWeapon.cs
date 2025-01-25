@@ -13,28 +13,25 @@ public enum SLOT_ORDER
 
 public class InventoryWeapon : MonoBehaviour
 {
+    /// <summary>スロットにある銃以外の種類の数</summary>
     const int OTHER_GUN_TYPE_NUM = 2;
 
-    //インベントリマネージャー
-    InventoryManager mInventoryManager;
-
     //インベントリの要素
-    public InventoryClass Inventory;
-    public int slot_size = 4;
-    public Transform[] sprite;
-    public Transform[] slot_box;
+    public InventoryClass m_Inventory;
+    public int m_sloatSize = 4;
+    public Transform[] m_SlotBoxTrans;
+    public Transform[] m_spriteTrans;
 
     //オブジェクト
-    [SerializeField] GameObject mInventoryManagerObj;
-    [SerializeField] GameObject mWeapon_inventory_UI_obj; //インベントリUI
-    public GameObject[] mWeaponSlotObj;
-    [SerializeField] Transform mFrame;
-    [SerializeField] GameObject mWeaponParent;                 //銃の親オブジェクト
+    [SerializeField] GameObject m_uiObj; //インベントリUI
+    public GameObject[] m_weaponSlotObj;
+    [SerializeField] Transform m_frame;
+    [SerializeField] GameObject m_weaponParent;                 //銃の親オブジェクト
     [SerializeField] GameObject[] m_saveOtherGun = new GameObject[OTHER_GUN_TYPE_NUM];
 
 
 
-    public SLOT_ORDER mSelectSlot = SLOT_ORDER.HAND;
+    public SLOT_ORDER m_selectSlot = SLOT_ORDER.HAND;
     Color mColorAlphaHalf = new Color(1.0f, 1.0f, 1.0f, 0.5f);//半透明
     Color mColorAlphaFull = new Color(1.0f, 1.0f, 1.0f, 1.0f);//不透明
 
@@ -42,9 +39,7 @@ public class InventoryWeapon : MonoBehaviour
     void Start()
     {
         //インベントリのインストラクタ作成
-        Inventory = new InventoryClass(slot_size, slot_box);
-        //インベントリマネージャー取得
-        mInventoryManager = mInventoryManagerObj.GetComponent<InventoryManager>();
+        m_Inventory = new InventoryClass(m_sloatSize, m_SlotBoxTrans);
 
         //mWeaponSlotObjにあるオブジェクトの情報をスロットに入れる
         ItemSlotSet();
@@ -53,17 +48,17 @@ public class InventoryWeapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SetUI(sprite);
+        SetUI(m_spriteTrans);
         SetWeapon();
     }
 
     void ItemSlotSet()
     {
-        for (int i = 0; i < mWeaponSlotObj.Length; i++)
+        for (int i = 0; i < m_weaponSlotObj.Length; i++)
         {
-            if (mWeaponSlotObj[i] == null) continue;
+            if (m_weaponSlotObj[i] == null) continue;
 
-            ITEM_ID id = mWeaponSlotObj[i].GetComponent<ItemSetting>().iteminfo.id;
+            ITEM_ID id = m_weaponSlotObj[i].GetComponent<ItemSetting>().iteminfo.id;
 
             //アイテムIDによって情報を入れるスロットが異なる
             switch (id)
@@ -71,16 +66,16 @@ public class InventoryWeapon : MonoBehaviour
                 case ITEM_ID.PISTOL:
                 case ITEM_ID.ASSAULT:
                 case ITEM_ID.SHOTGUN:
-                    Inventory.Slots[(int)SLOT_ORDER.GUN].ItemInfo = mWeaponSlotObj[i].GetComponent<ItemSetting>().iteminfo;
+                    m_Inventory.Slots[(int)SLOT_ORDER.GUN].ItemInfo = m_weaponSlotObj[i].GetComponent<ItemSetting>().iteminfo;
                     break;
                 case ITEM_ID.HAND:
-                    Inventory.Slots[(int)SLOT_ORDER.HAND].ItemInfo = mWeaponSlotObj[i].GetComponent<ItemSetting>().iteminfo;
+                    m_Inventory.Slots[(int)SLOT_ORDER.HAND].ItemInfo = m_weaponSlotObj[i].GetComponent<ItemSetting>().iteminfo;
                     break;
                 case ITEM_ID.KNIFE:
-                    Inventory.Slots[(int)SLOT_ORDER.KNIFE].ItemInfo = mWeaponSlotObj[i].GetComponent<ItemSetting>().iteminfo;
+                    m_Inventory.Slots[(int)SLOT_ORDER.KNIFE].ItemInfo = m_weaponSlotObj[i].GetComponent<ItemSetting>().iteminfo;
                     break;
                 case ITEM_ID.DOG_DIRECTION:
-                    Inventory.Slots[(int)SLOT_ORDER.DOG].ItemInfo = mWeaponSlotObj[i].GetComponent<ItemSetting>().iteminfo;
+                    m_Inventory.Slots[(int)SLOT_ORDER.DOG].ItemInfo = m_weaponSlotObj[i].GetComponent<ItemSetting>().iteminfo;
                     break;
             }
         }
@@ -111,24 +106,24 @@ public class InventoryWeapon : MonoBehaviour
         if (mouse_wheel < 0)
         {
             //次の武器インベントリへ
-            mSelectSlot++;
+            m_selectSlot++;
             //武器インベントリの領域を超えたら最初に戻す
-            if ((int)mSelectSlot >= slot_size)
+            if ((int)m_selectSlot >= m_sloatSize)
             {
-                mSelectSlot = 0;
+                m_selectSlot = 0;
             }
 
             //武器インベントリの中身が何もなければ中身のある武器へ
-            while (mWeaponSlotObj[(int)mSelectSlot] == null)
+            while (m_weaponSlotObj[(int)m_selectSlot] == null)
             {
-                if (mWeaponSlotObj[(int)mSelectSlot] == null)
+                if (m_weaponSlotObj[(int)m_selectSlot] == null)
                 {
                     //次の武器インベントリへ
-                    mSelectSlot++;
+                    m_selectSlot++;
                     //武器インベントリの領域を超えたら最初に戻す
-                    if ((int)mSelectSlot >= slot_size)
+                    if ((int)m_selectSlot >= m_sloatSize)
                     {
-                        mSelectSlot = 0;
+                        m_selectSlot = 0;
                     }
                 }
                 else
@@ -141,24 +136,24 @@ public class InventoryWeapon : MonoBehaviour
         if (mouse_wheel > 0)
         {
             //前の武器インベントリ
-            mSelectSlot--;
-            if (mSelectSlot < 0)
+            m_selectSlot--;
+            if (m_selectSlot < 0)
             {
                 //武器インベントリの領域を超えたら最後にする
-                mSelectSlot = (SLOT_ORDER)slot_size - 1;
+                m_selectSlot = (SLOT_ORDER)m_sloatSize - 1;
             }
 
             //武器インベントリの中身が何もなければ中身のある武器へ
-            while (mWeaponSlotObj[(int)mSelectSlot] == null)
+            while (m_weaponSlotObj[(int)m_selectSlot] == null)
             {
-                if (mWeaponSlotObj[(int)mSelectSlot] == null)
+                if (m_weaponSlotObj[(int)m_selectSlot] == null)
                 {
                     //前の武器インベントリ
-                    mSelectSlot--;
-                    if (mSelectSlot < 0)
+                    m_selectSlot--;
+                    if (m_selectSlot < 0)
                     {
                         //武器インベントリの領域を超えたら最後にする
-                        mSelectSlot = (SLOT_ORDER)slot_size - 1;
+                        m_selectSlot = (SLOT_ORDER)m_sloatSize - 1;
                     }
                 }
                 else
@@ -175,7 +170,7 @@ public class InventoryWeapon : MonoBehaviour
         //    sprite[(int)mSelectSlot].GetComponent<Image>().color = mColorAlphaFull;
         //    mFrame.position = slot_box[(int)mSelectSlot].transform.position;
         //}
-        return mWeaponSlotObj[(int)mSelectSlot];
+        return m_weaponSlotObj[(int)m_selectSlot];
     }
 
     public int CanWeaponGet(GameObject _item)
@@ -206,27 +201,27 @@ public class InventoryWeapon : MonoBehaviour
             case ITEM_ID.PISTOL:
             case ITEM_ID.ASSAULT:
             case ITEM_ID.SHOTGUN:
-                if (mWeaponSlotObj[(int)SLOT_ORDER.GUN] == null)
+                if (m_weaponSlotObj[(int)SLOT_ORDER.GUN] == null)
                 {
-                    Inventory.Slots[(int)SLOT_ORDER.GUN].ItemInfo = _item.GetComponent<ItemSetting>().iteminfo;
-                    mWeaponSlotObj[(int)SLOT_ORDER.GUN] = _item.GetComponent<ItemSetting>().iteminfo.weaponitem_info.weapon_obj;
+                    m_Inventory.Slots[(int)SLOT_ORDER.GUN].ItemInfo = _item.GetComponent<ItemSetting>().iteminfo;
+                    m_weaponSlotObj[(int)SLOT_ORDER.GUN] = _item.GetComponent<ItemSetting>().iteminfo.weaponitem_info.weapon_obj;
                     //選んでいる武器がHANDの場合拾った武器を選んでいる武器に変更
-                    if (mSelectSlot == SLOT_ORDER.HAND) mSelectSlot = SLOT_ORDER.GUN;
+                    if (m_selectSlot == SLOT_ORDER.HAND) m_selectSlot = SLOT_ORDER.GUN;
                 }
                 break;
             case ITEM_ID.DOG_DIRECTION:
-                if (mWeaponSlotObj[(int)SLOT_ORDER.DOG] == null)
+                if (m_weaponSlotObj[(int)SLOT_ORDER.DOG] == null)
                 {
-                    Inventory.Slots[(int)SLOT_ORDER.DOG].ItemInfo = _item.GetComponent<ItemSetting>().iteminfo;
-                    mWeaponSlotObj[(int)SLOT_ORDER.DOG] = _item.GetComponent<ItemSetting>().iteminfo.weaponitem_info.weapon_obj;
+                    m_Inventory.Slots[(int)SLOT_ORDER.DOG].ItemInfo = _item.GetComponent<ItemSetting>().iteminfo;
+                    m_weaponSlotObj[(int)SLOT_ORDER.DOG] = _item.GetComponent<ItemSetting>().iteminfo.weaponitem_info.weapon_obj;
                     //選んでいる武器がHANDの場合拾った武器を選んでいる武器に変更
-                    if (mSelectSlot == SLOT_ORDER.HAND) mSelectSlot = SLOT_ORDER.DOG;
+                    if (m_selectSlot == SLOT_ORDER.HAND) m_selectSlot = SLOT_ORDER.DOG;
                 }
                 break;
         }
 
         //武器取得の際の設定
-        ParentChildren(mWeaponParent.gameObject, _item);
+        ParentChildren(m_weaponParent.gameObject, _item);
         _item.GetComponent<GunManager>().GetItemSetting();
 
     }
@@ -234,9 +229,9 @@ public class InventoryWeapon : MonoBehaviour
     public void GunObjChenge(ItemInformation _inventoryitem_item)
     {
         //今の武器を非表示
-        mWeaponSlotObj[(int)SLOT_ORDER.GUN].SetActive(false);
+        m_weaponSlotObj[(int)SLOT_ORDER.GUN].SetActive(false);
         //入れ替えた武器に変更
-        mWeaponSlotObj[(int)SLOT_ORDER.GUN] = _inventoryitem_item.weaponitem_info.weapon_obj;
+        m_weaponSlotObj[(int)SLOT_ORDER.GUN] = _inventoryitem_item.weaponitem_info.weapon_obj;
     }
 
 
@@ -249,9 +244,9 @@ public class InventoryWeapon : MonoBehaviour
     public void SetUI(Transform[] _sprite)
     {
         //スプライト
-        for (int slot = 0; slot < slot_size; slot++)
+        for (int slot = 0; slot < m_sloatSize; slot++)
         {
-            if (Inventory.Slots[slot].ItemInfo == null)
+            if (m_Inventory.Slots[slot].ItemInfo == null)
             {
                 //アイテム情報がない場合
 
@@ -263,31 +258,31 @@ public class InventoryWeapon : MonoBehaviour
                 //アイテム情報がある場合
 
                 _sprite[slot].gameObject.SetActive(true);                                             //表示
-                _sprite[slot].GetComponent<Image>().sprite = Inventory.Slots[slot].ItemInfo.sprite;   //スロットにあるアイテム情報からスプライトを代入
+                _sprite[slot].GetComponent<Image>().sprite = m_Inventory.Slots[slot].ItemInfo.sprite;   //スロットにあるアイテム情報からスプライトを代入
             }
         }
     }
 
     public void SetWeapon()
     {
-        for (int slot = 0; slot < slot_size; slot++)
+        for (int slot = 0; slot < m_sloatSize; slot++)
         {
             //アイテム情報がない
-            if (mWeaponSlotObj[slot] == null) continue;
+            if (m_weaponSlotObj[slot] == null) continue;
 
             //選択しているスロットのオブジェクト表示
-            if (slot == (int)mSelectSlot)
+            if (slot == (int)m_selectSlot)
             {
-                mWeaponSlotObj[(int)mSelectSlot].SetActive(true);
-                sprite[(int)mSelectSlot].GetComponent<Image>().color = mColorAlphaFull;
-                mFrame.position = sprite[(int)mSelectSlot].position;
+                m_weaponSlotObj[(int)m_selectSlot].SetActive(true);
+                m_spriteTrans[(int)m_selectSlot].GetComponent<Image>().color = mColorAlphaFull;
+                m_frame.position = m_spriteTrans[(int)m_selectSlot].position;
             }
             else
             {
                 //非表示
 
-                mWeaponSlotObj[slot].SetActive(false);
-                sprite[slot].GetComponent<Image>().color = mColorAlphaHalf;
+                m_weaponSlotObj[slot].SetActive(false);
+                m_spriteTrans[slot].GetComponent<Image>().color = mColorAlphaHalf;
             }
         }
     }
