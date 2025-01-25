@@ -8,6 +8,7 @@ using UnityEngine;
 アイテム情報を入れる（残りを返す）
  */
 
+//[System.Serializable]
 public class SlotClass
 {
     public ItemInformation ItemInfo { get; set; }

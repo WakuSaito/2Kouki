@@ -101,7 +101,7 @@ public class player : PlayerFunction, IStopObject
         Rigidbody = GetComponent<Rigidbody>();
 
         searchViewArea = GetComponent<SearchViewArea>();
-        
+
         //ゲージ設定
         food_num_now = food_gage.GetComponent<Gauge>().GaugeSetting(food_num_max);
         hp_num_now   = hp_gague.GetComponent<Gauge>().GaugeSetting(hp_num_max);
@@ -135,7 +135,7 @@ public class player : PlayerFunction, IStopObject
                 m_openInventoryFlag = m_inventoryManager.OpenClose(m_openInventoryFlag, null);
             }
 
-            hand_weapon = m_inventoryWeapon.mWeaponSlotObj[(int)m_inventoryWeapon.mSelectSlot];
+            hand_weapon = m_inventoryWeapon.m_weaponSlotObj[(int)m_inventoryWeapon.m_selectSlot];
 
             //インベントリ閉じている
             if (!m_openInventoryFlag)
@@ -220,7 +220,7 @@ public class player : PlayerFunction, IStopObject
     {
         //視点方向のアイテムを探す
         GameObject item = searchViewArea.GetObjUpdate("item", Item_Distance,0.03f);
-
+        Debug.Log(item);
         if (Input.GetMouseButtonDown(1))
 
         {        
@@ -233,7 +233,7 @@ public class player : PlayerFunction, IStopObject
                 return;
             }
 
-            playerSound.PlayPickUp();//SE
+            //playerSound.PlayPickUp();//SE
 
             //アイテム取得
             bool all_get_flag = false;
@@ -269,7 +269,7 @@ public class player : PlayerFunction, IStopObject
 
         searchViewArea.ResetColor("Zombie");
 
-        switch (m_inventoryWeapon.mSelectSlot)
+        switch (m_inventoryWeapon.m_selectSlot)
         {
             case SLOT_ORDER.KNIFE:
                 //攻撃、animation処理

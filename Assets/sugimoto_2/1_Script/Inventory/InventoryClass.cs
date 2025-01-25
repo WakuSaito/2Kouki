@@ -7,6 +7,7 @@ using UnityEngine.UI;
 /// スロットクラス
 /// アイテムの情報を保存
 /// </summary>
+// [System.Serializable]
 public class InventoryClass
 {
     public SlotClass[] Slots { get; set; } //スロット情報
