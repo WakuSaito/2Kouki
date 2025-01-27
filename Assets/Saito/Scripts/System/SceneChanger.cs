@@ -34,7 +34,7 @@ public class SceneChanger : MonoBehaviour
         m_soundManager.Play2DSE(m_soundManager.pushButton);//SE再生
         m_soundManager.ChangeBGM(null, 0.6f);//BGMフェードアウト
         //SEが流れきったらシーン切り替え
-        StartCoroutine(LoadSceneAsync("MainGame", m_soundManager.pushButton.length));
+        StartCoroutine(LoadSceneAsync("conflict_saito", m_soundManager.pushButton.length));
     }
 
     /// <summary>

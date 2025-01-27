@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 839605689272667785}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.441491, y: 0.6521129, z: 45.406796}
+  m_LocalPosition: {x: 2.3024397, y: 0.65750563, z: 54.26965}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -48,20 +48,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iteminfo:
-    type: 0
-    id: 0
-    get_num: 0
-    stack_max: 0
-    sprite: {fileID: 21300000, guid: 18bbd52a133c87141a6afff679c50dd7, type: 3}
+    type: 3
+    id: 14
+    get_num: 1
+    stack_max: 1
+    sprite: {fileID: 21300000, guid: 23bb162879fa65c408016d7ac45f0520, type: 3}
     recoveryitem_info:
       recovery_num: 0
     weaponitem_info:
-      weapon_obj: {fileID: 0}
+      weapon_obj: {fileID: 839605689272667785}
       bullet_sprite: {fileID: 0}
   id: 14
   sprite: {fileID: 21300000, guid: 23bb162879fa65c408016d7ac45f0520, type: 3}
   bullet_sprite: {fileID: 0}
   drop_flag: 0
+  m_getFlag: 0
 --- !u!114 &7274561741655551885
 MonoBehaviour:
   m_ObjectHideFlags: 0
