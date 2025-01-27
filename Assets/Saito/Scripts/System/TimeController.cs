@@ -247,7 +247,8 @@ public class TimeController : MonoBehaviour, IStopObject
         }
 
         //太陽光の角度変更
-        m_directionalLightObj.transform.localRotation = Quaternion.AngleAxis(sunRotate, Vector3.right);
+        if(m_directionalLightObj != null)
+            m_directionalLightObj.transform.localRotation = Quaternion.AngleAxis(sunRotate, Vector3.right);
 
         //ゲーム内時間更新
         m_currentTime = new HourMinute(m_sunriseHour, 0);

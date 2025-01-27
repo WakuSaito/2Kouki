@@ -13,35 +13,35 @@ public enum SLOT_ORDER
 
 public class InventoryWeapon : MonoBehaviour
 {
-    /// <summary>ƒXƒƒbƒg‚É‚ ‚éeˆÈŠO‚Ìí—Ş‚Ì”</summary>
+    /// <summary>ã‚¹ãƒ­ãƒƒãƒˆã«ã‚ã‚‹éŠƒä»¥å¤–ã®ç¨®é¡ã®æ•°</summary>
     const int OTHER_GUN_TYPE_NUM = 2;
 
-    //ƒCƒ“ƒxƒ“ƒgƒŠ‚Ì—v‘f
+    //ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã®è¦ç´ 
     public InventoryClass m_Inventory;
     public int m_sloatSize = 4;
     public Transform[] m_SlotBoxTrans;
     public Transform[] m_spriteTrans;
 
-    //ƒIƒuƒWƒFƒNƒg
-    [SerializeField] GameObject m_uiObj; //ƒCƒ“ƒxƒ“ƒgƒŠUI
+    //ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+    [SerializeField] GameObject m_uiObj; //ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªUI
     public GameObject[] m_weaponSlotObj;
     [SerializeField] Transform m_frame;
-    [SerializeField] GameObject m_weaponParent;                 //e‚ÌeƒIƒuƒWƒFƒNƒg
+    [SerializeField] GameObject m_weaponParent;                 //éŠƒã®è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
     [SerializeField] GameObject[] m_saveOtherGun = new GameObject[OTHER_GUN_TYPE_NUM];
 
 
 
     public SLOT_ORDER m_selectSlot = SLOT_ORDER.HAND;
-    Color mColorAlphaHalf = new Color(1.0f, 1.0f, 1.0f, 0.5f);//”¼“§–¾
-    Color mColorAlphaFull = new Color(1.0f, 1.0f, 1.0f, 1.0f);//•s“§–¾
+    Color mColorAlphaHalf = new Color(1.0f, 1.0f, 1.0f, 0.5f);//åŠé€æ˜
+    Color mColorAlphaFull = new Color(1.0f, 1.0f, 1.0f, 1.0f);//ä¸é€æ˜
 
     // Start is called before the first frame update
     void Start()
     {
-        //ƒCƒ“ƒxƒ“ƒgƒŠ‚ÌƒCƒ“ƒXƒgƒ‰ƒNƒ^ì¬
+        //ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ä½œæˆ
         m_Inventory = new InventoryClass(m_sloatSize, m_SlotBoxTrans);
 
-        //mWeaponSlotObj‚É‚ ‚éƒIƒuƒWƒFƒNƒg‚Ìî•ñ‚ğƒXƒƒbƒg‚É“ü‚ê‚é
+        //mWeaponSlotObjã«ã‚ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æƒ…å ±ã‚’ã‚¹ãƒ­ãƒƒãƒˆã«å…¥ã‚Œã‚‹
         ItemSlotSet();
     }
 
@@ -60,7 +60,7 @@ public class InventoryWeapon : MonoBehaviour
 
             ITEM_ID id = m_weaponSlotObj[i].GetComponent<ItemSetting>().iteminfo.id;
 
-            //ƒAƒCƒeƒ€ID‚É‚æ‚Á‚Äî•ñ‚ğ“ü‚ê‚éƒXƒƒbƒg‚ªˆÙ‚È‚é
+            //ã‚¢ã‚¤ãƒ†ãƒ IDã«ã‚ˆã£ã¦æƒ…å ±ã‚’å…¥ã‚Œã‚‹ã‚¹ãƒ­ãƒƒãƒˆãŒç•°ãªã‚‹
             switch (id)
             {
                 case ITEM_ID.PISTOL:
@@ -83,16 +83,16 @@ public class InventoryWeapon : MonoBehaviour
 
     public GameObject ChangeWeapon()
     {
-        //‰ñ“]‚Ìæ“¾
+        //å›è»¢ã®å–å¾—
         float mouse_wheel = Input.GetAxis("Mouse ScrollWheel");
 
-        //ƒ}ƒEƒXƒzƒC[ƒ‹‚É“®‚«‚ª‚ ‚Á‚½‚ç•ÏX
+        //ãƒã‚¦ã‚¹ãƒ›ã‚¤ãƒ¼ãƒ«ã«å‹•ããŒã‚ã£ãŸã‚‰å¤‰æ›´
         //if (Mathf.Abs(mouse_wheel) != 0)
         //{
-        //    //Œ»İ‚Ì•Ší”ñ•\¦
+        //    //ç¾åœ¨ã®æ­¦å™¨éè¡¨ç¤º
         //    mWeaponSlotObj[(int)mSelectSlot].SetActive(false);
         //    sprite[(int)mSelectSlot].GetComponent<Image>().color = mColorAlphaHalf;
-        //    ////ƒCƒ“ƒxƒ“ƒgƒŠ•\¦
+        //    ////ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªè¡¨ç¤º
         //    //display_timer = 0.0f;
         //    //display_flag = true;
 
@@ -102,25 +102,25 @@ public class InventoryWeapon : MonoBehaviour
         //    //}
         //}
 
-        //ƒ}ƒEƒXƒzƒC[ƒ‹‰º‰ñ‚µ
+        //ãƒã‚¦ã‚¹ãƒ›ã‚¤ãƒ¼ãƒ«ä¸‹å›ã—
         if (mouse_wheel < 0)
         {
-            //Ÿ‚Ì•ŠíƒCƒ“ƒxƒ“ƒgƒŠ‚Ö
+            //æ¬¡ã®æ­¦å™¨ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã¸
             m_selectSlot++;
-            //•ŠíƒCƒ“ƒxƒ“ƒgƒŠ‚Ì—Ìˆæ‚ğ’´‚¦‚½‚çÅ‰‚É–ß‚·
+            //æ­¦å™¨ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã®é ˜åŸŸã‚’è¶…ãˆãŸã‚‰æœ€åˆã«æˆ»ã™
             if ((int)m_selectSlot >= m_sloatSize)
             {
                 m_selectSlot = 0;
             }
 
-            //•ŠíƒCƒ“ƒxƒ“ƒgƒŠ‚Ì’†g‚ª‰½‚à‚È‚¯‚ê‚Î’†g‚Ì‚ ‚é•Ší‚Ö
+            //æ­¦å™¨ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã®ä¸­èº«ãŒä½•ã‚‚ãªã‘ã‚Œã°ä¸­èº«ã®ã‚ã‚‹æ­¦å™¨ã¸
             while (m_weaponSlotObj[(int)m_selectSlot] == null)
             {
                 if (m_weaponSlotObj[(int)m_selectSlot] == null)
                 {
-                    //Ÿ‚Ì•ŠíƒCƒ“ƒxƒ“ƒgƒŠ‚Ö
+                    //æ¬¡ã®æ­¦å™¨ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã¸
                     m_selectSlot++;
-                    //•ŠíƒCƒ“ƒxƒ“ƒgƒŠ‚Ì—Ìˆæ‚ğ’´‚¦‚½‚çÅ‰‚É–ß‚·
+                    //æ­¦å™¨ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã®é ˜åŸŸã‚’è¶…ãˆãŸã‚‰æœ€åˆã«æˆ»ã™
                     if ((int)m_selectSlot >= m_sloatSize)
                     {
                         m_selectSlot = 0;
@@ -132,27 +132,27 @@ public class InventoryWeapon : MonoBehaviour
                 }
             }
         }
-        //ã‰ñ‚µ
+        //ä¸Šå›ã—
         if (mouse_wheel > 0)
         {
-            //‘O‚Ì•ŠíƒCƒ“ƒxƒ“ƒgƒŠ
+            //å‰ã®æ­¦å™¨ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒª
             m_selectSlot--;
             if (m_selectSlot < 0)
             {
-                //•ŠíƒCƒ“ƒxƒ“ƒgƒŠ‚Ì—Ìˆæ‚ğ’´‚¦‚½‚çÅŒã‚É‚·‚é
+                //æ­¦å™¨ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã®é ˜åŸŸã‚’è¶…ãˆãŸã‚‰æœ€å¾Œã«ã™ã‚‹
                 m_selectSlot = (SLOT_ORDER)m_sloatSize - 1;
             }
 
-            //•ŠíƒCƒ“ƒxƒ“ƒgƒŠ‚Ì’†g‚ª‰½‚à‚È‚¯‚ê‚Î’†g‚Ì‚ ‚é•Ší‚Ö
+            //æ­¦å™¨ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã®ä¸­èº«ãŒä½•ã‚‚ãªã‘ã‚Œã°ä¸­èº«ã®ã‚ã‚‹æ­¦å™¨ã¸
             while (m_weaponSlotObj[(int)m_selectSlot] == null)
             {
                 if (m_weaponSlotObj[(int)m_selectSlot] == null)
                 {
-                    //‘O‚Ì•ŠíƒCƒ“ƒxƒ“ƒgƒŠ
+                    //å‰ã®æ­¦å™¨ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒª
                     m_selectSlot--;
                     if (m_selectSlot < 0)
                     {
-                        //•ŠíƒCƒ“ƒxƒ“ƒgƒŠ‚Ì—Ìˆæ‚ğ’´‚¦‚½‚çÅŒã‚É‚·‚é
+                        //æ­¦å™¨ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã®é ˜åŸŸã‚’è¶…ãˆãŸã‚‰æœ€å¾Œã«ã™ã‚‹
                         m_selectSlot = (SLOT_ORDER)m_sloatSize - 1;
                     }
                 }
@@ -162,10 +162,10 @@ public class InventoryWeapon : MonoBehaviour
                 }
             }
         }
-        //ƒ}ƒEƒXƒzƒC[ƒ‹‚É“®‚«‚ª‚ ‚Á‚½‚ç•ÏX
+        //ãƒã‚¦ã‚¹ãƒ›ã‚¤ãƒ¼ãƒ«ã«å‹•ããŒã‚ã£ãŸã‚‰å¤‰æ›´
         //if (Mathf.Abs(mouse_wheel) != 0)
         //{
-        //    //‚Á‚Ä‚¢‚é•Ší‚ğ•ÏX
+        //    //æŒã£ã¦ã„ã‚‹æ­¦å™¨ã‚’å¤‰æ›´
         //    mWeaponSlotObj[(int)mSelectSlot].SetActive(true);
         //    sprite[(int)mSelectSlot].GetComponent<Image>().color = mColorAlphaFull;
         //    mFrame.position = slot_box[(int)mSelectSlot].transform.position;
@@ -177,7 +177,7 @@ public class InventoryWeapon : MonoBehaviour
     {
         ITEM_ID id = _item.GetComponent<ItemSetting>().iteminfo.id;
 
-        //æ“¾‚·‚é•Ší‚Íe‚ÆŒ¢—pƒAƒCƒeƒ€‚Ì‚İ‚È‚Ì‚ÅHAND‚ÆKNIFE‚ÍÈ—ª
+        //å–å¾—ã™ã‚‹æ­¦å™¨ã¯éŠƒã¨çŠ¬ç”¨ã‚¢ã‚¤ãƒ†ãƒ ã®ã¿ãªã®ã§HANDã¨KNIFEã¯çœç•¥
         switch (id)
         {
             case ITEM_ID.PISTOL:
@@ -195,7 +195,7 @@ public class InventoryWeapon : MonoBehaviour
     {
         ITEM_ID id = _item.GetComponent<ItemSetting>().iteminfo.id;
 
-        //æ“¾‚·‚é•Ší‚Íe‚ÆŒ¢—pƒAƒCƒeƒ€‚Ì‚İ‚È‚Ì‚ÅHAND‚ÆKNIFE‚ÍÈ—ª
+        //å–å¾—ã™ã‚‹æ­¦å™¨ã¯éŠƒã¨çŠ¬ç”¨ã‚¢ã‚¤ãƒ†ãƒ ã®ã¿ãªã®ã§HANDã¨KNIFEã¯çœç•¥
         switch (id)
         {
             case ITEM_ID.PISTOL:
@@ -205,7 +205,7 @@ public class InventoryWeapon : MonoBehaviour
                 {
                     m_Inventory.Slots[(int)SLOT_ORDER.GUN].ItemInfo = _item.GetComponent<ItemSetting>().iteminfo;
                     m_weaponSlotObj[(int)SLOT_ORDER.GUN] = _item.GetComponent<ItemSetting>().iteminfo.weaponitem_info.weapon_obj;
-                    //‘I‚ñ‚Å‚¢‚é•Ší‚ªHAND‚Ìê‡E‚Á‚½•Ší‚ğ‘I‚ñ‚Å‚¢‚é•Ší‚É•ÏX
+                    //é¸ã‚“ã§ã„ã‚‹æ­¦å™¨ãŒHANDã®å ´åˆæ‹¾ã£ãŸæ­¦å™¨ã‚’é¸ã‚“ã§ã„ã‚‹æ­¦å™¨ã«å¤‰æ›´
                     if (m_selectSlot == SLOT_ORDER.HAND) m_selectSlot = SLOT_ORDER.GUN;
                 }
                 break;
@@ -214,13 +214,13 @@ public class InventoryWeapon : MonoBehaviour
                 {
                     m_Inventory.Slots[(int)SLOT_ORDER.DOG].ItemInfo = _item.GetComponent<ItemSetting>().iteminfo;
                     m_weaponSlotObj[(int)SLOT_ORDER.DOG] = _item.GetComponent<ItemSetting>().iteminfo.weaponitem_info.weapon_obj;
-                    //‘I‚ñ‚Å‚¢‚é•Ší‚ªHAND‚Ìê‡E‚Á‚½•Ší‚ğ‘I‚ñ‚Å‚¢‚é•Ší‚É•ÏX
+                    //é¸ã‚“ã§ã„ã‚‹æ­¦å™¨ãŒHANDã®å ´åˆæ‹¾ã£ãŸæ­¦å™¨ã‚’é¸ã‚“ã§ã„ã‚‹æ­¦å™¨ã«å¤‰æ›´
                     if (m_selectSlot == SLOT_ORDER.HAND) m_selectSlot = SLOT_ORDER.DOG;
                 }
                 break;
         }
 
-        //•Šíæ“¾‚ÌÛ‚Ìİ’è
+        //æ­¦å™¨å–å¾—ã®éš›ã®è¨­å®š
         ParentChildren(m_weaponParent.gameObject, _item);
         _item.GetComponent<GunManager>().GetItemSetting();
 
@@ -228,37 +228,37 @@ public class InventoryWeapon : MonoBehaviour
 
     public void GunObjChenge(ItemInformation _inventoryitem_item)
     {
-        //¡‚Ì•Ší‚ğ”ñ•\¦
+        //ä»Šã®æ­¦å™¨ã‚’éè¡¨ç¤º
         m_weaponSlotObj[(int)SLOT_ORDER.GUN].SetActive(false);
-        //“ü‚ê‘Ö‚¦‚½•Ší‚É•ÏX
+        //å…¥ã‚Œæ›¿ãˆãŸæ­¦å™¨ã«å¤‰æ›´
         m_weaponSlotObj[(int)SLOT_ORDER.GUN] = _inventoryitem_item.weaponitem_info.weapon_obj;
     }
 
 
     /// <summary>
-    /// UI‚ğƒZƒbƒg‚·‚é
-    /// ƒCƒ“ƒxƒ“ƒgƒŠ‚ÌƒXƒƒbƒg‚ÌUI‚ğŒˆ’è
-    /// ƒCƒ“ƒxƒ“ƒgƒŠƒNƒ‰ƒX‚É‚ ‚é‚Ì‚Æˆá‚¢AText‚È‚µƒo[ƒWƒ‡ƒ“
+    /// UIã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+    /// ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã®ã‚¹ãƒ­ãƒƒãƒˆã®UIã‚’æ±ºå®š
+    /// ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã‚¯ãƒ©ã‚¹ã«ã‚ã‚‹ã®ã¨é•ã„ã€Textãªã—ãƒãƒ¼ã‚¸ãƒ§ãƒ³
     /// </summary>
-    /// <param name="_sprite">ƒXƒvƒ‰ƒCƒg‚ğ“ü‚ê‚éƒgƒ‰ƒ“ƒXƒtƒH[ƒ€</param>
+    /// <param name="_sprite">ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚’å…¥ã‚Œã‚‹ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ </param>
     public void SetUI(Transform[] _sprite)
     {
-        //ƒXƒvƒ‰ƒCƒg
+        //ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
         for (int slot = 0; slot < m_sloatSize; slot++)
         {
             if (m_Inventory.Slots[slot].ItemInfo == null)
             {
-                //ƒAƒCƒeƒ€î•ñ‚ª‚È‚¢ê‡
+                //ã‚¢ã‚¤ãƒ†ãƒ æƒ…å ±ãŒãªã„å ´åˆ
 
-                _sprite[slot].gameObject.SetActive(false);          //”ñ•\¦
-                _sprite[slot].GetComponent<Image>().sprite = null;  //ƒXƒvƒ‰ƒCƒg‰Šú‰»
+                _sprite[slot].gameObject.SetActive(false);          //éè¡¨ç¤º
+                _sprite[slot].GetComponent<Image>().sprite = null;  //ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆåˆæœŸåŒ–
             }
             else
             {
-                //ƒAƒCƒeƒ€î•ñ‚ª‚ ‚éê‡
+                //ã‚¢ã‚¤ãƒ†ãƒ æƒ…å ±ãŒã‚ã‚‹å ´åˆ
 
-                _sprite[slot].gameObject.SetActive(true);                                             //•\¦
-                _sprite[slot].GetComponent<Image>().sprite = m_Inventory.Slots[slot].ItemInfo.sprite;   //ƒXƒƒbƒg‚É‚ ‚éƒAƒCƒeƒ€î•ñ‚©‚çƒXƒvƒ‰ƒCƒg‚ğ‘ã“ü
+                _sprite[slot].gameObject.SetActive(true);                                             //è¡¨ç¤º
+                _sprite[slot].GetComponent<Image>().sprite = m_Inventory.Slots[slot].ItemInfo.sprite;   //ã‚¹ãƒ­ãƒƒãƒˆã«ã‚ã‚‹ã‚¢ã‚¤ãƒ†ãƒ æƒ…å ±ã‹ã‚‰ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚’ä»£å…¥
             }
         }
     }
@@ -267,10 +267,10 @@ public class InventoryWeapon : MonoBehaviour
     {
         for (int slot = 0; slot < m_sloatSize; slot++)
         {
-            //ƒAƒCƒeƒ€î•ñ‚ª‚È‚¢
+            //ã‚¢ã‚¤ãƒ†ãƒ æƒ…å ±ãŒãªã„
             if (m_weaponSlotObj[slot] == null) continue;
 
-            //‘I‘ğ‚µ‚Ä‚¢‚éƒXƒƒbƒg‚ÌƒIƒuƒWƒFƒNƒg•\¦
+            //é¸æŠã—ã¦ã„ã‚‹ã‚¹ãƒ­ãƒƒãƒˆã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè¡¨ç¤º
             if (slot == (int)m_selectSlot)
             {
                 m_weaponSlotObj[(int)m_selectSlot].SetActive(true);
@@ -279,7 +279,7 @@ public class InventoryWeapon : MonoBehaviour
             }
             else
             {
-                //”ñ•\¦
+                //éè¡¨ç¤º
 
                 m_weaponSlotObj[slot].SetActive(false);
                 m_spriteTrans[slot].GetComponent<Image>().color = mColorAlphaHalf;
@@ -289,7 +289,7 @@ public class InventoryWeapon : MonoBehaviour
 
     void ParentChildren(GameObject _parent, GameObject _child)
     {
-        //eqŠÖŒW‚Éİ’è
+        //è¦ªå­é–¢ä¿‚ã«è¨­å®š
 
         _child.transform.parent = _parent.transform;
         _child.transform.position = _parent.transform.position;

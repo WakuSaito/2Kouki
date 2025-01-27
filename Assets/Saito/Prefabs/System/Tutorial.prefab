@@ -321,9 +321,11 @@ GameObject:
   - component: {fileID: 6710698756658029547}
   - component: {fileID: 6710698756658029551}
   - component: {fileID: 6710698756658029549}
+  - component: {fileID: 6972668399865520296}
   - component: {fileID: 6710698756658029552}
+  - component: {fileID: 3957671502349169980}
   - component: {fileID: 3328819696575346634}
-  - component: {fileID: 6710698756658029550}
+  - component: {fileID: 1483749596135552791}
   - component: {fileID: 3327066974600761009}
   - component: {fileID: 6710698756658029546}
   - component: {fileID: 3436107488620114792}
@@ -372,11 +374,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124ac2e00cef1544690765e9a47e6cd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetZombieObj: {fileID: 0}
-  plzChangeWeaponUI: {fileID: 6710698755149038597}
-  plzUseKnifeUI: {fileID: 5568702603985577070}
-  dogManager: {fileID: 0}
-  dogWhistle: {fileID: 0}
+  m_targetZombieObj: {fileID: 0}
+  m_plzChangeWeaponUI: {fileID: 6710698755149038597}
+  m_plzUseKnifeUI: {fileID: 5568702603985577070}
+  m_dogManager: {fileID: 0}
+  m_dogWhistle: {fileID: 0}
 --- !u!114 &6710698756658029547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,10 +391,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef780fcaaac415444881f3f3cda4a8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetPos: {x: 0, y: 0, z: 0}
-  plzChangeWeaponUI: {fileID: 6710698755149038597}
-  plzUseDetectionUI: {fileID: 2570672363641414039}
-  dogManager: {fileID: 0}
+  m_plzChangeWeaponUI: {fileID: 6710698755149038597}
+  m_plzUseDetectionUI: {fileID: 2570672363641414039}
+  m_dogManager: {fileID: 0}
 --- !u!114 &6710698756658029551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,8 +406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 331d57cd5b44a1847a009ecf94db2627, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetPos: {x: 0, y: 0, z: 0}
-  plzChangeWeaponUI: {fileID: 6710698755149038597}
+  m_targetPos: {x: 1.89, y: 0.802, z: 50.636}
+  m_plzChangeWeaponUI: {fileID: 6710698755149038597}
 --- !u!114 &6710698756658029549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,7 +420,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb5126a3b27eec940a404ecfd0fca57e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemObj: {fileID: 0}
+  m_itemObj: {fileID: 0}
+--- !u!114 &6972668399865520296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6710698756658029543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48a83e1984477224eb28eb226f1dc55e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_targetPos: {x: -0.323, y: 0.802, z: 68.445}
+  m_player: {fileID: 0}
 --- !u!114 &6710698756658029552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,8 +447,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d6b61e2b3f2d84fb45791d92695fc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plzOpenBagUI: {fileID: 7638296040880561382}
-  plzUseItemUI: {fileID: 3757973856232461245}
+  m_inventoryManager: {fileID: 0}
+  m_inventoryItem: {fileID: 0}
+  m_foodGauge: {fileID: 0}
+  m_plzOpenBagUI: {fileID: 7638296040880561382}
+  m_plzUseItemUI: {fileID: 3757973856232461245}
+--- !u!114 &3957671502349169980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6710698756658029543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28a2405b709155346b8c9735246a5d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_targetPos: {x: 0.00637, y: 0.00116, z: 0.00784}
+  m_inventoryManager: {fileID: 0}
+  m_inventoryChest: {fileID: 0}
+  m_inventoryItem: {fileID: 0}
+  m_plzMoveItemUI: {fileID: 0}
 --- !u!114 &3328819696575346634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,7 +481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e15a2f7a01ba29a45a3173065a08b8cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6710698756658029550
+--- !u!114 &1483749596135552791
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -455,11 +490,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6710698756658029543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1494d8bebd55f6a41898c7f7ac8e2160, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b892613a07d3074ea41b165f79ffe6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetPos: {x: 0, y: 0, z: 0}
-  fadeUI: {fileID: 0}
+  m_targetPos: {x: -0.07150003, y: 0.05825, z: 0.009500033}
+  m_fadeUI: {fileID: 0}
+  m_helicoptorObj: {fileID: 0}
 --- !u!114 &3327066974600761009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,7 +508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6257642d13516f6449792920a25b7dc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeController: {fileID: 0}
+  m_timeController: {fileID: 0}
 --- !u!114 &6710698756658029546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,16 +521,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae82b2caf18dff542b6b8ab90860ff2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialText: {fileID: 6710698755314192830}
-  markerPrefab: {fileID: 4469385919023190781, guid: d19ad9e929bfd084fa8503a5f100b64d, type: 3}
-  tutorialBases:
+  m_tutorialText: {fileID: 6710698755314192830}
+  m_markerPrefab: {fileID: 4469385919023190781, guid: 6596ee907b4a7294eaa0e1ada93194bd, type: 3}
+  m_tutorialBases:
   - {fileID: 6710698756658029548}
   - {fileID: 6710698756658029547}
+  - {fileID: 6710698756658029551}
   - {fileID: 6710698756658029549}
+  - {fileID: 6972668399865520296}
   - {fileID: 6710698756658029552}
-  - {fileID: 6710698756658029552}
+  - {fileID: 3957671502349169980}
   - {fileID: 3328819696575346634}
-  - {fileID: 6710698756658029550}
+  - {fileID: 1483749596135552791}
   - {fileID: 3327066974600761009}
 --- !u!114 &3436107488620114792
 MonoBehaviour:
@@ -508,7 +546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b8947d7140b7a6469bae63233846665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundManager: {fileID: 0}
+  m_soundManager: {fileID: 0}
 --- !u!1001 &6710698755721609663
 PrefabInstance:
   m_ObjectHideFlags: 0

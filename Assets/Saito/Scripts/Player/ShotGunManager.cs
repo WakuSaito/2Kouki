@@ -77,6 +77,12 @@ public class ShotGunManager : GunManager
         //最大、またはキャンセルされるまで一つずつ弾を入れる
         for (int i = 0; i < bulletInNum; i++)
         {
+            //弾が無くなったら
+            if (m_inventoryItem.CheckBullet() == false)
+            {
+                break;
+            }
+
             m_animator.SetTrigger("BulletIn");//アニメーション再生
 
             yield return new WaitForSeconds(BULLET_IN_INTERVAL);

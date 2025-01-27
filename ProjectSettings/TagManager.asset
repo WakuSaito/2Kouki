@@ -3,7 +3,21 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - pistol
+  - bullet
+  - Zombie
+  - Body
+  - Head
+  - weapon
+  - item
+  - Spawner
+  - ItemSetter
+  - RestPoint
+  - ItemSpawnPos
+  - SafeArea
+  - Ground
+  - Dog
   layers:
   - Default
   - TransparentFX

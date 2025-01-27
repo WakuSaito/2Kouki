@@ -15,7 +15,8 @@ public class CursorAdvisorUI : MonoBehaviour
 
     //マウス操作指示用画像
     [SerializeField] private Sprite m_idleMouseSprite;
-    [SerializeField] private Sprite m_clickMouseSprite;
+    [SerializeField] private Sprite m_clickMouseLSprite;
+    [SerializeField] private Sprite m_clickMouseRSprite;
 
     //カーソルの移動開始、終了座標
     private Vector2 m_startPos;
@@ -30,6 +31,13 @@ public class CursorAdvisorUI : MonoBehaviour
     //dotweenアニメーション用
     private Sequence m_sequence;
 
+    //アニメーションの種類
+    public enum ANIM_TYPE
+    {
+        CLICK,
+        DRAG,
+    }
+
     private void Awake()
     {
         m_mouseImage.sprite = m_idleMouseSprite;
@@ -42,7 +50,8 @@ public class CursorAdvisorUI : MonoBehaviour
     /// <para>移動開始</para>
     /// DOTweenでループして再生される
     /// </summary>
-    public void StartMove()
+    /// <param name="_anim_type">アニメーションタイプ</param>
+    public void StartMove(ANIM_TYPE _anim_type)
     {
         //複数回呼ばれないように
         if (m_isMove) return;
@@ -51,14 +60,30 @@ public class CursorAdvisorUI : MonoBehaviour
         //Sequenceのインスタンスを作成
         m_sequence = DOTween.Sequence();
 
-        //カーソル移動
-        m_sequence.Append(transform.DOMove(m_endPos, m_cursorMoveSec).SetEase(Ease.InOutQuad));
-        m_sequence.AppendInterval(0.5f);
-        //クリック
-        m_sequence.AppendCallback(() => m_mouseImage.sprite = m_clickMouseSprite);//クリック画像に変える
-        m_sequence.AppendInterval(0.5f);
-        m_sequence.AppendCallback(() => m_mouseImage.sprite = m_idleMouseSprite);//画像を戻す
-        m_sequence.AppendInterval(0.5f);
+        if (_anim_type == ANIM_TYPE.CLICK)
+        {
+            //カーソル移動
+            m_sequence.Append(transform.DOMove(m_endPos, m_cursorMoveSec).SetEase(Ease.InOutQuad));
+            m_sequence.AppendInterval(0.5f);
+            //クリック
+            m_sequence.AppendCallback(() => m_mouseImage.sprite = m_clickMouseRSprite);//クリック画像に変える
+            m_sequence.AppendInterval(0.5f);
+            m_sequence.AppendCallback(() => m_mouseImage.sprite = m_idleMouseSprite);//画像を戻す
+            m_sequence.AppendInterval(0.5f);
+        }
+        else if(_anim_type == ANIM_TYPE.DRAG)
+        {
+            //クリック
+            m_sequence.AppendInterval(0.5f);
+            m_sequence.AppendCallback(() => m_mouseImage.sprite = m_clickMouseLSprite);//クリック画像に変える
+            m_sequence.AppendInterval(0.5f);
+            //ドラッグ
+            m_sequence.Append(transform.DOMove(m_endPos, m_cursorMoveSec).SetEase(Ease.InOutQuad));
+            m_sequence.AppendInterval(0.5f);
+            //クリック離す
+            m_sequence.AppendCallback(() => m_mouseImage.sprite = m_idleMouseSprite);//画像を戻す
+            m_sequence.AppendInterval(0.5f);
+        }
 
         //ループさせて実行
         m_sequence.Play().SetLoops(-1, LoopType.Restart)
@@ -83,10 +108,19 @@ public class CursorAdvisorUI : MonoBehaviour
     /// <summary>
     /// 終了地点設定
     /// </summary>
-    /// <param name="_pos"></param>
+    /// <param name="_pos">終了位置</param>
     public void SetEndPos(Vector2 _pos)
     {
         m_endPos = _pos;
     }
 
+    /// <summary>
+    /// 開始地点設定
+    /// </summary>
+    /// <param name="_pos">開始位置</param>
+    public void SetStartPos(Vector2 _pos)
+    {
+        m_startPos = _pos;
+        transform.position = _pos;
+    }
 }

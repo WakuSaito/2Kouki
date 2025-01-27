@@ -1835,7 +1835,7 @@ Transform:
   m_GameObject: {fileID: 6455615091749529712}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 19.96, y: 0, z: 0.94}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalScale: {x: 0.54, y: 0.54, z: 0.54}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6455615091234463005}
@@ -1889,8 +1889,8 @@ MonoBehaviour:
   - {fileID: 1251370930331078492}
   - {fileID: 7180837758190367735}
   - {fileID: 8768809644385745461}
-  m_detectionPlayerRangeMin: 10
-  m_detectionPlayerRangeMax: 30
+  m_detectionPlayerRangeMin: 5
+  m_detectionPlayerRangeMax: 12
   m_attackStartRange: 0.4
   m_despawnPlayerDistance: 120
   m_isTutorialObj: 0

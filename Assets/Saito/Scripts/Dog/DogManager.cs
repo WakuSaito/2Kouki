@@ -36,6 +36,8 @@ public class DogManager : MonoBehaviour, IStopObject
     [SerializeField] private float m_stayPlayerDistance = 5.0f;
     //追跡でどこまで近づくか
     [SerializeField] private float m_chasePlayerDistanceMin = 3.0f;
+    //ワープを開始するプレイヤーとの距離
+    [SerializeField] private float m_startWarpPlayerDistance = 20.0f;
 
     //攻撃対象オブジェクト
     private GameObject m_attackTargetObj;
@@ -70,7 +72,7 @@ public class DogManager : MonoBehaviour, IStopObject
     IEnumerator m_safeAreaActionDelay;
 
     //セーフエリアで待機する場所
-    [SerializeField] private Vector3 m_safeAreaStayPos;
+    [SerializeField] private Transform m_safeAreaStayTransform;
 
     /// <summary>
     /// 移動ループの種類
@@ -155,7 +157,7 @@ public class DogManager : MonoBehaviour, IStopObject
                 BiteZombie(m_attackTargetObj);
             }
         }
-        else if (false)//m_playerObj.GetComponent<player>().m_inSafeAreaFlag)
+        else if (m_playerObj.GetComponent<player>().m_inSafeAreaFlag)
         {
             current_move_type = MOVE_UPDATE_TYPE.SAFE_AREA;
             //プレイヤーがセーフエリア内
@@ -210,18 +212,30 @@ public class DogManager : MonoBehaviour, IStopObject
                         DelayRunCoroutine(
                         2.0f,//仮
                         () => {
-                            m_dogMove.Warp(m_safeAreaStayPos);//ワープさせる
-                            m_dogMove.ChangeDirection(Quaternion.identity);//向きを変える//仮
+                            m_dogMove.Warp(m_safeAreaStayTransform.position);//ワープさせる
+                            m_dogMove.ChangeDirection(m_safeAreaStayTransform.rotation);//向きを変える
+                            m_dogMove.StopMove();
                             m_dogAnimation.Idle();
                         }
                         ));
             StartCoroutine(m_inActionDelays[m_inActionDelays.Count - 1]);
         }
+        //移動先との距離
+        float target_distance = Vector3.Distance(transform.position, m_safeAreaStayTransform.position);
 
-        //セーフエリア所定位置に移動 この辺DogMoveにまとめた方が良さそう
-        m_dogMove.LookAtPosition(m_safeAreaStayPos);
-        m_dogMove.RunFront();
-        m_dogAnimation.Run();
+        if (target_distance > 0.3f)
+        {
+            //セーフエリア所定位置に移動 この辺DogMoveにまとめた方が良さそう
+            m_dogMove.LookAtPosition(m_safeAreaStayTransform.position);
+            m_dogMove.RunFront();
+            m_dogAnimation.Run();
+        }
+        else
+        {
+            m_dogMove.ChangeDirection(m_safeAreaStayTransform.rotation);
+            m_dogMove.StopMove();
+            m_dogAnimation.Idle();
+        }
     }
 
     /// <summary>
@@ -232,7 +246,7 @@ public class DogManager : MonoBehaviour, IStopObject
     {
         //プレイヤーとの距離
         float player_distance = Vector3.Distance(m_playerObj.transform.position, transform.position);
-        if(player_distance >= 35.0f)//プレイヤーとの距離が一定以上
+        if(player_distance >= m_startWarpPlayerDistance)//プレイヤーとの距離が一定以上
         {
             Vector3 player_behind_pos = m_playerObj.transform.position - m_playerObj.transform.forward * -1.0f;
 

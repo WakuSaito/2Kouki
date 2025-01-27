@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class PhaseSurviveDays : TutorialBase
 {
-    TimeController m_timeController;
+    [SerializeField] TimeController m_timeController;
 
     public override void SetUpPhase()
     {
