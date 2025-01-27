@@ -74,6 +74,6 @@ public class FadeImage : MonoBehaviour
         m_canvasGroup.alpha = 1f;
 
         m_canvasGroup.DOFade(endValue: 0f, duration: m_animSec)
-            .OnKill(() => Destroy(gameObject));
+            .OnKill(() => m_canvasGroup.alpha = 0f);
     }
 }

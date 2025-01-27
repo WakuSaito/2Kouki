@@ -9,45 +9,41 @@ using UnityEngine;
 /// </summary>
 public class PhaseUseKnife : TutorialBase
 {
-    [SerializeField]//自宅の座標
-    private GameObject m_targetZombieObj;
+    //自宅の座標
+    [SerializeField] private GameObject m_targetZombieObj;
 
-    [SerializeField]//武器切り替えを促すUI
-    private GameObject m_plzChangeWeaponUI;
-    [SerializeField]//武器切り替えを促すUI
-    private GameObject m_plzUseKnifeUI;
+    //インベントリの開閉監視用
+    [SerializeField] private InventoryManager m_inventoryManager;
+    //武器インベントリ
+    [SerializeField] private InventoryWeapon m_inventoryWeapon;
 
-    private Inventory m_inventory;
+    //武器切り替えを促すUI
+    [SerializeField] private GameObject m_plzChangeWeaponUI;
+    //武器切り替えを促すUI
+    [SerializeField] private GameObject m_plzUseKnifeUI;
 
-    private WeaponInventory m_weaponInventory;
-
-    [SerializeField]
-    private DogManager m_dogManager;
-
-    [SerializeField]//笛
-    private GameObject m_dogWhistle;
+    [SerializeField] private DogManager m_dogManager;
+    //笛
+    [SerializeField] private GameObject m_dogWhistle;
 
     public override void SetUpPhase()
     {
-        m_inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
-        //weaponInventory = GameObject.FindGameObjectWithTag("Player").GetComponent<weaponInventory>();
-
         m_tutorialManager.SetText("ナイフでゾンビを倒そう");
         m_tutorialManager.CreateMarker(m_targetZombieObj.transform.position);
     }
 
     public override void UpdatePhase()
     {
-        if (m_inventory == null) return;
+        if (m_inventoryWeapon == null) return;
 
         //インベントリを開いているときは邪魔になるので消す
-        if (m_inventory.item_inventory_flag == true)
+        if (m_inventoryManager.m_inventoryState == INVENTORY.CHEST)
         {
             m_plzChangeWeaponUI.SetActive(false);
             m_plzUseKnifeUI.SetActive(false);
         }
         //if ナイフを持っていないなら スロット切り替えを促す
-        else if (m_inventory.hand_weapon != Inventory.WEAPON_ID.KNIFE)
+        else if (m_inventoryWeapon.mSelectSlot != SLOT_ORDER.KNIFE)
         {
             m_plzChangeWeaponUI.SetActive(true);
             m_plzUseKnifeUI.SetActive(false);
@@ -67,8 +63,7 @@ public class PhaseUseKnife : TutorialBase
             //犬が仲間になる
             m_dogManager.OnStopAction(false);
             //笛を持たせる
-            m_inventory.weapon_hand_obj[3] = m_dogWhistle;
-            //weaponInventory.weapon[3] = dogWhistle;
+            m_inventoryWeapon.WeaponGet(m_dogWhistle);
 
             m_tutorialManager.NextPhase();
         }

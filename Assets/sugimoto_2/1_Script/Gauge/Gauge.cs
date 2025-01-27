@@ -134,5 +134,11 @@ public class Gauge : MonoBehaviour
         return gauge_num_now;
     }
 
-   
+    /// <summary>
+    /// Œ»İ‚Ì”’læ“¾
+    /// </summary>
+    public float GetCurrentAmount()
+    {
+        return gauge_num_now;
+    }
 }

@@ -9,26 +9,26 @@ using UnityEngine;
 //食料が場所によって使え無くなった可能性アリ
 public class PhaseEatFood : TutorialBase
 {
-    //インベントリスクリプト
-    private Inventory m_inventory;
+    //インベントリ管理スクリプト
+    [SerializeField] private InventoryManager m_inventoryManager;
+    //プレイヤーのインベントリスクリプト
+    [SerializeField] private InventoryItem m_inventoryItem;
+    //食料ゲージスクリプト
+    [SerializeField] private Gauge m_foodGauge;
 
-    //前フレームの所持している食料の数
-    private int m_prevHaveFoodSum = 0;
+    //前フレームの食料ゲージの値
+    private float m_prevFoodAmount;
 
-    [SerializeField]//バッグを開けるよう指示するUI
-    private GameObject m_plzOpenBagUI;
-
-    [SerializeField]//アイテムを使うよう指示するUI
-    private GameObject m_plzUseItemUI;
+    //バッグを開けるよう指示するUI
+    [SerializeField] private GameObject m_plzOpenBagUI;
+    //アイテムを使うよう指示するUI
+    [SerializeField] private GameObject m_plzUseItemUI;
 
     //食料アイコンの位置
     private Vector2 m_foodIconPos;
 
     public override void SetUpPhase()
     {
-        //プレイヤーからInventory取得
-        m_inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
-
         //非表示
         m_plzOpenBagUI.SetActive(false);
         m_plzUseItemUI.SetActive(false);
@@ -41,19 +41,22 @@ public class PhaseEatFood : TutorialBase
         //カーソルの終了位置変更
         m_plzUseItemUI.GetComponent<CursorAdvisorUI>().SetEndPos(m_foodIconPos);
 
+        //食料ゲージの値取得
+        m_prevFoodAmount = m_foodGauge.GetCurrentAmount();
+
         m_tutorialManager.SetText("食料を食べよう");
     }
 
     public override void UpdatePhase()
     {
-        if (m_inventory == null) return;
+        if (m_inventoryManager == null) return;
 
 
         //UI nullチェック
         if (m_plzOpenBagUI != null && m_plzUseItemUI != null)
         {
             //バッグを開いていないなら　開くように促す
-            if(m_inventory.item_inventory_flag == false)
+            if(m_inventoryManager.m_inventoryState != INVENTORY.ITEM)
             {
                 m_plzOpenBagUI.SetActive(true);
                 m_plzUseItemUI.SetActive(false);
@@ -64,39 +67,43 @@ public class PhaseEatFood : TutorialBase
             {
                 m_plzOpenBagUI.SetActive(false);
                 m_plzUseItemUI.SetActive(true);
-                m_plzUseItemUI.GetComponent<CursorAdvisorUI>().StartMove();
+                m_plzUseItemUI.GetComponent<CursorAdvisorUI>().StartMove(CursorAdvisorUI.ANIM_TYPE.CLICK);
             }
         }
-        int food_sum = m_inventory.GetFoodItemSum();
+        //現在の食料ゲージの値取得
+        float food_amount = m_foodGauge.GetCurrentAmount();
 
-        //食料の数が減っていれば、食べたとみなす　捨てるor交換出来るようになったらバグる
-        if (food_sum < m_prevHaveFoodSum)
+        //食料ゲージの値が増えていたら、食べたとみなす　捨てるor交換出来るようになったらバグる
+        if (m_prevFoodAmount < food_amount)
         {
             m_tutorialManager.NextPhase();
         }
         else
         {
-            m_prevHaveFoodSum = food_sum;//スロット数記憶
+            m_prevFoodAmount = food_amount;//食料ゲージの値記憶
         }
+
     }
 
     //食料アイコンを探す（1番始めに見つかったもののみ）
     private Vector2 SerchFoodIcon()
     {
-        if (m_inventory == null) return Vector2.zero;
+        if (m_inventoryManager == null) return Vector2.zero;     
 
-        for (int i = 0; i < m_inventory.item_type_id.Length; i++)
+        for (int i = 0; i < m_inventoryItem.m_inventory.Slots.Length; i++)
         {
-            int id = m_inventory.item_type_id[i];
-            if (id >= (int)ID.ITEM_ID.FOOD_1 &&
-                id <= (int)ID.ITEM_ID.DRINK_2)
+            if (m_inventoryItem.m_inventory.Slots[i].ItemInfo == null) continue;
+
+            ITEM_ID id = m_inventoryItem.m_inventory.Slots[i].ItemInfo.id;
+            if ((int)id >= (int)ID.ITEM_ID.FOOD_1 &&
+                (int)id <= (int)ID.ITEM_ID.DRINK_2)
             {
-                return m_inventory.GetItemIconPos(i);
+                return m_inventoryItem.m_BoxTrans[i].position;
             }
         }
 
         Debug.Log("食料アイコンが見つかりません");
-        return Vector2.zero;
+        return m_inventoryItem.m_BoxTrans[0].position;
     }
 
     public override void EndPhase()

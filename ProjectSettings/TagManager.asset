@@ -17,6 +17,7 @@ TagManager:
   - ItemSpawnPos
   - SafeArea
   - Ground
+  - Dog
   layers:
   - Default
   - TransparentFX
