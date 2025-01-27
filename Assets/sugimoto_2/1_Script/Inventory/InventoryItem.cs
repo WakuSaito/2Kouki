@@ -19,14 +19,14 @@ public class InventoryItem : MonoBehaviour
     //インベントリの要素
     public InventoryClass m_inventory;
     public int m_slotSize = 10;
-    public Transform[] m_spriteTrans;
     public Transform[] m_BoxTrans;
+    public Transform[] m_spriteTrans;
     public Transform[] m_noUseMarkTrans;
     public Text[] m_Text;
 
     //オブジェクト
     [SerializeField] GameObject m_inventoryManagerObj;
-    public GameObject m_itemInventoryObj; //インベントリUI
+    public GameObject m_uiObj; //インベントリUI
 
     [SerializeField]//サウンド用
     private PlayerSound m_playerSound;
@@ -63,7 +63,7 @@ public class InventoryItem : MonoBehaviour
             //アイテム情報からスロットの位置を取得
             int slot_num = _weapon.CanWeaponGet(_item.weaponitem_info.weapon_obj);
 
-            if (_weapon.mWeaponSlotObj[slot_num] == null)
+            if (_weapon.m_weaponSlotObj[slot_num] == null)
             {
                 //武器インベントリに銃がない場合
                 
@@ -74,11 +74,10 @@ public class InventoryItem : MonoBehaviour
             else
             {
                 //インベントリに入れれるか調べる
-
                 bool in_flag = true;
 
                 //武器インベントリと同じIDか調べる
-                if (_weapon.Inventory.Slots[slot_num].ItemInfo.id == _item.id)
+                if (_weapon.m_Inventory.Slots[slot_num].ItemInfo.id == _item.id)
                 {
                     in_flag = false;
                 }

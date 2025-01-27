@@ -384,8 +384,10 @@ public class GunManager : MonoBehaviour, IWeapon
     {
         gameObject.SetActive(true);//表示
         GetComponent<ItemSetting>().drop_flag = true;//アイテムdrop
+        GetComponent<ItemSetting>().m_getFlag = false;//獲得していない
         GetComponent<BoxCollider>().enabled = true;//コライダーON
         GetComponent<Rigidbody>().isKinematic = false;//固定解除
+        GetComponent<Animator>().enabled = false;//アニメーションOFF
         transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);//スケールをもとの大きさに
         transform.Rotate(new Vector3(0, 90, 45));//向きを調整
     }
@@ -399,8 +401,10 @@ public class GunManager : MonoBehaviour, IWeapon
         //コンポーネント設定
         gameObject.SetActive(false);
         GetComponent<ItemSetting>().drop_flag = false;//アイテムdrop
+        GetComponent<ItemSetting>().m_getFlag = true;//アイテム獲得済み
         GetComponent<BoxCollider>().enabled = false;//コライダーOFF
-        GetComponent<Rigidbody>().isKinematic = true;//固定解除（UseGravityのほうがいいかも？）
+        GetComponent<Rigidbody>().isKinematic = true;//固定
+        GetComponent<Animator>().enabled = true;//アニメーションON
 
         //位置設定
         transform.localRotation = Quaternion.identity;

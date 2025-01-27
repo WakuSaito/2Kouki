@@ -26,7 +26,7 @@ public class InventoryManager : MonoBehaviour
     //定数
     const int GUN_SLOT = 2; //武器スロットの位置
 
-    /*オブジェクト*/
+    /*オブジェクトインベントリ関連*/
     /// <summary>チェストオブジェクト</summary>
     public GameObject[] m_chestObj;
     /// <summary>プレイヤーオブジェクト</summary>
@@ -34,10 +34,12 @@ public class InventoryManager : MonoBehaviour
     /// <summary>開けているチェストオブジェクト</summary>
     GameObject m_openChestObj = null;
 
-    //描画順番を変更するためのオブジェクト
+    /*オブジェクトアイテム関連*/
+    /// <summary>掴んでいるアイテムの親オブジェクト（描画順位変更用）</summary>
     [SerializeField] GameObject m_catchItemParent;
-    //ドロップアイテム(ITEM_IDの順に並べる)
+    /// <summary>ドロップアイテム（ITEM_ID順）</summary>
     [SerializeField] GameObject[] m_dropItemObj;
+    /// <summary>ドロップしたアイテムの親オブジェクト（まとめる用）</summary>
     [SerializeField] GameObject m_dropItemsParent;
 
     /// <summary>インベントリの状態</summary>
@@ -55,21 +57,25 @@ public class InventoryManager : MonoBehaviour
     {
         /// <summary>選択しているオブジェクト</summary>
         public GameObject m_selectObj;
-        /// <summary>スロットのNumber</summary>
+        /// <summary>選択しているスロット番号</summary>
         public int m_slotNum;
-        /// <summary>どのインベントリのスロットか</summary>
+        /// <summary>選択しているアイテムのインベントリ</summary>
         public int m_selectInventory;
-        /// <summary>どのチェストか</summary>
+        /// <summary>選択しているチェスト</summary>
         public int m_chestNum;
     }
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// スタート処理
+    /// 各コンポーネント取得
+    /// </summary>
     void Start()
     {
         m_inventoryItem = m_playerObj.GetComponent<InventoryItem>();
         mInventoryWeapon = m_playerObj.GetComponent<InventoryWeapon>();
         m_player = m_playerObj.GetComponent<player>();
 
+        //チェストオブジェクトの数だけ用意
         m_chestInventory = new InventoryChest[m_chestObj.Length];
         for (int i = 0; i < m_chestObj.Length; i++)
         {
@@ -186,9 +192,9 @@ public class InventoryManager : MonoBehaviour
             }
 
             //武器インベントリ
-            if (result.gameObject == mInventoryWeapon.slot_box[GUN_SLOT].gameObject)
+            if (result.gameObject == mInventoryWeapon.m_SlotBoxTrans[GUN_SLOT].gameObject)
             {
-                destination_slot.m_selectObj = mInventoryWeapon.slot_box[GUN_SLOT].gameObject;
+                destination_slot.m_selectObj = mInventoryWeapon.m_SlotBoxTrans[GUN_SLOT].gameObject;
                 destination_slot.m_slotNum = GUN_SLOT;
                 destination_slot.m_selectInventory = (int)INVENTORY.WEAPON;
                 break;
@@ -280,7 +286,7 @@ public class InventoryManager : MonoBehaviour
 
                     //武器オブジェクト、アイテム情報入れ替え
                     mInventoryWeapon.GunObjChenge(m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum].ItemInfo);
-                    ItemInfoChange(ref m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum], ref mInventoryWeapon.Inventory.Slots[destination_slot.m_slotNum]);
+                    ItemInfoChange(ref m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum], ref mInventoryWeapon.m_Inventory.Slots[destination_slot.m_slotNum]);
                 }
                 else if (destination_slot.m_selectInventory == (int)INVENTORY.CHEST)
                 {
@@ -430,7 +436,7 @@ public class InventoryManager : MonoBehaviour
         {
             if (m_inventoryState == INVENTORY.ITEM)
             {
-                m_inventoryItem.m_itemInventoryObj.SetActive(false);
+                m_inventoryItem.m_uiObj.SetActive(false);
 
                 if (catch_slot.m_selectObj != null)
                 {
@@ -442,7 +448,7 @@ public class InventoryManager : MonoBehaviour
             }
             if (m_openChestObj != null)
             {
-                m_inventoryItem.m_itemInventoryObj.SetActive(false);
+                m_inventoryItem.m_uiObj.SetActive(false);
                 m_openChestObj.GetComponent<InventoryChest>().m_ChestUIObj.SetActive(false);
                 m_openChestObj = null;
 
@@ -474,11 +480,11 @@ public class InventoryManager : MonoBehaviour
         {
             if (m_inventoryState == INVENTORY.ITEM)
             {
-                m_inventoryItem.m_itemInventoryObj.SetActive(true);
+                m_inventoryItem.m_uiObj.SetActive(true);
             }
             if(m_inventoryState == INVENTORY.CHEST)
             {
-                m_inventoryItem.m_itemInventoryObj.SetActive(true);
+                m_inventoryItem.m_uiObj.SetActive(true);
                 _item.GetComponent<InventoryChest>().m_ChestUIObj.SetActive(true);
                 m_openChestObj = _item;
             }
