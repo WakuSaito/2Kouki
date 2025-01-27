@@ -207,6 +207,10 @@ public class InventoryWeapon : MonoBehaviour
                     m_weaponSlotObj[(int)SLOT_ORDER.GUN] = _item.GetComponent<ItemSetting>().iteminfo.weaponitem_info.weapon_obj;
                     //選んでいる武器がHANDの場合拾った武器を選んでいる武器に変更
                     if (m_selectSlot == SLOT_ORDER.HAND) m_selectSlot = SLOT_ORDER.GUN;
+
+                    //武器取得の際の設定
+                    ParentChildren(m_weaponParent.gameObject, _item);
+                    _item.GetComponent<GunManager>().GetItemSetting();
                 }
                 break;
             case ITEM_ID.DOG_DIRECTION:
@@ -216,13 +220,11 @@ public class InventoryWeapon : MonoBehaviour
                     m_weaponSlotObj[(int)SLOT_ORDER.DOG] = _item.GetComponent<ItemSetting>().iteminfo.weaponitem_info.weapon_obj;
                     //選んでいる武器がHANDの場合拾った武器を選んでいる武器に変更
                     if (m_selectSlot == SLOT_ORDER.HAND) m_selectSlot = SLOT_ORDER.DOG;
+
+                    ParentChildren(m_weaponParent.gameObject, _item);
                 }
                 break;
         }
-
-        //武器取得の際の設定
-        ParentChildren(m_weaponParent.gameObject, _item);
-        _item.GetComponent<GunManager>().GetItemSetting();
 
     }
 
