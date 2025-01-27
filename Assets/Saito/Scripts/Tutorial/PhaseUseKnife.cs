@@ -43,7 +43,7 @@ public class PhaseUseKnife : TutorialBase
             m_plzUseKnifeUI.SetActive(false);
         }
         //if ナイフを持っていないなら スロット切り替えを促す
-        else if (m_inventoryWeapon.mSelectSlot != SLOT_ORDER.KNIFE)
+        else if (m_inventoryWeapon.m_selectSlot != SLOT_ORDER.KNIFE)
         {
             m_plzChangeWeaponUI.SetActive(true);
             m_plzUseKnifeUI.SetActive(false);
