@@ -95,8 +95,8 @@ public class PhaseEatFood : TutorialBase
             if (m_inventoryItem.m_inventory.Slots[i].ItemInfo == null) continue;
 
             ITEM_ID id = m_inventoryItem.m_inventory.Slots[i].ItemInfo.id;
-            if ((int)id >= (int)ID.ITEM_ID.FOOD_1 &&
-                (int)id <= (int)ID.ITEM_ID.DRINK_2)
+            if ((int)id >= (int)ITEM_ID.FOOD_1 &&
+                (int)id <= (int)ITEM_ID.DRINK_2)
             {
                 return m_inventoryItem.m_BoxTrans[i].position;
             }

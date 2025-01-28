@@ -50,7 +50,7 @@ public class Pistol : MonoBehaviour
                 for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
                 {
                     //インベントリに弾丸があるか
-                    if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
+                    if (inventory.item_type_id[i] == (int)ITEM_ID.BULLET)
                     {
                         anim.SetBool("Reload", true);  //reload
                         Invoke("ReroadFin", 2.8f);
@@ -68,7 +68,7 @@ public class Pistol : MonoBehaviour
             for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
             {
                 //インベントリに弾丸があるか
-                if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
+                if (inventory.item_type_id[i] == (int)ITEM_ID.BULLET)
                 {
                     //ピストルに入る弾丸数を調べる
                     int reload_num = BULLET_MAX - pistol_bullet_num;
@@ -182,7 +182,7 @@ public class Pistol : MonoBehaviour
             for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
             {
                 //インベントリに弾丸があるか
-                if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
+                if (inventory.item_type_id[i] == (int)ITEM_ID.BULLET)
                 {
                     //ピストルに入る弾丸数を調べる
                     int reload_num = BULLET_MAX - pistol_bullet_num;

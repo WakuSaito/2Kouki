@@ -68,7 +68,6 @@ public class InventoryItem : MonoBehaviour
                 //•ŠíƒCƒ“ƒxƒ“ƒgƒŠ‚Ée‚ª‚È‚¢ê‡
                 
                 _weapon.WeaponGet(_item.weaponitem_info.weapon_obj);//•Šíæ“¾
-
                 return false;
             }
             else
