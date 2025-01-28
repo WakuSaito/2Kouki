@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3190751110874797520}
   - component: {fileID: 8610062297608172304}
   - component: {fileID: 8437065668678950690}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Weapon_01_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 385354005311716224}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: PistolHAND_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 385354006277305108}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: PistolHAND_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,7 +158,7 @@ GameObject:
   - component: {fileID: 9039252947534430607}
   - component: {fileID: 8149667302567296552}
   - component: {fileID: 972545852291593513}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,7 +238,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1388978225741982166}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Weapon_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -275,7 +275,7 @@ GameObject:
   - component: {fileID: 2106751219296125545}
   - component: {fileID: 2092134099867614954}
   - component: {fileID: 2461680153142040939}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Weapon_01_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -359,7 +359,7 @@ GameObject:
   - component: {fileID: 3608648996780237723}
   - component: {fileID: 7168520432961887671}
   - component: {fileID: 8367103123278899507}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Weapon_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -443,7 +443,7 @@ GameObject:
   - component: {fileID: 2939625140789740469}
   - component: {fileID: 8470189459613257601}
   - component: {fileID: 4622682671107026774}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Weapon_01_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -525,7 +525,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9178369908925440979}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: attack_pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -566,7 +566,7 @@ GameObject:
   - component: {fileID: 3975528624600160417}
   - component: {fileID: -3561159346084433243}
   - component: {fileID: -979978510475717919}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: PistolAnimation
   m_TagString: item
   m_Icon: {fileID: 0}
@@ -706,8 +706,9 @@ MonoBehaviour:
       bullet_sprite: {fileID: 0}
   id: 9
   sprite: {fileID: 21300000, guid: d6db8613f28ba7b4382ad23e5e9acae9, type: 3}
-  bullet_sprite: {fileID: 0}
+  bullet_sprite: {fileID: 21300000, guid: 6fdfb8f4dc13c3d48ba52b9d66fa66f9, type: 3}
   drop_flag: 0
+  m_getFlag: 0
 --- !u!114 &476129112872709208
 MonoBehaviour:
   m_ObjectHideFlags: 0

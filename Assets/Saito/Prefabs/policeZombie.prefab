@@ -2338,7 +2338,7 @@ MonoBehaviour:
   m_detectionPlayerRangeMin: 5
   m_detectionPlayerRangeMax: 12
   m_attackStartRange: 0.4
-  m_despawnPlayerDistance: 120
+  m_despawnPlayerDistance: 50
   m_isTutorialObj: 0
   m_meshObj: {fileID: 3275300788025883698}
 --- !u!114 &3275300789103218466
@@ -2353,7 +2353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dcb33eab3d348c4f8a1c23e5e784682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_runSpeed: 4
+  m_runSpeed: 2.5
   m_walkSpeed: 1
   m_turnSpeed: 1000
 --- !u!114 &3275300789103218469

@@ -9,44 +9,45 @@ using UnityEngine.UI;
 /// </summary>
 public class PhaseUseDetection : TutorialBase
 {
-    [SerializeField]//武器切り替えを促すUI
-    private GameObject m_plzChangeWeaponUI;
-    [SerializeField]//武器切り替えを促すUI
-    private GameObject m_plzUseDetectionUI;
+    //武器切り替えを促すUI
+    [SerializeField] private GameObject m_plzChangeWeaponUI;
+    //武器切り替えを促すUI
+    [SerializeField] private GameObject m_plzUseDetectionUI;
 
-    private Inventory m_inventory;
+    //インベントリ関連
+    [SerializeField] private InventoryManager m_inventoryManager;
+    [SerializeField] private InventoryWeapon m_inventoryWeapon;
 
-    [SerializeField]
-    private DogManager m_dogManager;
+    [SerializeField] private DogManager m_dogManager;
 
     public override void SetUpPhase()
     {
-        m_inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
-
         m_tutorialManager.SetText("犬に指示を出し\n家を調べよう");
     }
 
     public override void UpdatePhase()
     {
         //インベントリを開いているときは邪魔になるので消す
-        if (m_inventory.item_inventory_flag == true)
+        if (m_inventoryManager.m_inventoryState == INVENTORY.ITEM ||
+            m_inventoryManager.m_inventoryState == INVENTORY.CHEST)
         {
             m_plzChangeWeaponUI.SetActive(false);
             m_plzUseDetectionUI.SetActive(false);
         }
-        //if 笛を持っていないなら　持たせるよう促す
-        else if (m_inventory.hand_weapon != Inventory.WEAPON_ID.DOG)
+        else if (m_inventoryWeapon.m_selectSlot != SLOT_ORDER.DOG)
         {
+            //笛を持っていないなら 持たせるよう促す
             m_plzChangeWeaponUI.SetActive(true);
             m_plzUseDetectionUI.SetActive(false);
-        }
-        //持っているなら　使うよう促す
+        }    
         else
         {
+            //笛を持っているなら　使うよう促す
             m_plzChangeWeaponUI.SetActive(false);
             m_plzUseDetectionUI.SetActive(true);
         }
 
+        //探知を使ったら
         if (m_dogManager.UsedOrderDetection())
         {
             //次のフェーズに進める

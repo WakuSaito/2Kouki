@@ -45,7 +45,8 @@ public class ZombieManager : MonoBehaviour, IStopObject
     [SerializeField] float m_attackStartRange = 2.0f;
 
     //このオブジェクトを削除するプレイヤーとの距離
-    [SerializeField] float m_despawnPlayerDistance = 120.0f;
+    //スポナーの最有効化と同じくらいの距離にする
+    [SerializeField] float m_despawnPlayerDistance = 100.0f;
 
     //攻撃対象を発見している
     private bool m_isFoundTarget = false;
@@ -134,11 +135,11 @@ public class ZombieManager : MonoBehaviour, IStopObject
         //プレイヤーとの距離計算
         float player_distance = Vector3.Distance(pos, player_pos);
 
-        //プレイヤーから離れすぎたら動かさない
+        //プレイヤーから離れすぎたら削除
         if (player_distance > m_despawnPlayerDistance)
         {
-            m_zombieMove.StopMove();
-            m_zombieAnimation.Idle();//停止モーション
+            Destroy(gameObject);
+
             return;
         }
 

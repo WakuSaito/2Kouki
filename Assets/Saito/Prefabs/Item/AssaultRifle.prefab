@@ -558,7 +558,7 @@ MonoBehaviour:
   m_magazineSize: 30
   m_oneShotBulletAmount: 1
   m_bulletSpread: 0.01
-  m_bulletDistance: 40
+  m_bulletDistance: 60
   m_rapidSpeed: 0.1
   m_isCanRapid: 1
   m_reloadSpeed: 2.8
@@ -603,6 +603,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 2b66e5d065ea30b4cb922bc1f0f9f253, type: 3}
   bullet_sprite: {fileID: 21300000, guid: 6fdfb8f4dc13c3d48ba52b9d66fa66f9, type: 3}
   drop_flag: 0
+  m_getFlag: 0
 --- !u!114 &4221279662715029483
 MonoBehaviour:
   m_ObjectHideFlags: 0

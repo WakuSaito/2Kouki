@@ -28,8 +28,8 @@ public interface IStopObject
 /// </summary>
 public class StopObjectAction : MonoBehaviour
 {
-    [SerializeField]//インベントリ
-    private Inventory m_inventory;
+    //インベントリ
+    [SerializeField] private InventoryManager m_inventoryManager;
 
     //現在の停止状態
     private bool m_currentStopState = false;
@@ -40,10 +40,11 @@ public class StopObjectAction : MonoBehaviour
     {
         bool new_stop_bool = m_currentStopState;
 
-        if(m_inventory != null)
+        if(m_inventoryManager != null)
         {
             //インベントリを開いているとき
-            if(m_inventory.item_inventory_flag == true)
+            if (m_inventoryManager.m_inventoryState == INVENTORY.ITEM ||
+                m_inventoryManager.m_inventoryState == INVENTORY.CHEST)
             {
                 new_stop_bool = true;
             }

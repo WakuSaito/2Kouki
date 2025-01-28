@@ -8,11 +8,10 @@ using UnityEngine;
 /// </summary>
 public class PhaseGoHome : TutorialBase
 {
-    [SerializeField]//目標の座標
-    private Vector3 m_targetPos;
+    //目標の座標
+    [SerializeField] private Vector3 m_targetPos;
 
-    [SerializeField]
-    private player m_player;
+    [SerializeField] private player m_player;
 
     public override void SetUpPhase()
     {

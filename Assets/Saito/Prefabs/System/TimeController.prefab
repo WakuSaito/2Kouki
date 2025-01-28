@@ -230,7 +230,7 @@ MonoBehaviour:
   m_sunriseHour: 6
   m_sunsetHour: 20
   m_startTimeHour: 8
-  m_cycle1HourSec: 30
+  m_cycle1HourSec: 15
   m_dayCountTextObj: {fileID: 1278805135}
   m_timeCountTextObj: {fileID: 646657108}
   m_isStopPassageTime: 0
