@@ -375,6 +375,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_targetZombieObj: {fileID: 0}
+  m_inventoryManager: {fileID: 0}
+  m_inventoryWeapon: {fileID: 0}
   m_plzChangeWeaponUI: {fileID: 6710698755149038597}
   m_plzUseKnifeUI: {fileID: 5568702603985577070}
   m_dogManager: {fileID: 0}
@@ -393,6 +395,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_plzChangeWeaponUI: {fileID: 6710698755149038597}
   m_plzUseDetectionUI: {fileID: 2570672363641414039}
+  m_inventoryManager: {fileID: 0}
+  m_inventoryWeapon: {fileID: 0}
   m_dogManager: {fileID: 0}
 --- !u!114 &6710698756658029551
 MonoBehaviour:
@@ -481,6 +485,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e15a2f7a01ba29a45a3173065a08b8cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_timeController: {fileID: 0}
 --- !u!114 &1483749596135552791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,7 +498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b892613a07d3074ea41b165f79ffe6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_targetPos: {x: -0.07150003, y: 0.05825, z: 0.009500033}
+  m_targetPos: {x: 3.349998, y: 5.0500016, z: -72.479996}
   m_fadeUI: {fileID: 0}
   m_helicoptorObj: {fileID: 0}
 --- !u!114 &3327066974600761009
