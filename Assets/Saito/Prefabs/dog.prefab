@@ -656,8 +656,9 @@ MonoBehaviour:
   m_detectCooldownSec: 60
   m_stayPlayerDistance: 3
   m_chasePlayerDistanceMin: 1
+  m_startWarpPlayerDistance: 20
   m_isStopAction: 0
-  m_safeAreaStayPos: {x: 0, y: 0, z: 0}
+  m_safeAreaStayTransform: {fileID: 0}
 --- !u!114 &1745869519410043631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -703,7 +704,7 @@ MonoBehaviour:
   m_markTargetTags:
   - item
   - Zombie
-  m_targetCenterY: 2
+  m_targetCenterY: 0.2
 --- !u!114 &4923473189086609622
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -121,3 +121,4 @@ MonoBehaviour:
   m_spawnAreaRadius: 3
   m_spawnParent: {fileID: 0}
   m_startSpawnDistance: 35
+  m_reActivePlayerDistance: 50

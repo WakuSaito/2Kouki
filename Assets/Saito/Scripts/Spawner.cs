@@ -29,35 +29,55 @@ public class Spawner : MonoBehaviour
     [SerializeField] Transform m_spawnParent;
 
     //生成を開始するプレイヤーとの距離
-    [SerializeField] float m_startSpawnDistance = 100.0f;
+    [SerializeField] float m_startSpawnDistance = 40.0f;
+    //再び有効化になるプレイヤーとの距離
+    [SerializeField] float m_reActivePlayerDistance = 100.0f;
 
     // アイテムのインスタンス
     List<GameObject> m_items = new List<GameObject>();
 
-    private GameObject m_playerObj;//プレイヤーオブジェクト
+    //プレイヤーオブジェクト
+    private GameObject m_playerObj;
+    //デバッグ用シーンでの表示切り替え
+    private MeshRenderer m_meshRenderer;
+
+    //スポナーの有効化
+    private bool m_isActive = true;
 
     private void Awake()
     {
         //プレイヤー取得
         m_playerObj = GameObject.FindGameObjectWithTag("Player");
+        //デバッグ用
+        m_meshRenderer = GetComponent<MeshRenderer>();
     }
 
     //プレイヤーが近づいたら生成開始
     private void Update()
     {
+
         //プレイヤーとの距離計算
         float distance = Vector3.Distance(transform.position, m_playerObj.transform.position);
 
-        //プレイヤーが生成開始範囲に入ったら
-        if(distance < m_startSpawnDistance)
+        //プレイヤーと離れすぎたら有効化
+        if (!m_isActive &&
+            distance > m_reActivePlayerDistance)
         {
+            //再度スポーン可能に
+            m_isActive = true;
+            //デバッグ用に可視化
+            m_meshRenderer.enabled = true;
+        }
+        else if (m_isActive &&
+                 distance < m_startSpawnDistance)//プレイヤーが生成開始範囲に入ったら
+        {         
             //生成
             StartSpawn();
 
-            //このオブジェクトは必要なくなるので削除
-            //変更する可能性アリ
-            gameObject.SetActive(false);
-            //Destroy(gameObject);
+            //何度も動かないように
+            m_isActive = false;
+            //デバッグ用に非表示
+            m_meshRenderer.enabled = false;
         }
     }
 

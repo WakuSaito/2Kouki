@@ -59,7 +59,7 @@ public class FadeImage : MonoBehaviour
     /// <summary>
     /// 画像のフェードイン
     /// </summary>
-    private void FadeIn()
+    public void FadeIn()
     {
         m_canvasGroup.alpha = 0f;
 
@@ -69,7 +69,7 @@ public class FadeImage : MonoBehaviour
     /// <summary>
     /// 画像のフェードアウト
     /// </summary>
-    private void FadeOut()
+    public void FadeOut()
     {
         m_canvasGroup.alpha = 1f;
 
