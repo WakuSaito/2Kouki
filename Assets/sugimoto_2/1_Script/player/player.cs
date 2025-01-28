@@ -117,13 +117,6 @@ public class player : PlayerFunction, IStopObject
     {
         if (game_clear_flag) return;
 
-        if (is_pause)
-        {
-            Rigidbody.velocity = new Vector3(0, 0);
-            return;
-        }
-
-        //プレイヤーが倒されていない場合
         if (!DowmPlayer())
         {
             if (Input.GetKeyDown(KeyCode.E))
@@ -131,6 +124,38 @@ public class player : PlayerFunction, IStopObject
                 m_inventoryManager.m_inventoryState = INVENTORY.ITEM;
                 m_openInventoryFlag = m_inventoryManager.OpenClose(m_openInventoryFlag, null);
             }
+        }
+
+        //インベントリ開いているとき
+        if (m_openInventoryFlag)
+        {
+            //ゲージ回復処理
+            if (Input.GetMouseButtonDown(1))
+            {
+                m_inventoryItem.Recovery_Gage(food_gage, hp_gague, m_inSafeAreaFlag);
+            }
+
+        }
+        if (is_pause)
+        {
+            //移動を止める
+            Rigidbody.velocity = new Vector3(0, 0);
+
+            run_flag = false;
+            idle_flag = true;
+            Animation();
+            Rigidbody.velocity = new Vector3(0, 0);
+            return;
+        }
+
+        //プレイヤーが倒されていない場合
+        if (!DowmPlayer())
+        {
+            //if (Input.GetKeyDown(KeyCode.E))
+            //{
+            //    m_inventoryManager.m_inventoryState = INVENTORY.ITEM;
+            //    m_openInventoryFlag = m_inventoryManager.OpenClose(m_openInventoryFlag, null);
+            //}
 
             hand_weapon = m_inventoryWeapon.m_weaponSlotObj[(int)m_inventoryWeapon.m_selectSlot];
 
@@ -160,19 +185,19 @@ public class player : PlayerFunction, IStopObject
             //Inventoryを開いている
             else
             {
-                //ゲージ回復処理
-                if (Input.GetMouseButtonDown(1))
-                {
-                    m_inventoryItem.Recovery_Gage(food_gage, hp_gague, m_inSafeAreaFlag);
-                }
+                ////ゲージ回復処理
+                //if (Input.GetMouseButtonDown(1))
+                //{
+                //    m_inventoryItem.Recovery_Gage(food_gage, hp_gague, m_inSafeAreaFlag);
+                //}
 
-                //移動を止める
-                Rigidbody.velocity = new Vector3(0, 0);
+                ////移動を止める
+                //Rigidbody.velocity = new Vector3(0, 0);
 
-                run_flag = false;
-                idle_flag = true;
-                //インベントリのアイテムを調べる
-                //Inventory.CheckInventoryItem();
+                //run_flag = false;
+                //idle_flag = true;
+                ////インベントリのアイテムを調べる
+                ////Inventory.CheckInventoryItem();
             }
         }
         else//ゲームオーバー

@@ -30,7 +30,7 @@ public class PhaseGoHelicopter : TutorialBase
     {
         //プレイヤーと目標座標の距離が一定以下なら
         float distance = Vector3.Distance(m_targetPos, PlayerPos());
-        if (distance < 1.0f)
+        if (distance < 2.0f)
         {
             m_fadeUI.SetActive(true);
             m_fadeUI.GetComponent<FadeImage>().StartFade();

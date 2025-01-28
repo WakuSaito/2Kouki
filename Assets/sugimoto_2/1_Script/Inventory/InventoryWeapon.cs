@@ -262,8 +262,12 @@ public class InventoryWeapon : MonoBehaviour
                 _sprite[slot].gameObject.SetActive(true);                                             //表示
                 _sprite[slot].GetComponent<Image>().sprite = m_Inventory.Slots[slot].ItemInfo.sprite;   //スロットにあるアイテム情報からスプライトを代入
                 GameObject weapon_obj = m_Inventory.Slots[slot].ItemInfo.weaponitem_info.weapon_obj;
-                //残弾数表示
-                //m_bulletNumText = weapon_obj.GetComponent<GunManager>().m_currentMagazineAmount + " / " + weapon_obj.GetComponent<GunManager>().m_magazineSize;
+
+                if (slot == (int)SLOT_ORDER.GUN)
+                {
+                    //残弾数表示
+                    m_bulletNumText.text = weapon_obj.GetComponent<GunManager>().GetCurrentMagazine() + " / " + weapon_obj.GetComponent<GunManager>().GetMagazineSize();
+                }
             }
         }
     }
