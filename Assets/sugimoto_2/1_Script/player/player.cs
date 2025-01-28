@@ -13,7 +13,7 @@ public class player : PlayerFunction, IStopObject
     const float Walk_Speed = 2.0f;
     const float Run_Speed = 3.0f;
     const int Damage_Num = 1;
-    const int Item_Distance = 1;
+    const int Item_Distance = 2;
 
     //移動
     bool run_flag = false;  //走っているかどうかフラグ
@@ -62,9 +62,6 @@ public class player : PlayerFunction, IStopObject
     private GameObject fadeOutUI;
     [SerializeField]
     private SceneChanger sceneChanger;
-
-    //インベントリ
-    public ItemInventory ItemInventory;
 
     //インベントリ
     InventoryItem m_inventoryItem;
@@ -233,7 +230,7 @@ public class player : PlayerFunction, IStopObject
                 return;
             }
 
-            //playerSound.PlayPickUp();//SE
+            playerSound.PlayPickUp();//SE
 
             //アイテム取得
             bool all_get_flag = false;
@@ -253,7 +250,8 @@ public class player : PlayerFunction, IStopObject
                     item.GetComponent<GunManager>().m_handPlayerObj = gameObject;
                 }
                 else
-                { 
+                {
+                    Debug.Log("w_get");
                     Destroy(item);
                 }
             }

@@ -19,7 +19,9 @@ public class SetItem : ID
     //設置する数
     [SerializeField] int mSetTimes = 0;
 
-    public bool m_test = false;
+    bool m_deleteFlag = false;
+
+    [SerializeField] GameObject m_player;
 
     // Start is called before the first frame update
     void Start()
@@ -48,10 +50,20 @@ public class SetItem : ID
         //設置したアイテムが残っているかを調べる
         SearchPosItem();
 
-        if(m_test)
+        //プレイヤーがセーフエリアに入ったらアイテムを削除
+        if(m_player.GetComponent<player>().m_inSafeAreaFlag)
         {
             //設置
-            SetItemPos();
+            DeleteSetItems();
+        }
+        else
+        {
+            //プレイヤーがセーフエリアから出ているとき、アイテムが削除されていれば生成
+            if(m_deleteFlag)
+            {
+                SetItemPos();
+                m_player.GetComponent<AreaItemSetting>().GetItemObj();
+            }
         }
     }
 
@@ -73,8 +85,47 @@ public class SetItem : ID
         {
             //ランダム
             int set_pos_random = Random.Range(0, m_setPos.Count);  //設置場所
-            int set_item_random = Random.Range(0, mItem.Length);     //アイテム
+            int set_item_random = -1;     //アイテム
 
+            int item_rate_random = Random.Range(0, 16);//確率設定
+
+            if (item_rate_random >= 0 && item_rate_random < 5)/*5/15*/
+            {
+                //弾丸
+                set_item_random = (int)ITEM_ID.BULLET;
+            }
+            else if (item_rate_random >= 5 && item_rate_random < 9)/*4/15*/
+            {
+                //食料
+                set_item_random = Random.Range((int)ITEM_ID.FOOD_1, (int)ITEM_ID.FOOD_4);
+            }
+            else if(item_rate_random >= 9 && item_rate_random < 12)/*3/15*/
+            {
+                //飲料
+                set_item_random = Random.Range((int)ITEM_ID.DRINK_1, (int)ITEM_ID.DRINK_2);
+            }
+            else if(item_rate_random >= 12 && item_rate_random < 14)/*2/15*/
+            {
+                //回復キット、ピストル
+                int random = Random.Range(0, 2);
+                switch (random)
+                {
+                    case 0: set_item_random = (int)ITEM_ID.EMERGENCY_PACK; break;
+                    case 1: set_item_random = (int)ITEM_ID.PISTOL; break;
+                }
+            }
+            else if(item_rate_random >= 15 && item_rate_random < 16)/*1/15*/
+            {
+                //ショットガン、アサルトライフル
+                int random = Random.Range(0, 2);
+                switch(random)
+                {
+                    case 0:set_item_random = (int)ITEM_ID.ASSAULT;break;
+                    case 1:set_item_random = (int)ITEM_ID.SHOTGUN;break;
+                }
+            }
+
+            if (set_item_random == -1) continue;
 
             //設置可能フラグ
             bool can_set_flag = false;
@@ -108,6 +159,8 @@ public class SetItem : ID
                 break;
             }
         }
+
+        m_deleteFlag = false;
     }
 
     void SearchPosItem()
@@ -120,6 +173,26 @@ public class SetItem : ID
             {
                 m_setPosSave[i] = -1;
             }            
+        }
+    }
+
+    /// <summary>
+    /// 設置したアイテムをすべて削除
+    /// </summary>
+    void DeleteSetItems()
+    {
+        //設置したアイテムををまとめている親オブジェクトの子の数を数える
+        int set_cnt = mParent.childCount;
+
+        //残っていれば削除と初期化
+        if (set_cnt > 0)
+        {
+            for (int i = 0; i < set_cnt; i++)
+            {
+                Destroy(mParent.GetChild(i).gameObject);
+                m_setPosSave[i] = -1;
+            }
+            m_deleteFlag = true;
         }
     }
 }
