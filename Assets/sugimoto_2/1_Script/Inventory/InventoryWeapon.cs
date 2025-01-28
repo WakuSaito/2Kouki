@@ -26,10 +26,10 @@ public class InventoryWeapon : MonoBehaviour
     [SerializeField] GameObject m_uiObj; //インベントリUI
     public GameObject[] m_weaponSlotObj;
     [SerializeField] Transform m_frame;
-    [SerializeField] GameObject m_weaponParent;                 //銃の親オブジェクト
+    public GameObject m_weaponParent;                 //銃の親オブジェクト
     [SerializeField] GameObject[] m_saveOtherGun = new GameObject[OTHER_GUN_TYPE_NUM];
-
-
+    /// <summary>銃の残弾数表示UI</summary>
+    [SerializeField] Text m_bulletNumText;
 
     public SLOT_ORDER m_selectSlot = SLOT_ORDER.HAND;
     Color mColorAlphaHalf = new Color(1.0f, 1.0f, 1.0f, 0.5f);//半透明
@@ -201,17 +201,17 @@ public class InventoryWeapon : MonoBehaviour
             case ITEM_ID.PISTOL:
             case ITEM_ID.ASSAULT:
             case ITEM_ID.SHOTGUN:
+                //武器スロットが空の場合スロットに、なければオブジェクトのみ保持しておく
                 if (m_weaponSlotObj[(int)SLOT_ORDER.GUN] == null)
                 {
                     m_Inventory.Slots[(int)SLOT_ORDER.GUN].ItemInfo = _item.GetComponent<ItemSetting>().iteminfo;
                     m_weaponSlotObj[(int)SLOT_ORDER.GUN] = _item.GetComponent<ItemSetting>().iteminfo.weaponitem_info.weapon_obj;
                     //選んでいる武器がHANDの場合拾った武器を選んでいる武器に変更
                     if (m_selectSlot == SLOT_ORDER.HAND) m_selectSlot = SLOT_ORDER.GUN;
-
-                    //武器取得の際の設定
-                    ParentChildren(m_weaponParent.gameObject, _item);
-                    _item.GetComponent<GunManager>().GetItemSetting();
                 }
+                //武器取得の際の設定
+                ParentChildren(m_weaponParent.gameObject, _item);
+                _item.GetComponent<GunManager>().GetItemSetting();
                 break;
             case ITEM_ID.DOG_DIRECTION:
                 if (m_weaponSlotObj[(int)SLOT_ORDER.DOG] == null)
@@ -261,6 +261,9 @@ public class InventoryWeapon : MonoBehaviour
 
                 _sprite[slot].gameObject.SetActive(true);                                             //表示
                 _sprite[slot].GetComponent<Image>().sprite = m_Inventory.Slots[slot].ItemInfo.sprite;   //スロットにあるアイテム情報からスプライトを代入
+                GameObject weapon_obj = m_Inventory.Slots[slot].ItemInfo.weaponitem_info.weapon_obj;
+                //残弾数表示
+                //m_bulletNumText = weapon_obj.GetComponent<GunManager>().m_currentMagazineAmount + " / " + weapon_obj.GetComponent<GunManager>().m_magazineSize;
             }
         }
     }

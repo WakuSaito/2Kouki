@@ -2383,7 +2383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_knockBackPower: 10
-  m_dropItemPrefab: {fileID: 9010196160431444620, guid: 4b6f99c82fa024d4a82202b88dfcc9e1, type: 3}
+  m_dropItemPrefab: {fileID: 1116967373663445176, guid: 763865ad9cd43ab44809d72e1db5bf68, type: 3}
 --- !u!114 &3051902216973887886
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -19,7 +19,7 @@ public class AreaItemSetting : MonoBehaviour
         CheckSphereArea(transform.position, 5.0f);
     }
 
-    void GetItemObj()
+    public void GetItemObj()
     {
         //アイテムタグを持つオブジェクト取得
         GameObject[] tmp = GameObject.FindGameObjectsWithTag("item");

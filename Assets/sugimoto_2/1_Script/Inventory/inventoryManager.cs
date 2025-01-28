@@ -41,6 +41,8 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] GameObject[] m_dropItemObj;
     /// <summary>ドロップしたアイテムの親オブジェクト（まとめる用）</summary>
     [SerializeField] GameObject m_dropItemsParent;
+    /// <summary>チェストに入れた武器の親オブジェクト（まとめる用）</summary>
+    [SerializeField] GameObject[] m_chestWeaponParent;
 
     /// <summary>インベントリの状態</summary>
     public INVENTORY m_inventoryState = INVENTORY.NON;
@@ -130,6 +132,11 @@ public class InventoryManager : MonoBehaviour
 
             //UI通常表示
             m_inventoryItem.m_inventory.SetUI(m_inventoryItem.m_spriteTrans, m_inventoryItem.m_Text);
+            //使用禁止mark非表示
+            for (int slot = 0; slot < m_inventoryItem.m_slotSize; slot++)
+            {
+                m_inventoryItem.m_noUseMarkTrans[slot].gameObject.SetActive(false);
+            }
             chest_inventory.m_inventory.SetUI(chest_inventory.m_spriteTrans, chest_inventory.m_Text);
         }
     }
@@ -291,6 +298,9 @@ public class InventoryManager : MonoBehaviour
                 else if (destination_slot.m_selectInventory == (int)INVENTORY.CHEST)
                 {
                     MoveItemInfo(ref m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum], ref m_chestInventory[destination_slot.m_chestNum].m_inventory.Slots[destination_slot.m_slotNum]);
+                    Debug.Log(destination_slot.m_chestNum);
+                    //ParentChildren(m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum].ItemInfo.weaponitem_info.weapon_obj, 
+                    //    m_chestWeaponParent[destination_slot.m_chestNum]);
                 }
                 else if (destination_slot.m_selectObj != m_backObj)
                 {
@@ -312,6 +322,7 @@ public class InventoryManager : MonoBehaviour
                 if (destination_slot.m_selectInventory == (int)INVENTORY.ITEM)
                 {
                     MoveItemInfo(ref m_chestInventory[catch_slot.m_chestNum].m_inventory.Slots[catch_slot.m_slotNum], ref m_inventoryItem.m_inventory.Slots[destination_slot.m_slotNum]);
+                    //ParentChildren(m_chestInventory[catch_slot.m_chestNum].m_inventory.Slots[catch_slot.m_slotNum].ItemInfo.weaponitem_info.weapon_obj, m_player.GetComponent<InventoryWeapon>().m_weaponParent);
                 }
                 else if (destination_slot.m_selectInventory == (int)INVENTORY.CHEST)
                 {
