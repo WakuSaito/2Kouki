@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3322,7 +3322,7 @@ PrefabInstance:
     - target: {fileID: 6710698756658029548, guid: a63dcf2cadfba9e43bd55b8efefa8568, type: 3}
       propertyPath: m_dogWhistle
       value: 
-      objectReference: {fileID: 839605689272667785, guid: 520b8d59dd97df449bae9f4016e90143, type: 3}
+      objectReference: {fileID: 1089921924}
     - target: {fileID: 6710698756658029548, guid: a63dcf2cadfba9e43bd55b8efefa8568, type: 3}
       propertyPath: targetZombieObj
       value: 
@@ -9505,6 +9505,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dog_sign
       objectReference: {fileID: 0}
+    - target: {fileID: 839605689272667785, guid: 520b8d59dd97df449bae9f4016e90143, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4330805191795887412, guid: 520b8d59dd97df449bae9f4016e90143, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -10473,6 +10477,11 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!1 &1089921924 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 839605689272667785, guid: 520b8d59dd97df449bae9f4016e90143, type: 3}
+  m_PrefabInstance: {fileID: 1003386315}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1101403857
 GameObject:
   m_ObjectHideFlags: 0
