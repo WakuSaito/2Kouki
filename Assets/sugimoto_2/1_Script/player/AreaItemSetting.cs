@@ -16,7 +16,7 @@ public class AreaItemSetting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckSphereArea(transform.position, 5.0f);
+        CheckSphereArea(transform.position, 10.0f);
     }
 
     public void GetItemObj()

@@ -388,7 +388,7 @@ public class GunManager : MonoBehaviour, IWeapon
         GetComponent<BoxCollider>().enabled = true;//コライダーON
         GetComponent<Rigidbody>().isKinematic = false;//固定解除
         GetComponent<Animator>().enabled = false;//アニメーションOFF
-        transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);//スケールをもとの大きさに
+        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);//スケールをもとの大きさに
         transform.Rotate(new Vector3(0, 90, 45));//向きを調整
     }
 
