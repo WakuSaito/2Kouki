@@ -1819,6 +1819,7 @@ GameObject:
   - component: {fileID: 6455615091749529716}
   - component: {fileID: 1251370930331078492}
   - component: {fileID: -729504131328969680}
+  - component: {fileID: 1558861731426633463}
   m_Layer: 0
   m_Name: zombie
   m_TagString: Zombie
@@ -1965,6 +1966,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_meshObjs:
   - {fileID: 4193280466009199003}
+--- !u!136 &1558861731426633463
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6455615091749529712}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.4
+  m_Height: 1.6785642
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.8203046, z: 0}
 --- !u!1 &7180837758190367733
 GameObject:
   m_ObjectHideFlags: 0

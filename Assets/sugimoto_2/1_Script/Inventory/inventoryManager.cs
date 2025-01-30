@@ -370,7 +370,6 @@ public class InventoryManager : MonoBehaviour
                 ParentChildren(m_dropItemsParent, weapon_obj);
                 weapon_obj.transform.position = set_pos;
                 weapon_obj.GetComponent<GunManager>().DropItemSetting();
-                Debug.Log(iteminfo.get_num);
             }
 
             m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum].ItemInfo = null;      //ƒAƒCƒeƒ€î•ñíœ

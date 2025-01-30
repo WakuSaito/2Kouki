@@ -89,10 +89,12 @@ public class ZombieAttack : ZombieBase
     IEnumerator Attack()
     {
         m_hitMasters.Clear(); // リセット
+        m_col.enabled = false;
         yield return new WaitForSeconds(m_setUpSec);
         m_col.enabled = true;
         yield return new WaitForSeconds(m_recoverySec);
         m_col.enabled = false;
+        yield return new WaitForSeconds(1);//追加アニメーションタイミング調整用
         m_attackCoroutine = null;
         m_isAttack = false;
     }
