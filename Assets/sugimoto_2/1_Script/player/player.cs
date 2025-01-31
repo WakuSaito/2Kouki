@@ -360,7 +360,7 @@ public class player : PlayerFunction, IStopObject
     void Gauge()        //各ゲージ処理
     {
         //食料ゲージ減少
-        food_num_now = food_gage.GetComponent<Gauge>().DurationReduce(3.0f, 1.0f);
+        food_num_now = food_gage.GetComponent<Gauge>().DurationReduce(2.0f, 1.0f);
         //食料ゲージがなくなった場合持続ダメージ
         hp_num_now = (int)hp_gague.GetComponent<Gauge>().DurationDamage(6.0f, 1, food_gage, hp_gague);
     }

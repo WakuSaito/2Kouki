@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1004,7 +1004,7 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: e10b96d1568e0ec43968e7377f1bbc3a, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.45
   m_Height: 1.7502106
   m_Direction: 1
   m_Center: {x: 0, y: 0.8748947, z: 0}
@@ -1016,7 +1016,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 113702148}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 50
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -3671,7 +3671,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &376426701
 Transform:
   m_ObjectHideFlags: 0
@@ -5697,10 +5697,6 @@ PrefabInstance:
       value: FirstZombie
       objectReference: {fileID: 0}
     - target: {fileID: 6455615091749529712, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6455615091749529712, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -5715,14 +5711,6 @@ PrefabInstance:
     - target: {fileID: 6455615091749529713, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
       propertyPath: m_isTutorialObj
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7180837758190367735, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
-      propertyPath: m_setUpSec
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7180837758190367735, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
-      propertyPath: m_recoverySec
-      value: 0.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db2d89730dc325f4b80c64f83f21214c, type: 3}
@@ -10244,7 +10232,7 @@ PrefabInstance:
       objectReference: {fileID: 3006806045737387547}
     - target: {fileID: 1745869519410043630, guid: 905b5f5eb8469c14fafcc1e4522e76aa, type: 3}
       propertyPath: m_startWarpPlayerDistance
-      value: 15
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1745869519410043631, guid: 905b5f5eb8469c14fafcc1e4522e76aa, type: 3}
       propertyPath: m_runSpeed
@@ -10253,6 +10241,10 @@ PrefabInstance:
     - target: {fileID: 6513576538095451527, guid: 905b5f5eb8469c14fafcc1e4522e76aa, type: 3}
       propertyPath: zombieCenterY
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6513576538095451527, guid: 905b5f5eb8469c14fafcc1e4522e76aa, type: 3}
+      propertyPath: m_targetDistance
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 905b5f5eb8469c14fafcc1e4522e76aa, type: 3}
@@ -18022,18 +18014,6 @@ CapsuleCollider:
   m_Height: 4.5
   m_Direction: 2
   m_Center: {x: -0.0067197136, y: 1.7, z: 0.26414078}
---- !u!114 &2076058653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2048618882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4b6715e316483a45852ca0209d218c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2101758751
 GameObject:
   m_ObjectHideFlags: 0
