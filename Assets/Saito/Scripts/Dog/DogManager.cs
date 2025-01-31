@@ -151,7 +151,7 @@ public class DogManager : MonoBehaviour, IStopObject
             m_dogAnimation.Run();//アニメーション
 
             //攻撃対象に限りなく近づいたら
-            if (GetObjectDistance(m_attackTargetObj) < 0.5f)
+            if (GetObjectDistance(m_attackTargetObj) < 0.6f)
             {
                 //噛みつく
                 BiteZombie(m_attackTargetObj);

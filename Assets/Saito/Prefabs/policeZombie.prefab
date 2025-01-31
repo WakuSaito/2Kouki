@@ -1951,8 +1951,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_col: {fileID: 0}
-  m_setUpSec: 0.3
-  m_recoverySec: 1
+  m_setUpSec: 0.6
+  m_recoverySec: 0.05
 --- !u!1 &3275300788618841209
 GameObject:
   m_ObjectHideFlags: 0
@@ -2265,7 +2265,8 @@ GameObject:
   - component: {fileID: 3275300789103218468}
   - component: {fileID: 3051902216973887886}
   - component: {fileID: 7161401307623120938}
-  m_Layer: 0
+  - component: {fileID: 6034864379492053966}
+  m_Layer: 2
   m_Name: policeZombie
   m_TagString: Zombie
   m_Icon: {fileID: 0}
@@ -2337,7 +2338,7 @@ MonoBehaviour:
   - {fileID: 6190896710707631148}
   m_detectionPlayerRangeMin: 5
   m_detectionPlayerRangeMax: 12
-  m_attackStartRange: 0.4
+  m_attackStartRange: 0.5
   m_despawnPlayerDistance: 50
   m_isTutorialObj: 0
   m_meshObj: {fileID: 3275300788025883698}
@@ -2411,6 +2412,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_meshObjs:
   - {fileID: 3275300788025883698}
+--- !u!136 &6034864379492053966
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3275300789103218470}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.8
+  m_Height: 3.398015
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.6786112, z: 0}
 --- !u!1 &3275300789440745298
 GameObject:
   m_ObjectHideFlags: 0

@@ -1819,8 +1819,8 @@ GameObject:
   - component: {fileID: 6455615091749529716}
   - component: {fileID: 1251370930331078492}
   - component: {fileID: -729504131328969680}
-  - component: {fileID: 1558861731426633463}
-  m_Layer: 0
+  - component: {fileID: 5004589750294451601}
+  m_Layer: 2
   m_Name: zombie
   m_TagString: Zombie
   m_Icon: {fileID: 0}
@@ -1892,7 +1892,7 @@ MonoBehaviour:
   - {fileID: 8768809644385745461}
   m_detectionPlayerRangeMin: 5
   m_detectionPlayerRangeMax: 12
-  m_attackStartRange: 0.4
+  m_attackStartRange: 0.5
   m_despawnPlayerDistance: 50
   m_isTutorialObj: 0
   m_meshObj: {fileID: 4193280466009199003}
@@ -1966,7 +1966,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_meshObjs:
   - {fileID: 4193280466009199003}
---- !u!136 &1558861731426633463
+--- !u!136 &5004589750294451601
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1977,9 +1977,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.4
-  m_Height: 1.6785642
+  m_Height: 1.6794603
   m_Direction: 1
-  m_Center: {x: 0, y: 0.8203046, z: 0}
+  m_Center: {x: 0, y: 0.81933355, z: 0}
 --- !u!1 &7180837758190367733
 GameObject:
   m_ObjectHideFlags: 0
@@ -2070,8 +2070,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_col: {fileID: 0}
-  m_setUpSec: 0.3
-  m_recoverySec: 1
+  m_setUpSec: 0.6
+  m_recoverySec: 0.05
 --- !u!1 &9044647564687367262
 GameObject:
   m_ObjectHideFlags: 0

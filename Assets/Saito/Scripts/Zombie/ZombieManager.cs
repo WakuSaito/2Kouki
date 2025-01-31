@@ -261,6 +261,8 @@ public class ZombieManager : MonoBehaviour, IStopObject
     {
         Debug.Log("Body");
 
+        m_zombieAttack.AttackCancel();//UŒ‚ˆ—‚ÌƒLƒƒƒ“ƒZƒ‹
+
         Vector3 vec = _hit_pos - transform.position;
 
         Vector3 axis = Vector3.Cross(transform.forward, vec);
