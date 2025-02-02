@@ -193,7 +193,7 @@ public class TestPlayerManager : MonoBehaviour
 
                     //if (Input.GetMouseButtonDown(0))
                     //{
-                    handWeapon.GetComponent<knifeAttackAnimetion>().AttackAnimation(cameraObj);
+                    handWeapon.GetComponent<knifeAttackAnimetion>().AttackAnimation(Input.GetMouseButtonDown(0));
                     //}
                     break;
                 case ITEM_ID.DOG_DIRECTION:
