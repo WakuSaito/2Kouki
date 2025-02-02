@@ -19,6 +19,8 @@ public class Gauge : MonoBehaviour
     float food_reduce_timer = 0;
     float damage_reduce_timer = 0;
 
+    
+
 
     //‹¤’ÊŠÖ”
     public float GaugeSetting(float _max)//ƒQ[ƒW‚Ìİ’è

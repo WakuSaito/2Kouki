@@ -33,9 +33,9 @@ public class knifeAttackAnimetion : MonoBehaviour
     }
 
 
-    public void AttackAnimation(GameObject _player)
+    public void AttackAnimation(bool _phsh)
     {
-        if (Input.GetMouseButtonDown(0) && !Attack_Flag && !Return_Pos_Flag)
+        if (_phsh && !Attack_Flag && !Return_Pos_Flag)
         {
             Attack_Start_Flag = true;
             transform.localRotation = AttackStart_Pos.localRotation;
