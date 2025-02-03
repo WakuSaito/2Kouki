@@ -43,6 +43,7 @@ public class InventoryWeapon : MonoBehaviour
 
         //mWeaponSlotObjにあるオブジェクトの情報をスロットに入れる
         ItemSlotSet();
+        //SetWeapon();
     }
 
     // Update is called once per frame
@@ -131,6 +132,7 @@ public class InventoryWeapon : MonoBehaviour
                     break;
                 }
             }
+            //SetWeapon();
         }
         //上回し
         if (mouse_wheel > 0)
@@ -161,6 +163,7 @@ public class InventoryWeapon : MonoBehaviour
                     break;
                 }
             }
+            //SetWeapon();
         }
         //マウスホイールに動きがあったら変更
         //if (Mathf.Abs(mouse_wheel) != 0)
@@ -283,14 +286,23 @@ public class InventoryWeapon : MonoBehaviour
             if (slot == (int)m_selectSlot)
             {
                 m_weaponSlotObj[(int)m_selectSlot].SetActive(true);
+                IWeapon weapon = m_weaponSlotObj[(int)m_selectSlot].GetComponent<IWeapon>();
+                if (weapon != null)
+                {
+                    weapon.PutOut();
+                }
                 m_spriteTrans[(int)m_selectSlot].GetComponent<Image>().color = mColorAlphaFull;
                 m_frame.position = m_spriteTrans[(int)m_selectSlot].position;
             }
             else
             {
                 //非表示
-
                 m_weaponSlotObj[slot].SetActive(false);
+                IWeapon weapon = m_weaponSlotObj[(int)m_selectSlot].GetComponent<IWeapon>();
+                if (weapon != null)
+                {
+                    weapon.PutAway();
+                }
                 m_spriteTrans[slot].GetComponent<Image>().color = mColorAlphaHalf;
             }
         }

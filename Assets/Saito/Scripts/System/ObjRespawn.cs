@@ -30,7 +30,7 @@ public class ObjRespawn : MonoBehaviour
         if (Input.GetKey(KeyCode.B)&&
             Input.GetKeyDown(KeyCode.R))
         {
-            
+            Debug.Log("phsh");
             RestPlayer();
         }
     }
@@ -50,7 +50,7 @@ public class ObjRespawn : MonoBehaviour
         GameObject[] item_setter = GameObject.FindGameObjectsWithTag("ItemSetter");
         foreach(var obj in item_setter)
         {
-            //obj.GetComponent<SetItem>().SetItemPos();
+            obj.GetComponent<SetItem>().SetItemPos(50);
         }
     }
 

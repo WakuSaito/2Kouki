@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : MonoBehaviour, IStopObject
 {
     [SerializeField] GaugeTest m_foodGage;
     [SerializeField] GaugeTest m_hpGage;
@@ -10,6 +10,16 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] PlayerMove m_move;
     [SerializeField] PlayerViewpointMove m_viewpointMove;
     [SerializeField] PlayerAttack m_playerAttack;
+
+    public void Pause()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Resume()
+    {
+        throw new System.NotImplementedException();
+    }
 
     // Start is called before the first frame update
     void Start()

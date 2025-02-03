@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class SetItem : ID
 {
-    const int MAX_SET = 5;
-
     //設置場所
     List<Transform> m_setPos = new List<Transform>();
     //設置アイテム
@@ -13,6 +11,11 @@ public class SetItem : ID
 
     //設置場所保存
     int[] m_setPosSave;
+
+    /// <summary>生成したオブジェクトを保存</summary>
+    GameObject[] m_setObjSave;
+    /// <summary>生成した位置を保存</summary>
+    Transform[] m_setTransSave;
 
     [SerializeField] Transform mParent;
 
@@ -36,6 +39,8 @@ public class SetItem : ID
 
         //配列の長さ設定
         System.Array.Resize(ref m_setPosSave, m_setPos.Count);
+        System.Array.Resize(ref m_setObjSave, m_setPos.Count);
+        System.Array.Resize(ref m_setTransSave, m_setPos.Count);
 
         //配列を-1で初期化
         for (int i = 0; i < m_setPosSave.Length; i++)
@@ -50,32 +55,40 @@ public class SetItem : ID
     // Update is called once per frame
     void Update()
     {
-        m_spawnCoolTimer += Time.deltaTime;
 
         //設置したアイテムが残っているかを調べる
         SearchPosItem();
 
-        if (m_spawnCoolTimer >= 120)
-        {
-            m_player.GetComponent<AreaItemSetting>().OutsideArea();
-        }
+        //m_spawnCoolTimer += Time.deltaTime;
+        //if (m_spawnCoolTimer >= 10)
+        //{
+        //    Debug.Log("aaaaaaaaaaaaaaaa");
+        //    //エリア外にあるアイテムは削除し、エリア内にある個数を取得
+        //    int area_item_num = m_player.GetComponent<AreaItemSetting>().OutsideArea();
+        //    //設置されていない数だけ再生成
+        //    SetItemPos(mSetTimes - area_item_num);
+        //    m_player.GetComponent<AreaItemSetting>().GetItemObj();
+        //    m_spawnCoolTimer = 0.0f;
+        //}
 
         //プレイヤーがセーフエリアに入ったらアイテムを削除
-        if(m_player.GetComponent<player>().m_inSafeAreaFlag)
-        {
-            //設置
-            DeleteSetItems();
-        }
-        else
-        {
-            //プレイヤーがセーフエリアから出ているとき、アイテムが削除されていれば生成
-            if(m_deleteFlag)
-            {
-                SetItemPos(mSetTimes);
-                m_player.GetComponent<AreaItemSetting>().GetItemObj();
-            }
-        }
+        //if(m_player.GetComponent<player>().m_inSafeAreaFlag)
+        //{
+        //    //設置
+        //    DeleteSetItems();
+        //}
+        //else
+        //{
+        //    //プレイヤーがセーフエリアから出ているとき、アイテムが削除されていれば生成
+        //    if(m_deleteFlag)
+        //    {
+        //        SetItemPos(mSetTimes);
+        //        m_player.GetComponent<AreaItemSetting>().GetItemObj();
+        //    }
+        //}
     }
+
+
 
     public void SetItemPos(int _set_num)  //アイテム設置処理（再設置したいときこの関数を呼び出す）
     {
@@ -90,11 +103,11 @@ public class SetItem : ID
             }
         }
 
-
-        while (mSetTimes >= cnt)
+        while (_set_num >= cnt)
         {
             //ランダム
             int set_pos_random = Random.Range(0, m_setPos.Count);  //設置場所
+
             int set_item_random = -1;     //アイテム
 
             int item_rate_random = Random.Range(0, 16);//確率設定
@@ -157,7 +170,7 @@ public class SetItem : ID
             if (can_set_flag)
             {
                 //生成
-                Instantiate(mItem[set_item_random], m_setPos[set_pos_random].position, Quaternion.identity, mParent);
+                m_setObjSave[cnt] = Instantiate(mItem[set_item_random], m_setPos[set_pos_random].position, Quaternion.identity, mParent);
                 m_setPosSave[cnt] = set_pos_random;
                 cnt++;
 
