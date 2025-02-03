@@ -298,7 +298,7 @@ public class player : PlayerFunction, IStopObject
                 //攻撃、animation処理
                 hand_weapon.GetComponent<knifeAttackAnimetion>().AttackAnimation(Input.GetMouseButtonDown(0));
                 break;
-                ピストル
+                //ピストル
             case SLOT_ORDER.GUN:
 
                 hand_pistol_flag = true;

@@ -50,7 +50,7 @@ public class ObjRespawn : MonoBehaviour
         GameObject[] item_setter = GameObject.FindGameObjectsWithTag("ItemSetter");
         foreach(var obj in item_setter)
         {
-            obj.GetComponent<SetItem>().SetItemPos();
+            //obj.GetComponent<SetItem>().SetItemPos();
         }
     }
 
