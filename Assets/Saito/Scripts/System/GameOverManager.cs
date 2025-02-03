@@ -2,13 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameOverAction : MonoBehaviour
+/// <summary>
+/// ゲームオーバー処理クラス
+/// ゲームオーバー時のUI、リスタートの処理を管理
+/// </summary>
+public class GameOverManager : MonoBehaviour
 {
     private GameObject m_playerObj;
     private GameObject m_dogObj;
 
+    //オブジェクト停止クラス
+    [SerializeField] private StopObjectAction m_stopObjectAction;
+
     //UI
     [SerializeField] private FadeImage m_fadeOutUI;
+    [SerializeField] private GameOverUI m_gameOverUI;
 
     //リスタート座標
     [SerializeField] private Vector3 m_restartPlayerPos;
@@ -24,6 +32,7 @@ public class GameOverAction : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P)) OnGameOver();
         if(m_isGameOver)
         {
             if (Input.GetKeyDown(KeyCode.R))
@@ -40,15 +49,22 @@ public class GameOverAction : MonoBehaviour
     public void Restart()
     {
         if (m_isGameOver == false) return;
-        
         m_isGameOver = false;
+
+        //オブジェクトの停止解除
+        m_stopObjectAction.ChangeStopState(false);
+
         m_fadeOutUI.FadeOut();
+        m_gameOverUI.OffActive();
 
         if (m_playerObj != null)
         {
             m_playerObj.transform.position = m_restartPlayerPos;
+
+            player player_script = m_playerObj.GetComponent<player>();
             //とりあえず回復
-            m_playerObj.GetComponent<player>().TakeRest(1.0f, 0.0f);
+            if(player_script != null)
+                m_playerObj.GetComponent<player>().TakeRest(1.0f, 0.0f);
         }
         
         if(m_dogObj != null)
@@ -64,11 +80,15 @@ public class GameOverAction : MonoBehaviour
     public void OnGameOver()
     {
         if (m_isGameOver) return;
-
         m_isGameOver = true;
 
-        //uiの表示
-        m_fadeOutUI.FadeIn();
+        //オブジェクトの停止
+        m_stopObjectAction.ChangeStopState(true);
+
+        //uiアニメーション
+        float anim_sec =　m_fadeOutUI.FadeIn();
+        //上のアニメーションが終わるころに始める
+        m_gameOverUI.OnActive(anim_sec);
     }
     
 }

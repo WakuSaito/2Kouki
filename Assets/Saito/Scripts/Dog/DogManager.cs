@@ -59,8 +59,6 @@ public class DogManager : MonoBehaviour, IStopObject
 
     //攻撃対象に突進中
     private bool m_isChargeTarget = false;
-    //移動方法を歩行にする
-    private bool m_isMoveTypeWalk = false;
 
     //ポーズ用停止フラグ
     private bool m_isPause = false;
@@ -483,6 +481,9 @@ public class DogManager : MonoBehaviour, IStopObject
     {
         m_isPause = true;
 
+        m_dogMove.StopMove();
+        m_dogAnimation.Pause();
+
         //ループ中に要素が変わらないようにクッションを噛ます
         List<IEnumerator> tmp_list = new List<IEnumerator>(m_inActionDelays);
         foreach (var cor in tmp_list)
@@ -500,6 +501,8 @@ public class DogManager : MonoBehaviour, IStopObject
     public void Resume()
     {
         m_isPause = false;
+
+        m_dogAnimation.Resume();
 
         List<IEnumerator> tmp_list = new List<IEnumerator>(m_inActionDelays);
         foreach (var cor in tmp_list)

@@ -59,11 +59,14 @@ public class FadeImage : MonoBehaviour
     /// <summary>
     /// 画像のフェードイン
     /// </summary>
-    public void FadeIn()
+    /// <returns>アニメーション秒数</returns>
+    public float FadeIn()
     {
         m_canvasGroup.alpha = 0f;
 
         m_canvasGroup.DOFade(endValue: 1f, duration: m_animSec);
+
+        return m_animSec;
     }
 
     /// <summary>

@@ -35,6 +35,7 @@ public class GunManager : MonoBehaviour, IWeapon
 
     protected bool m_isShotCooldown = false;//発砲クールタイム中か
     protected bool m_isReload = false;  //リロード中か
+    bool m_isActive = true;//手に持っている状態か
 
     GameObject m_cameraObj;
     //protected Inventory m_inventory;
@@ -365,12 +366,18 @@ public class GunManager : MonoBehaviour, IWeapon
     //仕舞う
     public void PutAway()
     {
+        if (m_isActive == false) return;
+        m_isActive = false;
         gameObject.SetActive(false);
     }
     //取り出す
     public void PutOut()
     {
+        if (m_isActive == true) return;
+        m_isActive = true;
+
         gameObject.SetActive(true);
+        Debug.Log("取り出し");
 
         m_isReload = false;
         m_isShotCooldown = false;
