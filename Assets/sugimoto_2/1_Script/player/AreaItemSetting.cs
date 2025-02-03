@@ -62,29 +62,20 @@ public class AreaItemSetting : MonoBehaviour
         }
     }
 
-    public int OutsideArea()
+    public void OutsideArea()
     {
-        int area_obj_cnt = 0;
-
         //すべてのアイテムのオブジェクトを調べる
         foreach (var obj in m_itemObj)
         {
             if (obj == null) continue;
 
             //範囲内のオブジェクトは個数を数える、範囲外は削除
-            if (Vector3.Distance(transform.position, obj.transform.position) <= 10.0f)
+            if (Vector3.Distance(transform.position, obj.transform.position) > 10.0f)
             {
-                if (!obj.GetComponent<ItemSetting>().m_getFlag)
-                {
-                    area_obj_cnt++;
-                }
-            }
-            else
-            {
-                Destroy(obj);
+                Destroy(obj.gameObject);
             }
         }
 
-        return area_obj_cnt;
+        m_itemObj.Clear();
     }
 }

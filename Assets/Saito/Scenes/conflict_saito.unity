@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5479,6 +5479,7 @@ GameObject:
   m_Component:
   - component: {fileID: 604790063}
   - component: {fileID: 604790062}
+  - component: {fileID: 604790064}
   m_Layer: 0
   m_Name: MAP
   m_TagString: Untagged
@@ -5493,7 +5494,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 604790061}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3cda787296c4d3841be904483312edd2, type: 3}
   m_Name: 
@@ -5537,6 +5538,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &604790064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604790061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30e6a555947b5ec47b20e407e9bec493, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_setMax: 70
+  m_items:
+  - {fileID: 0}
+  - {fileID: 1998466318430720, guid: 7cb7c5be01653a1428d32ac86da5dec7, type: 3}
+  - {fileID: 1476756692356820, guid: 37e7d088ab9dfd34b8289b011a2747c6, type: 3}
+  - {fileID: 1519537717051864, guid: 5c3231ef5eb883747bd765d311dc64aa, type: 3}
+  - {fileID: 1896720402374228, guid: 43805e41062098a4981637a08a40c68a, type: 3}
+  - {fileID: 8662258556512106578, guid: 44b08697ad86db34aaafb9f7650cb6b9, type: 3}
+  - {fileID: 1216505430168376, guid: f19f2ef39933a6e4ebcfbc9d87290a8d, type: 3}
+  - {fileID: 1987713744733760, guid: a3202e895f31d7a449f56a84373301b1, type: 3}
+  - {fileID: 4889013002049818105, guid: 69abde46a43799d498000e8c352a39c6, type: 3}
+  - {fileID: 6675762946346505919, guid: 730d3a42341d0444fa447caeeda02165, type: 3}
+  - {fileID: 8378753725653323951, guid: 32773bf6a47e6e54aa458aaafcadc707, type: 3}
+  - {fileID: 1116967373663445176, guid: 763865ad9cd43ab44809d72e1db5bf68, type: 3}
+  m_parentTrans: {fileID: 1101403858}
+  m_player: {fileID: 113702148}
 --- !u!1 &621915994
 GameObject:
   m_ObjectHideFlags: 0
