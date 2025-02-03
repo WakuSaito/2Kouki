@@ -432,6 +432,8 @@ public class ZombieManager : MonoBehaviour, IStopObject
         m_isStop = true;
 
         m_zombieAttack.Pause();
+        m_zombieMove.StopMove();
+        m_zombieAnimation.Pause();
 
         //ループ中に要素が変わらないようにクッションを噛ます
         List<IEnumerator> tmp_list = new List<IEnumerator>(m_inActionDelays);
@@ -452,6 +454,7 @@ public class ZombieManager : MonoBehaviour, IStopObject
         m_isStop = false;
 
         m_zombieAttack.Resume();
+        m_zombieAnimation.Resume();
 
         List<IEnumerator> tmp_list = new List<IEnumerator>(m_inActionDelays);
         foreach (var cor in tmp_list)

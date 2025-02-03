@@ -36,28 +36,37 @@ public class StopObjectAction : MonoBehaviour
 
 
     //インベントリの開閉を監視、オブジェクトの停止状態を変更する
+    //出きればインベントリ側などの外部のみで変更したい
     private void Update()
     {
-        bool new_stop_bool = m_currentStopState;
+        //bool new_stop_bool = m_currentStopState;
 
-        if(m_inventoryManager != null)
-        {
-            //インベントリを開いているとき
-            if (m_inventoryManager.m_inventoryState == INVENTORY.ITEM ||
-                m_inventoryManager.m_inventoryState == INVENTORY.CHEST)
-            {
-                new_stop_bool = true;
-            }
-            else
-            {
-                new_stop_bool = false;
-            }
-        }
-        //デバッグ用
-        else if (Input.GetKeyDown(KeyCode.P))
-        {
-            new_stop_bool = !m_currentStopState;
-        }
+        //if(m_inventoryManager != null)
+        //{
+        //    //インベントリを開いているとき
+        //    if (m_inventoryManager.m_inventoryState == INVENTORY.ITEM ||
+        //        m_inventoryManager.m_inventoryState == INVENTORY.CHEST)
+        //    {
+        //        new_stop_bool = true;
+        //    }
+        //    else
+        //    {
+        //        new_stop_bool = false;
+        //    }
+        //}
+
+        ////停止状態変更
+        //ChangeStopState(new_stop_bool);
+    } 
+    
+    /// <summary>
+    /// 停止状態変更
+    /// IStopObjectの付いたオブジェクトの停止状態を切り替える
+    /// </summary>
+    /// <param name="_on_stop">停止フラグ 停止:true</param>
+    public void ChangeStopState(bool _on_stop)
+    {
+        bool new_stop_bool = _on_stop;
 
         //変わらなければ終了
         if (new_stop_bool == m_currentStopState) return;
@@ -66,7 +75,7 @@ public class StopObjectAction : MonoBehaviour
         var stop_inter_faces = InterfaceUtils.FindObjectOfInterfaces<IStopObject>();
 
         //全IStopObjectの停止状態変更する
-        foreach(var stopI in stop_inter_faces)
+        foreach (var stopI in stop_inter_faces)
         {
             if (stopI == null) continue;
 
@@ -77,7 +86,8 @@ public class StopObjectAction : MonoBehaviour
         }
         Debug.Log("停止状態:" + new_stop_bool);
         m_currentStopState = new_stop_bool;
-    }    
+    }
+
 }
 
 /// <summary>

@@ -89,4 +89,19 @@ public class DogAnimation : DogBase
         m_animator.SetTrigger("Run");
     }
 
+    /// <summary>
+    /// ˆê’â~
+    /// </summary>
+    public void Pause()
+    {
+        m_animator.speed = 0;
+    }
+
+    /// <summary>
+    /// ÄŠJ
+    /// </summary>
+    public void Resume()
+    {
+        m_animator.speed = 1;
+    }
 }
