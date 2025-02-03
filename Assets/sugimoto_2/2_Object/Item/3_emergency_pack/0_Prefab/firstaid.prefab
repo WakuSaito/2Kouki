@@ -136,6 +136,8 @@ MonoBehaviour:
   id: 7
   sprite: {fileID: 21300000, guid: 466e61816f1409c4b90f5357a5b19757, type: 3}
   bullet_sprite: {fileID: 0}
+  drop_flag: 0
+  m_getFlag: 0
 --- !u!114 &4891919112432534912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbfd73b2acde7c340911c8ff7b0ba3a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshObjs:
+  m_meshObjs:
   - {fileID: 1987713744733760}
 --- !u!65 &6755060325015528331
 BoxCollider:

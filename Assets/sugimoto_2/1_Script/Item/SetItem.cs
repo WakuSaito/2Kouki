@@ -23,6 +23,9 @@ public class SetItem : ID
 
     [SerializeField] GameObject m_player;
 
+    /// <summary> 再生成のクールタイム </summary>
+    float m_spawnCoolTimer = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,14 +44,21 @@ public class SetItem : ID
         }
 
         //設置
-        SetItemPos();
+        SetItemPos(mSetTimes);
     }
 
     // Update is called once per frame
     void Update()
     {
+        m_spawnCoolTimer += Time.deltaTime;
+
         //設置したアイテムが残っているかを調べる
         SearchPosItem();
+
+        if (m_spawnCoolTimer >= 120)
+        {
+            m_player.GetComponent<AreaItemSetting>().OutsideArea();
+        }
 
         //プレイヤーがセーフエリアに入ったらアイテムを削除
         if(m_player.GetComponent<player>().m_inSafeAreaFlag)
@@ -61,13 +71,13 @@ public class SetItem : ID
             //プレイヤーがセーフエリアから出ているとき、アイテムが削除されていれば生成
             if(m_deleteFlag)
             {
-                SetItemPos();
+                SetItemPos(mSetTimes);
                 m_player.GetComponent<AreaItemSetting>().GetItemObj();
             }
         }
     }
 
-    public void SetItemPos()  //アイテム設置処理（再設置したいときこの関数を呼び出す）
+    public void SetItemPos(int _set_num)  //アイテム設置処理（再設置したいときこの関数を呼び出す）
     {
         int cnt = 0;
 
