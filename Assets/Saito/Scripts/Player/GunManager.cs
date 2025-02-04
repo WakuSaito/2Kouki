@@ -8,7 +8,7 @@ using System;
 /// <para>インスペクターで変数を設定することで様々な銃種に対応出来る</para>
 /// 手に持つアイテムなのでIWeaponを継承　インベントリ関連の仕様が変更されている場合必要無くなるかも
 /// </summary>
-public class GunManager : MonoBehaviour, IWeapon
+public class GunManager : MonoBehaviour, IWeapon, IStopObject
 {
     [SerializeField] private string m_soundType;//サウンドの種類（武器種）
     [SerializeField] private Transform m_muzzleTransform; //銃口位置
@@ -42,6 +42,8 @@ public class GunManager : MonoBehaviour, IWeapon
     //サウンド再生用
     private GunSound m_gunSound;
     protected Animator m_animator;
+
+    IEnumerator m_reloadCoroutine;
 
 
     //初期設定　コンポーネント取得
@@ -97,7 +99,8 @@ public class GunManager : MonoBehaviour, IWeapon
             Debug.Log("リロード開始　現在の残弾数:" + m_currentMagazineAmount);
             m_animator.SetBool("Reload", true);  //reload
             m_isReload = true;
-            Invoke(nameof(ReroadFin), m_reloadSpeed);
+            m_reloadCoroutine = ReloadCoroutine();
+            StartCoroutine(m_reloadCoroutine);
             return;
         }  
         else if (m_inventoryItem.CheckBullet())//インベントリに弾丸があればリロード開始
@@ -105,15 +108,25 @@ public class GunManager : MonoBehaviour, IWeapon
             Debug.Log("リロード開始　現在の残弾数:" + m_currentMagazineAmount);
             m_animator.SetBool("Reload", true);  //reload
             m_isReload = true;
-            Invoke(nameof(ReroadFin), m_reloadSpeed);
+            m_reloadCoroutine = ReloadCoroutine();
+            StartCoroutine(m_reloadCoroutine);
             return;
         }
     }
+
+    IEnumerator ReloadCoroutine()
+    {
+        yield return new WaitForSeconds(m_reloadSpeed);
+
+        ReloadFin();
+        m_reloadCoroutine = null;
+    }
+
     /// <summary>
     /// <para>リロード完了</para>
     /// リロードし終わったとき
     /// </summary>
-    void ReroadFin()
+    void ReloadFin()
     {
         m_animator.SetBool("Reload", false);  //reload
         m_isReload = false;
@@ -134,12 +147,14 @@ public class GunManager : MonoBehaviour, IWeapon
     /// </summary>
     public virtual void StopReload()
     {    
-        if (IsInvoking(nameof(ReroadFin)))
+        if (m_reloadCoroutine != null)
         {
             Debug.Log("リロードキャンセル");
             m_isReload = false;
             m_animator.SetBool("Reload", false);  //reload
-            CancelInvoke(nameof(ReroadFin));
+            //コルーチン完全停止
+            StopCoroutine(m_reloadCoroutine);
+            m_reloadCoroutine = null;
         }
     }
 
@@ -442,5 +457,25 @@ public class GunManager : MonoBehaviour, IWeapon
         transform.localRotation = Quaternion.identity;
         transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
         transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); //スケール変更
+    }
+
+    /// <summary>
+    /// 一時停止
+    /// </summary>
+    public void Pause()
+    {
+        m_animator.speed = 0;
+        if (m_reloadCoroutine != null)
+            StopCoroutine(m_reloadCoroutine);
+    }
+
+    /// <summary>
+    /// 再開
+    /// </summary>
+    public void Resume()
+    {
+        m_animator.speed = 1;
+        if (m_reloadCoroutine != null)
+            StartCoroutine(m_reloadCoroutine);
     }
 }
