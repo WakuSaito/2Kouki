@@ -38,8 +38,6 @@ public class GunManager : MonoBehaviour, IWeapon
     bool m_isActive = true;//手に持っている状態か
 
     GameObject m_cameraObj;
-    //protected Inventory m_inventory;
-    //protected ItemInventory m_itemInventory;
     protected InventoryItem m_inventoryItem;
     //サウンド再生用
     private GunSound m_gunSound;
@@ -60,22 +58,33 @@ public class GunManager : MonoBehaviour, IWeapon
     {
         if (m_handPlayerObj != null && !m_setPlayerFlag)
         {
-            //m_inventory = m_handPlayerObj.GetComponent<Inventory>();
             m_inventoryItem = m_handPlayerObj.GetComponent<InventoryItem>();
             m_setPlayerFlag = true;
         }
     }
 
+    /// <summary>
+    /// マガジンの最大容量取得
+    /// </summary>
+    /// <returns>マガジンの最大容量</returns>
     public int GetMagazineSize()
     {
         return m_magazineSize;
     }
 
+    /// <summary>
+    /// 現在の残弾数取得
+    /// </summary>
+    /// <returns>現在の残弾数</returns>
     public int GetCurrentMagazine()
     {
         return m_currentMagazineAmount;
     }
 
+    /// <summary>
+    /// <para>リロード</para>
+    /// リロードを開始する
+    /// </summary>
     public virtual void Reload()
     {
         if (m_isShotCooldown) return;
@@ -99,21 +108,11 @@ public class GunManager : MonoBehaviour, IWeapon
             Invoke(nameof(ReroadFin), m_reloadSpeed);
             return;
         }
-
-        /*たぶんいらない*/
-        //for (int i = 0; i < Inventory.INVENTORY_MAX; i++)
-        //{
-        //    //インベントリに弾丸があるか
-        //    if (inventory.item_type_id[i] == (int)ID.ITEM_ID.BULLET)
-        //    {
-        //        anim.SetBool("Reload", true);  //reload
-        //        isReload = true;
-        //        Invoke(nameof(ReroadFin), reloadSpeed);
-        //    }
-        //}
-
     }
-
+    /// <summary>
+    /// <para>リロード完了</para>
+    /// リロードし終わったとき
+    /// </summary>
     void ReroadFin()
     {
         m_animator.SetBool("Reload", false);  //reload
@@ -129,16 +128,26 @@ public class GunManager : MonoBehaviour, IWeapon
         Debug.Log("リロード終了　現在の残弾数:" + m_currentMagazineAmount);
     }
 
+    /// <summary>
+    /// <para>リロード停止</para>
+    /// リロードをキャンセルする
+    /// </summary>
     public virtual void StopReload()
-    {
+    {    
         if (IsInvoking(nameof(ReroadFin)))
         {
+            Debug.Log("リロードキャンセル");
             m_isReload = false;
             m_animator.SetBool("Reload", false);  //reload
             CancelInvoke(nameof(ReroadFin));
         }
     }
 
+    /// <summary>
+    /// <para>弾追加</para>
+    /// 指定の数だけマガジンに弾を補充する
+    /// </summary>
+    /// <param name="_amount">補充する弾数</param>
     public void AddBullet(int _amount)
     {
         int add_amount = _amount;
@@ -154,35 +163,18 @@ public class GunManager : MonoBehaviour, IWeapon
         m_currentMagazineAmount += m_inventoryItem.UseBullet(_amount);
     }
 
-    //後何発弾を入れられるか
+    /// <summary>
+    /// 弾が何発入るか計算
+    /// </summary>
+    /// <returns>入る弾数</returns>
     public int HowManyCanLoaded()
     {
         //マガジンに入る弾数計算
-        int can_loaded_amount = m_magazineSize - m_currentMagazineAmount;
-
-        //if (m_inventoryItem == null) return can_loaded_amount;
-        ////
-        //for (int i = 0; i < m_inventoryItem.m_slotSize; i++)
-        //{
-        //    //インベントリに弾丸があるか
-        //    if (m_inventoryItem.m_inventory.Slots[i].ItemInfo == null) continue;
-        //    if (m_inventoryItem.m_inventory.Slots[i].ItemInfo.id != ITEM_ID.BULLET) continue;
-        //
-        //    for (int cnt = 0; cnt < can_loaded_amount; cnt++)
-        //    {
-        //        //インベントリに弾がある場合
-        //        if (m_inventoryItem.m_inventory.Slots[i].ItemInfo.get_num > 0)
-        //            can_loaded_amount--;
-        //        //弾が無い場合
-        //        else
-        //            break;
-        //    }
-        //}
-
-        return can_loaded_amount;
+        return m_magazineSize - m_currentMagazineAmount; ;
     }
 
     /// <summary>
+    /// <para>銃のトリガーが押された瞬間</para>
     /// 銃の発射ボタンを押した瞬間に呼び出す
     /// </summary>
     public void PullTriggerDown()
@@ -207,6 +199,7 @@ public class GunManager : MonoBehaviour, IWeapon
     }
 
     /// <summary>
+    /// <para>銃のトリガーが押されている</para>
     /// 銃の発射ボタンを押している限り呼び出す
     /// </summary>
     public void PullTrigger()
@@ -221,6 +214,10 @@ public class GunManager : MonoBehaviour, IWeapon
         Shot();
     }
 
+    /// <summary>
+    /// <para>発砲</para>
+    /// 発砲時呼び出され、指定の回数弾を生成
+    /// </summary>
     private void Shot()
     {
         //同時発射数分繰り返す
@@ -240,7 +237,10 @@ public class GunManager : MonoBehaviour, IWeapon
     }
 
 
-    //弾発射
+    /// <summary>
+    /// <para>弾生成</para>
+    /// 弾を一つ生成する
+    /// </summary>
     private void CreateBullet()
     {
         //ばらつきをランダムに決める
@@ -293,7 +293,12 @@ public class GunManager : MonoBehaviour, IWeapon
         ));
     }
 
-    //対象のアクションを一定フレーム後遅延実行させる
+    /// <summary>
+    /// <para>対象のアクションを一定フレーム後遅延実行させる</para>
+    /// アニメーション制御用
+    /// </summary>
+    /// <param name="_frame">遅延フレーム</param>
+    /// <param name="_action">遅延後実行する処理</param>
     private IEnumerator DelayFrameCoroutine(int _frame, Action _action)
     {
         for (int i = 0; i < _frame; i++)
@@ -305,6 +310,11 @@ public class GunManager : MonoBehaviour, IWeapon
         _action();
     }
 
+    /// <summary>
+    /// <para>弾エフェクト生成</para>
+    /// 発砲時にエフェクトを生成する
+    /// </summary>
+    /// <param name="_hit_pos">着弾地点</param>
     private void CreateBulletEffect(Vector3 _hit_pos)
     {
         //マズルフラッシュ
@@ -352,7 +362,11 @@ public class GunManager : MonoBehaviour, IWeapon
         }
     }
     
-    //クールタイム用コルーチン
+    /// <summary>
+    /// クールタイムコルーチン
+    /// 発砲クールタイム管理用
+    /// </summary>
+    /// <param name="_sec">クールタイム秒数</param>
     private IEnumerator CooldownCoroutine(float _sec)
     {
         m_isShotCooldown = true;
@@ -363,15 +377,22 @@ public class GunManager : MonoBehaviour, IWeapon
         m_isShotCooldown = false;
     }
 
-    //仕舞う
+    /// <summary>
+    /// <para>仕舞う</para>
+    /// 武器切り替え時に呼び出し
+    /// </summary>
     public void PutAway()
     {
         if (m_isActive == false) return;
         m_isActive = false;
         gameObject.SetActive(false);
+        StopReload();//リロードをキャンセル
         Debug.Log("仕舞う");
     }
-    //取り出す
+    /// <summary>
+    /// <para>取り出す</para>>
+    /// 武器切り替え時に呼び出し
+    /// </summary>
     public void PutOut()
     {
         if (m_isActive == true) return;
@@ -396,6 +417,8 @@ public class GunManager : MonoBehaviour, IWeapon
         GetComponent<BoxCollider>().enabled = true;//コライダーON
         GetComponent<Rigidbody>().isKinematic = false;//固定解除
         GetComponent<Animator>().enabled = false;//アニメーションOFF
+        tag = "item";//タグ変更
+
         transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);//スケールをもとの大きさに
         transform.Rotate(new Vector3(0, 90, 45));//向きを調整
     }
@@ -413,6 +436,7 @@ public class GunManager : MonoBehaviour, IWeapon
         GetComponent<BoxCollider>().enabled = false;//コライダーOFF
         GetComponent<Rigidbody>().isKinematic = true;//固定
         GetComponent<Animator>().enabled = true;//アニメーションON
+        tag = "weapon";//タグ変更
 
         //位置設定
         transform.localRotation = Quaternion.identity;
