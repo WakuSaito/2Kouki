@@ -105,10 +105,10 @@ public class player : PlayerFunction, IStopObject
         Screen.lockCursor = true;
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        Rigidbody.velocity = Vector3.zero;
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    Rigidbody.velocity = Vector3.zero;
+    //}
 
     // Update is called once per frame
     void Update()
@@ -119,8 +119,8 @@ public class player : PlayerFunction, IStopObject
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                m_inventoryManager.m_inventoryState = INVENTORY.ITEM;
-                m_openInventoryFlag = m_inventoryManager.OpenClose(m_openInventoryFlag, null);
+                //m_inventoryManager.m_inventoryState = INVENTORY.ITEM;
+                m_openInventoryFlag = m_inventoryManager.OpenClose(m_openInventoryFlag, null, INVENTORY.ITEM);
             }
         }
 
@@ -246,8 +246,8 @@ public class player : PlayerFunction, IStopObject
 
             if (item.GetComponent<ItemSetting>().iteminfo.id == ITEM_ID.CHEST)
             {
-                m_inventoryManager.m_inventoryState = INVENTORY.CHEST;
-                m_openInventoryFlag = m_inventoryManager.OpenClose(m_openInventoryFlag, item);
+                //m_inventoryManager.m_inventoryState = INVENTORY.CHEST;
+                m_openInventoryFlag = m_inventoryManager.OpenClose(m_openInventoryFlag, item, INVENTORY.CHEST);
                 return;
             }
 

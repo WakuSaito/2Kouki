@@ -34,39 +34,42 @@ public class PlayerMove
     }
 
     /// <summary>
-    /// 移動ベクトル設定
-    /// プレイヤーマネージャーでどのキーが入力されたかわかるようにしたかったのでこの形に
+    /// 前進ベクトル設定
     /// </summary>
     /// <param name="_phsh">入力されているか</param>
-    /// <param name="_kye_code">入力するキー</param>
-    public void SetMoveVec(bool _phsh, KeyCode _kye_code)
+    public void MoveForwardVec(bool _phsh)
     {
         if (!_phsh) return;
 
-        //前進
-        if (_kye_code == KeyCode.W)
-        {
-            vec += m_rbObj.transform.forward;
-            m_forward_Flag = true;
-        }
-
-        //左
-        if (_kye_code == KeyCode.A)
-        {
-            vec -= m_rbObj.transform.right;
-        }
-
-        //後退
-        if (_kye_code == KeyCode.S)
-        {
-            vec -= m_rbObj.transform.forward;
-        }
-
-        //右
-        if (_kye_code == KeyCode.D)
-        {
-            vec += m_rbObj.transform.right;
-        }
+        vec += m_rbObj.transform.forward;
+        m_forward_Flag = true;
+    }
+    /// <summary>
+    /// 後退ベクトル設定
+    /// </summary>
+    /// <param name="_phsh">入力されているか</param>
+    public void MoveBackVec(bool _phsh)
+    {
+        if (!_phsh) return;
+        vec -= m_rbObj.transform.forward;
+    }
+    /// <summary>
+    /// 右ベクトル設定
+    /// </summary>
+    /// <param name="_phsh">入力されているか</param>
+    public void MoveRightVec(bool _phsh)
+    {
+        if (!_phsh) return;
+        vec += m_rbObj.transform.right;
+    }
+    /// <summary>
+    /// 左ベクトル設定
+    /// </summary>
+    /// <param name="_phsh">入力されているか</param>
+    public void MoveLeftVec(bool _phsh)
+    {
+        if (!_phsh) return;
+        vec -= m_rbObj.transform.right;
     }
 
     /// <summary>

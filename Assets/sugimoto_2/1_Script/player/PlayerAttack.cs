@@ -6,19 +6,51 @@ using UnityEngine;
 public class PlayerAttack
 {
     /*[SerializeField] インスペクターから設定*/
-    /// <summary> ゲージオブジェクト </summary>
-    [SerializeField] GameObject m_inventoryObj;
+    /// <summary> インベントリオブジェクト </summary>
+    [SerializeField] GameObject m_playerObj;
+    /// <summary> インベントリオブジェクト </summary>
+    [SerializeField] GameObject m_dogObj;
 
     /*プライベート　private*/
-    /// <summary> 今の数値 </summary>
+    /// <summary> InventoryWeaponクラス </summary>
     InventoryWeapon m_inventoryWeapon;
+    /// <summary> SearchViewAreaクラス </summary>
+    SearchViewArea m_searchViewArea;
+    /// <summary> PlayerSoundクラス </summary
+    PlayerSound m_playerSound;
 
     /// <summary>
     /// 武器インベントリ取得
+    /// サーチエリア取得
+    /// プレイヤーサウンド取得
     /// </summary>
     public void SetAttack()
     {
-        m_inventoryWeapon = m_inventoryObj.GetComponent<InventoryWeapon>();
+        //コンポーネント取得
+        m_inventoryWeapon = m_playerObj.GetComponent<InventoryWeapon>();
+        m_searchViewArea = m_playerObj.GetComponent<SearchViewArea>();
+        m_playerSound = m_playerObj.GetComponent<PlayerSound>();
+    }
+
+    /// <summary>
+    /// 手持ちのオブジェクトを調べる
+    /// </summary>
+    /// <returns>手持ちのオブジェクト、犬の場合は犬本体</returns>
+    public GameObject HandWeapon()
+    {
+        if (SelectWeaponSlot() != SLOT_ORDER.DOG)
+        {
+            return m_inventoryWeapon.m_weaponSlotObj[(int)m_inventoryWeapon.m_selectSlot];
+        }
+        else
+        {
+            return m_dogObj;
+        }
+    }
+
+    public SLOT_ORDER SelectWeaponSlot()
+    {
+        return m_inventoryWeapon.m_selectSlot;
     }
 
     /// <summary>
@@ -27,9 +59,9 @@ public class PlayerAttack
     /// <param name="_phsh">入力されているか</param>
     public void AttackKnife(bool _phsh)
     {
-        if (m_inventoryWeapon.m_selectSlot != SLOT_ORDER.KNIFE) return;
+        if (SelectWeaponSlot() != SLOT_ORDER.KNIFE) return;
 
-        m_inventoryWeapon.m_weaponSlotObj[(int)SLOT_ORDER.KNIFE].GetComponent<knifeAttackAnimetion>().AttackAnimation(_phsh);
+        HandWeapon().GetComponent<knifeAttackAnimetion>().AttackAnimation(_phsh);
     }
 
     /// <summary>
@@ -39,9 +71,9 @@ public class PlayerAttack
     public void GunReload(bool _phsh)
     {
         if (!_phsh) return;
-        if (m_inventoryWeapon.m_selectSlot != SLOT_ORDER.GUN) return;
+        if (SelectWeaponSlot() != SLOT_ORDER.GUN) return;
 
-        m_inventoryWeapon.m_weaponSlotObj[(int)SLOT_ORDER.GUN].GetComponent<GunManager>().Reload();
+        HandWeapon().GetComponent<GunManager>().Reload();
     }
 
     /// <summary>
@@ -51,9 +83,9 @@ public class PlayerAttack
     public void AttackGunSingle(bool _phsh)
     {
         if (!_phsh) return;
-        if (m_inventoryWeapon.m_selectSlot != SLOT_ORDER.GUN) return;
+        if (SelectWeaponSlot() != SLOT_ORDER.GUN) return;
 
-        m_inventoryWeapon.m_weaponSlotObj[(int)SLOT_ORDER.GUN].GetComponent<GunManager>().PullTriggerDown();
+        HandWeapon().GetComponent<GunManager>().PullTriggerDown();
     }
 
     /// <summary>
@@ -63,9 +95,47 @@ public class PlayerAttack
     public void AttackGunRapidFire(bool _phsh)
     {
         if (!_phsh) return;
-        if (m_inventoryWeapon.m_selectSlot != SLOT_ORDER.GUN) return;
+        if (SelectWeaponSlot() != SLOT_ORDER.GUN) return;
 
-        m_inventoryWeapon.m_weaponSlotObj[(int)SLOT_ORDER.GUN].GetComponent<GunManager>().PullTrigger();
+        HandWeapon().GetComponent<GunManager>().PullTrigger();
+    }
+
+    /// <summary>
+    /// 犬の攻撃
+    /// </summary>
+    /// <param name="phsh">入力されているか</param>
+    /// <param name="_search">SearchViewAreaクラス</param>
+    /// <param name="_se">PlayerSoundクラス</param>
+    public void AttackDog(bool phsh)
+    {
+        //犬のスロット以外の場合ゾンビの色を元に戻す
+        if (SelectWeaponSlot() != SLOT_ORDER.DOG)
+        {
+            m_searchViewArea.ResetColor("Zombie");
+            return;
+        }
+
+        //一番近いゾンビオブジェクトを取得
+        GameObject targt_zombie_obj = m_searchViewArea.GetObjUpdate("Zombie", 20f, 0.5f);
+
+        if (!phsh || targt_zombie_obj == null) return;
+
+        m_playerSound.PlayWhistleAttack();//se
+        HandWeapon().GetComponent<DogManager>().OrderAttack(targt_zombie_obj.GetComponentInParent<ZombieManager>().gameObject);
+    }
+
+    /// <summary>
+    /// 犬の探索スキル
+    /// </summary>
+    /// <param name="_phsh">入力されているか</param>
+    /// <param name="_se">PlayerSoundクラス</param>
+    public void SearchSkillDog(bool _phsh)
+    {
+        if (!_phsh) return;
+        if (SelectWeaponSlot() != SLOT_ORDER.DOG) return;
+
+        m_playerSound.PlayWhistleDetect();//se
+        HandWeapon().GetComponent<DogManager>().OrderDetection();
     }
 }
 

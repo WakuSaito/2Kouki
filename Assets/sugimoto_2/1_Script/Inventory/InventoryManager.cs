@@ -444,7 +444,7 @@ public class InventoryManager : MonoBehaviour
         return RayResult;
     }
 
-    public bool OpenClose(bool _flag,GameObject _item)
+    public bool OpenClose(bool _flag, GameObject _item, INVENTORY _type)
     {
         if(_flag)
         {
@@ -492,11 +492,13 @@ public class InventoryManager : MonoBehaviour
         }
         else
         {
-            if (m_inventoryState == INVENTORY.ITEM)
+            m_inventoryState = _type;
+
+            if (_type == INVENTORY.ITEM)
             {
                 m_inventoryItem.m_uiObj.SetActive(true);
             }
-            if(m_inventoryState == INVENTORY.CHEST)
+            if(_type == INVENTORY.CHEST)
             {
                 m_inventoryItem.m_uiObj.SetActive(true);
                 _item.GetComponent<InventoryChest>().m_ChestUIObj.SetActive(true);
