@@ -60,8 +60,7 @@ public class ItemInformation
                 recoveryitem_info = new RecoveryItemInformation(_item.recoveryitem_info.recovery_num);
                 break;
             case ITEM_TYPE.WEAPON:
-                weaponitem_info = new WeaponItemInformation(_item.weaponitem_info.weapon_obj
-                    , _item.weaponitem_info.bullet_sprite);
+                weaponitem_info = new WeaponItemInformation(_item.weaponitem_info.weapon_obj);
                 break;
             default:
                 break;
@@ -88,7 +87,7 @@ public class ItemInformation
         recoveryitem_info = new RecoveryItemInformation(_num);
     }
 
-    public ItemInformation(ITEM_TYPE _type, ITEM_ID _id, int _get_num, int _stack_max, Sprite _sprite, GameObject _weapon_obj,Sprite _bullet_sprite)
+    public ItemInformation(ITEM_TYPE _type, ITEM_ID _id, int _get_num, int _stack_max, Sprite _sprite, GameObject _weapon_obj)
     {
         type = _type;
         id = _id;
@@ -96,7 +95,7 @@ public class ItemInformation
         stack_max = _stack_max;
         sprite = _sprite;
 
-        weaponitem_info = new WeaponItemInformation(_weapon_obj, _bullet_sprite);
+        weaponitem_info = new WeaponItemInformation(_weapon_obj);
     }
 
     public int AddGetItem(int _get_num,int _stack_max)
@@ -113,16 +112,6 @@ public class ItemInformation
 
         //écÇ¡ÇΩêîÇï‘Ç∑
         return get_num = _get_num;
-    }
-
-    public void BulletInfo()
-    {
-        type = ITEM_TYPE.BULLET;
-        id = ITEM_ID.BULLET;
-        get_num = 10;
-        stack_max = 30;
-        sprite = weaponitem_info.bullet_sprite;
-        weaponitem_info = null;
     }
 
     public void DebugLog()
@@ -160,12 +149,10 @@ public class RecoveryItemInformation
 public class WeaponItemInformation
 {
     public GameObject weapon_obj;
-    public Sprite bullet_sprite;
 
-    public WeaponItemInformation(GameObject _weapon_obj,Sprite _bullet_sprite)
+    public WeaponItemInformation(GameObject _weapon_obj)
     {
         weapon_obj = _weapon_obj;
-        bullet_sprite = _bullet_sprite;
     }
 }
 

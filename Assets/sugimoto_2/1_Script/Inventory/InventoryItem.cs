@@ -70,52 +70,21 @@ public class InventoryItem : MonoBehaviour
                 _weapon.WeaponGet(_item.weaponitem_info.weapon_obj);//武器取得
                 return false;
             }
-            //else
-            //{
-            //    for (int sloat = 0; sloat < m_inventory.Slots.Length; sloat++)
-            //    {
-            //        if (m_inventory.Slots[sloat].ItemInfo == null)
-            //        {
-            //            _weapon.WeaponGet(_item.weaponitem_info.weapon_obj);
-
-            //        }
-            //    }
-            //}
             else
             {
-                //インベントリに入れれるか調べる
-                bool in_flag = true;
-
-                //武器インベントリと同じIDか調べる
-                if (_weapon.m_Inventory.Slots[slot_num].ItemInfo.id == _item.id)
-                {
-                    in_flag = false;
-                }
-
-                //アイテムインベントリの中身と比べる
                 for (int sloat = 0; sloat < m_inventory.Slots.Length; sloat++)
                 {
-                    if (m_inventory.Slots[sloat].ItemInfo != null && m_inventory.Slots[sloat].ItemInfo.id == _item.id)
+                    if (m_inventory.Slots[sloat].ItemInfo == null)
                     {
-                        in_flag = false;
-                        break;
+                        _weapon.WeaponGet(_item.weaponitem_info.weapon_obj);
+                        m_inventory.Slots[sloat].CheckCanAddWeapon(_item);
+                        return false;
                     }
-                }
-
-                //インベントリに入れれなければ弾丸に変更
-                if (in_flag)
-                {
-                    //武器をプレイヤーの子にしておく
-                    _weapon.WeaponGet(_item.weaponitem_info.weapon_obj);
-                }
-                else
-                {
-                    return false;
                 }
             }
         }
 
-        //アイテムをインベントリに
+        //武器以外の場合アイテムをインベントリに
         for (int sloat = 0; sloat < m_inventory.Slots.Length; sloat++)
         {
             if (m_inventory.Slots[sloat].Can_Add_Slot(_item))

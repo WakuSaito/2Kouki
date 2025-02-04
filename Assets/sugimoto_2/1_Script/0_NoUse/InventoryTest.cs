@@ -74,7 +74,7 @@ public class InventoryTest
             {
                 //武器インベントリにいれる
                 _weaponInventory.Inventory.Sloats[(int)WeaponInventory.Sloat_Order.GUN].ItemInfo 
-                    = new ItemInformation(_iteminfo.type, _iteminfo.id, _iteminfo.get_num, _iteminfo.stack_max, _iteminfo.sprite, _iteminfo.weaponitem_info.weapon_obj,_iteminfo.weaponitem_info.bullet_sprite);
+                    = new ItemInformation(_iteminfo.type, _iteminfo.id, _iteminfo.get_num, _iteminfo.stack_max, _iteminfo.sprite, _iteminfo.weaponitem_info.weapon_obj);
 
                 //武器をプレイヤーの子にしておく
                 _weaponInventory.WeaponGet(_iteminfo.weaponitem_info.weapon_obj);
@@ -103,17 +103,6 @@ public class InventoryTest
                     }
                 }
 
-                //インベントリに入れれなければ弾丸に変更
-                if(!in_flag)
-                {
-                    //アイテム情報を弾丸に変更
-                    _iteminfo.BulletInfo();
-                }
-                else
-                {
-                    //武器をプレイヤーの子にしておく
-                    _weaponInventory.WeaponGet(_iteminfo.weaponitem_info.weapon_obj);
-                }
             }
         }
 
