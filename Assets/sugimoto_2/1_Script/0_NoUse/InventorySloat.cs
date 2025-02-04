@@ -18,9 +18,9 @@ public class InventorySloat
     //コンストラクタ
     public InventorySloat() { }
     //武器インベントリ用
-    public InventorySloat(ITEM_TYPE _type, ITEM_ID _id, int _get_num, int _stack_max, Sprite _sprite, GameObject _weapon_obj, Sprite _bullet_sprite)
+    public InventorySloat(ITEM_TYPE _type, ITEM_ID _id, int _get_num, int _stack_max, Sprite _sprite, GameObject _weapon_obj)
     {
-        ItemInfo = new ItemInformation(_type, _id, _get_num, _stack_max, _sprite, _weapon_obj, _bullet_sprite);
+        ItemInfo = new ItemInformation(_type, _id, _get_num, _stack_max, _sprite, _weapon_obj);
     }
 
     //スロットが空か調べる
@@ -63,7 +63,7 @@ public class InventorySloat
                 case ITEM_TYPE.WEAPON:
                     if (_iteminfo.id >= ITEM_ID.PISTOL && _iteminfo.id <= ITEM_ID.SHOTGUN)
                     {
-                        ItemInfo = new ItemInformation(_iteminfo.type, _iteminfo.id, _iteminfo.get_num, _iteminfo.stack_max, _iteminfo.sprite, _iteminfo.weaponitem_info.weapon_obj, _iteminfo.weaponitem_info.bullet_sprite);
+                        ItemInfo = new ItemInformation(_iteminfo.type, _iteminfo.id, _iteminfo.get_num, _iteminfo.stack_max, _iteminfo.sprite, _iteminfo.weaponitem_info.weapon_obj);
                     }
                     else
                     {

@@ -16,12 +16,15 @@ public class InventoryChest : MonoBehaviour
     public Transform[] m_spriteTrans;
     public Transform[] m_slotBoxTrans;
     public Text[] m_Text;
-
+    public Transform m_weaponObjParent;
+    [SerializeField] bool m_tutorialFlag;
 
     //オブジェクト
     [SerializeField] GameObject m_PlayerObj;
     [SerializeField] GameObject m_inventoryManagerObj;
     public GameObject m_ChestUIObj;
+
+    [SerializeField] ItemInformation m_tutorialItemInfo;
 
     /// <summary>
     /// スタート関数
@@ -31,5 +34,16 @@ public class InventoryChest : MonoBehaviour
     {
         //インベントリクラス作成
         m_inventory = new InventoryClass(m_sloatSize, m_slotBoxTrans);
+
+        if(m_tutorialFlag)
+        {
+            int rand = Random.Range(0, m_sloatSize);
+            m_inventory.Slots[rand].ItemInfo = m_tutorialItemInfo;
+
+            if(m_tutorialItemInfo.type==ITEM_TYPE.WEAPON)
+            {
+                m_tutorialItemInfo.weaponitem_info.weapon_obj.transform.parent = m_weaponObjParent;
+            }
+        }
     }
 }

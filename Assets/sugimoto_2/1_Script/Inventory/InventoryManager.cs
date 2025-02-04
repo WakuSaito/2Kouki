@@ -303,12 +303,10 @@ public class InventoryManager : MonoBehaviour
                 }
                 else if (destination_slot.m_selectInventory == (int)INVENTORY.CHEST)
                 {
+                    //ParentChildren(m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum].ItemInfo.weaponitem_info.weapon_obj, m_chestInventory[destination_slot.m_chestNum].m_weaponObjParent.gameObject);
                     MoveItemInfo(ref m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum], ref m_chestInventory[destination_slot.m_chestNum].m_inventory.Slots[destination_slot.m_slotNum]);
-                    Debug.Log(destination_slot.m_chestNum);
-                    //ParentChildren(m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum].ItemInfo.weaponitem_info.weapon_obj, 
-                    //    m_chestWeaponParent[destination_slot.m_chestNum]);
                 }
-                else if (destination_slot.m_selectObj != m_backObj)
+                else if (destination_slot.m_selectObj != m_backObj && m_inventoryState == INVENTORY.ITEM)
                 {
                     DropItem();
                 }

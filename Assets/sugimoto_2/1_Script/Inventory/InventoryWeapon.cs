@@ -233,8 +233,11 @@ public class InventoryWeapon : MonoBehaviour
 
     public void GunObjChenge(ItemInformation _inventoryitem_item)
     {
-        //今の武器を非表示
-        m_weaponSlotObj[(int)SLOT_ORDER.GUN].SetActive(false);
+        if (m_weaponSlotObj[(int)SLOT_ORDER.GUN] != null)
+        {
+            //今の武器を非表示
+            m_weaponSlotObj[(int)SLOT_ORDER.GUN].SetActive(false);
+        }
         //入れ替えた武器に変更
         m_weaponSlotObj[(int)SLOT_ORDER.GUN] = _inventoryitem_item.weaponitem_info.weapon_obj;
     }
