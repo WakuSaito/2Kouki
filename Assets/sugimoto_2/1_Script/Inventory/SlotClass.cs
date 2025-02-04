@@ -38,6 +38,19 @@ public class SlotClass
     }
 
     /// <summary>
+    /// アイテムを入れられるか調べる
+    /// </summary>
+    /// <param name="_id">調べたいアイテムID</param>
+    /// <returns>入れられればTrue</returns>
+    public bool CanAddItem(ITEM_ID _id)
+    {
+        if (ItemInfo.id != _id) return false;
+        if (ItemInfo.get_num == ItemInfo.stack_max) return false;
+
+        return true;
+    }
+
+    /// <summary>
     /// アイテムを重ねることができるか
     /// 移動先のスロットの中身と掴んでいるスロットの中身(引数)と比べる
     /// 中身が空の場合、異なる種類のアイテム同士の場合は中身の入れ替えのみなのでスタック処理はしない
