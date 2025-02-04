@@ -128,4 +128,8 @@ public class SlotClass
         return _item.get_num;
     }
 
+    public void AddWeaponInfo()
+    {
+
+    }
 }

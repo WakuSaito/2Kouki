@@ -21,6 +21,7 @@ public class InventoryManager : MonoBehaviour
     InventoryItem m_inventoryItem;
     InventoryWeapon mInventoryWeapon;
     InventoryChest[] m_chestInventory;
+    [SerializeField] StopObjectAction m_stopObjectAction;
     player m_player;
 
     //定数
@@ -97,6 +98,11 @@ public class InventoryManager : MonoBehaviour
         {
             CheckInventoryItem();
             MoveItem();
+            m_stopObjectAction.ChangeStopState(true);
+        }
+        else
+        {
+            m_stopObjectAction.ChangeStopState(false);
         }
 
         //アイテムインベントリ
