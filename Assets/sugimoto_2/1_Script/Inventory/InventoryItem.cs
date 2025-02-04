@@ -66,10 +66,21 @@ public class InventoryItem : MonoBehaviour
             if (_weapon.m_weaponSlotObj[slot_num] == null)
             {
                 //武器インベントリに銃がない場合
-                
+
                 _weapon.WeaponGet(_item.weaponitem_info.weapon_obj);//武器取得
                 return false;
             }
+            //else
+            //{
+            //    for (int sloat = 0; sloat < m_inventory.Slots.Length; sloat++)
+            //    {
+            //        if (m_inventory.Slots[sloat].ItemInfo == null)
+            //        {
+            //            _weapon.WeaponGet(_item.weaponitem_info.weapon_obj);
+
+            //        }
+            //    }
+            //}
             else
             {
                 //インベントリに入れれるか調べる
@@ -91,28 +102,15 @@ public class InventoryItem : MonoBehaviour
                     }
                 }
 
-                
-
                 //インベントリに入れれなければ弾丸に変更
-                if (!in_flag)
-                {
-                    //弾丸にして入れられるか調べる
-                    for (int slot = 0; slot < m_inventory.Slots.Length; slot++)
-                    {
-                        if(m_inventory.Slots[slot].CanAddItem(ITEM_ID.BULLET))
-                        {
-                            //アイテム情報を弾丸に変更
-                            _item.BulletInfo();
-                            break;
-                        }
-
-                    }
-
-                }
-                else
+                if (in_flag)
                 {
                     //武器をプレイヤーの子にしておく
                     _weapon.WeaponGet(_item.weaponitem_info.weapon_obj);
+                }
+                else
+                {
+                    return false;
                 }
             }
         }
