@@ -43,7 +43,7 @@ public class GunManager : MonoBehaviour, IWeapon, IStopObject
     private GunSound m_gunSound;
     protected Animator m_animator;
 
-    IEnumerator m_reloadCoroutine;
+    protected IEnumerator m_reloadCoroutine;
 
 
     //初期設定　コンポーネント取得
@@ -114,9 +114,11 @@ public class GunManager : MonoBehaviour, IWeapon, IStopObject
         }
     }
 
-    IEnumerator ReloadCoroutine()
+    protected IEnumerator ReloadCoroutine()
     {
-        yield return new WaitForSeconds(m_reloadSpeed);
+        //コルーチンを再開しても待機時間情報が消えないようにする
+        for (float i = 0; i < m_reloadSpeed; i += 0.1f)
+            yield return new WaitForSeconds(0.1f);
 
         ReloadFin();
         m_reloadCoroutine = null;
@@ -462,7 +464,7 @@ public class GunManager : MonoBehaviour, IWeapon, IStopObject
     /// <summary>
     /// 一時停止
     /// </summary>
-    public void Pause()
+    public virtual void Pause()
     {
         m_animator.speed = 0;
         if (m_reloadCoroutine != null)
@@ -472,7 +474,7 @@ public class GunManager : MonoBehaviour, IWeapon, IStopObject
     /// <summary>
     /// 再開
     /// </summary>
-    public void Resume()
+    public virtual void Resume()
     {
         m_animator.speed = 1;
         if (m_reloadCoroutine != null)

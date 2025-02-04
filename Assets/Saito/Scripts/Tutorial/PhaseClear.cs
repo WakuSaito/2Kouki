@@ -21,13 +21,13 @@ public class PhaseClear : TutorialBase
         m_soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         m_sceneChanger = GetComponent<SceneChanger>();
 
-        m_soundManager.Play2DSE(m_soundManager.escapeMap);//se
+        //m_soundManager.Play2DSE(m_soundManager.escapeMap);//se
 
-        //日数保存
-        StaticVariables.liveingDayCount = m_timeController.GetDayCount();
+        ////日数保存
+        //StaticVariables.liveingDayCount = m_timeController.GetDayCount();
 
-        //遅らせてシーン移動
-        StartCoroutine(SceneChange(m_soundManager.escapeMap.length));
+        ////遅らせてシーン移動
+        //StartCoroutine(SceneChange(m_soundManager.escapeMap.length));
     }
 
     private IEnumerator SceneChange(float _delay)

@@ -17,10 +17,12 @@ public class ZombieAttack : ZombieBase
     //コルーチンキャンセル用
     IEnumerator m_attackCoroutine;
 
-    [SerializeField]//発生時間
-    private float m_setUpSec = 0.3f;
-    [SerializeField]//硬直時間
-    private float m_recoverySec = 1.0f;
+    //発生時間
+    [SerializeField] private float m_setUpSec = 0.3f;
+    //攻撃判定時間
+    [SerializeField] private float m_onAttackSec = 0.1f;
+    //硬直時間
+    [SerializeField] private float m_recoverySec = 1.0f;
 
     //攻撃中フラグ
     public bool m_isAttack { get; private set; }
@@ -67,8 +69,6 @@ public class ZombieAttack : ZombieBase
     {
         if (m_attackCoroutine == null) return;
 
-        m_col.enabled = false;
-
         //コルーチン停止
         StopCoroutine(m_attackCoroutine);
     }
@@ -77,8 +77,6 @@ public class ZombieAttack : ZombieBase
     {
         if (m_isAttack == false) return;
         if (m_attackCoroutine == null) return;
-
-        m_col.enabled = true;
 
         StartCoroutine(m_attackCoroutine);
     }
@@ -90,11 +88,15 @@ public class ZombieAttack : ZombieBase
     {
         m_hitMasters.Clear(); // リセット
         m_col.enabled = false;
-        yield return new WaitForSeconds(m_setUpSec);
+        //コルーチンを再開しても待機時間情報が消えないようにする
+        for (float i = 0; i < m_setUpSec; i += 0.01f)
+            yield return new WaitForSeconds(0.01f);
         m_col.enabled = true;
-        yield return new WaitForSeconds(m_recoverySec);
+        for (float i = 0; i < m_onAttackSec; i += 0.01f)
+            yield return new WaitForSeconds(0.01f);
         m_col.enabled = false;
-        yield return new WaitForSeconds(1);//追加アニメーションタイミング調整用
+        for (float i = 0; i < m_recoverySec; i += 0.1f)
+            yield return new WaitForSeconds(0.1f);
         m_attackCoroutine = null;
         m_isAttack = false;
     }

@@ -561,7 +561,7 @@ MonoBehaviour:
   m_bulletDistance: 50
   m_rapidSpeed: 0.1
   m_isCanRapid: 1
-  m_reloadSpeed: 2.8
+  m_reloadSpeed: 2.4
   m_bulletDamage: 6
   m_handPlayerObj: {fileID: 0}
 --- !u!114 &9222050635444262974
