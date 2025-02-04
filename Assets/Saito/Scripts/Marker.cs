@@ -46,6 +46,8 @@ public class Marker : MonoBehaviour
 
         //UI生成
         m_markUI = Instantiate(m_markUIPrefab, m_canvas);
+        //Canvasの一番上に移動（一番奥のレイヤーになる）
+        m_markUI.transform.SetAsFirstSibling();
         //マーカーの子にあるテキスト取得
         m_distanceTextUI = m_markUI.transform.GetChild(0).gameObject;
         //UIの初期アルファ値取得

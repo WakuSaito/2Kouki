@@ -369,6 +369,7 @@ public class GunManager : MonoBehaviour, IWeapon
         if (m_isActive == false) return;
         m_isActive = false;
         gameObject.SetActive(false);
+        Debug.Log("d•‘‚¤");
     }
     //æ‚èo‚·
     public void PutOut()
