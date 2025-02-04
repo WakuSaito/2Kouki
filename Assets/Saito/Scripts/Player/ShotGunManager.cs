@@ -8,11 +8,16 @@ using UnityEngine;
 /// </summary>
 public class ShotGunManager : GunManager
 {
+    //弾を入れ始めるまでの時間
+    private const float START_RELOAD_DELAY = 0.22f;
     //弾を込める間隔
     private const float BULLET_IN_INTERVAL = 0.6f;
 
     //リロードキャンセルフラグ
-    private bool onCancelReload = false;
+    private bool m_onCancelReload = false;
+
+    //一時停止用
+    IEnumerator m_bulletInCoroutine;
 
     /// <summary>
     /// <para>リロード</para>
@@ -25,26 +30,28 @@ public class ShotGunManager : GunManager
         //ピストルの弾丸が最大数じゃなければreload可能
         if (GetCurrentMagazine() >= GetMagazineSize()) return;
 
-        onCancelReload = false;//キャンセル状態リセット
+        m_onCancelReload = false;//キャンセル状態リセット
 
         //if (m_inventory == null)
         if (m_inventoryItem == null)
         {
             m_animator.SetBool("Reload", true);  //reload
             m_isReload = true;
-            Invoke(nameof(StartBulletIn), 0.22f);
+            m_bulletInCoroutine = BulletIn();
+            StartCoroutine(m_bulletInCoroutine);
             return;
         }
-
-        if (m_inventoryItem.CheckBullet())
+        else if (m_inventoryItem.CheckBullet())
         {
             //インベントリに弾丸があるか
             m_animator.SetBool("Reload", true);  //reload
             m_isReload = true;
-            Invoke(nameof(StartBulletIn), 0.22f);
+            m_bulletInCoroutine = BulletIn();
+            StartCoroutine(m_bulletInCoroutine);
         }
 
     }
+
 
     /// <summary>
     /// <para>リロードキャンセル</para>
@@ -52,18 +59,11 @@ public class ShotGunManager : GunManager
     /// </summary>
     public override void StopReload()
     {
-        onCancelReload = true;
+        m_onCancelReload = true;
         m_isReload = false;
         m_animator.SetBool("Reload", false);
-    }
-
-    /// <summary>
-    /// <para>弾込め開始</para>
-    /// Invokeで遅延実行するためのクッション
-    /// </summary>
-    public void StartBulletIn()
-    {
-        StartCoroutine(BulletIn());
+        StopCoroutine(m_bulletInCoroutine);
+        m_bulletInCoroutine = null;
     }
 
     /// <summary>
@@ -72,6 +72,10 @@ public class ShotGunManager : GunManager
     /// </summary>
     private IEnumerator BulletIn()
     {
+        //コルーチンを再開しても待機時間情報が消えないようにする
+        for (float j = 0; j < START_RELOAD_DELAY; j += 0.1f)
+            yield return new WaitForSeconds(0.1f);
+
         //リロード可能な弾数取得
         int bulletInNum = HowManyCanLoaded();
         //最大、またはキャンセルされるまで一つずつ弾を入れる
@@ -85,17 +89,38 @@ public class ShotGunManager : GunManager
 
             m_animator.SetTrigger("BulletIn");//アニメーション再生
 
-            yield return new WaitForSeconds(BULLET_IN_INTERVAL);
+            //コルーチンを再開しても待機時間情報が消えないようにする
+            for (float j = 0; j < BULLET_IN_INTERVAL; j += 0.1f)
+                yield return new WaitForSeconds(0.1f);
 
-            if (onCancelReload)//キャンセル
+            if (m_onCancelReload)//キャンセル
+            {
+                m_bulletInCoroutine = null;
                 yield break;
-
+            }
             AddBullet(1);
         }
 
         //リロード終了
         m_animator.SetBool("Reload", false);
         m_isReload = false;
+        m_bulletInCoroutine = null;
+    }
+
+    public override void Pause()
+    {
+        base.Pause();
+
+        if (m_bulletInCoroutine != null)
+            StopCoroutine(m_bulletInCoroutine);
+    }
+
+    public override void Resume()
+    {
+        base.Resume();
+
+        if (m_bulletInCoroutine != null)
+            StartCoroutine(m_bulletInCoroutine);
     }
 
 }

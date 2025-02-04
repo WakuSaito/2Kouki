@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b8947d7140b7a6469bae63233846665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundManager: {fileID: 1265166164}
+  m_soundManager: {fileID: 0}
 --- !u!114 &442015238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,7 +223,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 442015237}
         m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
-        m_MethodName: LoadTitleScene
+        m_MethodName: EndGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -342,7 +342,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u30BF\u30A4\u30C8\u30EB\u3078\u623B\u308B"
+  m_Text: "\u30B2\u30FC\u30E0\u3092\u7D42\u4E86\u3059\u308B"
 --- !u!222 &924501472
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -436,7 +436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628e3e7d60d80d44c881cc1a9c3342b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayText: {fileID: 1022726426}
+  m_dayText: {fileID: 1022726426}
 --- !u!222 &1022726428
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -570,17 +570,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 417fc42acd2b0314684f087cd42ca603, type: 3}
---- !u!114 &1265166164 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9080490743459797384, guid: 417fc42acd2b0314684f087cd42ca603, type: 3}
-  m_PrefabInstance: {fileID: 1265166163}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c93f878faf46b71458d18bcd866c8002, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1357731267
 GameObject:
   m_ObjectHideFlags: 0
