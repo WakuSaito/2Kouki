@@ -59,9 +59,7 @@ public class player : PlayerFunction, IStopObject
     private PlayerSound playerSound;
 
     [SerializeField]//ゲームオーバー用
-    private GameObject fadeOutUI;
-    [SerializeField]
-    private SceneChanger sceneChanger;
+    private GameOverManager m_gameOverManager;
 
     //インベントリ
     InventoryItem m_inventoryItem;
@@ -205,8 +203,7 @@ public class player : PlayerFunction, IStopObject
             if (game_clear_flag) return;
             //ゾンビの向いている向きによって倒れる方向を変える（ゾンビの向いている方向の逆方向へ倒れる（後ろ））
             //か、画面フェードアウト
-            fadeOutUI.GetComponent<FadeImage>().StartFade();
-            sceneChanger.LoadGameOverScene();
+            m_gameOverManager.OnGameOver();
         }
 
         //アニメーション
@@ -439,8 +436,9 @@ public class player : PlayerFunction, IStopObject
         //現在の体力の方が少ないなら回復
         if (nextHp > hp_num_now)
         {
-            //体力ゲージ減少
+            //体力回復
             hp_gague.GetComponent<Gauge>().Increase_Gauge(nextHp - hp_num_now);
+            hp_num_now = hp_gague.GetComponent<Gauge>().GetCurrentAmount();
         }
 
         //消費後の食料ゲージ計算
@@ -458,6 +456,7 @@ public class player : PlayerFunction, IStopObject
         }
         //食料ゲージ減少
         food_gage.GetComponent<Gauge>().ReduceGauge(food_num_now - nextFood);
+        food_num_now = food_gage.GetComponent<Gauge>().GetCurrentAmount();
     }
 
     public void Pause()

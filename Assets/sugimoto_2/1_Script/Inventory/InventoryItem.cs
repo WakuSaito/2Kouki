@@ -91,13 +91,23 @@ public class InventoryItem : MonoBehaviour
                     }
                 }
 
-                //弾丸にして入れられるか調べる
+                
 
                 //インベントリに入れれなければ弾丸に変更
                 if (!in_flag)
                 {
-                    //アイテム情報を弾丸に変更
-                    _item.BulletInfo();
+                    //弾丸にして入れられるか調べる
+                    for (int slot = 0; slot < m_inventory.Slots.Length; slot++)
+                    {
+                        if(m_inventory.Slots[slot].CanAddItem(ITEM_ID.BULLET))
+                        {
+                            //アイテム情報を弾丸に変更
+                            _item.BulletInfo();
+                            break;
+                        }
+
+                    }
+
                 }
                 else
                 {
