@@ -44,7 +44,7 @@ public class FieldItemSeting : MonoBehaviour
     void Update()
     {
         m_spawnCoolTimer += Time.deltaTime;
-        if (m_spawnCoolTimer >= 5)
+        if (m_spawnCoolTimer >= 120)
         {
             Debug.Log("change");
             //エリア外にあるアイテムは削除
