@@ -286,7 +286,7 @@ public class InventoryWeapon : MonoBehaviour
             if (slot == (int)m_selectSlot)
             {
                 m_weaponSlotObj[(int)m_selectSlot].SetActive(true);
-                IWeapon weapon = m_weaponSlotObj[(int)m_selectSlot].GetComponent<IWeapon>();
+                IWeapon weapon = m_weaponSlotObj[slot].GetComponent<IWeapon>();
                 if (weapon != null)
                 {
                     weapon.PutOut();
@@ -298,7 +298,7 @@ public class InventoryWeapon : MonoBehaviour
             {
                 //非表示
                 m_weaponSlotObj[slot].SetActive(false);
-                IWeapon weapon = m_weaponSlotObj[(int)m_selectSlot].GetComponent<IWeapon>();
+                IWeapon weapon = m_weaponSlotObj[slot].GetComponent<IWeapon>();
                 if (weapon != null)
                 {
                     weapon.PutAway();

@@ -27,6 +27,7 @@ public class FieldItemSeting : MonoBehaviour
     {
         //設置位置全取得(子要素のみにしてもいいかも)
         GameObject[] tmp = GameObject.FindGameObjectsWithTag("ItemSpawnPos");
+        Debug.Log(tmp.Length);
         foreach (var obj in tmp)
         {
             m_setPos.Add(obj.transform);
@@ -35,6 +36,7 @@ public class FieldItemSeting : MonoBehaviour
         System.Array.Resize(ref m_setObjSave, m_setMax);
         System.Array.Resize(ref m_setRandmNum, m_setMax);
 
+        RandomTrans();
         SetRondmItems();
     }
 
@@ -44,10 +46,11 @@ public class FieldItemSeting : MonoBehaviour
         m_spawnCoolTimer += Time.deltaTime;
         if (m_spawnCoolTimer >= 5)
         {
-            Debug.Log("aaaaaaaaaaaaaaaa");
+            Debug.Log("change");
             //エリア外にあるアイテムは削除
-            m_player.GetComponent<AreaItemSetting>().OutsideArea();
-            ResetRandomTrans();
+            m_player.GetComponent<AreaItemSetting>().DeleteOutsideAreaItems();
+            GetOutSideAreaItemSpawner();
+            RandomTrans();
             SetRondmItems();
             m_player.GetComponent<AreaItemSetting>().GetItemObj();
             m_spawnCoolTimer = 0.0f;
@@ -55,26 +58,49 @@ public class FieldItemSeting : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 範囲外のスポナーを取得
+    /// </summary>
+    void GetOutSideAreaItemSpawner()
+    {
+        m_setPos.Clear();
+        m_setPos = m_player.GetComponent<AreaItemSetting>().OutSideItemSpawner();
+
+    }
+
+    int SetMax()
+    {
+        if (m_setPos.Count > m_setMax)
+        {
+            return m_setMax;
+        }
+        else
+        {
+            return m_setPos.Count;
+        }
+    }
+
+    /// <summary>
+    /// ランダムで生成位置決定
+    /// </summary>
     void RandomTrans()
     {
         int set_cnt = 0;
-        while (set_cnt < m_setMax)
-        {
-            //オブジェクトが残っている場合はスキップ
-            if (m_setObjSave[set_cnt] != null)
-            {
-                set_cnt++;
-                continue;
-            }
+        int set_num = SetMax();
 
+        //生成位置リセット
+        ResetRandomTrans();
+
+        while (set_cnt < set_num)
+        {
             //Randomで設置場所を決定：同じ位置に生成しないようにする
             int random = Random.Range(0, m_setPos.Count);  //設置場所
             bool can_set_flag = false;
 
             //すでに決められていなか調べる
-            for (int i = 0; i < m_setMax; i++)
+            for (int i = 0; i < set_num; i++)
             {
-                for (int j = 0; j < m_setMax; j++)
+                for (int j = 0; j < set_num; j++)
                 {
                     if (m_setRandmNum[i] == random)
                     {
@@ -103,22 +129,16 @@ public class FieldItemSeting : MonoBehaviour
     {
         for (int i = 0; i < m_setMax; i++)
         {
-            if (m_setObjSave[i] != null) continue;
-            Debug.Log(m_setObjSave[i]);
             m_setRandmNum[i] = -1;
         }
     }
 
     void SetRondmItems()
     {
-        //中身をリセット
-        ResetRandomTrans();
-        //設置位置決定
-        RandomTrans();
-
         int set_cnt = 0;
+        int set_num = SetMax();
 
-        while (set_cnt < m_setMax)
+        while (set_cnt < set_num)
         {
             int item_rate_random = Random.Range(0, 16);//確率設定
             int set_item_random = -1;     //アイテム
@@ -128,15 +148,15 @@ public class FieldItemSeting : MonoBehaviour
                 //弾丸
                 set_item_random = (int)ITEM_ID.BULLET;
             }
-            else if (item_rate_random >= 5 && item_rate_random < 9)/*4/15*/
+            else if (item_rate_random >= 5 && item_rate_random < 10)/*5/15*/
             {
                 //食料
-                set_item_random = Random.Range((int)ITEM_ID.FOOD_1, (int)ITEM_ID.FOOD_4);
+                set_item_random = Random.Range((int)ITEM_ID.FOOD_1, (int)ITEM_ID.FOOD_4 + 1);
             }
-            else if (item_rate_random >= 9 && item_rate_random < 12)/*3/15*/
+            else if (item_rate_random >= 10 && item_rate_random < 12)/*2/15*/
             {
                 //飲料
-                set_item_random = Random.Range((int)ITEM_ID.DRINK_1, (int)ITEM_ID.DRINK_2);
+                set_item_random = Random.Range((int)ITEM_ID.DRINK_1, (int)ITEM_ID.DRINK_2 + 1);
             }
             else if (item_rate_random >= 12 && item_rate_random < 14)/*2/15*/
             {
@@ -162,8 +182,10 @@ public class FieldItemSeting : MonoBehaviour
             //アイテムが決まっていなければやり直す
             if (set_item_random == -1) continue;
 
+            Debug.Log(set_cnt);
+            Debug.Log(m_setPos[m_setRandmNum[set_cnt]]);
             //生成
-            m_setObjSave[set_cnt] = Instantiate(m_items[set_item_random], m_setPos[set_cnt].position, Quaternion.identity, m_parentTrans);
+            m_setObjSave[set_cnt] = Instantiate(m_items[set_item_random], m_setPos[m_setRandmNum[set_cnt]].position, Quaternion.identity, m_parentTrans);
             set_cnt++;
         }
     }

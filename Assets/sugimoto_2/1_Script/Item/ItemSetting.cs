@@ -12,6 +12,7 @@ public class ItemSetting : MonoBehaviour
     public bool drop_flag = false;
     float delete_timer = 0.0f;
     public bool m_getFlag = false;
+    public bool m_tutorialFlag = false;
 
     //Start is called before the first frame update
     void Awake()
