@@ -91,6 +91,8 @@ public class InventoryItem : MonoBehaviour
                     }
                 }
 
+                //弾丸にして入れられるか調べる
+
                 //インベントリに入れれなければ弾丸に変更
                 if (!in_flag)
                 {

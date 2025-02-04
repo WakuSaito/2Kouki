@@ -242,7 +242,6 @@ public class player : PlayerFunction, IStopObject
     {
         //視点方向のアイテムを探す
         GameObject item = searchViewArea.GetObjUpdate("item", Item_Distance,0.03f);
-        Debug.Log(item);
         if (Input.GetMouseButtonDown(1))
 
         {        

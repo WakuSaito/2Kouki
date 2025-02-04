@@ -16,7 +16,7 @@ public class AreaItemSetting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckSphereArea(transform.position, 10.0f);
+        CheckSphereAreaItems(transform.position, 15.0f);
     }
 
     public void GetItemObj()
@@ -27,11 +27,11 @@ public class AreaItemSetting : MonoBehaviour
         //リジットボディーを持っているオブジェクトのみ保存
         foreach (var obj in tmp)
         {
-            if (obj.GetComponent<Rigidbody>())
-            {
-                m_itemObj.Add(obj);
-                obj.SetActive(false);
-            }
+            if (!obj.GetComponent<Rigidbody>()) continue;
+            if (obj.GetComponent<ItemSetting>().m_tutorialFlag) continue;
+
+            m_itemObj.Add(obj);
+            obj.SetActive(false);
         }
     }
 
@@ -40,7 +40,7 @@ public class AreaItemSetting : MonoBehaviour
     /// </summary>
     /// <param name="_center">調べる中心</param>
     /// <param name="_radius">調べる半径</param>
-    void CheckSphereArea(Vector3 _center, float _radius)
+    void CheckSphereAreaItems(Vector3 _center, float _radius)
     {
         //すべてのアイテムのオブジェクトを調べる
         foreach (var obj in m_itemObj)
@@ -62,15 +62,42 @@ public class AreaItemSetting : MonoBehaviour
         }
     }
 
-    public void OutsideArea()
+    /// <summary>
+    /// 範囲外のスポナーを取得
+    /// </summary>
+    /// <returns>範囲外のスポナーリスト</returns>
+    public List<Transform> OutSideItemSpawner()
+    {
+        GameObject[] tmp = GameObject.FindGameObjectsWithTag("ItemSpawnPos");
+        List<Transform> spawner = new List<Transform>();
+        Debug.Log(tmp.Length);
+
+        foreach (var obj in tmp)
+        {
+            if (obj == null) continue;
+
+            //範囲外のスポナーを取得
+            if (Vector3.Distance(transform.position, obj.transform.position) > 15.0f)
+            {
+                spawner.Add(obj.transform);
+            }
+        }
+
+        return spawner;
+    }
+
+    /// <summary>
+    /// 範囲外のアイテム全削除
+    /// </summary>
+    public void DeleteOutsideAreaItems()
     {
         //すべてのアイテムのオブジェクトを調べる
         foreach (var obj in m_itemObj)
         {
             if (obj == null) continue;
 
-            //範囲内のオブジェクトは個数を数える、範囲外は削除
-            if (Vector3.Distance(transform.position, obj.transform.position) > 10.0f)
+            //範囲外オブジェクト削除
+            if (Vector3.Distance(transform.position, obj.transform.position) > 15.0f)
             {
                 Destroy(obj.gameObject);
             }
