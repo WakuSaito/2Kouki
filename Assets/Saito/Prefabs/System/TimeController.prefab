@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8f871d5b7a5c244db2210efb8554bd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_changePos: {x: 0, y: 0}
+  m_changePos: {x: -780, y: -360}
 --- !u!114 &1278805137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a826adbd9d38440949988a81149111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_timeController: {fileID: 0}
+  m_timeController: {fileID: 6306344655950652673}
   m_dayCameraFarMax: 25
   m_nightCameraFarMin: 15
   m_minOfMinutesAfterSunset: 60

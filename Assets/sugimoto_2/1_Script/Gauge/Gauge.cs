@@ -84,8 +84,8 @@ public class Gauge : MonoBehaviour
             //¡‚Ì”’l‚ğİ’è
             gauge_num_now -= _reduce_value;
         }
-        if (gauge_obj.GetComponent<RectTransform>().sizeDelta.x <= 0)
         //‚O‚ğ’´‚¦‚½ê‡
+        if (gauge_obj.GetComponent<RectTransform>().sizeDelta.x <= 0)
         {
             //’·‚³‚ğ’²®
             gauge_obj.GetComponent<RectTransform>().sizeDelta = new Vector2(0, gauge_obj.GetComponent<RectTransform>().sizeDelta.y);

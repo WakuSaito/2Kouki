@@ -59,11 +59,14 @@ public class ShotGunManager : GunManager
     /// </summary>
     public override void StopReload()
     {
+        if(m_bulletInCoroutine != null)
+        {
         m_onCancelReload = true;
         m_isReload = false;
         m_animator.SetBool("Reload", false);
-        StopCoroutine(m_bulletInCoroutine);
-        m_bulletInCoroutine = null;
+            StopCoroutine(m_bulletInCoroutine);
+            m_bulletInCoroutine = null;
+        }
     }
 
     /// <summary>

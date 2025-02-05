@@ -10,6 +10,8 @@ public class GameClearManager : MonoBehaviour
     [SerializeField] private TimeController m_timeController;
     [SerializeField]private SceneChanger m_sceneChanger;
     [SerializeField] SoundManager m_soundManager;
+    //オブジェクト停止クラス
+    [SerializeField] private StopObjectAction m_stopObjectAction;
 
     //フェードアウト用
     [SerializeField] private GameObject m_fadeUI;
@@ -22,11 +24,17 @@ public class GameClearManager : MonoBehaviour
     //クリア可能フラグ
     private bool m_canClear = false;
 
+    private bool m_isClear = false;
+
     private void Awake()
     {
         m_playerObj = GameObject.FindGameObjectWithTag("Player");
 
         m_sceneChanger = GetComponent<SceneChanger>();
+
+        //ヘリを非表示
+        if (m_helicoptorObj != null)
+            m_helicoptorObj.SetActive(false);
     }
 
     private void Update()
@@ -40,7 +48,6 @@ public class GameClearManager : MonoBehaviour
                 m_fadeUI.SetActive(true);
                 m_fadeUI.GetComponent<FadeImage>().StartFade();
                 OnClear();
-                m_canClear = false;
             }
         }
         else
@@ -74,6 +81,11 @@ public class GameClearManager : MonoBehaviour
     /// </summary>
     private void OnClear()
     {
+        if (m_isClear) return;
+
+        m_isClear = true;
+
+        m_stopObjectAction.ChangeStopState(true);//時間停止
         m_soundManager.Play2DSE(m_soundManager.escapeMap);//se
 
         //日数保存

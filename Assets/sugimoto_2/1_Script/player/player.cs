@@ -444,18 +444,21 @@ public class player : PlayerFunction, IStopObject
         //消費後の食料ゲージ計算
         float nextFood = food_num_now - (food_num_max * _useFoodPer);
         //下限を決める
-        float nextFoodMin = food_num_max * 0.1f;
-
-        //回復はしないように
-        if (food_num_now <= nextFoodMin) return;
+        //とりあえず三割
+        float nextFoodMin = food_num_max * 0.3f;
 
         //下限を下回る
         if (nextFood <= nextFoodMin)
         {
-            nextFood = nextFoodMin;
+            //下限まで回復
+            food_gage.GetComponent<Gauge>().Increase_Gauge(nextFoodMin - food_num_now);
         }
-        //食料ゲージ減少
-        food_gage.GetComponent<Gauge>().ReduceGauge(food_num_now - nextFood);
+        else
+        {
+            //食料ゲージ減少
+            food_gage.GetComponent<Gauge>().ReduceGauge(food_num_now - nextFood);        
+        }
+        //ゲージ情報更新
         food_num_now = food_gage.GetComponent<Gauge>().GetCurrentAmount();
     }
 

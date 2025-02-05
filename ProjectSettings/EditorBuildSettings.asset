@@ -20,10 +20,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/sugimoto_2/0_Scenes/MainGame.unity
     guid: 3c2633a05c46eab4986c2417a0957d25
-  - enabled: 1
+  - enabled: 0
     path: Assets/Saito/Scenes/GameOverScene.unity
     guid: c82034b55e5f4a241b9795bc9e983cd3
-  - enabled: 1
+  - enabled: 0
     path: Assets/sugimoto_2/0_Scenes/MainGame_sugimoto.unity
     guid: e835cb06ab54d454abf1243a49f8bf45
   - enabled: 1
