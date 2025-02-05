@@ -41,7 +41,6 @@ public class ZombieAttack : ZombieBase
     /// </summary>
     public void StartAttack()
     {
-        Debug.Log("ゾンビの攻撃");
         m_isAttack = true;
 
         m_attackCoroutine = Attack();//コルーチン開始

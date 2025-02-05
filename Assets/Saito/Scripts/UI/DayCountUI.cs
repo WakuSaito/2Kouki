@@ -36,7 +36,9 @@ public class DayCountUI : MonoBehaviour
         //Sequenceのインスタンスを作成
         Sequence sequence = DOTween.Sequence();
 
-        sequence.Append(transform.DOMove(m_changePos, m_moveSec).SetEase(Ease.InOutQuad));
+        RectTransform rect_transform = GetComponent<RectTransform>();
+
+        sequence.Append(rect_transform.DOAnchorPos(m_changePos, m_moveSec).SetEase(Ease.InOutQuad));
         sequence.Join(transform.DOScale(m_defaultScale * 3f, m_moveSec));
         sequence.AppendInterval(0.4f);
         sequence.AppendCallback(()=> m_dayText.text = _day_count + "日目");//テキスト更新

@@ -101,11 +101,6 @@ public class InventoryManager : MonoBehaviour
         {
             CheckInventoryItem();
             MoveItem();
-            m_stopObjectAction.ChangeStopState(true);
-        }
-        else
-        {
-            m_stopObjectAction.ChangeStopState(false);
         }
 
         //アイテムインベントリ
@@ -491,6 +486,7 @@ public class InventoryManager : MonoBehaviour
                 }
 
             }
+            m_stopObjectAction.ChangeStopState(false);//時間停止解除
             Screen.lockCursor = true;
             m_inventoryState = INVENTORY.NON;
             return false;
@@ -509,6 +505,7 @@ public class InventoryManager : MonoBehaviour
                 _item.GetComponent<InventoryChest>().m_ChestUIObj.SetActive(true);
                 m_openChestObj = _item;
             }
+            m_stopObjectAction.ChangeStopState(true);//時間停止
             Screen.lockCursor = false;
             return true;
         }
