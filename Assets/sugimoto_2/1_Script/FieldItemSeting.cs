@@ -27,7 +27,7 @@ public class FieldItemSeting : MonoBehaviour
     {
         //設置位置全取得(子要素のみにしてもいいかも)
         GameObject[] tmp = GameObject.FindGameObjectsWithTag("ItemSpawnPos");
-        Debug.Log(tmp.Length);
+
         foreach (var obj in tmp)
         {
             m_setPos.Add(obj.transform);
@@ -44,7 +44,7 @@ public class FieldItemSeting : MonoBehaviour
     void Update()
     {
         m_spawnCoolTimer += Time.deltaTime;
-        if (m_spawnCoolTimer >= 120)
+        if (m_spawnCoolTimer >= 240)
         {
             Debug.Log("change");
             //エリア外にあるアイテムは削除
@@ -138,52 +138,76 @@ public class FieldItemSeting : MonoBehaviour
         int set_cnt = 0;
         int set_num = SetMax();
 
+        int rate_1 = 5;
+        int rate_2 = 4 + rate_1;
+        int rate_3 = 3 + rate_2;
+        int rate_4 = 2 + rate_3;
+        int rate_5 = 1 + rate_4;
+
         while (set_cnt < set_num)
         {
-            int item_rate_random = Random.Range(0, 16);//確率設定
+            int item_rate_random = Random.Range(0, 15 + 1);//確率設定
             int set_item_random = -1;     //アイテム
 
-            if (item_rate_random >= 0 && item_rate_random < 5)/*5/15*/
-            {
-                //弾丸
-                set_item_random = (int)ITEM_ID.BULLET;
-            }
-            else if (item_rate_random >= 5 && item_rate_random < 10)/*5/15*/
+            //高い
+            if (item_rate_random >= 0 && item_rate_random < 5)
             {
                 //食料
                 set_item_random = Random.Range((int)ITEM_ID.FOOD_1, (int)ITEM_ID.FOOD_4 + 1);
             }
-            else if (item_rate_random >= 10 && item_rate_random < 12)/*2/15*/
+
+            if (item_rate_random >= 5 && item_rate_random < 9)
             {
-                //飲料
-                set_item_random = Random.Range((int)ITEM_ID.DRINK_1, (int)ITEM_ID.DRINK_2 + 1);
+                //弾丸
+                set_item_random = (int)ITEM_ID.BULLET;
             }
-            else if (item_rate_random >= 12 && item_rate_random < 14)/*2/15*/
+            
+            if (item_rate_random >= 9 && item_rate_random < 12)
             {
-                //回復キット、ピストル
-                int random = Random.Range(0, 2);
+                //ピストル
+                set_item_random = (int)ITEM_ID.PISTOL;
+            }
+            
+            if (item_rate_random >= 12 && item_rate_random < 14)
+            {
+                //飲料、回復キット
+                int random = Random.Range(0, 2 + 1);
+
                 switch (random)
                 {
-                    case 0: set_item_random = (int)ITEM_ID.EMERGENCY_PACK; break;
-                    case 1: set_item_random = (int)ITEM_ID.PISTOL; break;
+                    case 0:
+                        set_item_random = (int)ITEM_ID.DRINK_1;
+                        break;
+                    case 1:
+                        set_item_random = (int)ITEM_ID.DRINK_2;
+                        break;
+                    case 2:
+                        set_item_random = (int)ITEM_ID.EMERGENCY_PACK;
+                        break;
                 }
             }
-            else if (item_rate_random >= 15 && item_rate_random < 16)/*1/15*/
+
+            if (item_rate_random >= 14 && item_rate_random < 15)
             {
                 //ショットガン、アサルトライフル
-                int random = Random.Range(0, 2);
+                int random = Random.Range(0, 1 + 1);
+
                 switch (random)
                 {
-                    case 0: set_item_random = (int)ITEM_ID.ASSAULT; break;
-                    case 1: set_item_random = (int)ITEM_ID.SHOTGUN; break;
+                    case 0:
+                        set_item_random = (int)ITEM_ID.ASSAULT;
+                        break;
+                    case 1:
+                        set_item_random = (int)ITEM_ID.SHOTGUN;
+                        break;
                 }
+
             }
+            //低い
 
             //アイテムが決まっていなければやり直す
             if (set_item_random == -1) continue;
 
-            Debug.Log(set_cnt);
-            Debug.Log(m_setPos[m_setRandmNum[set_cnt]]);
             //生成
             m_setObjSave[set_cnt] = Instantiate(m_items[set_item_random], m_setPos[m_setRandmNum[set_cnt]].position, Quaternion.identity, m_parentTrans);
             set_cnt++;

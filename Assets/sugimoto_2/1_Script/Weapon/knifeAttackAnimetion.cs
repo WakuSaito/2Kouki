@@ -32,6 +32,17 @@ public class knifeAttackAnimetion : MonoBehaviour
             trailEffectObj.SetActive(false);
     }
 
+    public void ResetAttack()
+    {
+        Attack_Start_Flag = false;
+        Attack_Flag = false;    
+        Return_Pos_Flag = false;
+        Timer = 0.0f;
+        transform.position = ConstPos.position;
+        transform.localRotation = ConstPos.localRotation;
+        if (trailEffectObj != null)//Žc‘œƒIƒt
+            trailEffectObj.SetActive(false);
+    }
 
     public void AttackAnimation(bool _phsh)
     {

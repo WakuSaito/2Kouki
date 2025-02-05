@@ -136,11 +136,20 @@ public class InventoryItem : MonoBehaviour
                         {
                             if (_area_flag)
                             {
+                                //食料
                                 if (id >= ITEM_ID.FOOD_1 && id <= ITEM_ID.DRINK_2)
                                 {
                                     _food_gage_obj.GetComponent<Gauge>().Increase_Gauge(recovery_num);//ゲージを増やす
                                     recovery_flag = true;
                                     m_playerSound.PlayEat();//SE
+                                }
+
+                                //体力
+                                if (id >= ITEM_ID.EMERGENCY_PACK)
+                                {
+                                    _hp_gage_obj.GetComponent<Gauge>().Increase_Gauge(recovery_num);//ゲージを増やす
+                                    recovery_flag = true;
+                                    m_playerSound.PlayHeal();//SE
                                 }
                             }
                             else
@@ -153,16 +162,6 @@ public class InventoryItem : MonoBehaviour
                                 }
                             }
                             
-                        }
-
-                        //体力
-                        {
-                            if (id >= ITEM_ID.EMERGENCY_PACK)
-                            {
-                                _hp_gage_obj.GetComponent<Gauge>().Increase_Gauge(recovery_num);//ゲージを増やす
-                                recovery_flag = true;
-                                m_playerSound.PlayHeal();//SE
-                            }
                         }
                         //アイテム消費
                         if (recovery_flag) UseItem(slot);
