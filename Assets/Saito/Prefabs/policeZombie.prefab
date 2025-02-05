@@ -1952,6 +1952,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_col: {fileID: 0}
   m_setUpSec: 0.6
+  m_onAttackSec: 0.1
   m_recoverySec: 0.05
 --- !u!1 &3275300788618841209
 GameObject:
@@ -2282,7 +2283,7 @@ Transform:
   m_GameObject: {fileID: 3275300789103218470}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.28, y: 0.28, z: 0.28}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3275300788025516114}
@@ -2336,7 +2337,7 @@ MonoBehaviour:
   - {fileID: 3051902216973887886}
   - {fileID: 3275300788453508088}
   - {fileID: 6190896710707631148}
-  m_detectionPlayerRangeMin: 5
+  m_detectionPlayerRangeMin: 8
   m_detectionPlayerRangeMax: 12
   m_attackStartRange: 0.5
   m_despawnPlayerDistance: 50
@@ -2384,7 +2385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_knockBackPower: 10
-  m_dropItemPrefab: {fileID: 1116967373663445176, guid: 763865ad9cd43ab44809d72e1db5bf68, type: 3}
+  m_dropItemPrefab: {fileID: 4889013002049818105, guid: 69abde46a43799d498000e8c352a39c6, type: 3}
 --- !u!114 &3051902216973887886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2419,7 +2420,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3275300789103218470}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: e10b96d1568e0ec43968e7377f1bbc3a, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.8

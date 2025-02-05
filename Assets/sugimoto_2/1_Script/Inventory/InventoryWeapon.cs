@@ -306,6 +306,10 @@ public class InventoryWeapon : MonoBehaviour
                 {
                     weapon.PutAway();
                 }
+                if ((SLOT_ORDER)slot == SLOT_ORDER.KNIFE)
+                {
+                    m_weaponSlotObj[slot].GetComponent<knifeAttackAnimetion>().ResetAttack();
+                }
                 m_spriteTrans[slot].GetComponent<Image>().color = mColorAlphaHalf;
             }
         }

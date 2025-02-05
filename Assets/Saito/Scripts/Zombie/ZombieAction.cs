@@ -58,8 +58,8 @@ public class ZombieAction : ZombieBase
         //ê∂ê¨
         Instantiate(
             m_dropItemPrefab,
-            drop_pos, 
+            drop_pos,
             Quaternion.identity
-            );
+            ).GetComponent<ItemSetting>().drop_flag = true;
     }
 }

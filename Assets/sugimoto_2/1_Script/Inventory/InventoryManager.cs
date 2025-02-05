@@ -24,6 +24,9 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] StopObjectAction m_stopObjectAction;
     player m_player;
 
+    [SerializeField]//サウンド用
+    private PlayerSound m_playerSound;
+
     //定数
     const int GUN_SLOT = 2; //武器スロットの位置
 
@@ -119,7 +122,7 @@ public class InventoryManager : MonoBehaviour
                 ITEM_ID id = m_inventoryItem.m_inventory.Slots[slot].ItemInfo.id;
 
                 //if使用できないアイテム、elseできるアイテム
-                if (id >= ITEM_ID.FOOD_1 && id <= ITEM_ID.FOOD_4 && !m_player.m_inSafeAreaFlag)
+                if (id >= ITEM_ID.FOOD_1 && id <= ITEM_ID.FOOD_4  && !m_player.m_inSafeAreaFlag || id == ITEM_ID.EMERGENCY_PACK && !m_player.m_inSafeAreaFlag)
                 {
                     m_inventoryItem.m_noUseMarkTrans[slot].gameObject.SetActive(true);
                 }
@@ -376,6 +379,8 @@ public class InventoryManager : MonoBehaviour
                 weapon_obj.GetComponent<GunManager>().DropItemSetting();
             }
 
+            //アイテムを拾った時と同じを鳴らすSE
+            m_playerSound.PlayPickUp();
             m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum].ItemInfo = null;      //アイテム情報削除
             m_inventoryItem.m_inventory.Slots[catch_slot.m_slotNum].initializationSlot(); //初期化
         }

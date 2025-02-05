@@ -9,7 +9,7 @@ public class GameClearManager : MonoBehaviour
 
     [SerializeField] private TimeController m_timeController;
     [SerializeField]private SceneChanger m_sceneChanger;
-    private SoundManager m_soundManager;
+    [SerializeField] SoundManager m_soundManager;
 
     //フェードアウト用
     [SerializeField] private GameObject m_fadeUI;

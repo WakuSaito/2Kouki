@@ -1890,8 +1890,8 @@ MonoBehaviour:
   - {fileID: 1251370930331078492}
   - {fileID: 7180837758190367735}
   - {fileID: 8768809644385745461}
-  m_detectionPlayerRangeMin: 5
-  m_detectionPlayerRangeMax: 12
+  m_detectionPlayerRangeMin: 8
+  m_detectionPlayerRangeMax: 15
   m_attackStartRange: 0.5
   m_despawnPlayerDistance: 50
   m_isTutorialObj: 0
@@ -1973,7 +1973,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6455615091749529712}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: e10b96d1568e0ec43968e7377f1bbc3a, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.35
