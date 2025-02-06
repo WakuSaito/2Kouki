@@ -235,11 +235,23 @@ public class InventoryWeapon : MonoBehaviour
     {
         if (m_weaponSlotObj[(int)SLOT_ORDER.GUN] != null)
         {
+            IWeapon weapon_1 = m_weaponSlotObj[(int)SLOT_ORDER.GUN].GetComponent<IWeapon>();
+            if (weapon_1 != null)
+            {
+                weapon_1.PutAway();
+            }
+
             //今の武器を非表示
             m_weaponSlotObj[(int)SLOT_ORDER.GUN].SetActive(false);
+
         }
         //入れ替えた武器に変更
         m_weaponSlotObj[(int)SLOT_ORDER.GUN] = _inventoryitem_item.weaponitem_info.weapon_obj;
+        IWeapon weapon_2 = m_weaponSlotObj[(int)SLOT_ORDER.GUN].GetComponent<IWeapon>();
+        if (weapon_2 != null)
+        {
+            weapon_2.PutOut();
+        }
     }
 
 
