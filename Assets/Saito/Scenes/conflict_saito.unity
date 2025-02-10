@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4563,7 +4563,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &376426701
 Transform:
   m_ObjectHideFlags: 0
@@ -10114,6 +10114,10 @@ PrefabInstance:
       propertyPath: m_timeController
       value: 
       objectReference: {fileID: 925554297}
+    - target: {fileID: 7850553055350695473, guid: bc35a37de688f3c45b5eff18aa2a2255, type: 3}
+      propertyPath: m_stopObjectAction
+      value: 
+      objectReference: {fileID: 965425585}
     - target: {fileID: 8698246977712794181, guid: bc35a37de688f3c45b5eff18aa2a2255, type: 3}
       propertyPath: m_Name
       value: GameClearManager

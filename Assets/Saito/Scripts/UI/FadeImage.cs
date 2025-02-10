@@ -64,7 +64,8 @@ public class FadeImage : MonoBehaviour
     {
         m_canvasGroup.alpha = 0f;
 
-        m_canvasGroup.DOFade(endValue: 1f, duration: m_animSec);
+        m_canvasGroup.DOFade(endValue: 1f, duration: m_animSec)
+            .SetLink(gameObject);//シーン移行時止まるように
 
         return m_animSec;
     }
@@ -77,6 +78,7 @@ public class FadeImage : MonoBehaviour
         m_canvasGroup.alpha = 1f;
 
         m_canvasGroup.DOFade(endValue: 0f, duration: m_animSec)
-            .OnKill(() => m_canvasGroup.alpha = 0f);
+            .OnKill(() => m_canvasGroup.alpha = 0f)
+            .SetLink(gameObject);//シーン移行時止まるように;
     }
 }
